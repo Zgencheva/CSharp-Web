@@ -29,7 +29,9 @@ namespace HTTPClientDemo
                     string requestString = Encoding.UTF8.GetString(buffer, 0, length);
 
                     Console.WriteLine(requestString);
-                    string html = $"<h1>Hello from ZoriServer {DateTime.Now}</h1>";
+                    string html = $"<h1>Hello from ZoriServer {DateTime.Now}</h1>" +
+                        $"<form method=post><input name=username /><input name=password />" +
+                        $"<input type=submit /></form>";
 
 
                     string response = 
