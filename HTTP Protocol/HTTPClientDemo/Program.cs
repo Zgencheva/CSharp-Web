@@ -21,8 +21,7 @@ namespace HTTPClientDemo
             while (true)
             {
                 var client = tcpListener.AcceptTcpClient();
-                ProcessClientAsync(client);
-                
+                ProcessClientAsync(client);  
             }
             
         }
@@ -48,6 +47,8 @@ namespace HTTPClientDemo
                     "HTTP/1.1 200 OK" + NewLine +
                     "Server: ZoriServer 2022" + NewLine +
                     "Content-Type: text/html; charset= utf-8" + NewLine +
+                    "X-Server-Version: 1.0" + NewLine +
+                    "Set-Cookie: sid=43432sfklsdjflkasdj430sdflads" + NewLine +
                     "Content-Length: " + html.Length + NewLine +
                     NewLine +
                     html
