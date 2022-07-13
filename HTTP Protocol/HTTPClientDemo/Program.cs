@@ -10,6 +10,7 @@ namespace HTTPClientDemo
 {
     class Program
     {
+        const string NewLine = "\r\n";
         static async Task Main(string[] args)
         {
             const string NewLine = "\r\n";
@@ -20,39 +21,45 @@ namespace HTTPClientDemo
             while (true)
             {
                 var client = tcpListener.AcceptTcpClient();
-                using (var stream = client.GetStream())
-                {
-                    int byteLength = 0;
-                    byte[] buffer = new byte[1000000];
-                    var length = stream.Read(buffer, byteLength, buffer.Length);
-
-                    string requestString = Encoding.UTF8.GetString(buffer, 0, length);
-
-                    Console.WriteLine(requestString);
-                    string html = $"<h1>Hello from ZoriServer {DateTime.Now}</h1>" +
-                        $"<form method=post><input name=username /><input name=password />" +
-                        $"<input type=submit /></form>";
-
-
-                    string response = 
-                        "HTTP/1.1 200 OK" + NewLine +
-                        "Server: ZoriServer 2022" + NewLine +
-                        "Content-Type: text/html; charset= utf-8" + NewLine +
-                        "Content-Length: " + html.Length + NewLine +
-                        NewLine +
-                        html
-                        + NewLine;
-
-                    byte[] responseBytes = Encoding.UTF8.GetBytes(response);
-
-                    stream.Write(responseBytes);
-
-
-                    Console.WriteLine("===========");
-                }
+                ProcessClientAsync(client);
                 
             }
             
+        }
+
+        public static async Task ProcessClientAsync(TcpClient client) 
+        {
+          
+            using (var stream = client.GetStream())
+            {
+                int byteLength = 0;
+                byte[] buffer = new byte[1000000];
+                var length = await stream.ReadAsync(buffer, byteLength, buffer.Length);
+
+                string requestString = Encoding.UTF8.GetString(buffer, 0, length);
+
+                Console.WriteLine(requestString);
+                string html = $"<h1>Hello from ZoriServer {DateTime.Now}</h1>" +
+                    $"<form method=post><input name=username /><input name=password />" +
+                    $"<input type=submit /></form>";
+
+
+                string response =
+                    "HTTP/1.1 200 OK" + NewLine +
+                    "Server: ZoriServer 2022" + NewLine +
+                    "Content-Type: text/html; charset= utf-8" + NewLine +
+                    "Content-Length: " + html.Length + NewLine +
+                    NewLine +
+                    html
+                    + NewLine;
+
+                byte[] responseBytes = Encoding.UTF8.GetBytes(response);
+
+                await stream.WriteAsync(responseBytes);
+
+
+                Console.WriteLine("===========");
+            }
         }
 
         public static async Task ReadData()
