@@ -10,6 +10,6 @@ namespace SUS.HTTP
     {
         void AddRoute(string path, Func<HttpRequest, HttpResponse> action);
 
-        void Start(int port);
+        Task StartAsync(int port);
     }
 }

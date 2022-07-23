@@ -1,11 +1,12 @@
 ﻿using SUS.HTTP;
 using System;
+using System.Threading.Tasks;
 
 namespace MyFirsMvcApp
 {
     class Program
     {
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
             IHttpServer server = new HttpServer();
 
@@ -16,7 +17,7 @@ namespace MyFirsMvcApp
 
             server.AddRoute("/users/login", Login);
 
-            server.Start(80);
+            await server.StartAsync(80);
         }
 
         static HttpResponse HomePage(HttpRequest request)
