@@ -10,6 +10,8 @@ namespace SUS.HTTP
 {
     public class HttpServer : IHttpServer
     {
+       
+
         IDictionary<string, Func<HttpRequest, HttpResponse>>
             routeTable = new Dictionary<string, Func<HttpRequest, HttpResponse>>();
         public void AddRoute(string path, Func<HttpRequest, HttpResponse> action)
@@ -47,7 +49,7 @@ namespace SUS.HTTP
             using NetworkStream stream = tcpClient.GetStream();
             List<byte> data = new List<byte>();
             int position = 0;
-            byte[] buffer = new byte[4096];
+            byte[] buffer = new byte[HttpConstants.BufferSize];
 
             while (true)
             {
@@ -74,10 +76,26 @@ namespace SUS.HTTP
             //UTF-8 1-2-3-4 bytes makes 1 symbol. 
             //HTP uses Utf-8;
             var requesAsString = Encoding.UTF8.GetString(data.ToArray());
-            
-            //await stream.WriteAsync();
-        }
+            var request = new HttpRequest(requesAsString);
 
+            Console.WriteLine(requesAsString);
+
+            var resposeHtml = "<h1>Welcome!</h1>" +
+                request.Headers.FirstOrDefault(x=> x.Name == "User-Agent")?.Value;
+            var responseBodyBytes = Encoding.UTF8.GetBytes(resposeHtml);
+            var resposeHttp = "HTTP/1.1 200 OK" + HttpConstants.NewLine +
+                               "Server: SUS Server 1.0" + HttpConstants.NewLine +
+                               "Content-Type: text/html" + HttpConstants.NewLine +
+                               "Content-Length: " + responseBodyBytes.Length + HttpConstants.NewLine +
+                                HttpConstants.NewLine;
+            var resposeHeaderBytes = Encoding.UTF8.GetBytes(resposeHttp);
+
+            await stream.WriteAsync(resposeHeaderBytes, 0, resposeHeaderBytes.Length);
+            await stream.WriteAsync(responseBodyBytes, 0, responseBodyBytes.Length);
+            //await stream.WriteAsync();
+
+            tcpClient.Close();
+        }
 
     }
 }
