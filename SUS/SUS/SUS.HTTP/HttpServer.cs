@@ -44,57 +44,66 @@ namespace SUS.HTTP
 
         private async Task ProcessClientAsync(TcpClient tcpClient)
         {
-            //two directions data stream. Buffer collect data and send it to the other
-            //end of the direction. Everything using IDisposable should be in using;
-            using NetworkStream stream = tcpClient.GetStream();
-            List<byte> data = new List<byte>();
-            int position = 0;
-            byte[] buffer = new byte[HttpConstants.BufferSize];
-
-            while (true)
+            try
             {
-                int count = await stream.ReadAsync(buffer, position, buffer.Length);
-                position += count;
+                //two directions data stream. Buffer collect data and send it to the other
+                //end of the direction. Everything using IDisposable should be in using;
+                using NetworkStream stream = tcpClient.GetStream();
+                List<byte> data = new List<byte>();
+                int position = 0;
+                byte[] buffer = new byte[HttpConstants.BufferSize];
 
-                if (count < buffer.Length)
+                while (true)
                 {
-                    var partialBuffer = new byte[count];
-                    Array.Copy(buffer, partialBuffer, count);
-                    data.AddRange(partialBuffer);
-                    break;
+                    int count = await stream.ReadAsync(buffer, position, buffer.Length);
+                    position += count;
+
+                    if (count < buffer.Length)
+                    {
+                        var partialBuffer = new byte[count];
+                        Array.Copy(buffer, partialBuffer, count);
+                        data.AddRange(partialBuffer);
+                        break;
+                    }
+                    else
+                    {
+                        data.AddRange(buffer);
+                    }
                 }
-                else
-                {
-                    data.AddRange(buffer);
-                }
+
+                //when we want to receive a text from array of bytes we make Encoding.
+                //Encoding knows how to make byte[] to string.
+                //ASCII makes 1 byte to 1 symbol
+                //unicode makes 2 bytes into 1 symbol.
+                //UTF-8 1-2-3-4 bytes makes 1 symbol. 
+                //HTP uses Utf-8;
+                var requesAsString = Encoding.UTF8.GetString(data.ToArray());
+                var request = new HttpRequest(requesAsString);
+
+                Console.WriteLine(requesAsString);
+
+                var resposeHtml = "<h1>Welcome!</h1>" +
+                    request.Headers.FirstOrDefault(x => x.Name == "User-Agent")?.Value;
+                var responseBodyBytes = Encoding.UTF8.GetBytes(resposeHtml);
+                var resposeHttp = "HTTP/1.1 200 OK" + HttpConstants.NewLine +
+                                   "Server: SUS Server 1.0" + HttpConstants.NewLine +
+                                   "Content-Type: text/html" + HttpConstants.NewLine +
+                                   "Content-Length: " + responseBodyBytes.Length + HttpConstants.NewLine +
+                                    HttpConstants.NewLine;
+                var resposeHeaderBytes = Encoding.UTF8.GetBytes(resposeHttp);
+
+                await stream.WriteAsync(resposeHeaderBytes, 0, resposeHeaderBytes.Length);
+                await stream.WriteAsync(responseBodyBytes, 0, responseBodyBytes.Length);
+                //await stream.WriteAsync();
+
+                tcpClient.Close();
             }
+            catch (Exception ex)
+            {
 
-            //when we want to receive a text from array of bytes we make Encoding.
-            //Encoding knows how to make byte[] to string.
-            //ASCII makes 1 byte to 1 symbol
-            //unicode makes 2 bytes into 1 symbol.
-            //UTF-8 1-2-3-4 bytes makes 1 symbol. 
-            //HTP uses Utf-8;
-            var requesAsString = Encoding.UTF8.GetString(data.ToArray());
-            var request = new HttpRequest(requesAsString);
-
-            Console.WriteLine(requesAsString);
-
-            var resposeHtml = "<h1>Welcome!</h1>" +
-                request.Headers.FirstOrDefault(x=> x.Name == "User-Agent")?.Value;
-            var responseBodyBytes = Encoding.UTF8.GetBytes(resposeHtml);
-            var resposeHttp = "HTTP/1.1 200 OK" + HttpConstants.NewLine +
-                               "Server: SUS Server 1.0" + HttpConstants.NewLine +
-                               "Content-Type: text/html" + HttpConstants.NewLine +
-                               "Content-Length: " + responseBodyBytes.Length + HttpConstants.NewLine +
-                                HttpConstants.NewLine;
-            var resposeHeaderBytes = Encoding.UTF8.GetBytes(resposeHttp);
-
-            await stream.WriteAsync(resposeHeaderBytes, 0, resposeHeaderBytes.Length);
-            await stream.WriteAsync(responseBodyBytes, 0, responseBodyBytes.Length);
-            //await stream.WriteAsync();
-
-            tcpClient.Close();
+                Console.WriteLine(ex.Message);
+            }
+           
         }
 
     }
