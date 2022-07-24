@@ -1,12 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿
+using SUS.HTTP;
+using System.IO;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace SUS.MvcFramework
 {
     public abstract class Controller
     {
+        public HttpResponse View(string ViewPath)
+        {
+            var resposeHtml = File.ReadAllText(ViewPath);
+            var responseBodyBytes = Encoding.UTF8.GetBytes(resposeHtml);
+            var response = new HttpResponse("text/html", responseBodyBytes);
+            return response;
+        }
     }
 }

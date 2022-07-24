@@ -1,5 +1,6 @@
 ﻿using SUS.HTTP;
 using SUS.MvcFramework;
+using System.IO;
 using System.Text;
 
 namespace MyFirsMvcApp.Controllers
@@ -8,18 +9,13 @@ namespace MyFirsMvcApp.Controllers
     {
         public HttpResponse Login(HttpRequest request)
         {
-            var resposeHtml = "<h1>Login...</h1>";
-            var responseBodyBytes = Encoding.UTF8.GetBytes(resposeHtml);
-            var response = new HttpResponse("text/html", responseBodyBytes);
-            return response;
+            return this.View("Views/Users/Login.html");
         }
-
+        
         public HttpResponse Register(HttpRequest request)
         {
-            var resposeHtml = "<h1>Register...</h1>";
-            var responseBodyBytes = Encoding.UTF8.GetBytes(resposeHtml);
-            var response = new HttpResponse("text/html", responseBodyBytes);
-            return response;
+            return this.View("Views/Users/Register.html");
+            
         }
     }
 }

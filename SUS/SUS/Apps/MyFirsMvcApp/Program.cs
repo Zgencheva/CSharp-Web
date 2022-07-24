@@ -13,10 +13,12 @@ namespace MyFirsMvcApp
 
             server.AddRoute("/", new HomeController().Index);
             server.AddRoute("/favicon.ico", new StaticFileController().Favicon);
-            server.AddRoute("/about", new HomeController().About);
-
+           
             server.AddRoute("/users/login", new UsersControler().Login);
             server.AddRoute("/users/register", new UsersControler().Register);
+            server.AddRoute("/cards/all", new CardsController().All);
+            server.AddRoute("/cards/add", new CardsController().Add);
+            server.AddRoute("/cards/collection", new CardsController().Collection);
             Process.Start(@"C:\Program Files\Google\Chrome\Application\chrome.exe", "http://localhost");
             await server.StartAsync(80);
         }
