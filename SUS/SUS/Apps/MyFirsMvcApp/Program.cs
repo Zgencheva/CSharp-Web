@@ -1,5 +1,7 @@
 ﻿using MyFirsMvcApp.Controllers;
 using SUS.HTTP;
+using SUS.MvcFramework;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
 
@@ -9,18 +11,16 @@ namespace MyFirsMvcApp
     {
         static async Task Main(string[] args)
         {
-            IHttpServer server = new HttpServer();
+            List<Route> routeTable = new List<Route>();
+            routeTable.Add(new Route("/", new HomeController().Index));
+            routeTable.Add(new Route("/favicon.ico", new StaticFileController().Favicon));
+            routeTable.Add(new Route("/users/login", new UsersControler().Login));
+            routeTable.Add(new Route("/users/register", new UsersControler().Register));
+            routeTable.Add(new Route("/cards/add", new CardsController().Add));
+            routeTable.Add(new Route("/cards/all", new CardsController().All));
+            routeTable.Add(new Route("/cards/collection", new CardsController().Collection));
 
-            server.AddRoute("/", new HomeController().Index);
-            server.AddRoute("/favicon.ico", new StaticFileController().Favicon);
-           
-            server.AddRoute("/users/login", new UsersControler().Login);
-            server.AddRoute("/users/register", new UsersControler().Register);
-            server.AddRoute("/cards/all", new CardsController().All);
-            server.AddRoute("/cards/add", new CardsController().Add);
-            server.AddRoute("/cards/collection", new CardsController().Collection);
-            Process.Start(@"C:\Program Files\Google\Chrome\Application\chrome.exe", "http://localhost");
-            await server.StartAsync(80);
+            await Host.CreateHostAsync(routeTable, 80);
         }
 
     }
