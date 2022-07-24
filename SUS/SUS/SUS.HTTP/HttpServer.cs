@@ -81,19 +81,23 @@ namespace SUS.HTTP
                 var request = new HttpRequest(requesAsString);
 
                 Console.WriteLine(requesAsString);
-
+                
                 var resposeHtml = "<h1>Welcome!</h1>" +
                     request.Headers.FirstOrDefault(x => x.Name == "User-Agent")?.Value;
                 var responseBodyBytes = Encoding.UTF8.GetBytes(resposeHtml);
-                var resposeHttp = "HTTP/1.1 200 OK" + HttpConstants.NewLine +
-                                   "Server: SUS Server 1.0" + HttpConstants.NewLine +
-                                   "Content-Type: text/html" + HttpConstants.NewLine +
-                                   "Content-Length: " + responseBodyBytes.Length + HttpConstants.NewLine +
-                                    HttpConstants.NewLine;
-                var resposeHeaderBytes = Encoding.UTF8.GetBytes(resposeHttp);
+                //var resposeHttp = "HTTP/1.1 200 OK" + HttpConstants.NewLine +
+                //                   "Server: SUS Server 1.0" + HttpConstants.NewLine +
+                //                   "Content-Type: text/html" + HttpConstants.NewLine +
+                //                   "Content-Length: " + responseBodyBytes.Length + HttpConstants.NewLine +
+                //                    HttpConstants.NewLine;
+                var response = new HttpResponse("text/html", responseBodyBytes);
+                response.Headers.Add(new Header("Server", "SUS Server 1.0"));
+                response.Cookies.Add(new ResponseCookie("sid", Guid.NewGuid().ToString()) 
+                {HttpOnly = true, MaxAge = 60 * 24 * 60 * 60});
+                var resposeHeaderBytes = Encoding.UTF8.GetBytes(response.ToString());
 
                 await stream.WriteAsync(resposeHeaderBytes, 0, resposeHeaderBytes.Length);
-                await stream.WriteAsync(responseBodyBytes, 0, responseBodyBytes.Length);
+                await stream.WriteAsync(response.Body, 0, response.Body.Length);
                 //await stream.WriteAsync();
 
                 tcpClient.Close();
