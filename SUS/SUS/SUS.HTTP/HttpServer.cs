@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
@@ -9,21 +10,13 @@ namespace SUS.HTTP
 {
     public class HttpServer : IHttpServer
     {
-        IDictionary<string, Func<HttpRequest, HttpResponse>>
-            routeTable = new Dictionary<string, Func<HttpRequest, HttpResponse>>();
-        public void AddRoute(string path, Func<HttpRequest, HttpResponse> action)
-        {
-            if (routeTable.ContainsKey(path))
-            {
-                routeTable[path] = action;
-            }
-            else
-            {
-                routeTable.Add(path, action);
-            }
-            
-        }
+        List<Route> routeTable;
 
+        public HttpServer(List<Route> routeTable)
+        {
+            this.routeTable = routeTable;
+        }
+       
         public async Task StartAsync(int port)
         {
             TcpListener tcpListener = new TcpListener(IPAddress.Loopback, port);
@@ -79,26 +72,19 @@ namespace SUS.HTTP
 
                 Console.WriteLine(requesAsString);
                 HttpResponse response;
-                if (this.routeTable.ContainsKey(request.Path))
+                var route = this.routeTable.FirstOrDefault(x => x.Path == request.Path);
+                if (route != null)
                 {
-                    var action = this.routeTable[request.Path];
-                    response = action(request);
+
+                    response = route.Action(request);
                 }
                 else
                 {
+                    //404 not found
                     response = new HttpResponse("text/html", new byte[0], HttpStatusCode.NotFound);
                 }
                 response.Cookies.Add(new ResponseCookie("sid", Guid.NewGuid().ToString()));
-                //var resposeHtml = "<h1>Welcome!</h1>" +
-                //    request.Headers.FirstOrDefault(x => x.Name == "User-Agent")?.Value;
-                //var responseBodyBytes = Encoding.UTF8.GetBytes(resposeHtml);
-                ////var resposeHttp = "HTTP/1.1 200 OK" + HttpConstants.NewLine +
-                ////                   "Server: SUS Server 1.0" + HttpConstants.NewLine +
-                ////                   "Content-Type: text/html" + HttpConstants.NewLine +
-                ////                   "Content-Length: " + responseBodyBytes.Length + HttpConstants.NewLine +
-                ////                    HttpConstants.NewLine;
-                //var response = new HttpResponse("text/html", responseBodyBytes);
-                //response.Headers.Add(new Header("Server", "SUS Server 1.0"));
+                
                 response.Cookies.Add(new ResponseCookie("sid", Guid.NewGuid().ToString())
                 { HttpOnly = true, MaxAge = 60 * 24 * 60 * 60 });
                 response.Headers.Add(new Header("Server", "SUS Server 1.0"));
