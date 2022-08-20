@@ -21,12 +21,15 @@ namespace SUS.MvcFramework
 
 
             var layout = System.IO.File.ReadAllText("Views/Shared/_Layout.cshtml");
+            layout = layout.Replace("@RenderBody", "____View_Goes_Here____");
+            layout = this.viewEngine.GetHtml(layout, viewModel);
 
             var viewContent = System.IO.File.ReadAllText("Views/" + 
                 this.GetType().Name.Replace("Controller", string.Empty).TrimEnd() + 
                 "/" +
                 ViewPath + 
                 ".cshtml");
+            viewContent = this.viewEngine.GetHtml(viewContent, viewModel);
             var resposeHtml = layout.Replace("@RenderBody", viewContent);
             var responseBodyBytes = Encoding.UTF8.GetBytes(resposeHtml);
             var response = new HttpResponse("text/html", responseBodyBytes);
