@@ -1,5 +1,6 @@
 ﻿
 using SUS.HTTP;
+using SUS.MvcFramework.ViewEngine;
 using System.IO;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -8,9 +9,17 @@ namespace SUS.MvcFramework
 {
     public abstract class Controller
     {
- 
-        public HttpResponse View([CallerMemberName]string ViewPath = null)
+        private SusViewEngine viewEngine;
+        public Controller()
         {
+            this.viewEngine = new SusViewEngine();
+        }
+        public HttpResponse View(
+            object viewModel = null,
+            [CallerMemberName]string ViewPath = null)
+        {
+
+
             var layout = System.IO.File.ReadAllText("Views/Shared/_Layout.cshtml");
 
             var viewContent = System.IO.File.ReadAllText("Views/" + 
