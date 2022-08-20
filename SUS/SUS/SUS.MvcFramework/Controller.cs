@@ -1,5 +1,4 @@
-﻿
-using SUS.HTTP;
+﻿using SUS.HTTP;
 using SUS.MvcFramework.ViewEngine;
 using System.IO;
 using System.Runtime.CompilerServices;
@@ -16,18 +15,18 @@ namespace SUS.MvcFramework
         }
         public HttpResponse View(
             object viewModel = null,
-            [CallerMemberName]string ViewPath = null)
+            [CallerMemberName] string ViewPath = null)
         {
 
 
             var layout = System.IO.File.ReadAllText("Views/Shared/_Layout.cshtml");
-            layout = layout.Replace("@RenderBody", "____View_Goes_Here____");
-            layout = this.viewEngine.GetHtml(layout, viewModel);
+            //layout = layout.Replace("@RenderBody", "____View_Goes_Here____");
+            //layout = this.viewEngine.GetHtml(layout, viewModel);
 
-            var viewContent = System.IO.File.ReadAllText("Views/" + 
-                this.GetType().Name.Replace("Controller", string.Empty).TrimEnd() + 
+            var viewContent = System.IO.File.ReadAllText("Views/" +
+                this.GetType().Name.Replace("Controller", string.Empty).TrimEnd() +
                 "/" +
-                ViewPath + 
+                ViewPath +
                 ".cshtml");
             viewContent = this.viewEngine.GetHtml(viewContent, viewModel);
             var resposeHtml = layout.Replace("@RenderBody", viewContent);
