@@ -1,6 +1,5 @@
 ﻿using BattleCards.Data;
 using Microsoft.EntityFrameworkCore;
-using MyFirsMvcApp.Controllers;
 using SUS.HTTP;
 using SUS.MvcFramework;
 using System.Collections.Generic;
