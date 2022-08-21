@@ -1,4 +1,6 @@
-﻿using MyFirsMvcApp.Controllers;
+﻿using BattleCards.Data;
+using Microsoft.EntityFrameworkCore;
+using MyFirsMvcApp.Controllers;
 using SUS.HTTP;
 using SUS.MvcFramework;
 using System.Collections.Generic;
@@ -16,7 +18,7 @@ namespace MyFirsMvcApp
 
         public void ConfigureServices()
         {
-            
+            new ApplicationDbContext().Database.Migrate();
         }
     }
 }
