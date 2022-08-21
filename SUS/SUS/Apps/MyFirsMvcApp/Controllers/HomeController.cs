@@ -7,7 +7,8 @@ namespace MyFirsMvcApp.Controllers
 {
     public class HomeController : Controller
     {
-        public HttpResponse Index(HttpRequest request)
+        [HttpGet("/")]
+        public HttpResponse Index()
         {
             var viewModel = new IndexViewModel();
             viewModel.CurrentYear = DateTime.UtcNow.Year;
@@ -15,7 +16,7 @@ namespace MyFirsMvcApp.Controllers
             return this.View(viewModel);
         }
 
-        public HttpResponse About(HttpRequest request)
+        public HttpResponse About()
         {
           
             return this.View();

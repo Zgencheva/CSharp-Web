@@ -8,18 +8,18 @@ namespace MyFirsMvcApp.Controllers
 {
     public class UsersController : Controller
     {
-        public HttpResponse Login(HttpRequest request)
+        public HttpResponse Login()
         {
             return this.View();
         }
         
-        public HttpResponse Register(HttpRequest request)
+        public HttpResponse Register()
         {
             return this.View();
             
         }
-
-        internal HttpResponse DoLogin(HttpRequest arg)
+        [HttpPost]
+        internal HttpResponse DoLogin()
         {
             //read data
             //check user
