@@ -84,11 +84,16 @@ namespace SUS.HTTP
                     //404 not found
                     response = new HttpResponse("text/html", new byte[0], HttpStatusCode.NotFound);
                 }
-                response.Cookies.Add(new ResponseCookie("sid", Guid.NewGuid().ToString()));
-                
-                response.Cookies.Add(new ResponseCookie("sid", Guid.NewGuid().ToString())
-                { HttpOnly = true, MaxAge = 60 * 24 * 60 * 60 });
+
                 response.Headers.Add(new Header("Server", "SUS Server 1.0"));
+
+                var sessionCookie = request.Cookies.FirstOrDefault(x => x.Name == HttpConstants.SessionCookieName);
+                if (sessionCookie != null)
+                {
+                    var responseSessionCookie = new ResponseCookie(sessionCookie.Name, sessionCookie.Value);
+                    responseSessionCookie.Path = "/";
+                    response.Cookies.Add(responseSessionCookie);
+                }
                 var resposeHeaderBytes = Encoding.UTF8.GetBytes(response.ToString());
                 
                 await stream.WriteAsync(resposeHeaderBytes, 0, resposeHeaderBytes.Length);

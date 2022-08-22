@@ -19,18 +19,15 @@ namespace SUS.MvcFramework
             [CallerMemberName] string ViewPath = null)
         {
 
-
-            var layout = System.IO.File.ReadAllText("Views/Shared/_Layout.cshtml");
-            //layout = layout.Replace("@RenderBody", "____View_Goes_Here____");
-            //layout = this.viewEngine.GetHtml(layout, viewModel);
-
             var viewContent = System.IO.File.ReadAllText("Views/" +
-                this.GetType().Name.Replace("Controller", string.Empty).TrimEnd() +
-                "/" +
-                ViewPath +
-                ".cshtml");
+               this.GetType().Name.Replace("Controller", string.Empty).TrimEnd() +
+               "/" +
+               ViewPath +
+               ".cshtml");
             viewContent = this.viewEngine.GetHtml(viewContent, viewModel);
-            var resposeHtml = layout.Replace("@RenderBody", viewContent);
+
+            var resposeHtml = this.PutViewInLayout(viewContent, viewModel);
+
             var responseBodyBytes = Encoding.UTF8.GetBytes(resposeHtml);
             var response = new HttpResponse("text/html", responseBodyBytes);
             return response;
@@ -48,6 +45,24 @@ namespace SUS.MvcFramework
             var response = new HttpResponse(HttpStatusCode.Found);
             response.Headers.Add(new Header("location", url));
             return response;
+        }
+
+        protected HttpResponse Error(string errorText)
+        {
+            var viewContent = $"<div class=\"alert alert-danger\" role=\"alert\">{errorText}</div>";
+            var responseHtml = this.PutViewInLayout(viewContent);
+            var responseBodyBytes = Encoding.UTF8.GetBytes(responseHtml);
+            var response = new HttpResponse("text/html", responseBodyBytes, HttpStatusCode.ServerError);
+            return response;
+        }
+
+        private string PutViewInLayout(string viewContent, object viewModel = null)
+        {
+            var layout = System.IO.File.ReadAllText("Views/Shared/_Layout.cshtml");
+            layout = layout.Replace("@RenderBody", "____View_Goes_Here____");
+            layout = this.viewEngine.GetHtml(layout, viewModel);
+            var resposeHtml = layout.Replace("____View_Goes_Here____", viewContent);
+            return resposeHtml;
         }
     }
 }
