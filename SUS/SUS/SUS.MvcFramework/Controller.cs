@@ -8,13 +8,14 @@ namespace SUS.MvcFramework
 {
     public abstract class Controller
     {
+        private const string UserIdSessionName = "UserId";
         private SusViewEngine viewEngine;
         public Controller()
         {
             this.viewEngine = new SusViewEngine();
         }
         public HttpRequest Request { get; set; }
-        public HttpResponse View(
+        protected HttpResponse View(
             object viewModel = null,
             [CallerMemberName] string ViewPath = null)
         {
@@ -24,7 +25,7 @@ namespace SUS.MvcFramework
                "/" +
                ViewPath +
                ".cshtml");
-            viewContent = this.viewEngine.GetHtml(viewContent, viewModel);
+            viewContent = this.viewEngine.GetHtml(viewContent, viewModel, this.GetUserId());
 
             var resposeHtml = this.PutViewInLayout(viewContent, viewModel);
 
@@ -33,14 +34,14 @@ namespace SUS.MvcFramework
             return response;
         }
 
-        public HttpResponse File(string filePath, string contentType)
+        protected HttpResponse File(string filePath, string contentType)
         {
             var fileBytes = System.IO.File.ReadAllBytes(filePath);
             var response = new HttpResponse(contentType, fileBytes);
             return response;
         }
 
-        public HttpResponse Redirect(string url)
+        protected HttpResponse Redirect(string url)
         {
             var response = new HttpResponse(HttpStatusCode.Found);
             response.Headers.Add(new Header("location", url));
@@ -55,12 +56,27 @@ namespace SUS.MvcFramework
             var response = new HttpResponse("text/html", responseBodyBytes, HttpStatusCode.ServerError);
             return response;
         }
+        protected void SignIn(string userId)
+        {
+            this.Request.Session[UserIdSessionName] = userId;
+        }
 
+        protected void SignOut()
+        {
+            this.Request.Session[UserIdSessionName] = null;
+        }
+        protected bool IsUserSignedIn() =>
+           this.Request.Session.ContainsKey(UserIdSessionName) &&
+           this.Request.Session[UserIdSessionName] != null;
+
+        protected string GetUserId() =>
+            this.Request.Session.ContainsKey(UserIdSessionName) ?
+            this.Request.Session[UserIdSessionName] : null;
         private string PutViewInLayout(string viewContent, object viewModel = null)
         {
             var layout = System.IO.File.ReadAllText("Views/Shared/_Layout.cshtml");
             layout = layout.Replace("@RenderBody", "____View_Goes_Here____");
-            layout = this.viewEngine.GetHtml(layout, viewModel);
+            layout = this.viewEngine.GetHtml(layout, viewModel, this.GetUserId());
             var resposeHtml = layout.Replace("____View_Goes_Here____", viewContent);
             return resposeHtml;
         }

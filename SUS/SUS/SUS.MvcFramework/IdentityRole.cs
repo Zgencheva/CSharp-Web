@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SUS.MvcFramework.ViewEngine
+namespace SUS.MvcFramework
 {
-    public interface IView
+    public enum IdentityRole
     {
-        string ExecuteTemplate(object viewModel, string user);
-
+        User = 1,
+        Admin = 2,
     }
 }

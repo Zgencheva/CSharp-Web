@@ -18,7 +18,17 @@ namespace MyFirsMvcApp.Controllers
             return this.View();
             
         }
-        [HttpPost]
+        [HttpPost("Users/Register")]
+        internal HttpResponse DoRegister()
+        {
+            //read data
+            //check user
+            //log user
+            //home page
+
+            return this.Redirect("/");
+        }
+        [HttpPost("Users/Login")]
         internal HttpResponse DoLogin()
         {
             //read data
@@ -26,6 +36,17 @@ namespace MyFirsMvcApp.Controllers
             //log user
             //home page
 
+            return this.Redirect("/");
+        }
+
+        public HttpResponse Logout()
+        {
+            if (!this.IsUserSignedIn())
+            {
+                return this.Error("Only logged-in users can logout.");
+            }
+
+            this.SignOut();
             return this.Redirect("/");
         }
     }

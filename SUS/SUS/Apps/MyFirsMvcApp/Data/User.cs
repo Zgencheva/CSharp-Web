@@ -8,11 +8,12 @@ using System.Threading.Tasks;
 
 namespace BattleCards.Data
 {
-    public class User : IdentityUser
+    public class User : IdentityUser<string>
     {
         public User()
         {
             this.Id = Guid.NewGuid().ToString();
+            this.Role = IdentityRole.User;
             this.UserCards = new HashSet<UserCard>();
         }
      
