@@ -13,11 +13,10 @@ namespace BattleCards.Data
         public User()
         {
             this.Id = Guid.NewGuid().ToString();
-            this.Role = IdentityRole.User;
-            this.UserCards = new HashSet<UserCard>();
+            this.Cards = new HashSet<UserCard>();
         }
      
 
-        public virtual ICollection<UserCard> UserCards { get; set; }
+        public virtual ICollection<UserCard> Cards { get; set; }
     }
 }

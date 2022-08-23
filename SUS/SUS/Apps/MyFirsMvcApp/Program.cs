@@ -1,4 +1,4 @@
-﻿using MyFirsMvcApp.Controllers;
+﻿using BattleCards.Controllers;
 using SUS.HTTP;
 using SUS.MvcFramework;
 using System.Collections.Generic;

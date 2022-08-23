@@ -5,7 +5,7 @@ using SUS.HTTP;
 using SUS.MvcFramework;
 using System.Linq;
 
-namespace MyFirsMvcApp.Controllers
+namespace BattleCards.Controllers
 {
     public class CardsController : Controller
     {

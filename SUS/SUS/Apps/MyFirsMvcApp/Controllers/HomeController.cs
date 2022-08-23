@@ -3,7 +3,7 @@ using SUS.HTTP;
 using SUS.MvcFramework;
 using System;
 
-namespace MyFirsMvcApp.Controllers
+namespace BattleCards.Controllers
 {
     public class HomeController : Controller
     {
