@@ -23,10 +23,9 @@ namespace BattleCards.Controllers
             return this.View();
         }
         [HttpPost("/Users/Login")]
-        public HttpResponse DoLogin()
+        public HttpResponse DoLogin(string username, string password)
         {
-            var username = this.Request.FormData["username"];
-            var password = this.Request.FormData["password"];
+           
             var userId = this.usersService.GetUserId(username, password);
             if (userId == null)
             {
@@ -47,17 +46,14 @@ namespace BattleCards.Controllers
 
         }
         [HttpPost("/Users/Register")]
-        public HttpResponse DoRegister()
+        public HttpResponse DoRegister(string username, string email, string password, string confirmPassword)
         {
-        //    if (this.IsUserSignedIn())
-        //    {
-        //        return this.Redirect("/");
-        //    }
-            var username = this.Request.FormData["username"];
-            var email = this.Request.FormData["email"];
-            var password = this.Request.FormData["password"];
-            var confirmPassword = this.Request.FormData["confirmPassword"];
-           
+            if (this.IsUserSignedIn())
+            {
+                return this.Redirect("/");
+            }
+
+
             if (username == null || username.Length < 5 || username.Length > 20)
             {
                 return this.Error("Invalid username. The username should be between 5 and 20 characters.");

@@ -97,8 +97,11 @@ namespace SUS.HTTP
                 var resposeHeaderBytes = Encoding.UTF8.GetBytes(response.ToString());
                 
                 await stream.WriteAsync(resposeHeaderBytes, 0, resposeHeaderBytes.Length);
-                await stream.WriteAsync(response.Body, 0, response.Body.Length);
-                //await stream.WriteAsync();
+                if (response.Body != null)
+                {
+                    await stream.WriteAsync(response.Body, 0, response.Body.Length);
+                }
+    
 
                 tcpClient.Close();  
             }
