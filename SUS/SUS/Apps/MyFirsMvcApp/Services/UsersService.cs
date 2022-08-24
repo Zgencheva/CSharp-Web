@@ -1,5 +1,4 @@
 ﻿using BattleCards.Data;
-using System;
 using SUS.MvcFramework;
 using System.Linq;
 using System.Security.Cryptography;
@@ -10,9 +9,9 @@ namespace BattleCards.Services
     {
         private ApplicationDbContext db;
 
-        public UsersService()
+        public UsersService(ApplicationDbContext db)
         {
-            this.db = new ApplicationDbContext();
+            this.db = db;
         }
 
         public string CreateUser(string username, string email, string password)
@@ -26,21 +25,8 @@ namespace BattleCards.Services
             };
      
             this.db.Users.Add(user);
-            try
-            {
-                this.db.SaveChanges();
-            }
-            catch (Exception ex)
-            {
+            this.db.SaveChanges();
 
-                Console.WriteLine(ex.Message);
-                Console.WriteLine(ex.Data);
-                Console.WriteLine(ex.Source);
-                Console.WriteLine(ex.StackTrace);
-                Console.WriteLine(ex.ToString());
-            }
-            
-          
             return user.Id;
         }
 
