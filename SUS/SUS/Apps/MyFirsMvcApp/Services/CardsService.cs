@@ -75,6 +75,7 @@ namespace BattleCards.Services
             this.db.SaveChanges();
         }
 
+
         public void RemoveCardFromUserCollection(string userId, int cardId)
         {
             var userCard = this.db.UserCards.FirstOrDefault(x => x.UserId == userId && x.CardId == cardId);

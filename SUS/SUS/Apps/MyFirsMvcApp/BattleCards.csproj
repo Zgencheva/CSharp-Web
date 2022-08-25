@@ -59,7 +59,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="ViewModels\Users\" />
     <Folder Include="wwwroot\img\" />
   </ItemGroup>
 

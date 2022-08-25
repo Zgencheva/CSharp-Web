@@ -7,7 +7,7 @@ namespace BattleCards.Services
 {
     public class UsersService : IUsersService
     {
-        private ApplicationDbContext db;
+        private readonly ApplicationDbContext db;
 
         public UsersService(ApplicationDbContext db)
         {

@@ -1,7 +1,5 @@
-﻿using MyFirsMvcApp.ViewModels;
-using SUS.HTTP;
+﻿using SUS.HTTP;
 using SUS.MvcFramework;
-using System;
 
 namespace BattleCards.Controllers
 {
