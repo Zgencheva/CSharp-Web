@@ -1,10 +1,7 @@
-﻿using BattleCards.Controllers;
-using SUS.HTTP;
-using SUS.MvcFramework;
-using System.Collections.Generic;
+﻿using SUS.MvcFramework;
 using System.Threading.Tasks;
 
-namespace MyFirsMvcApp
+namespace Suls
 {
     public class Program
     {
@@ -12,6 +9,5 @@ namespace MyFirsMvcApp
         {
             await Host.CreateHostAsync(new Startup(), 80);
         }
-
     }
 }
