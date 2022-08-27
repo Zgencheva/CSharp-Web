@@ -53,7 +53,7 @@ namespace Suls.Controllers
         [HttpPost]
         public HttpResponse Register(RegisterInputModel input)
         {
-            System.Console.WriteLine("Here");
+
             if (this.IsUserSignedIn())
             {
                 return this.Redirect("/");
@@ -95,8 +95,18 @@ namespace Suls.Controllers
             }
 
             this.usersService.CreateUser(input.Username, input.Email, input.Password);
-            System.Console.WriteLine("user added");
             return this.Redirect("/Users/Login");
+        }
+
+        public HttpResponse Logout()
+        {
+            if (!this.IsUserSignedIn())
+            {
+                return this.Error("Only logged-in users can logout.");
+            }
+
+            this.SignOut();
+            return this.Redirect("/");
         }
     }
 }

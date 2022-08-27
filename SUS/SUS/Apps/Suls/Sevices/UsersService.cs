@@ -24,9 +24,6 @@ namespace Suls.Services
             };
      
             this.db.Users.Add(user);
-            System.Console.WriteLine(user.Username);
-            System.Console.WriteLine(user.Email);
-            System.Console.WriteLine(user.Password);
             this.db.SaveChanges();
 
             return user.Id;
