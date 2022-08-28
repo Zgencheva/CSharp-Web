@@ -1,25 +1,22 @@
 ﻿using Suls.Data;
 using Suls.ViewModels.Submissions;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Suls.Sevices
 {
     public class SubmissionService : ISubmissionService
     {
         private readonly ApplicationDbContext db;
+        private readonly Random rand;
 
-        public SubmissionService(ApplicationDbContext db)
+        public SubmissionService(ApplicationDbContext db, Random rand)
         {
             this.db = db;
+            this.rand = rand;
         }
-        public SubmissionViewModel CreateSubmission(string Id)
+        public SubmissionViewModel CreateSubmissionView(string Id)
         {
-        
-            Console.WriteLine($"in create submission {Id}");
             var problem = db.Problems.FirstOrDefault(x => x.Id == Id);
                var model =  new SubmissionViewModel 
                 {
@@ -33,10 +30,9 @@ namespace Suls.Sevices
         {
             var problem = db.Problems.FirstOrDefault(x=> x.Id == model.ProblemId);
             var user = db.Users.FirstOrDefault(x=> x.Id == userId);
-            var rand = new Random();
             problem.Submissions.Add(new Submission
             {
-                AchievedResult = rand.Next(0, problem.Points),
+                AchievedResult = rand.Next(0, problem.Points + 1),
                 CreatedOn = DateTime.UtcNow,
                 User = user,
                 Code = model.Code,

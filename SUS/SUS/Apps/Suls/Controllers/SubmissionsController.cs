@@ -24,13 +24,12 @@ namespace Suls.Controllers
             {
                 this.Redirect("/Users/Login");
             }
-            SubmissionViewModel model = service.CreateSubmission(Id);
+            SubmissionViewModel model = service.CreateSubmissionView(Id);
             return this.View(model);
         }
         [HttpPost]
         public HttpResponse Create(CreateSubmissionInputModel model)
         {
-            Console.WriteLine(model.Code);
             if (!this.IsUserSignedIn())
             {
                 this.Redirect("/Users/Login");

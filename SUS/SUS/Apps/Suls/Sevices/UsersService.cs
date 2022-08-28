@@ -37,7 +37,7 @@ namespace Suls.Services
                 return null;
             }
 
-            return user.Id;
+            return user?.Id;
         }
 
         public bool IsEmailAvailable(string email)

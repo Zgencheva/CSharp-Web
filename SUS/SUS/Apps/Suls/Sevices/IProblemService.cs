@@ -1,5 +1,4 @@
-﻿using Suls.Data;
-using Suls.ViewModels;
+﻿using Suls.ViewModels;
 using Suls.ViewModels.Problems;
 using Suls.ViewModels.Users.Problems;
 using System.Collections.Generic;

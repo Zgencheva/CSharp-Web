@@ -39,9 +39,9 @@ namespace Suls.Controllers
             {
                 return this.Error("Points must be in range 50 and 300");
             }
-            if (model.Name.Length < 5 || model.Name.Length > 20)
+            if (string.IsNullOrEmpty(model.Name) || model.Name.Length < 5 || model.Name.Length > 20)
             {
-                return this.Error("Problem name should be between 5 and 20 symbols");
+                return this.Error("Name should be between 5 and 20 symbols");
             }
             this.service.CreateProblem(model);
             return this.Redirect("/");

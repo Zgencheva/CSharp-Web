@@ -59,29 +59,29 @@ namespace Suls.Controllers
                 return this.Redirect("/");
             }
 
-            if (input.Username == null || input.Username.Length < 5 || input.Username.Length > 20)
+            if (string.IsNullOrEmpty(input.Username) || input.Username.Length < 5 || input.Username.Length > 20)
             {
                 return this.Error("Username should be between 5-20 characters");
             }
 
-            if (!Regex.IsMatch(input.Username, @"^[a-zA-Z0-9\.]+$"))
+            //if (!Regex.IsMatch(input.Username, @"^[a-zA-Z0-9\.]+$"))
+            //{
+            //    return this.Error("Invalid username. Only alphanumeric characters are allowed.");
+            //}
+
+            if (string.IsNullOrEmpty(input.Email) || !new EmailAddressAttribute().IsValid(input.Email))
             {
-                return this.Error("Invalid username. Only alphanumeric characters are allowed.");
+                return this.Error("Invalid email address.");
             }
 
-            if (string.IsNullOrWhiteSpace(input.Email) || !new EmailAddressAttribute().IsValid(input.Email))
-            {
-                return this.Error("Invalid email.");
-            }
-
-            if (input.Password == null || input.Password.Length < 6 || input.Password.Length > 20)
+            if (string.IsNullOrEmpty(input.Password) || input.Password.Length < 6 || input.Password.Length > 20)
             {
                 return this.Error("Invalid password. The password should be between 6 and 20 characters.");
             }
 
             if (input.Password != input.ConfirmPassword)
             {
-                return this.Error("Passwords should be the same.");
+                return this.Error("Passwords do not match.");
             }
 
             if (!this.usersService.IsUsernameAvailable(input.Username))

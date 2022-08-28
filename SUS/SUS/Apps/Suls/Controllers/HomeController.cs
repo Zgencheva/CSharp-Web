@@ -1,7 +1,6 @@
 ﻿using Suls.Sevices;
 using SUS.HTTP;
 using SUS.MvcFramework;
-using System;
 
 namespace Suls.Controllers
 {
@@ -19,20 +18,11 @@ namespace Suls.Controllers
         {
             if (this.IsUserSignedIn())
             {
-                return this.Redirect("/Home/IndexLoggedIn");
+                var viewModel = problemService.GetAll();
+                return this.View(viewModel, "IndexLoggedIn");
             }
           return this.View();
         }
-        [HttpGet]
-        public HttpResponse IndexLoggedIn()
-        {
-            if (!this.IsUserSignedIn())
-            {
-                return this.Redirect("/Users/Login");
-            }
-             
-            var problems = problemService.GetAll();
-            return this.View(problems);
-        }
+      
     }
 }
