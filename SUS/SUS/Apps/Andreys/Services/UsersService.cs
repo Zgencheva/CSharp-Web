@@ -1,16 +1,17 @@
-﻿using BattleCards.Data;
-using SUS.MvcFramework;
+﻿using Andreys.Data;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace BattleCards.Services
+namespace Andreys.Services
 {
-    public class UsersService : IUsersService
+    class UsersService : IUsersService
     {
-        private readonly ApplicationDbContext db;
+        private readonly AndreysDbContext db;
 
-        public UsersService(ApplicationDbContext db)
+        public UsersService(AndreysDbContext db)
         {
             this.db = db;
         }
@@ -21,10 +22,9 @@ namespace BattleCards.Services
             {
                 Username = username,
                 Email = email,
-                Role = IdentityRole.User,
                 Password = ComputeHash(password),
             };
-     
+
             this.db.Users.Add(user);
             this.db.SaveChanges();
 

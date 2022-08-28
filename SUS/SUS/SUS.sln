@@ -15,6 +15,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BattleCards", "Apps\BattleC
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Suls", "Apps\Suls\Suls.csproj", "{97B546AD-F209-4C41-85F0-657FA819C45D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Andreys", "Apps\Andreys\Andreys.csproj", "{F61A76B9-55F8-4733-8954-7BD197882226}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -41,6 +43,10 @@ Global
 		{97B546AD-F209-4C41-85F0-657FA819C45D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{97B546AD-F209-4C41-85F0-657FA819C45D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{97B546AD-F209-4C41-85F0-657FA819C45D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F61A76B9-55F8-4733-8954-7BD197882226}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F61A76B9-55F8-4733-8954-7BD197882226}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F61A76B9-55F8-4733-8954-7BD197882226}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F61A76B9-55F8-4733-8954-7BD197882226}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -48,6 +54,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{76901C20-5385-4472-BBFA-A82A8669B841} = {EFD9DED4-A65A-48D8-829B-28C56BA3BBEE}
 		{97B546AD-F209-4C41-85F0-657FA819C45D} = {EFD9DED4-A65A-48D8-829B-28C56BA3BBEE}
+		{F61A76B9-55F8-4733-8954-7BD197882226} = {EFD9DED4-A65A-48D8-829B-28C56BA3BBEE}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {48CDE841-2E2C-4BFA-972F-FD595BD69C99}

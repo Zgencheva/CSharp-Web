@@ -1,4 +1,6 @@
-﻿using BattleCards.Services;
+﻿using BattleCards.Data;
+using BattleCards.Services;
+using Microsoft.EntityFrameworkCore;
 using SUS.HTTP;
 using SUS.MvcFramework;
 using System.Collections.Generic;
@@ -18,7 +20,7 @@ namespace BattleCards
         }
         public void Configure(List<Route> routeTable)
         {
-          
+            new ApplicationDbContext().Database.Migrate();
         }
 
        
