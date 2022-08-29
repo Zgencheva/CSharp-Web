@@ -12,7 +12,7 @@ namespace Andreys.Controllers
         {
             this.productService = productService;
         }
-        
+
         [HttpGet("/")]
         public HttpResponse Index()
         {
@@ -23,5 +23,6 @@ namespace Andreys.Controllers
             }
             return this.View();
         }
+
     }
 }

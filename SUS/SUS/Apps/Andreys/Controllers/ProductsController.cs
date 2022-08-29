@@ -1,4 +1,5 @@
 ﻿using Andreys.Services;
+using Andreys.ViewModels.Home;
 using Andreys.ViewModels.Products;
 using SUS.HTTP;
 using SUS.MvcFramework;
@@ -9,10 +10,13 @@ namespace Andreys.Controllers
     public class ProductsController : Controller
     {
         private readonly IProductService service;
+        private readonly ErrorViewModel errorModel;
 
-        public ProductsController(IProductService service)
+        public ProductsController(IProductService service, 
+            ErrorViewModel errorModel)
         {
             this.service = service;
+            this.errorModel = errorModel;
         }
         public HttpResponse Add()
         {
@@ -32,16 +36,19 @@ namespace Andreys.Controllers
             }
             if (string.IsNullOrEmpty(model.Name) || model.Name.Length < 4 || model.Name.Length > 20)
             {
-                return this.Error("Name should be between 4 and 20 characters long.");
+                this.errorModel.Error="Name should be between 4 and 20 characters long!!!";
+                return this.View(errorModel, "Error");
             }
             if (!string.IsNullOrEmpty(model.ImageUrl) && !Uri.TryCreate(model.ImageUrl, UriKind.Absolute, out _))
             {
-                return this.Error("Image url should be valid.");
+                this.errorModel.Error = "Image url should be valid.";
+                return this.View(errorModel, "Error");
             }
 
             if (model.Description != null && model.Description.Length >10)
             {
-                return this.Error("Description should be maximum 10 characters long.");
+                this.errorModel.Error = "Description should be maximum 10 characters long.";
+                return this.View(errorModel, "Error");
             }
             this.service.AddProduct(model);
             return this.Redirect("/");
@@ -56,7 +63,6 @@ namespace Andreys.Controllers
             var model = service.GetProductDetails(Id);
             return this.View(model);
         }
-
         public HttpResponse Delete(int Id)
         {
             if (!this.IsUserSignedIn())

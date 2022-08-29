@@ -1,5 +1,6 @@
 ﻿using Andreys.Services;
 using Andreys.ViewModels;
+using Andreys.ViewModels.Home;
 using SUS.HTTP;
 using SUS.MvcFramework;
 using System.ComponentModel.DataAnnotations;
@@ -10,10 +11,12 @@ namespace Andreys.Controllers
     public class UsersController : Controller
     {
         private readonly IUsersService usersService;
+        private readonly ErrorViewModel errorModel;
 
-        public UsersController(IUsersService usersService)
+        public UsersController(IUsersService usersService, ErrorViewModel errorModel)
         {
             this.usersService = usersService;
+            this.errorModel = errorModel;
         }
 
         // GET /users/login
@@ -37,7 +40,8 @@ namespace Andreys.Controllers
             var userId = this.usersService.GetUserId(username, password);
             if (userId == null)
             {
-                return this.Error("Invalid username or password");
+                this.errorModel.Error = "Invalid username or password";
+                return this.View(errorModel, "Error");
             }
 
             this.SignIn(userId);
@@ -65,37 +69,44 @@ namespace Andreys.Controllers
 
             if (input.Username == null || input.Username.Length < 4 || input.Username.Length > 10)
             {
-                return this.Error("Invalid username. The username should be between 4 and 10 characters.");
+                this.errorModel.Error = "Invalid username. The username should be between 4 and 10 characters.";
+                return this.View(errorModel, "Error");
             }
 
             if (!Regex.IsMatch(input.Username, @"^[a-zA-Z0-9\.]+$"))
             {
-                return this.Error("Invalid username. Only alphanumeric characters are allowed.");
+                this.errorModel.Error = "Invalid username. Only alphanumeric characters are allowed.";
+                return this.View(errorModel, "Error");
             }
 
             if (string.IsNullOrWhiteSpace(input.Email) || !new EmailAddressAttribute().IsValid(input.Email))
             {
-                return this.Error("Invalid email.");
+                this.errorModel.Error = "Invalid email.";
+                return this.View(errorModel, "Error");
             }
 
             if (input.Password == null || input.Password.Length < 6 || input.Password.Length > 20)
             {
-                return this.Error("Invalid password. The password should be between 6 and 20 characters.");
+                this.errorModel.Error = "Invalid password. The password should be between 6 and 20 characters.";
+                return this.View(errorModel, "Error");
             }
 
             if (input.Password != input.ConfirmPassword)
             {
-                return this.Error("Passwords should be the same.");
+                this.errorModel.Error = "Passwords should match.";
+                return this.View(errorModel, "Error");
             }
 
             if (!this.usersService.IsUsernameAvailable(input.Username))
             {
-                return this.Error("Username already taken.");
+                this.errorModel.Error = "Username already taken.";
+                return this.View(errorModel, "Error");
             }
 
             if (!this.usersService.IsEmailAvailable(input.Email))
             {
-                return this.Error("Email already taken.");
+                this.errorModel.Error = "Email already taken.";
+                return this.View(errorModel, "Error");
             }
 
             this.usersService.CreateUser(input.Username, input.Email, input.Password);
@@ -106,9 +117,9 @@ namespace Andreys.Controllers
         {
             if (!this.IsUserSignedIn())
             {
-                return this.Error("Only logged-in users can logout.");
+                this.errorModel.Error = "Only logged-in users can logout.";
+                return this.View(errorModel, "Error");
             }
-
             this.SignOut();
             return this.Redirect("/");
         }
