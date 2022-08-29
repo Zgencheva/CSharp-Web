@@ -30,5 +30,40 @@ namespace Andreys.Services
             });
             db.SaveChanges();
         }
+
+        public ProductDetailsViewModel GetProductDetails(int id)
+        {
+            return db.Products.Where(x => x.Id == id)
+                .Select(x => new ProductDetailsViewModel
+                {
+                    Name = x.Name,
+                    Id = x.Id,
+                    ImageUrl = x.ImageUrl,
+                    Price = x.Price,
+                    Gender = x.Gender.ToString(),
+                    Category = x.Category.ToString(),
+                    Description = x.Description,
+                })
+                .FirstOrDefault();
+        }
+
+        public ICollection<ProductsViewModel> GetProducts() 
+        {
+            return db.Products.Select(x => new ProductsViewModel
+            {
+                Id = x.Id,
+                ImageUrl = x.ImageUrl,
+                Name = x.Name,
+                Price = x.Price
+
+            }).ToList();
+        }
+
+        public void RemoveProduct(int Id)
+        {
+            var product = db.Products.FirstOrDefault(x=> x.Id == Id);
+            db.Products.Remove(product);
+            db.SaveChanges();
+        }
     }
 }

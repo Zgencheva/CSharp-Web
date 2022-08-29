@@ -25,7 +25,7 @@ namespace Andreys.Controllers
         [HttpPost]
         public HttpResponse Add(AddProductModel model)
         {
-            Console.WriteLine(model.Name);
+            
             if (!this.IsUserSignedIn())
             {
                 return this.Redirect("Users/Login");
@@ -34,22 +34,36 @@ namespace Andreys.Controllers
             {
                 return this.Error("Name should be between 4 and 20 characters long.");
             }
-
-            //if (string.IsNullOrWhiteSpace(model.ImageUrl))
-            //{
-            //    return this.Error("The image is required!");
-            //}
-
-            //if (string.IsNullOrEmpty(model.ImageUrl) && !Uri.TryCreate(model.ImageUrl, UriKind.Absolute, out _))
-            //{
-            //    return this.Error("Image url should be valid.");
-            //}
+            if (!string.IsNullOrEmpty(model.ImageUrl) && !Uri.TryCreate(model.ImageUrl, UriKind.Absolute, out _))
+            {
+                return this.Error("Image url should be valid.");
+            }
 
             if (model.Description != null && model.Description.Length >10)
             {
                 return this.Error("Description should be maximum 10 characters long.");
             }
             this.service.AddProduct(model);
+            return this.Redirect("/");
+        }
+
+        public HttpResponse Details(int Id)
+        {
+            if (!this.IsUserSignedIn())
+            {
+                return this.Redirect("/Users/Login");
+            }
+            var model = service.GetProductDetails(Id);
+            return this.View(model);
+        }
+
+        public HttpResponse Delete(int Id)
+        {
+            if (!this.IsUserSignedIn())
+            {
+                return this.Redirect("/Users/Login");
+            }
+            service.RemoveProduct(Id);
             return this.Redirect("/");
         }
     }

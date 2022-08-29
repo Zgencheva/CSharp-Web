@@ -10,5 +10,10 @@ namespace Andreys.Services
     public interface IProductService
     {
         void AddProduct(AddProductModel model);
+
+        public ICollection<ProductsViewModel> GetProducts();
+
+        public void RemoveProduct(int Id);
+        public ProductDetailsViewModel GetProductDetails(int id);
     }
 }

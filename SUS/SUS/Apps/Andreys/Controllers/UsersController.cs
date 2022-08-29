@@ -19,8 +19,6 @@ namespace Andreys.Controllers
         // GET /users/login
         public HttpResponse Login()
         {
-
-            System.Console.WriteLine("in login controller");
             if (this.IsUserSignedIn())
             {
                 return this.Redirect("/");
@@ -36,7 +34,6 @@ namespace Andreys.Controllers
             {
                 return this.Redirect("/");
             }
-
             var userId = this.usersService.GetUserId(username, password);
             if (userId == null)
             {
