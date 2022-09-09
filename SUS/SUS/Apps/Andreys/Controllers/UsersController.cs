@@ -1,6 +1,7 @@
 ﻿using Andreys.Services;
 using Andreys.ViewModels;
 using Andreys.ViewModels.Home;
+using Andreys.ViewModels.Users;
 using SUS.HTTP;
 using SUS.MvcFramework;
 using System.ComponentModel.DataAnnotations;
@@ -31,13 +32,13 @@ namespace Andreys.Controllers
         }
 
         [HttpPost]
-        public HttpResponse Login(string username, string password)
+        public HttpResponse Login(LoginInputModel model)
         {
             if (this.IsUserSignedIn())
             {
                 return this.Redirect("/");
             }
-            var userId = this.usersService.GetUserId(username, password);
+            var userId = this.usersService.GetUserId(model.Username, model.Password);
             if (userId == null)
             {
                 this.errorModel.Error = "Invalid username or password";

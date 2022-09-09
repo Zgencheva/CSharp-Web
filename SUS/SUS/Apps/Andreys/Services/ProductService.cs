@@ -17,9 +17,9 @@ namespace Andreys.Services
         {
             this.db = db;
         }
-        public void AddProduct(AddProductModel model)
+        public int AddProduct(AddProductModel model)
         {
-            db.Products.Add(new Product
+            var product = new Product
             {
                 Name = model.Name,
                 Description = model.Description,
@@ -27,24 +27,16 @@ namespace Andreys.Services
                 Price = model.Price,
                 Category = Enum.Parse<Category>(model.Category),
                 Gender = Enum.Parse<Gender>(model.Gender),
-            });
+            };
+            db.Products.Add(product);
             db.SaveChanges();
+
+            return product.Id;
         }
 
-        public ProductDetailsViewModel GetProductDetails(int id)
+        public Product GetProduct(int id)
         {
-            return db.Products.Where(x => x.Id == id)
-                .Select(x => new ProductDetailsViewModel
-                {
-                    Name = x.Name,
-                    Id = x.Id,
-                    ImageUrl = x.ImageUrl,
-                    Price = x.Price,
-                    Gender = x.Gender.ToString(),
-                    Category = x.Category.ToString(),
-                    Description = x.Description,
-                })
-                .FirstOrDefault();
+            return db.Products.FirstOrDefault(x => x.Id == id);
         }
 
         public ICollection<ProductsViewModel> GetProducts() 

@@ -50,7 +50,8 @@ namespace Andreys.Controllers
                 this.errorModel.Error = "Description should be maximum 10 characters long.";
                 return this.View(errorModel, "Error");
             }
-            this.service.AddProduct(model);
+           var productId = this.service.AddProduct(model);
+           // return this.Redirect($"/Products/Details?id={productId}");
             return this.Redirect("/");
         }
 
@@ -60,7 +61,7 @@ namespace Andreys.Controllers
             {
                 return this.Redirect("/Users/Login");
             }
-            var model = service.GetProductDetails(Id);
+            var model = service.GetProduct(Id);
             return this.View(model);
         }
         public HttpResponse Delete(int Id)

@@ -1,4 +1,6 @@
-﻿namespace Andreys.Services
+﻿using Andreys.ViewModels.Users;
+
+namespace Andreys.Services
 {
     public interface IUsersService
     {

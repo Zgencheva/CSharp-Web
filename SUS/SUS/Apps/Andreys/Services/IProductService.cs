@@ -1,4 +1,5 @@
-﻿using Andreys.ViewModels.Products;
+﻿using Andreys.Data;
+using Andreys.ViewModels.Products;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,11 +10,11 @@ namespace Andreys.Services
 {
     public interface IProductService
     {
-        void AddProduct(AddProductModel model);
+        int AddProduct(AddProductModel model);
 
         public ICollection<ProductsViewModel> GetProducts();
 
         public void RemoveProduct(int Id);
-        public ProductDetailsViewModel GetProductDetails(int id);
+        public Product GetProduct(int id);
     }
 }
