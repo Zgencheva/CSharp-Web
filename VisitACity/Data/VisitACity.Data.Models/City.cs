@@ -17,6 +17,10 @@ namespace VisitACity.Data.Models
 
         public string Name { get; set; }
 
+        public int CountryId { get; set; }
+
+        public virtual Country Country { get; set; }
+
         public bool IsDeleted { get; set ; }
 
         public DateTime? DeletedOn { get; set ; }
@@ -24,6 +28,8 @@ namespace VisitACity.Data.Models
         public virtual ICollection<Attraction> Attractions { get; set; }
 
         public virtual ICollection<Restaurant> Restaurants { get; set; }
+
+        public virtual ICollection<Plan> Plans { get; set; }
 
     }
 }

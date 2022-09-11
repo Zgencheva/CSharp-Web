@@ -9,6 +9,7 @@ namespace VisitACity.Data.Models
         public Restaurant()
         {
             this.RestaurantReviews = new HashSet<RestaurantReview>();
+            this.Plans = new HashSet<Plan>();
         }
 
         public string Name { get; set; }
@@ -29,5 +30,7 @@ namespace VisitACity.Data.Models
 
         public virtual ICollection<RestaurantReview> RestaurantReviews { get; set; }
 
+        public virtual ICollection<Plan> Plans { get; set; }
     }
+
 }

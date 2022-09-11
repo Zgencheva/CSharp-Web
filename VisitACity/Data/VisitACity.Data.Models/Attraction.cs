@@ -11,6 +11,7 @@ namespace VisitACity.Data.Models
         public Attraction()
         {
             this.AttractionReviews = new HashSet<AttractionReview>();
+            this.Plans = new HashSet<Plan>();
         }
 
         public string Name { get; set; }
@@ -34,6 +35,8 @@ namespace VisitACity.Data.Models
         public DateTime? DeletedOn { get; set; }
 
         public ICollection<AttractionReview> AttractionReviews { get; set; }
+
+        public ICollection<Plan> Plans { get; set; }
 
     }
 }

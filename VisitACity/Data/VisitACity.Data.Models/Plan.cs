@@ -13,24 +13,21 @@ namespace VisitACity.Data.Models
         {
             this.Attractions = new HashSet<Attraction>();
             this.Restaurants = new HashSet<Restaurant>();
-            this.Cities = new HashSet<City>();
         }
 
         public string UserId { get; set; }
 
         public virtual ApplicationUser User { get; set; }
 
+        public int CityId { get; set; }
+
+        public virtual City City { get; set; }
+
         public int Days { get; set; }
-
-        public int CountryId { get; set; }
-
-        public virtual Country Country { get; set; }
 
         public bool IsDeleted { get; set; }
 
         public DateTime? DeletedOn { get; set; }
-
-        public virtual ICollection<City> Cities { get; set; }
 
         public virtual ICollection<Restaurant> Restaurants { get; set; }
 
