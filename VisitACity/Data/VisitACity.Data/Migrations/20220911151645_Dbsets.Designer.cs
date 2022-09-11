@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using VisitACity.Data;
 
@@ -11,9 +12,10 @@ using VisitACity.Data;
 namespace VisitACity.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220911151645_Dbsets")]
+    partial class Dbsets
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,21 +23,6 @@ namespace VisitACity.Data.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
-
-            modelBuilder.Entity("CityPlan", b =>
-                {
-                    b.Property<int>("CitiesId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("PlansId")
-                        .HasColumnType("int");
-
-                    b.HasKey("CitiesId", "PlansId");
-
-                    b.HasIndex("PlansId");
-
-                    b.ToTable("CityPlan");
-                });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
@@ -387,11 +374,16 @@ namespace VisitACity.Data.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("PlanId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("CountryId");
 
                     b.HasIndex("IsDeleted");
+
+                    b.HasIndex("PlanId");
 
                     b.ToTable("Cities");
                 });
@@ -444,7 +436,10 @@ namespace VisitACity.Data.Migrations
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("UserId")
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId1")
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
@@ -453,7 +448,7 @@ namespace VisitACity.Data.Migrations
 
                     b.HasIndex("IsDeleted");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserId1");
 
                     b.ToTable("Plans");
                 });
@@ -583,21 +578,6 @@ namespace VisitACity.Data.Migrations
                     b.ToTable("Settings");
                 });
 
-            modelBuilder.Entity("CityPlan", b =>
-                {
-                    b.HasOne("VisitACity.Data.Models.City", null)
-                        .WithMany()
-                        .HasForeignKey("CitiesId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("VisitACity.Data.Models.Plan", null)
-                        .WithMany()
-                        .HasForeignKey("PlansId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("VisitACity.Data.Models.ApplicationRole", null)
@@ -686,19 +666,23 @@ namespace VisitACity.Data.Migrations
                     b.HasOne("VisitACity.Data.Models.Country", null)
                         .WithMany("Cities")
                         .HasForeignKey("CountryId");
+
+                    b.HasOne("VisitACity.Data.Models.Plan", null)
+                        .WithMany("Cities")
+                        .HasForeignKey("PlanId");
                 });
 
             modelBuilder.Entity("VisitACity.Data.Models.Plan", b =>
                 {
                     b.HasOne("VisitACity.Data.Models.Country", "Country")
-                        .WithMany("Plans")
+                        .WithMany()
                         .HasForeignKey("CountryId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("VisitACity.Data.Models.ApplicationUser", "User")
                         .WithMany("Plans")
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserId1");
 
                     b.Navigation("Country");
 
@@ -767,13 +751,13 @@ namespace VisitACity.Data.Migrations
             modelBuilder.Entity("VisitACity.Data.Models.Country", b =>
                 {
                     b.Navigation("Cities");
-
-                    b.Navigation("Plans");
                 });
 
             modelBuilder.Entity("VisitACity.Data.Models.Plan", b =>
                 {
                     b.Navigation("Attractions");
+
+                    b.Navigation("Cities");
 
                     b.Navigation("Restaurants");
                 });

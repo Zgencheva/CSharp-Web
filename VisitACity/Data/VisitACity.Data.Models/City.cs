@@ -17,12 +17,13 @@ namespace VisitACity.Data.Models
 
         public string Name { get; set; }
 
+        public bool IsDeleted { get; set ; }
+
+        public DateTime? DeletedOn { get; set ; }
+
         public virtual ICollection<Attraction> Attractions { get; set; }
 
         public virtual ICollection<Restaurant> Restaurants { get; set; }
 
-        public bool IsDeleted { get; set ; }
-
-        public DateTime? DeletedOn { get; set ; }
     }
 }

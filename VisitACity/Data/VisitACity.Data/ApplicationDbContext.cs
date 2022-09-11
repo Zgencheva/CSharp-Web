@@ -26,6 +26,20 @@
 
         public DbSet<Setting> Settings { get; set; }
 
+        public DbSet<Attraction> Attractions { get; set; }
+
+        public DbSet<AttractionReview> AttractionReviews { get; set; }
+
+        public DbSet<City> Cities { get; set; }
+
+        public DbSet<Country> Countries { get; set; }
+
+        public DbSet<Plan> Plans { get; set; }
+
+        public DbSet<Restaurant> Restaurants { get; set; }
+
+        public DbSet<RestaurantReview> RestaurantReviews { get; set; }
+
         public override int SaveChanges() => this.SaveChanges(true);
 
         public override int SaveChanges(bool acceptAllChangesOnSuccess)

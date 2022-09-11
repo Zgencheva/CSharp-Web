@@ -11,5 +11,9 @@ namespace VisitACity.Data.Models
         public int AttractionId { get; set; }
 
         public virtual Attraction Attraction { get; set; }
+
+        public string UserId { get; set; }
+
+        public virtual ApplicationUser User { get; set; }
     }
 }

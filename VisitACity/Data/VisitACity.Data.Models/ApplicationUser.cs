@@ -17,7 +17,8 @@ namespace VisitACity.Data.Models
             this.Claims = new HashSet<IdentityUserClaim<string>>();
             this.Logins = new HashSet<IdentityUserLogin<string>>();
 
-            this.Reviews = new HashSet<Review>();
+            this.AttractionReviews = new HashSet<AttractionReview>();
+            this.RestaurantReviews = new HashSet<RestaurantReview>();
             this.Plans = new HashSet<Plan>();
         }
 
@@ -37,7 +38,10 @@ namespace VisitACity.Data.Models
 
         public virtual ICollection<IdentityUserLogin<string>> Logins { get; set; }
 
-        public virtual ICollection<Review> Reviews { get; set; }
+        public virtual ICollection<RestaurantReview> RestaurantReviews { get; set; }
+
+        public virtual ICollection<AttractionReview> AttractionReviews { get; set; }
+
         public virtual ICollection<Plan> Plans { get; set; }
     }
 }

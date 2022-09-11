@@ -11,5 +11,9 @@ namespace VisitACity.Data.Models
         public int RestaurantId { get; set; }
 
         public virtual Restaurant Restaurant { get; set; }
+
+        public string UserId { get; set; }
+
+        public virtual ApplicationUser User { get; set; }
     }
 }
