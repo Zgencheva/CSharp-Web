@@ -5,10 +5,10 @@
 
     using VisitACity.Data.Common.Repositories;
     using VisitACity.Data.Models;
-    using VisitACity.Services.Data;
     using VisitACity.Web.ViewModels.Settings;
 
     using Microsoft.AspNetCore.Mvc;
+    using VisitACity.Services.Data.Contracts;
 
     public class SettingsController : BaseController
     {

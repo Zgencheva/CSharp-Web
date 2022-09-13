@@ -4,7 +4,7 @@ using VisitACity.Data.Common.Models;
 
 namespace VisitACity.Data.Models
 {
-    public class Review : BaseModel<int>, IDeletableEntity
+    public class Review : BaseDeletableModel<int>
     {
 
         public Review()
@@ -20,10 +20,6 @@ namespace VisitACity.Data.Models
         public double Rating { get; set; }
 
         public string Content { get; set; }
-
-        public bool IsDeleted { get; set; }
-
-        public DateTime? DeletedOn { get; set ; }
 
         public virtual ICollection<RestaurantReview> RestaurantReviews { get; set; }
 

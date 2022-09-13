@@ -30,6 +30,8 @@
 
         public DbSet<AttractionReview> AttractionReviews { get; set; }
 
+        public DbSet<AttractionsPlans> AttractionsPlans { get; set; }
+
         public DbSet<City> Cities { get; set; }
 
         public DbSet<Country> Countries { get; set; }
@@ -63,12 +65,6 @@
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-
-            builder.Entity<AttractionReview>()
-                .HasKey(x => new { x.ReviewId, x.AttractionId });
-
-            builder.Entity<RestaurantReview>()
-           .HasKey(x => new { x.ReviewId, x.RestaurantId });
 
             // Needed for Identity models configuration
             base.OnModelCreating(builder);

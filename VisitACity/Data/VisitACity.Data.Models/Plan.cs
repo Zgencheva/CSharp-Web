@@ -7,7 +7,7 @@ using VisitACity.Data.Common.Models;
 
 namespace VisitACity.Data.Models
 {
-    public class Plan : BaseModel<int>, IDeletableEntity
+    public class Plan : BaseDeletableModel<int>
     {
         public Plan()
         {
@@ -24,10 +24,6 @@ namespace VisitACity.Data.Models
         public virtual City City { get; set; }
 
         public int Days { get; set; }
-
-        public bool IsDeleted { get; set; }
-
-        public DateTime? DeletedOn { get; set; }
 
         public virtual ICollection<Restaurant> Restaurants { get; set; }
 

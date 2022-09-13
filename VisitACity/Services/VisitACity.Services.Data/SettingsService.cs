@@ -5,6 +5,7 @@
 
     using VisitACity.Data.Common.Repositories;
     using VisitACity.Data.Models;
+    using VisitACity.Services.Data.Contracts;
     using VisitACity.Services.Mapping;
 
     public class SettingsService : ISettingsService

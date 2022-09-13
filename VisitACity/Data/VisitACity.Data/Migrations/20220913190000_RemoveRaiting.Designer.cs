@@ -12,8 +12,8 @@ using VisitACity.Data;
 namespace VisitACity.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220913103636_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20220913190000_RemoveRaiting")]
+    partial class RemoveRaiting
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -332,14 +332,14 @@ namespace VisitACity.Data.Migrations
 
             modelBuilder.Entity("VisitACity.Data.Models.AttractionReview", b =>
                 {
-                    b.Property<string>("ReviewId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<int>("AttractionId")
                         .HasColumnType("int");
-
-                    b.Property<string>("ApplicationUserId")
-                        .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
@@ -347,8 +347,42 @@ namespace VisitACity.Data.Migrations
                     b.Property<DateTime?>("DeletedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("Id")
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("ModifiedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("ReviewId")
                         .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AttractionId");
+
+                    b.HasIndex("IsDeleted");
+
+                    b.HasIndex("ReviewId");
+
+                    b.ToTable("AttractionReviews");
+                });
+
+            modelBuilder.Entity("VisitACity.Data.Models.AttractionsPlans", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("AttractionId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedOn")
+                        .HasColumnType("datetime2");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
@@ -356,20 +390,18 @@ namespace VisitACity.Data.Migrations
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("ReviewId1")
+                    b.Property<int>("PlanId")
                         .HasColumnType("int");
 
-                    b.HasKey("ReviewId", "AttractionId");
-
-                    b.HasIndex("ApplicationUserId");
+                    b.HasKey("Id");
 
                     b.HasIndex("AttractionId");
 
                     b.HasIndex("IsDeleted");
 
-                    b.HasIndex("ReviewId1");
+                    b.HasIndex("PlanId");
 
-                    b.ToTable("AttractionReviews");
+                    b.ToTable("AttractionsPlans");
                 });
 
             modelBuilder.Entity("VisitACity.Data.Models.City", b =>
@@ -506,9 +538,6 @@ namespace VisitACity.Data.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<double>("Raiting")
-                        .HasColumnType("float");
-
                     b.HasKey("Id");
 
                     b.HasIndex("CityId");
@@ -520,14 +549,11 @@ namespace VisitACity.Data.Migrations
 
             modelBuilder.Entity("VisitACity.Data.Models.RestaurantReview", b =>
                 {
-                    b.Property<int>("ReviewId")
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<int>("RestaurantId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ApplicationUserId")
-                        .HasColumnType("nvarchar(450)");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
@@ -535,22 +561,25 @@ namespace VisitACity.Data.Migrations
                     b.Property<DateTime?>("DeletedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("Id")
-                        .HasColumnType("int");
-
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime2");
 
-                    b.HasKey("ReviewId", "RestaurantId");
+                    b.Property<int>("RestaurantId")
+                        .HasColumnType("int");
 
-                    b.HasIndex("ApplicationUserId");
+                    b.Property<int>("ReviewId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
 
                     b.HasIndex("IsDeleted");
 
                     b.HasIndex("RestaurantId");
+
+                    b.HasIndex("ReviewId");
 
                     b.ToTable("RestaurantReviews");
                 });
@@ -720,10 +749,6 @@ namespace VisitACity.Data.Migrations
 
             modelBuilder.Entity("VisitACity.Data.Models.AttractionReview", b =>
                 {
-                    b.HasOne("VisitACity.Data.Models.ApplicationUser", null)
-                        .WithMany("AttractionReviews")
-                        .HasForeignKey("ApplicationUserId");
-
                     b.HasOne("VisitACity.Data.Models.Attraction", "Attraction")
                         .WithMany("Reviews")
                         .HasForeignKey("AttractionId")
@@ -732,11 +757,32 @@ namespace VisitACity.Data.Migrations
 
                     b.HasOne("VisitACity.Data.Models.Review", "Review")
                         .WithMany("AttractionReviews")
-                        .HasForeignKey("ReviewId1");
+                        .HasForeignKey("ReviewId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.Navigation("Attraction");
 
                     b.Navigation("Review");
+                });
+
+            modelBuilder.Entity("VisitACity.Data.Models.AttractionsPlans", b =>
+                {
+                    b.HasOne("VisitACity.Data.Models.Attraction", "Attraction")
+                        .WithMany()
+                        .HasForeignKey("AttractionId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("VisitACity.Data.Models.Plan", "Plan")
+                        .WithMany()
+                        .HasForeignKey("PlanId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Attraction");
+
+                    b.Navigation("Plan");
                 });
 
             modelBuilder.Entity("VisitACity.Data.Models.City", b =>
@@ -784,10 +830,6 @@ namespace VisitACity.Data.Migrations
 
             modelBuilder.Entity("VisitACity.Data.Models.RestaurantReview", b =>
                 {
-                    b.HasOne("VisitACity.Data.Models.ApplicationUser", null)
-                        .WithMany("RestaurantReviews")
-                        .HasForeignKey("ApplicationUserId");
-
                     b.HasOne("VisitACity.Data.Models.Restaurant", "Restaurant")
                         .WithMany("Reviews")
                         .HasForeignKey("RestaurantId")
@@ -808,7 +850,7 @@ namespace VisitACity.Data.Migrations
             modelBuilder.Entity("VisitACity.Data.Models.Review", b =>
                 {
                     b.HasOne("VisitACity.Data.Models.ApplicationUser", "User")
-                        .WithMany()
+                        .WithMany("Reviews")
                         .HasForeignKey("UserId");
 
                     b.Navigation("User");
@@ -816,15 +858,13 @@ namespace VisitACity.Data.Migrations
 
             modelBuilder.Entity("VisitACity.Data.Models.ApplicationUser", b =>
                 {
-                    b.Navigation("AttractionReviews");
-
                     b.Navigation("Claims");
 
                     b.Navigation("Logins");
 
                     b.Navigation("Plans");
 
-                    b.Navigation("RestaurantReviews");
+                    b.Navigation("Reviews");
 
                     b.Navigation("Roles");
                 });

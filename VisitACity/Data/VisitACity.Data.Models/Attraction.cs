@@ -6,7 +6,7 @@ using VisitACity.Data.Models.Enums;
 
 namespace VisitACity.Data.Models
 {
-    public class Attraction : BaseModel<int>, IDeletableEntity
+    public class Attraction : BaseDeletableModel<int>
     {
         public Attraction()
         {
@@ -29,10 +29,6 @@ namespace VisitACity.Data.Models
         public int CityId { get; set; }
 
         public virtual City City { get; set; }
-
-        public bool IsDeleted { get ; set; }
-
-        public DateTime? DeletedOn { get; set; }
 
         public virtual ICollection<AttractionReview> Reviews { get; set; }
 

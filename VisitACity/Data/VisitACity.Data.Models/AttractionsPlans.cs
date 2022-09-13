@@ -7,14 +7,15 @@ using VisitACity.Data.Common.Models;
 
 namespace VisitACity.Data.Models
 {
-    public class AttractionReview : BaseDeletableModel<int>
+    public class AttractionsPlans : BaseDeletableModel<int>
     {
         public int AttractionId { get; set; }
 
         public virtual Attraction Attraction { get; set; }
 
-        public int ReviewId { get; set; }
+        public int PlanId { get; set; }
 
-        public virtual Review Review { get; set; }
+        public virtual Plan Plan { get; set; }
+
     }
 }

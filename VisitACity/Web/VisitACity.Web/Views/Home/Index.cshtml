@@ -1,9 +1,17 @@
-﻿@using VisitACity.Common
+
+@using VisitACity.Common
 @{
     this.ViewData["Title"] = "Home Page";
 }
 
 <div class="text-center">
     <h1 class="display-4">Welcome to @GlobalConstants.SystemName!</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <h3 style="margin-top:50px"; class="display-12">Where are you travelling to?</h3>
+   <div class="container">
+   <div class="input-group" style="margin-top:50px">
+        <input type="text" class="form-control py-2" value="" placeholder="City" />
+      <button class="btn btn-outline-primary border-right-0 border" 
+         type="button">Search</button>
+    </div>
+</div>
 </div>

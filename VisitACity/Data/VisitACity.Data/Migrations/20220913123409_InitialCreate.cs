@@ -204,10 +204,10 @@ namespace VisitACity.Data.Migrations
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     Rating = table.Column<double>(type: "float", nullable: false),
                     Content = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
-                    DeletedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true)
+                    ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    DeletedOn = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -227,10 +227,10 @@ namespace VisitACity.Data.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CountryId = table.Column<int>(type: "int", nullable: false),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
-                    DeletedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true)
+                    ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    DeletedOn = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -255,11 +255,12 @@ namespace VisitACity.Data.Migrations
                     ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Address = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Raiting = table.Column<double>(type: "float", nullable: false),
                     CityId = table.Column<int>(type: "int", nullable: false),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
-                    DeletedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true)
+                    ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    DeletedOn = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -281,11 +282,11 @@ namespace VisitACity.Data.Migrations
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     CityId = table.Column<int>(type: "int", nullable: false),
                     Days = table.Column<int>(type: "int", nullable: false),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
-                    DeletedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
                     CountryId = table.Column<int>(type: "int", nullable: true),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true)
+                    ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    DeletedOn = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -319,10 +320,10 @@ namespace VisitACity.Data.Migrations
                     Address = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Raiting = table.Column<double>(type: "float", nullable: false),
                     CityId = table.Column<int>(type: "int", nullable: false),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
-                    DeletedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true)
+                    ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    DeletedOn = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -339,24 +340,18 @@ namespace VisitACity.Data.Migrations
                 name: "AttractionReviews",
                 columns: table => new
                 {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     AttractionId = table.Column<int>(type: "int", nullable: false),
-                    ReviewId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    ReviewId1 = table.Column<int>(type: "int", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
-                    DeletedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    ApplicationUserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    Id = table.Column<int>(type: "int", nullable: false),
+                    ReviewId = table.Column<int>(type: "int", nullable: false),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true)
+                    ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    DeletedOn = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AttractionReviews", x => new { x.ReviewId, x.AttractionId });
-                    table.ForeignKey(
-                        name: "FK_AttractionReviews_AspNetUsers_ApplicationUserId",
-                        column: x => x.ApplicationUserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id");
+                    table.PrimaryKey("PK_AttractionReviews", x => x.Id);
                     table.ForeignKey(
                         name: "FK_AttractionReviews_Attractions_AttractionId",
                         column: x => x.AttractionId,
@@ -364,10 +359,11 @@ namespace VisitACity.Data.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_AttractionReviews_Reviews_ReviewId1",
-                        column: x => x.ReviewId1,
+                        name: "FK_AttractionReviews_Reviews_ReviewId",
+                        column: x => x.ReviewId,
                         principalTable: "Reviews",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -389,6 +385,36 @@ namespace VisitACity.Data.Migrations
                     table.ForeignKey(
                         name: "FK_AttractionPlan_Plans_PlansId",
                         column: x => x.PlansId,
+                        principalTable: "Plans",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AttractionsPlans",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    AttractionId = table.Column<int>(type: "int", nullable: false),
+                    PlanId = table.Column<int>(type: "int", nullable: false),
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    DeletedOn = table.Column<DateTime>(type: "datetime2", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AttractionsPlans", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_AttractionsPlans_Attractions_AttractionId",
+                        column: x => x.AttractionId,
+                        principalTable: "Attractions",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_AttractionsPlans_Plans_PlanId",
+                        column: x => x.PlanId,
                         principalTable: "Plans",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -422,23 +448,18 @@ namespace VisitACity.Data.Migrations
                 name: "RestaurantReviews",
                 columns: table => new
                 {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     RestaurantId = table.Column<int>(type: "int", nullable: false),
                     ReviewId = table.Column<int>(type: "int", nullable: false),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
-                    DeletedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    ApplicationUserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    Id = table.Column<int>(type: "int", nullable: false),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true)
+                    ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    DeletedOn = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_RestaurantReviews", x => new { x.ReviewId, x.RestaurantId });
-                    table.ForeignKey(
-                        name: "FK_RestaurantReviews_AspNetUsers_ApplicationUserId",
-                        column: x => x.ApplicationUserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id");
+                    table.PrimaryKey("PK_RestaurantReviews", x => x.Id);
                     table.ForeignKey(
                         name: "FK_RestaurantReviews_Restaurants_RestaurantId",
                         column: x => x.RestaurantId,
@@ -508,11 +529,6 @@ namespace VisitACity.Data.Migrations
                 column: "PlansId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_AttractionReviews_ApplicationUserId",
-                table: "AttractionReviews",
-                column: "ApplicationUserId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_AttractionReviews_AttractionId",
                 table: "AttractionReviews",
                 column: "AttractionId");
@@ -523,9 +539,9 @@ namespace VisitACity.Data.Migrations
                 column: "IsDeleted");
 
             migrationBuilder.CreateIndex(
-                name: "IX_AttractionReviews_ReviewId1",
+                name: "IX_AttractionReviews_ReviewId",
                 table: "AttractionReviews",
-                column: "ReviewId1");
+                column: "ReviewId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Attractions_CityId",
@@ -536,6 +552,21 @@ namespace VisitACity.Data.Migrations
                 name: "IX_Attractions_IsDeleted",
                 table: "Attractions",
                 column: "IsDeleted");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AttractionsPlans_AttractionId",
+                table: "AttractionsPlans",
+                column: "AttractionId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AttractionsPlans_IsDeleted",
+                table: "AttractionsPlans",
+                column: "IsDeleted");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AttractionsPlans_PlanId",
+                table: "AttractionsPlans",
+                column: "PlanId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Cities_CountryId",
@@ -573,11 +604,6 @@ namespace VisitACity.Data.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_RestaurantReviews_ApplicationUserId",
-                table: "RestaurantReviews",
-                column: "ApplicationUserId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_RestaurantReviews_IsDeleted",
                 table: "RestaurantReviews",
                 column: "IsDeleted");
@@ -586,6 +612,11 @@ namespace VisitACity.Data.Migrations
                 name: "IX_RestaurantReviews_RestaurantId",
                 table: "RestaurantReviews",
                 column: "RestaurantId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_RestaurantReviews_ReviewId",
+                table: "RestaurantReviews",
+                column: "ReviewId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Restaurants_CityId",
@@ -635,6 +666,9 @@ namespace VisitACity.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "AttractionReviews");
+
+            migrationBuilder.DropTable(
+                name: "AttractionsPlans");
 
             migrationBuilder.DropTable(
                 name: "PlanRestaurant");

@@ -1,4 +1,4 @@
-﻿namespace VisitACity.Services.Data
+﻿namespace VisitACity.Services.Data.Contracts
 {
     using System.Collections.Generic;
 
