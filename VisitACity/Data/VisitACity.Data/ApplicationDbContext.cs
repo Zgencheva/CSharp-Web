@@ -40,6 +40,8 @@
 
         public DbSet<RestaurantReview> RestaurantReviews { get; set; }
 
+        public DbSet<Review> Reviews { get; set; }
+
         public override int SaveChanges() => this.SaveChanges(true);
 
         public override int SaveChanges(bool acceptAllChangesOnSuccess)
@@ -61,6 +63,13 @@
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
+
+            builder.Entity<AttractionReview>()
+                .HasKey(x => new { x.ReviewId, x.AttractionId });
+
+            builder.Entity<RestaurantReview>()
+           .HasKey(x => new { x.ReviewId, x.RestaurantId });
+
             // Needed for Identity models configuration
             base.OnModelCreating(builder);
 

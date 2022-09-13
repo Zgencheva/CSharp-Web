@@ -10,7 +10,7 @@ namespace VisitACity.Data.Models
     {
         public Attraction()
         {
-            this.AttractionReviews = new HashSet<AttractionReview>();
+            this.Reviews = new HashSet<AttractionReview>();
             this.Plans = new HashSet<Plan>();
         }
 
@@ -34,9 +34,9 @@ namespace VisitACity.Data.Models
 
         public DateTime? DeletedOn { get; set; }
 
-        public ICollection<AttractionReview> AttractionReviews { get; set; }
+        public virtual ICollection<AttractionReview> Reviews { get; set; }
 
-        public ICollection<Plan> Plans { get; set; }
+        public virtual ICollection<Plan> Plans { get; set; }
 
     }
 }

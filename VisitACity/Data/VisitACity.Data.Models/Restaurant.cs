@@ -8,7 +8,7 @@ namespace VisitACity.Data.Models
     {
         public Restaurant()
         {
-            this.RestaurantReviews = new HashSet<RestaurantReview>();
+            this.Reviews = new HashSet<RestaurantReview>();
             this.Plans = new HashSet<Plan>();
         }
 
@@ -28,7 +28,7 @@ namespace VisitACity.Data.Models
 
         public DateTime? DeletedOn { get; set; }
 
-        public virtual ICollection<RestaurantReview> RestaurantReviews { get; set; }
+        public virtual ICollection<RestaurantReview> Reviews { get; set; }
 
         public virtual ICollection<Plan> Plans { get; set; }
     }

@@ -330,17 +330,14 @@ namespace VisitACity.Data.Migrations
 
             modelBuilder.Entity("VisitACity.Data.Models.AttractionReview", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    b.Property<string>("ReviewId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("AttractionId")
                         .HasColumnType("int");
 
-                    b.Property<string>("Content")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<string>("ApplicationUserId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
@@ -348,25 +345,27 @@ namespace VisitACity.Data.Migrations
                     b.Property<DateTime?>("DeletedOn")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("Id")
+                        .HasColumnType("int");
+
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<double>("Rating")
-                        .HasColumnType("float");
+                    b.Property<int?>("ReviewId1")
+                        .HasColumnType("int");
 
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
+                    b.HasKey("ReviewId", "AttractionId");
 
-                    b.HasKey("Id");
+                    b.HasIndex("ApplicationUserId");
 
                     b.HasIndex("AttractionId");
 
                     b.HasIndex("IsDeleted");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("ReviewId1");
 
                     b.ToTable("AttractionReviews");
                 });
@@ -519,6 +518,43 @@ namespace VisitACity.Data.Migrations
 
             modelBuilder.Entity("VisitACity.Data.Models.RestaurantReview", b =>
                 {
+                    b.Property<int>("ReviewId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("RestaurantId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ApplicationUserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("Id")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("ModifiedOn")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("ReviewId", "RestaurantId");
+
+                    b.HasIndex("ApplicationUserId");
+
+                    b.HasIndex("IsDeleted");
+
+                    b.HasIndex("RestaurantId");
+
+                    b.ToTable("RestaurantReviews");
+                });
+
+            modelBuilder.Entity("VisitACity.Data.Models.Review", b =>
+                {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
@@ -543,9 +579,6 @@ namespace VisitACity.Data.Migrations
                     b.Property<double>("Rating")
                         .HasColumnType("float");
 
-                    b.Property<int>("RestaurantId")
-                        .HasColumnType("int");
-
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
 
@@ -553,11 +586,9 @@ namespace VisitACity.Data.Migrations
 
                     b.HasIndex("IsDeleted");
 
-                    b.HasIndex("RestaurantId");
-
                     b.HasIndex("UserId");
 
-                    b.ToTable("RestaurantReviews");
+                    b.ToTable("Reviews");
                 });
 
             modelBuilder.Entity("VisitACity.Data.Models.Setting", b =>
@@ -687,19 +718,23 @@ namespace VisitACity.Data.Migrations
 
             modelBuilder.Entity("VisitACity.Data.Models.AttractionReview", b =>
                 {
-                    b.HasOne("VisitACity.Data.Models.Attraction", "Attraction")
+                    b.HasOne("VisitACity.Data.Models.ApplicationUser", null)
                         .WithMany("AttractionReviews")
+                        .HasForeignKey("ApplicationUserId");
+
+                    b.HasOne("VisitACity.Data.Models.Attraction", "Attraction")
+                        .WithMany("Reviews")
                         .HasForeignKey("AttractionId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("VisitACity.Data.Models.ApplicationUser", "User")
+                    b.HasOne("VisitACity.Data.Models.Review", "Review")
                         .WithMany("AttractionReviews")
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("ReviewId1");
 
                     b.Navigation("Attraction");
 
-                    b.Navigation("User");
+                    b.Navigation("Review");
                 });
 
             modelBuilder.Entity("VisitACity.Data.Models.City", b =>
@@ -747,17 +782,32 @@ namespace VisitACity.Data.Migrations
 
             modelBuilder.Entity("VisitACity.Data.Models.RestaurantReview", b =>
                 {
-                    b.HasOne("VisitACity.Data.Models.Restaurant", "Restaurant")
+                    b.HasOne("VisitACity.Data.Models.ApplicationUser", null)
                         .WithMany("RestaurantReviews")
+                        .HasForeignKey("ApplicationUserId");
+
+                    b.HasOne("VisitACity.Data.Models.Restaurant", "Restaurant")
+                        .WithMany("Reviews")
                         .HasForeignKey("RestaurantId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("VisitACity.Data.Models.ApplicationUser", "User")
+                    b.HasOne("VisitACity.Data.Models.Review", "Review")
                         .WithMany("RestaurantReviews")
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("ReviewId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.Navigation("Restaurant");
+
+                    b.Navigation("Review");
+                });
+
+            modelBuilder.Entity("VisitACity.Data.Models.Review", b =>
+                {
+                    b.HasOne("VisitACity.Data.Models.ApplicationUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
 
                     b.Navigation("User");
                 });
@@ -779,7 +829,7 @@ namespace VisitACity.Data.Migrations
 
             modelBuilder.Entity("VisitACity.Data.Models.Attraction", b =>
                 {
-                    b.Navigation("AttractionReviews");
+                    b.Navigation("Reviews");
                 });
 
             modelBuilder.Entity("VisitACity.Data.Models.City", b =>
@@ -800,6 +850,13 @@ namespace VisitACity.Data.Migrations
 
             modelBuilder.Entity("VisitACity.Data.Models.Restaurant", b =>
                 {
+                    b.Navigation("Reviews");
+                });
+
+            modelBuilder.Entity("VisitACity.Data.Models.Review", b =>
+                {
+                    b.Navigation("AttractionReviews");
+
                     b.Navigation("RestaurantReviews");
                 });
 #pragma warning restore 612, 618
