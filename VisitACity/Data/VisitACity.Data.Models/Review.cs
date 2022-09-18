@@ -1,9 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using VisitACity.Data.Common.Models;
-
-namespace VisitACity.Data.Models
+﻿namespace VisitACity.Data.Models
 {
+    using System;
+    using System.Collections.Generic;
+
+    using VisitACity.Data.Common.Models;
+
     public class Review : BaseDeletableModel<int>
     {
 

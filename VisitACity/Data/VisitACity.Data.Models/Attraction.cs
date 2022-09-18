@@ -1,11 +1,12 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using VisitACity.Data.Common.Models;
-using VisitACity.Data.Models.Enums;
-
-namespace VisitACity.Data.Models
+﻿namespace VisitACity.Data.Models
 {
+    using System;
+    using System.Collections;
+    using System.Collections.Generic;
+
+    using VisitACity.Data.Common.Models;
+    using VisitACity.Data.Models.Enums;
+
     public class Attraction : BaseDeletableModel<int>
     {
         public Attraction()
