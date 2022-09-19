@@ -5,6 +5,11 @@
     using System.IO;
     using System.Threading.Tasks;
 
+    using CommandLine;
+    using Microsoft.EntityFrameworkCore;
+    using Microsoft.Extensions.Configuration;
+    using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.Extensions.Logging;
     using VisitACity.Data;
     using VisitACity.Data.Common;
     using VisitACity.Data.Common.Repositories;
@@ -12,15 +17,8 @@
     using VisitACity.Data.Repositories;
     using VisitACity.Data.Seeding;
     using VisitACity.Services.Data;
-    using VisitACity.Services.Messaging;
-
-    using CommandLine;
-
-    using Microsoft.EntityFrameworkCore;
-    using Microsoft.Extensions.Configuration;
-    using Microsoft.Extensions.DependencyInjection;
-    using Microsoft.Extensions.Logging;
     using VisitACity.Services.Data.Contracts;
+    using VisitACity.Services.Messaging;
 
     public static class Program
     {

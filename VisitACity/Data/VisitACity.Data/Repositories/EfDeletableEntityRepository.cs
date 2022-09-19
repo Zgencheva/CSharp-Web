@@ -3,10 +3,9 @@
     using System;
     using System.Linq;
 
+    using Microsoft.EntityFrameworkCore;
     using VisitACity.Data.Common.Models;
     using VisitACity.Data.Common.Repositories;
-
-    using Microsoft.EntityFrameworkCore;
 
     public class EfDeletableEntityRepository<TEntity> : EfRepository<TEntity>, IDeletableEntityRepository<TEntity>
         where TEntity : class, IDeletableEntity

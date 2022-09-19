@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using VisitACity.Data;
 
@@ -11,9 +12,10 @@ using VisitACity.Data;
 namespace VisitACity.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220919114829_Images")]
+    partial class Images
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -451,12 +453,6 @@ namespace VisitACity.Data.Migrations
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime?>("DeletedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime2");
 
@@ -464,8 +460,6 @@ namespace VisitACity.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("IsDeleted");
 
                     b.ToTable("Countries");
                 });
@@ -505,6 +499,9 @@ namespace VisitACity.Data.Migrations
                     b.Property<int>("CityId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("CountryId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
 
@@ -523,6 +520,8 @@ namespace VisitACity.Data.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CityId");
+
+                    b.HasIndex("CountryId");
 
                     b.HasIndex("IsDeleted");
 
@@ -840,6 +839,10 @@ namespace VisitACity.Data.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.HasOne("VisitACity.Data.Models.Country", null)
+                        .WithMany("Plans")
+                        .HasForeignKey("CountryId");
+
                     b.HasOne("VisitACity.Data.Models.ApplicationUser", "User")
                         .WithMany("Plans")
                         .HasForeignKey("UserId");
@@ -920,6 +923,8 @@ namespace VisitACity.Data.Migrations
             modelBuilder.Entity("VisitACity.Data.Models.Country", b =>
                 {
                     b.Navigation("Cities");
+
+                    b.Navigation("Plans");
                 });
 
             modelBuilder.Entity("VisitACity.Data.Models.Restaurant", b =>

@@ -3,9 +3,8 @@ namespace VisitACity.Data.Models
 {
     using System;
 
-    using VisitACity.Data.Common.Models;
-
     using Microsoft.AspNetCore.Identity;
+    using VisitACity.Data.Common.Models;
 
     public class ApplicationRole : IdentityRole, IAuditInfo, IDeletableEntity
     {

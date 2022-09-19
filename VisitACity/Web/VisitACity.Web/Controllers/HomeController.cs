@@ -2,15 +2,22 @@
 {
     using System.Diagnostics;
 
-    using VisitACity.Web.ViewModels;
-
     using Microsoft.AspNetCore.Mvc;
+    using VisitACity.Web.ViewModels;
+    using VisitACity.Web.ViewModels.Home;
 
     public class HomeController : BaseController
     {
         public IActionResult Index()
         {
-            return this.View();
+            var viewModel = new IndexViewModel
+            {
+                CitiesCount = 0,
+                AttractionsCount = 0,
+                RestaurantCount = 0,
+                BestAttractions = null,
+            };
+            return this.View(viewModel);
         }
   
         public IActionResult Privacy()

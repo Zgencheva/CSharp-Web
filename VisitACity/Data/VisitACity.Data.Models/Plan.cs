@@ -24,8 +24,6 @@
 
         public virtual City City { get; set; }
 
-        public int Days { get; set; }
-
         public virtual ICollection<Restaurant> Restaurants { get; set; }
 
         public virtual ICollection<Attraction> Attractions { get; set; }

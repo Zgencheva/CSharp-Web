@@ -3,9 +3,8 @@
     using System;
     using System.Threading.Tasks;
 
-    using VisitACity.Data.Common;
-
     using Microsoft.EntityFrameworkCore;
+    using VisitACity.Data.Common;
 
     public class DbQueryRunner : IDbQueryRunner
     {

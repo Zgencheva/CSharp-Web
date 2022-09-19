@@ -2,17 +2,6 @@
 {
     using System.Reflection;
 
-    using VisitACity.Data;
-    using VisitACity.Data.Common;
-    using VisitACity.Data.Common.Repositories;
-    using VisitACity.Data.Models;
-    using VisitACity.Data.Repositories;
-    using VisitACity.Data.Seeding;
-    using VisitACity.Services.Data;
-    using VisitACity.Services.Mapping;
-    using VisitACity.Services.Messaging;
-    using VisitACity.Web.ViewModels;
-
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
@@ -20,7 +9,17 @@
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
+    using VisitACity.Data;
+    using VisitACity.Data.Common;
+    using VisitACity.Data.Common.Repositories;
+    using VisitACity.Data.Models;
+    using VisitACity.Data.Repositories;
+    using VisitACity.Data.Seeding;
+    using VisitACity.Services.Data;
     using VisitACity.Services.Data.Contracts;
+    using VisitACity.Services.Mapping;
+    using VisitACity.Services.Messaging;
+    using VisitACity.Web.ViewModels;
 
     public class Program
     {

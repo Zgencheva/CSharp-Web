@@ -1,10 +1,12 @@
-
 @using VisitACity.Common
+@using VisitACity.Web.ViewModels.Home
+@model IndexViewModel
 @{
     this.ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
+<form>
+    <div class="text-center">
     <h1 class="display-4">Welcome to @GlobalConstants.SystemName!</h1>
     <h3 style="margin-top:50px"; class="display-12">Where are you travelling to?</h3>
    <div class="container">
@@ -26,4 +28,19 @@
   <label class="form-check-label" for="exampleRadios2">
     Restaurants
   </label>
+</div>
+</form>
+
+<div class="h-10 d-inline-block, container" style="position:absolute; background-color: whitesmoke">
+  <div class="row">
+    <div class="col-sm">
+    @Model.CitiesCount Cities
+    </div>
+    <div class="col-sm">
+      @Model.AttractionsCount Attractions
+    </div>
+    <div class="col-sm">
+      @Model.RestaurantCount Restaurants
+    </div>
+  </div>
 </div>

@@ -8,18 +8,15 @@
 
     using VisitACity.Data.Common.Models;
 
-    public class Country : BaseModel<int>
+    public class Country : BaseDeletableModel<int>
     {
         public Country()
         {
             this.Cities = new HashSet<City>();
-            this.Plans = new HashSet<Plan>();
         }
 
         public string Name { get; set; }
 
         public virtual ICollection<City> Cities { get; set; }
-
-        public virtual ICollection<Plan> Plans { get; set; }
     }
 }

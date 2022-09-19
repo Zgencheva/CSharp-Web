@@ -3,12 +3,11 @@
     using System;
     using System.Threading.Tasks;
 
+    using Microsoft.AspNetCore.Mvc;
     using VisitACity.Data.Common.Repositories;
     using VisitACity.Data.Models;
-    using VisitACity.Web.ViewModels.Settings;
-
-    using Microsoft.AspNetCore.Mvc;
     using VisitACity.Services.Data.Contracts;
+    using VisitACity.Web.ViewModels.Settings;
 
     public class SettingsController : BaseController
     {

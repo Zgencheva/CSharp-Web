@@ -2,9 +2,8 @@
 {
     using System.Linq;
 
-    using VisitACity.Data.Common.Models;
-
     using Microsoft.EntityFrameworkCore;
+    using VisitACity.Data.Common.Models;
 
     internal static class EntityIndexesConfiguration
     {

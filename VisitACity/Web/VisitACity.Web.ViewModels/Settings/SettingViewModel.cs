@@ -1,9 +1,8 @@
 ﻿namespace VisitACity.Web.ViewModels.Settings
 {
+    using AutoMapper;
     using VisitACity.Data.Models;
     using VisitACity.Services.Mapping;
-
-    using AutoMapper;
 
     public class SettingViewModel : IMapFrom<Setting>, IHaveCustomMappings
     {

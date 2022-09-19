@@ -1,9 +1,8 @@
 ﻿namespace VisitACity.Web.Areas.Administration.Controllers
 {
-    using VisitACity.Web.ViewModels.Administration.Dashboard;
-
     using Microsoft.AspNetCore.Mvc;
     using VisitACity.Services.Data.Contracts;
+    using VisitACity.Web.ViewModels.Administration.Dashboard;
 
     public class DashboardController : AdministrationController
     {

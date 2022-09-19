@@ -4,11 +4,10 @@
     using System.Linq;
     using System.Threading.Tasks;
 
-    using VisitACity.Common;
-    using VisitACity.Data.Models;
-
     using Microsoft.AspNetCore.Identity;
     using Microsoft.Extensions.DependencyInjection;
+    using VisitACity.Common;
+    using VisitACity.Data.Models;
 
     internal class RolesSeeder : ISeeder
     {
