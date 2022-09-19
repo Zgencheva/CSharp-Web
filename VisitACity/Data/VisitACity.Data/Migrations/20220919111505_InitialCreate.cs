@@ -1,11 +1,10 @@
-﻿#nullable disable
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
+
+#nullable disable
 
 namespace VisitACity.Data.Migrations
 {
-    using System;
-
-    using Microsoft.EntityFrameworkCore.Migrations;
-
     public partial class InitialCreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -256,7 +255,6 @@ namespace VisitACity.Data.Migrations
                     ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Address = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Raiting = table.Column<double>(type: "float", nullable: false),
                     CityId = table.Column<int>(type: "int", nullable: false),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
@@ -319,7 +317,6 @@ namespace VisitACity.Data.Migrations
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Address = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Raiting = table.Column<double>(type: "float", nullable: false),
                     CityId = table.Column<int>(type: "int", nullable: false),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
@@ -338,7 +335,7 @@ namespace VisitACity.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "AttractionReviews",
+                name: "AttractionsReviews",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -352,17 +349,38 @@ namespace VisitACity.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AttractionReviews", x => x.Id);
+                    table.PrimaryKey("PK_AttractionsReviews", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_AttractionReviews_Attractions_AttractionId",
+                        name: "FK_AttractionsReviews_Attractions_AttractionId",
                         column: x => x.AttractionId,
                         principalTable: "Attractions",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_AttractionReviews_Reviews_ReviewId",
+                        name: "FK_AttractionsReviews_Reviews_ReviewId",
                         column: x => x.ReviewId,
                         principalTable: "Reviews",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Images",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Extension = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    AttractionId = table.Column<int>(type: "int", nullable: false),
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Images", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Images_Attractions_AttractionId",
+                        column: x => x.AttractionId,
+                        principalTable: "Attractions",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -530,21 +548,6 @@ namespace VisitACity.Data.Migrations
                 column: "PlansId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_AttractionReviews_AttractionId",
-                table: "AttractionReviews",
-                column: "AttractionId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_AttractionReviews_IsDeleted",
-                table: "AttractionReviews",
-                column: "IsDeleted");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_AttractionReviews_ReviewId",
-                table: "AttractionReviews",
-                column: "ReviewId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Attractions_CityId",
                 table: "Attractions",
                 column: "CityId");
@@ -570,6 +573,21 @@ namespace VisitACity.Data.Migrations
                 column: "PlanId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_AttractionsReviews_AttractionId",
+                table: "AttractionsReviews",
+                column: "AttractionId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AttractionsReviews_IsDeleted",
+                table: "AttractionsReviews",
+                column: "IsDeleted");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AttractionsReviews_ReviewId",
+                table: "AttractionsReviews",
+                column: "ReviewId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Cities_CountryId",
                 table: "Cities",
                 column: "CountryId");
@@ -578,6 +596,11 @@ namespace VisitACity.Data.Migrations
                 name: "IX_Cities_IsDeleted",
                 table: "Cities",
                 column: "IsDeleted");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Images_AttractionId",
+                table: "Images",
+                column: "AttractionId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_PlanRestaurant_RestaurantsId",
@@ -666,10 +689,13 @@ namespace VisitACity.Data.Migrations
                 name: "AttractionPlan");
 
             migrationBuilder.DropTable(
-                name: "AttractionReviews");
+                name: "AttractionsPlans");
 
             migrationBuilder.DropTable(
-                name: "AttractionsPlans");
+                name: "AttractionsReviews");
+
+            migrationBuilder.DropTable(
+                name: "Images");
 
             migrationBuilder.DropTable(
                 name: "PlanRestaurant");

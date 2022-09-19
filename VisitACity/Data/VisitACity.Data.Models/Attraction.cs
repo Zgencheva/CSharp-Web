@@ -13,6 +13,7 @@
         {
             this.Reviews = new HashSet<AttractionReview>();
             this.Plans = new HashSet<Plan>();
+            this.Images = new HashSet<Image>();
         }
 
         public string Name { get; set; }
@@ -34,6 +35,8 @@
         public virtual ICollection<AttractionReview> Reviews { get; set; }
 
         public virtual ICollection<Plan> Plans { get; set; }
+
+        public virtual ICollection<Image> Images { get; set; }
 
     }
 }

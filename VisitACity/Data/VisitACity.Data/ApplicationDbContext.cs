@@ -6,11 +6,10 @@
     using System.Threading;
     using System.Threading.Tasks;
 
-    using VisitACity.Data.Common.Models;
-    using VisitACity.Data.Models;
-
     using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore;
+    using VisitACity.Data.Common.Models;
+    using VisitACity.Data.Models;
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, string>
     {
@@ -28,7 +27,7 @@
 
         public DbSet<Attraction> Attractions { get; set; }
 
-        public DbSet<AttractionReview> AttractionReviews { get; set; }
+        public DbSet<AttractionReview> AttractionsReviews { get; set; }
 
         public DbSet<AttractionsPlans> AttractionsPlans { get; set; }
 
@@ -43,6 +42,8 @@
         public DbSet<RestaurantReview> RestaurantReviews { get; set; }
 
         public DbSet<Review> Reviews { get; set; }
+
+        public DbSet<Image> Images { get; set; }
 
         public override int SaveChanges() => this.SaveChanges(true);
 
@@ -65,7 +66,6 @@
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-
             // Needed for Identity models configuration
             base.OnModelCreating(builder);
 

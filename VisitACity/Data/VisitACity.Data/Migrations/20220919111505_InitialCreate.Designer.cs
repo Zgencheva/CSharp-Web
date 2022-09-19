@@ -12,8 +12,8 @@ using VisitACity.Data;
 namespace VisitACity.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220913190000_RemoveRaiting")]
-    partial class RemoveRaiting
+    [Migration("20220919111505_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -364,7 +364,7 @@ namespace VisitACity.Data.Migrations
 
                     b.HasIndex("ReviewId");
 
-                    b.ToTable("AttractionReviews");
+                    b.ToTable("AttractionsReviews");
                 });
 
             modelBuilder.Entity("VisitACity.Data.Models.AttractionsPlans", b =>
@@ -459,6 +459,30 @@ namespace VisitACity.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Countries");
+                });
+
+            modelBuilder.Entity("VisitACity.Data.Models.Image", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("AttractionId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Extension")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("ModifiedOn")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AttractionId");
+
+                    b.ToTable("Images");
                 });
 
             modelBuilder.Entity("VisitACity.Data.Models.Plan", b =>
@@ -796,6 +820,17 @@ namespace VisitACity.Data.Migrations
                     b.Navigation("Country");
                 });
 
+            modelBuilder.Entity("VisitACity.Data.Models.Image", b =>
+                {
+                    b.HasOne("VisitACity.Data.Models.Attraction", "Attraction")
+                        .WithMany("Images")
+                        .HasForeignKey("AttractionId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Attraction");
+                });
+
             modelBuilder.Entity("VisitACity.Data.Models.Plan", b =>
                 {
                     b.HasOne("VisitACity.Data.Models.City", "City")
@@ -871,6 +906,8 @@ namespace VisitACity.Data.Migrations
 
             modelBuilder.Entity("VisitACity.Data.Models.Attraction", b =>
                 {
+                    b.Navigation("Images");
+
                     b.Navigation("Reviews");
                 });
 
