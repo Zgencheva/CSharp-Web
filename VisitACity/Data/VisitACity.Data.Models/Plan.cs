@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
     using System.Linq;
     using System.Text;
     using System.Threading.Tasks;
@@ -16,6 +17,7 @@
             this.Restaurants = new HashSet<Restaurant>();
         }
 
+        [Required]
         public string UserId { get; set; }
 
         public virtual ApplicationUser User { get; set; }
@@ -23,6 +25,10 @@
         public int CityId { get; set; }
 
         public virtual City City { get; set; }
+
+        public DateTime FromDate { get; set; }
+
+        public DateTime ToDate { get; set; }
 
         public virtual ICollection<Restaurant> Restaurants { get; set; }
 

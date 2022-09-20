@@ -23,13 +23,13 @@
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                        </li>                    
+                           <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Plans" asp-action="Create">Create Plan</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Settings" asp-action="Index">Settings</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Plans" asp-action="MyPlans">My plans</a>
+                            </li>
                     </ul>
                     <partial name="_LoginPartial" />
                 </div>

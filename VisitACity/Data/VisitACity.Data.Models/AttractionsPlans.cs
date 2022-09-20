@@ -17,6 +17,5 @@
         public int PlanId { get; set; }
 
         public virtual Plan Plan { get; set; }
-
     }
 }

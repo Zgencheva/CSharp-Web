@@ -21,6 +21,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Data\VisitACity.Data.Models\VisitACity.Data.Models.csproj" />
     <ProjectReference Include="..\..\Services\VisitACity.Services.Mapping\VisitACity.Services.Mapping.csproj" />
+    <ProjectReference Include="..\VisitACity.Web.Infrastructure\VisitACity.Web.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>
