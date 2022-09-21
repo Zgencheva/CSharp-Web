@@ -18,9 +18,15 @@
             this.plansService = plansService;
         }
 
-        public IActionResult MyPlans()
+        public async Task<IActionResult> MyPlans()
         {
-            return this.View();
+            var userId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var plansViewModel = await this.plansService.GetUserPlansAsync(userId);
+            var viewModel = new UserPlansViewModel
+            {
+                Plans = plansViewModel,
+            };
+            return this.View(viewModel);
         }
 
         [Authorize]
@@ -53,7 +59,7 @@
                 return this.View(input);
             }
 
-            return this.RedirectToAction(nameof(MyPlans));
+            return this.RedirectToAction(nameof(this.MyPlans));
         }
     }
 }

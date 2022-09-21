@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace VisitACity.Web.ViewModels.Attractions
 {
-    public class MyAttractionsViewModel
+    public class UserAttractionsViewModel
     {
+        public IEnumerable<AttractionViewModel> MyAttractions { get; set; }
     }
 }

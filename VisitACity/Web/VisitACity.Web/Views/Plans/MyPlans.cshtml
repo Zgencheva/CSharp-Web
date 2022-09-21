@@ -1,4 +1,15 @@
-﻿@{
+﻿@model VisitACity.Web.ViewModels.Plans.UserPlansViewModel
+@{
     this.ViewData["Title"] = "My plans";
 }
-<div class="text-center">You did not yet create any plans.</div>
+
+@if (Model.Plans.Count() == 0)
+{
+     <div class="text-center">You have no plans yet. Create your first plan 
+         <a href="\Plans\Create">Here</a>
+     </div>
+}
+@foreach (var item in Model.Plans)
+{
+    <div class="text-center">@item.City</div>
+}
