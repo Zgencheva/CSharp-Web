@@ -3,10 +3,15 @@
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
+
     using VisitACity.Web.Infrastructure.ValidationAttributes;
 
     public class CreatePlanInputModel : IValidatableObject
     {
+        [Required]
+        [MaxLength(100)]
+        public string Country { get; set; }
+
         [Required]
         [MaxLength(100)]
         public string City { get; set; }
@@ -21,12 +26,12 @@
         [DateMinValueAttribute]
         public DateTime ToDate { get; set; }
 
-        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext) 
+        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
-            var res = DateTime.Compare(FromDate, ToDate);
+            var res = DateTime.Compare(this.FromDate, this.ToDate);
             if (res > 0)
             {
-                yield return new ValidationResult("To date cannot be before from date");
+                yield return new ValidationResult("Final date cannot be before starting date");
             }
         }
     }
