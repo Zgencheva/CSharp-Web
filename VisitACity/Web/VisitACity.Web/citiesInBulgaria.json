@@ -1,0 +1,383 @@
+[
+  {
+    "name": "Aksakovo"
+  },
+  {
+    "name": "Asenovgrad"
+  },
+  {
+    "name": "Aydemir"
+  },
+  {
+    "name": "Aytos"
+  },
+  {
+    "name": "Balchik"
+  },
+  {
+    "name": "Bankya"
+  },
+  {
+    "name": "Bansko"
+  },
+  {
+    "name": "Belene"
+  },
+  {
+    "name": "Beloslav"
+  },
+  {
+    "name": "Berkovitsa"
+  },
+  {
+    "name": "Bistritsa"
+  },
+  {
+    "name": "Blagoevgrad"
+  },
+  {
+    "name": "Bobov Dol"
+  },
+  {
+    "name": "Botevgrad"
+  },
+  {
+    "name": "Bozhurishte"
+  },
+  {
+    "name": "Burgas"
+  },
+  {
+    "name": "Byala Slatina"
+  },
+  {
+    "name": "Chirpan"
+  },
+  {
+    "name": "Devin"
+  },
+  {
+    "name": "Devnya"
+  },
+  {
+    "name": "Dimitrovgrad"
+  },
+  {
+    "name": "Dobrich"
+  },
+  {
+    "name": "Dolni Chiflik"
+  },
+  {
+    "name": "Dryanovo"
+  },
+  {
+    "name": "Dulovo"
+  },
+  {
+    "name": "Dupnitsa"
+  },
+  {
+    "name": "Elhovo"
+  },
+  {
+    "name": "Elin Pelin"
+  },
+  {
+    "name": "Etropole"
+  },
+  {
+    "name": "Gabrovo"
+  },
+  {
+    "name": "General Toshevo"
+  },
+  {
+    "name": "Gorna Oryahovitsa"
+  },
+  {
+    "name": "Gotse Delchev"
+  },
+  {
+    "name": "Harmanli"
+  },
+  {
+    "name": "Haskovo"
+  },
+  {
+    "name": "Ihtiman"
+  },
+  {
+    "name": "Isperih"
+  },
+  {
+    "name": "Kameno"
+  },
+  {
+    "name": "Kardzhali"
+  },
+  {
+    "name": "Karlovo"
+  },
+  {
+    "name": "Karnobat"
+  },
+  {
+    "name": "Kavarna"
+  },
+  {
+    "name": "Kazanlak"
+  },
+  {
+    "name": "Knezha"
+  },
+  {
+    "name": "Kostenets"
+  },
+  {
+    "name": "Kostinbrod"
+  },
+  {
+    "name": "Kotel"
+  },
+  {
+    "name": "Kozloduy"
+  },
+  {
+    "name": "Krichim"
+  },
+  {
+    "name": "Krumovgrad"
+  },
+  {
+    "name": "Kubrat"
+  },
+  {
+    "name": "Kuklen"
+  },
+  {
+    "name": "Kyustendil"
+  },
+  {
+    "name": "Lom"
+  },
+  {
+    "name": "Lovech"
+  },
+  {
+    "name": "Lozen"
+  },
+  {
+    "name": "Lukovit"
+  },
+  {
+    "name": "Lyaskovets"
+  },
+  {
+    "name": "Lyubimets"
+  },
+  {
+    "name": "Mezdra"
+  },
+  {
+    "name": "Momchilgrad"
+  },
+  {
+    "name": "Montana"
+  },
+  {
+    "name": "Nesebar"
+  },
+  {
+    "name": "Nova Zagora"
+  },
+  {
+    "name": "Novi Iskar"
+  },
+  {
+    "name": "Novi Pazar"
+  },
+  {
+    "name": "Omurtag"
+  },
+  {
+    "name": "Panagyurishte"
+  },
+  {
+    "name": "Parvomay"
+  },
+  {
+    "name": "Pavlikeni"
+  },
+  {
+    "name": "Pazardzhik"
+  },
+  {
+    "name": "Pernik"
+  },
+  {
+    "name": "Perushtitsa"
+  },
+  {
+    "name": "Peshtera"
+  },
+  {
+    "name": "Petrich"
+  },
+  {
+    "name": "Pirdop"
+  },
+  {
+    "name": "Pleven"
+  },
+  {
+    "name": "Plovdiv"
+  },
+  {
+    "name": "Pomorie"
+  },
+  {
+    "name": "Popovo"
+  },
+  {
+    "name": "Provadia"
+  },
+  {
+    "name": "Radnevo"
+  },
+  {
+    "name": "Radomir"
+  },
+  {
+    "name": "Rakitovo"
+  },
+  {
+    "name": "Rakovski"
+  },
+  {
+    "name": "Razgrad"
+  },
+  {
+    "name": "Razlog"
+  },
+  {
+    "name": "Ruse"
+  },
+  {
+    "name": "Samokov"
+  },
+  {
+    "name": "Sandanski"
+  },
+  {
+    "name": "Septemvri"
+  },
+  {
+    "name": "Sevlievo"
+  },
+  {
+    "name": "Shumen"
+  },
+  {
+    "name": "Silistra"
+  },
+  {
+    "name": "Simeonovgrad"
+  },
+  {
+    "name": "Simitli"
+  },
+  {
+    "name": "Sliven"
+  },
+  {
+    "name": "Slivnitsa"
+  },
+  {
+    "name": "Smolyan"
+  },
+  {
+    "name": "Sofia"
+  },
+  {
+    "name": "Sredets"
+  },
+  {
+    "name": "Stamboliyski"
+  },
+  {
+    "name": "Stara Zagora"
+  },
+  {
+    "name": "Straldzha"
+  },
+  {
+    "name": "Strazhitsa"
+  },
+  {
+    "name": "Suvorovo"
+  },
+  {
+    "name": "Svilengrad"
+  },
+  {
+    "name": "Svishtov"
+  },
+  {
+    "name": "Svoge"
+  },
+  {
+    "name": "Targovishte"
+  },
+  {
+    "name": "Tervel"
+  },
+  {
+    "name": "Teteven"
+  },
+  {
+    "name": "Troyan"
+  },
+  {
+    "name": "Tryavna"
+  },
+  {
+    "name": "Tsarevo"
+  },
+  {
+    "name": "Tutrakan"
+  },
+  {
+    "name": "Tvarditsa"
+  },
+  {
+    "name": "Varna"
+  },
+  {
+    "name": "Varshets"
+  },
+  {
+    "name": "Veliki Preslav"
+  },
+  {
+    "name": "Veliko Tarnovo"
+  },
+  {
+    "name": "Velingrad"
+  },
+  {
+    "name": "Vidin"
+  },
+  {
+    "name": "Vratsa"
+  },
+  {
+    "name": "Yakoruda"
+  },
+  {
+    "name": "Yambol"
+  },
+  {
+    "name": "Zlatograd"
+  }
+]

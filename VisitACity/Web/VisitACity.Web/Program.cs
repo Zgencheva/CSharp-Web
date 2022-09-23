@@ -19,6 +19,7 @@
     using VisitACity.Services.Data.Contracts;
     using VisitACity.Services.Mapping;
     using VisitACity.Services.Messaging;
+    using VisitACity.Web.Infrastructure.Middlewares;
     using VisitACity.Web.ViewModels;
 
     public class Program
@@ -100,6 +101,8 @@
 
             app.UseAuthentication();
             app.UseAuthorization();
+
+            app.UseSeedCitiesMiddleware();
 
             app.MapControllerRoute("areaRoute", "{area:exists}/{controller=Home}/{action=Index}/{id?}");
             app.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");

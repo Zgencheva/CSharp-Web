@@ -27,6 +27,12 @@
             await dbContext.Cities.AddAsync(new City { Name = "Tryavna", Country = country });
             await dbContext.Cities.AddAsync(new City { Name = "Hisarya", Country = country });
             await dbContext.Cities.AddAsync(new City { Name = "Velingrad", Country = country });
+            await dbContext.Cities.AddAsync(new City { Name = "Bankya", Country = country });
+            await dbContext.Cities.AddAsync(new City { Name = "Blagoevgrad", Country = country });
+            await dbContext.Cities.AddAsync(new City { Name = "Velingrad", Country = country });
+            await dbContext.Cities.AddAsync(new City { Name = "Velingrad", Country = country });
+            await dbContext.Cities.AddAsync(new City { Name = "Velingrad", Country = country });
+            await dbContext.Cities.AddAsync(new City { Name = "Velingrad", Country = country });
         }
     }
 }
