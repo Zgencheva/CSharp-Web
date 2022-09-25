@@ -2,6 +2,7 @@
 {
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
+
     using VisitACity.Data.Common.Models;
 
     public class Restaurant : BaseDeletableModel<int>
@@ -28,5 +29,4 @@
 
         public virtual ICollection<Plan> Plans { get; set; }
     }
-
 }

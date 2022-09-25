@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace VisitACity.Web.Infrastructure.ValidationAttributes
+﻿namespace VisitACity.Web.Infrastructure.ValidationAttributes
 {
+    using System;
+    using System.ComponentModel.DataAnnotations;
+
     public class DateMinValueAttribute : ValidationAttribute
     {
         public DateMinValueAttribute()

@@ -1,0 +1,14 @@
+﻿@model VisitACity.Web.ViewModels.Plans.PlanViewModel
+
+          <tr>
+            <th scope="row">@Model.City</th>
+            <td>@Model.Country</td>
+            <td>@Html.DisplayFor(x => x.FromDate)</td>
+            <td>@Html.DisplayFor(x => x.ToDate)</td>
+            <td>@Model.Days</td>
+            <td>
+              <button type="button" class="btn btn-primary"><i class="far fa-eye"></i>View</button>
+              <button type="button" class="btn btn-success"><i class="fas fa-edit"></i>Edit</button>
+            <button type="button" class="btn btn-danger"><i class="far fa-trash-alt"></i>Delete</button>
+            </td>
+          </tr>

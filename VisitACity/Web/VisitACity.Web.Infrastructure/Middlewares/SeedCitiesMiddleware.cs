@@ -46,11 +46,12 @@
                 await this.dbContext.Countries.AddAsync(country);
 
             }
+
             foreach (var city in cities)
             {
                country.Cities.Add(city);
             }
-           // await this.dbContext.Cities.AddRangeAsync(cities);
+
             await this.dbContext.SaveChangesAsync();
         }
     }

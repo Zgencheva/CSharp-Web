@@ -10,7 +10,7 @@
     <div class="form-group">
         <label asp-for="Country"></label>
         @* <select asp-for="CountryId" class="form-control" asp-items="countryItems"></select>*@
-        <input asp-for="Country" class="form-control" placeholder="Country"/>
+        <input asp-for="Country" class="form-control" placeholder="Country" value="Bulgaria" readonly="true"/>
         <span asp-validation-for="Country" class="text-danger"></span>
     </div>
     <div class="form-group">

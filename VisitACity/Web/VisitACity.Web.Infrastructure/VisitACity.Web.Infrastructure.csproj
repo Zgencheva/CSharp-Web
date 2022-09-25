@@ -23,6 +23,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Data\VisitACity.Data\VisitACity.Data.csproj" />
+    <ProjectReference Include="..\..\Services\VisitACity.Services\VisitACity.Services.csproj" />
   </ItemGroup>
 
 </Project>

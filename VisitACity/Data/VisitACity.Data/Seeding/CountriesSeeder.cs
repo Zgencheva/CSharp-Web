@@ -3,6 +3,7 @@
     using System;
     using System.Linq;
     using System.Threading.Tasks;
+
     using VisitACity.Data.Models;
 
     public class CountriesSeeder : ISeeder
@@ -14,11 +15,10 @@
                 return;
             }
 
-            await dbContext.Countries.AddAsync(new Country { Name = "Bulgaria"});
-            await dbContext.Countries.AddAsync(new Country { Name = "Croatia"});
-            await dbContext.Countries.AddAsync(new Country { Name = "USA"});
-            await dbContext.Countries.AddAsync(new Country { Name = "Thailand"});
-
+            await dbContext.Countries.AddAsync(new Country { Name = "Bulgaria" });
+            await dbContext.Countries.AddAsync(new Country { Name = "Croatia" });
+            await dbContext.Countries.AddAsync(new Country { Name = "USA" });
+            await dbContext.Countries.AddAsync(new Country { Name = "Thailand" });
         }
     }
 }

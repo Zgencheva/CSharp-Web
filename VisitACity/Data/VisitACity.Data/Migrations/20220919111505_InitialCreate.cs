@@ -391,7 +391,7 @@ namespace VisitACity.Data.Migrations
                 columns: table => new
                 {
                     AttractionsId = table.Column<int>(type: "int", nullable: false),
-                    PlansId = table.Column<int>(type: "int", nullable: false)
+                    PlansId = table.Column<int>(type: "int", nullable: false),
                 },
                 constraints: table =>
                 {

@@ -30,6 +30,5 @@
         public virtual ICollection<Restaurant> Restaurants { get; set; }
 
         public virtual ICollection<Attraction> Attractions { get; set; }
-
     }
 }

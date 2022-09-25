@@ -1,8 +1,7 @@
 ﻿namespace VisitACity.Web.ViewModels.Plans
 {
     using System;
-    using System.Collections.Generic;
-
+    using System.ComponentModel.DataAnnotations;
     using VisitACity.Web.ViewModels.Attractions;
     using VisitACity.Web.ViewModels.Restaurants;
 
@@ -14,8 +13,10 @@
 
         public int Days { get; set; }
 
+        [DisplayFormat(DataFormatString = "{0:dd MMM yyyy}")]
         public DateTime FromDate { get; set; }
 
+        [DisplayFormat(DataFormatString = "{0:dd MMM yyyy}")]
         public DateTime ToDate { get; set; }
 
         public UserAttractionsViewModel MyAttractions { get; set; }

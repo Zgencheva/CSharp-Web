@@ -1,16 +1,17 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using VisitACity.Data.Common.Repositories;
-using VisitACity.Data.Models;
-using VisitACity.Services.Data.Contracts;
-using VisitACity.Web.ViewModels.Attractions;
-using VisitACity.Web.ViewModels.Plans;
-using VisitACity.Web.ViewModels.Restaurants;
-
-namespace VisitACity.Services.Data
+﻿namespace VisitACity.Services.Data
 {
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
+
+    using Microsoft.EntityFrameworkCore;
+    using VisitACity.Data.Common.Repositories;
+    using VisitACity.Data.Models;
+    using VisitACity.Services.Data.Contracts;
+    using VisitACity.Web.ViewModels.Attractions;
+    using VisitACity.Web.ViewModels.Plans;
+    using VisitACity.Web.ViewModels.Restaurants;
+
     public class PlansService : IPlansService
     {
         private readonly IDeletableEntityRepository<Plan> plansRepository;
@@ -58,6 +59,11 @@ namespace VisitACity.Services.Data
             await this.cityRepository.SaveChangesAsync();
         }
 
+        public Task DeletePlanAsync(string plan)
+        {
+            throw new System.NotImplementedException();
+        }
+
         public async Task<ICollection<PlanViewModel>> GetUserPlansAsync(string userId)
         {
             var plans = await this.plansRepository.All().Where(x => x.UserId == userId)
@@ -77,14 +83,12 @@ namespace VisitACity.Services.Data
                     },
                     MyRestaurants = new UserRestaurantsViewModel
                     {
-                        MyRestaurants = x.Restaurants.Select(r => new RestaurantViewModel 
+                        MyRestaurants = x.Restaurants.Select(r => new RestaurantViewModel
                         {
                         Name = r.Name,
                         }).ToList(),
                     },
                 }).ToListAsync();
-
-
             return plans;
         }
     }
