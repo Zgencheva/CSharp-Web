@@ -91,7 +91,9 @@
                         Name = r.Name,
                         }).ToList(),
                     },
-                }).ToListAsync();
+                })
+                .OrderByDescending(x => x.FromDate)
+                .ToListAsync();
             return plans;
         }
     }
