@@ -68,6 +68,10 @@
             services.AddTransient<IEmailSender, NullMessageSender>();
             services.AddTransient<ISettingsService, SettingsService>();
             services.AddTransient<IPlansService, PlansService>();
+            services.AddTransient<ICountriesService, CountriesService>();
+            services.AddTransient<ICitiesService, CitiesService>();
+            services.AddTransient<IAttractionsService, AttractionsService>();
+            services.AddTransient<IRestaurantsService, RestaurantsService>();
         }
 
         private static void Configure(WebApplication app)

@@ -2,8 +2,8 @@
 
 namespace VisitACity.Services.Data.Contracts
 {
-    public interface ICountriesService
+    public interface ICitiesService
     {
-        int GetCountryCount();
+        int GetCitiesCount();
     }
 }

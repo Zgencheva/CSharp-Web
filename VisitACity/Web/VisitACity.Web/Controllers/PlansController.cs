@@ -61,5 +61,12 @@
 
             return this.RedirectToAction(nameof(this.MyPlans));
         }
+
+        public async Task<IActionResult> Delete(int id)
+        {
+            await this.plansService.DeletePlanAsync(id);
+
+            return this.RedirectToAction(nameof(this.MyPlans));
+        }
     }
 }

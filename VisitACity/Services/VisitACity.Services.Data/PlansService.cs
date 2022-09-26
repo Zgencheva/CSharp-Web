@@ -45,7 +45,7 @@
             if (city == null)
             {
                 // throw new Exception($"Invalid city");
-                city = new City { Name = input.City, Country = country};
+                city = new City { Name = input.City, Country = country };
             }
 
             var plan = new Plan
@@ -59,9 +59,11 @@
             await this.cityRepository.SaveChangesAsync();
         }
 
-        public Task DeletePlanAsync(string plan)
+        public async Task DeletePlanAsync(int planId)
         {
-            throw new System.NotImplementedException();
+            var plan = await this.plansRepository.All().Where(x => x.Id == planId).FirstOrDefaultAsync();
+            this.plansRepository.Delete(plan);
+            await this.plansRepository.SaveChangesAsync();
         }
 
         public async Task<ICollection<PlanViewModel>> GetUserPlansAsync(string userId)
@@ -69,6 +71,7 @@
             var plans = await this.plansRepository.All().Where(x => x.UserId == userId)
                 .Select(x => new PlanViewModel
                 {
+                    Id = x.Id,
                     Country = x.City.Country.Name,
                     City = x.City.Name,
                     Days = (x.ToDate.Date - x.FromDate.Date).Days,

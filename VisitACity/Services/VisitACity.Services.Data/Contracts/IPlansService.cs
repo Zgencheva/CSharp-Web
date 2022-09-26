@@ -11,6 +11,6 @@
 
         Task<ICollection<PlanViewModel>> GetUserPlansAsync(string userId);
 
-        Task DeletePlanAsync(string plan);
+        Task DeletePlanAsync(int planId);
     }
 }
