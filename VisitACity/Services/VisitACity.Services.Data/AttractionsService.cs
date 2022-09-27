@@ -23,7 +23,12 @@ namespace VisitACity.Services.Data
 
         public IEnumerable<Attraction> GetBestAttractions()
         {
-            return this.attractionRepository.All().ToArray();
+            return this.attractionRepository.All().Take(6).ToArray();
+        }
+
+        public IEnumerable<Attraction> GetAttractionsByCity(string cityName)
+        {
+            return this.attractionRepository.All().Take(6).ToArray();
         }
     }
 }

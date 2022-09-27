@@ -50,9 +50,12 @@
 
 <p></p>
 <br></br>
-<div class="card-group">
-@for (int i = 1; i <= 3; i++)
+
+@for (int i = 0; i < 6; i+=3)
 {
-    <partial name="~/Views/Shared/_AttractionCard.cshtml", model = "attraction" />
+  <div class="card-group">
+         <partial name="~/Views/Shared/_AttractionCard.cshtml", model = "@Model.AttractionList.ToArray()[i]" />
+         <partial name="~/Views/Shared/_AttractionCard.cshtml", model = "@Model.AttractionList.ToArray()[i + 1]" />
+         <partial name="~/Views/Shared/_AttractionCard.cshtml", model = "@Model.AttractionList.ToArray()[i + 2]" />
+  </div>  
 }
-</div>

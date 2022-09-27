@@ -8,5 +8,7 @@ namespace VisitACity.Services.Data.Contracts
         int GetAttractionsCount();
 
         IEnumerable<Attraction> GetBestAttractions();
+
+        IEnumerable<Attraction> GetAttractionsByCity(string cityName);
     }
 }

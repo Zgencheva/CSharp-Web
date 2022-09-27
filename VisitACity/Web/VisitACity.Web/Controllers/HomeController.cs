@@ -23,24 +23,41 @@
             this.restaurantsService = restaurantsService;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(string cityName)
         {
             var viewModel = new IndexViewModel
             {
                 CitiesCount = this.cityService.GetCitiesCount(),
                 AttractionsCount = this.attractionsService.GetAttractionsCount(),
                 RestaurantCount = this.restaurantsService.GetRestaurantsCount(),
-                //TODO: Filter best attractions
-                BestAttractions = this.attractionsService.GetBestAttractions()
-                    .Select(x => new AttractionViewModel
-                    {
-                        Id = x.Id,
-                        Name = x.Name,
-                        Description = x.Description,
-                        ImageUrl = x.ImageUrl,
-                        Type = x.Type.ToString(),
-                    }),
             };
+
+            if (cityName == null)
+            {
+
+                viewModel.AttractionList = this.attractionsService.GetBestAttractions()
+                .Select(x => new AttractionViewModel
+                {
+                    Id = x.Id,
+                    Name = x.Name,
+                    Description = x.Description,
+                    ImageUrl = x.ImageUrl,
+                    Type = x.Type.ToString(),
+                });
+            }
+            else
+            {
+                viewModel.AttractionList = this.attractionsService.GetAttractionsByCity(cityName)
+                     .Select(x => new AttractionViewModel
+                     {
+                         Id = x.Id,
+                         Name = x.Name,
+                         Description = x.Description,
+                         ImageUrl = x.ImageUrl,
+                         Type = x.Type.ToString(),
+                     });
+                }
+
             return this.View(viewModel);
         }
   
