@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using VisitACity.Data.Common.Repositories;
 using VisitACity.Data.Models;
@@ -17,7 +18,12 @@ namespace VisitACity.Services.Data
 
         public int GetAttractionsCount()
         {
-            return attractionRepository.AllAsNoTracking().ToArray().Length;
+            return this.attractionRepository.AllAsNoTracking().ToArray().Length;
+        }
+
+        public IEnumerable<Attraction> GetBestAttractions()
+        {
+            return this.attractionRepository.All().ToArray();
         }
     }
 }

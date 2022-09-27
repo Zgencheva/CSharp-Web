@@ -79,6 +79,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Views\Attractions\" />
     <Folder Include="wwwroot\images\Sofia\" />
   </ItemGroup>
 </Project>

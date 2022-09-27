@@ -1,13 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using VisitACity.Data.Models;
 
 namespace VisitACity.Services.Data.Contracts
 {
     public interface IAttractionsService
     {
         int GetAttractionsCount();
+
+        IEnumerable<Attraction> GetBestAttractions();
     }
 }

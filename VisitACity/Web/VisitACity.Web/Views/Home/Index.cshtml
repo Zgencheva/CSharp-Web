@@ -47,3 +47,12 @@
     </div>
   </div>
 </div>
+
+<p></p>
+<br></br>
+<div class="card-group">
+@for (int i = 1; i <= 3; i++)
+{
+    <partial name="~/Views/Shared/_AttractionCard.cshtml", model = "attraction" />
+}
+</div>

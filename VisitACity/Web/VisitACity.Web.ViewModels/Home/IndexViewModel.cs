@@ -12,6 +12,6 @@
 
         public int RestaurantCount { get; set; }
 
-        public ICollection<Attraction> BestAttractions { get; set; }
+        public IEnumerable<AttractionViewModel> BestAttractions { get; set; }
     }
 }

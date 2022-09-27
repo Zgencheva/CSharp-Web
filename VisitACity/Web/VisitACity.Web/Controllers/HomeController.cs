@@ -1,7 +1,7 @@
 ﻿namespace VisitACity.Web.Controllers
 {
     using System.Diagnostics;
-
+    using System.Linq;
     using Microsoft.AspNetCore.Mvc;
     using VisitACity.Services.Data.Contracts;
     using VisitACity.Web.ViewModels;
@@ -30,7 +30,16 @@
                 CitiesCount = this.cityService.GetCitiesCount(),
                 AttractionsCount = this.attractionsService.GetAttractionsCount(),
                 RestaurantCount = this.restaurantsService.GetRestaurantsCount(),
-                BestAttractions = null,
+                //TODO: Filter best attractions
+                BestAttractions = this.attractionsService.GetBestAttractions()
+                    .Select(x => new AttractionViewModel
+                    {
+                        Id = x.Id,
+                        Name = x.Name,
+                        Description = x.Description,
+                        ImageUrl = x.ImageUrl,
+                        Type = x.Type.ToString(),
+                    }),
             };
             return this.View(viewModel);
         }
