@@ -5,22 +5,29 @@
     using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
+    using VisitACity.Data.Models;
     using VisitACity.Services.Data.Contracts;
     using VisitACity.Web.ViewModels.Plans;
 
+    [Authorize]
     public class PlansController : BaseController
     {
         private readonly IPlansService plansService;
+        private readonly UserManager<ApplicationUser> userManager;
 
-        public PlansController(IPlansService plansService)
+        public PlansController(IPlansService plansService, UserManager<ApplicationUser> userManager)
         {
             this.plansService = plansService;
+            this.userManager = userManager;
         }
 
         public async Task<IActionResult> MyPlans()
         {
-            var userId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var user = await this.userManager.GetUserAsync(this.User);
+            var userId = user.Id;
+            //var userId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
             var plansViewModel = await this.plansService.GetUserPlansAsync(userId);
             var viewModel = new UserPlansViewModel
             {
@@ -29,7 +36,6 @@
             return this.View(viewModel);
         }
 
-        [Authorize]
         public IActionResult Create()
         {
             var viewModel = new CreatePlanInputModel();
@@ -39,7 +45,6 @@
         }
 
         [HttpPost]
-        [Authorize]
         public async Task<IActionResult> Create(CreatePlanInputModel input)
         {
             if (!this.ModelState.IsValid)
@@ -47,7 +52,9 @@
                 return this.View(input);
             }
 
-            var userId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            //var userId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var user = await this.userManager.GetUserAsync(this.User);
+            var userId = user.Id;
 
             try
             {

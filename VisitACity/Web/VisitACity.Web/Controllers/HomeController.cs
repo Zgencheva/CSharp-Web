@@ -35,7 +35,6 @@
 
             if (cityName == null)
             {
-
                 viewModel.AttractionList = this.attractionsService.GetBestAttractions()
                 .Select(x => new AttractionViewModel
                 {
