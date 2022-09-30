@@ -40,6 +40,7 @@
 
             services.AddDefaultIdentity<ApplicationUser>(IdentityOptionsProvider.GetIdentityOptions)
                 .AddRoles<ApplicationRole>().AddEntityFrameworkStores<ApplicationDbContext>();
+            services.AddAuthentication();
 
             services.Configure<CookiePolicyOptions>(
                 options =>
@@ -51,8 +52,8 @@
             services.AddControllersWithViews(
                 options =>
                 {
-                    //Places an attrbiute [ValidateAntiforgeryToken] on every POST request.
-                    //Same site token is added in the filter and it does not allow another site to make an request to ours.
+                    // Places an attrbiute [ValidateAntiforgeryToken] on every POST request.
+                    // Same site token is added in the filter and it does not allow another site to make an request to ours.
                     options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
                 }).AddRazorRuntimeCompilation();
 

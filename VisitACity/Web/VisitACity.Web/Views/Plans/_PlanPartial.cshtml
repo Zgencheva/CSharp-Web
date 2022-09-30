@@ -9,6 +9,8 @@
             <td>
               <button type="button" class="btn btn-primary"><i class="far fa-eye"></i>View</button>
               <button type="button" class="btn btn-success"><i class="fas fa-edit"></i>Edit</button>
-            <button type="button" class="btn btn-danger"><i class="far fa-trash-alt"></i>@Html.ActionLink("Delete","Delete", new {id = @Model.Id})</button>
+              <form asp-controller="Plans" asp-action="Delete" asp-route-id="@Model.Id">
+                    <input type="submit" value="Delete" class="btn btn-danger mb-2 fas fa-delete" />
+              </form>
             </td>
           </tr>

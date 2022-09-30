@@ -1,7 +1,6 @@
 ﻿namespace VisitACity.Web.Controllers
 {
     using System;
-    using System.Security.Claims;
     using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.Authorization;
@@ -27,7 +26,8 @@
         {
             var user = await this.userManager.GetUserAsync(this.User);
             var userId = user.Id;
-            //var userId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+
+            // var userId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
             var plansViewModel = await this.plansService.GetUserPlansAsync(userId);
             var viewModel = new UserPlansViewModel
             {
@@ -39,8 +39,8 @@
         public IActionResult Create()
         {
             var viewModel = new CreatePlanInputModel();
-            viewModel.FromDate = System.DateTime.UtcNow;
-            viewModel.ToDate = System.DateTime.UtcNow;
+            viewModel.FromDate = DateTime.UtcNow;
+            viewModel.ToDate = DateTime.UtcNow;
             return this.View(viewModel);
         }
 
@@ -52,7 +52,7 @@
                 return this.View(input);
             }
 
-            //var userId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            // var userId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
             var user = await this.userManager.GetUserAsync(this.User);
             var userId = user.Id;
 
@@ -69,6 +69,7 @@
             return this.RedirectToAction(nameof(this.MyPlans));
         }
 
+        [HttpPost]
         public async Task<IActionResult> Delete(int id)
         {
             await this.plansService.DeletePlanAsync(id);
