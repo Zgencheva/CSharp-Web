@@ -26,6 +26,10 @@
         [DateMinValueAttribute]
         public DateTime ToDate { get; set; }
 
+        public IEnumerable<KeyValuePair<string, string>> CitiesItems { get; set; }
+
+        public IEnumerable<KeyValuePair<string, string>> CountriesItems { get; set; }
+
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
             var res = DateTime.Compare(this.FromDate, this.ToDate);

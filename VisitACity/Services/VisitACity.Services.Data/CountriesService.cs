@@ -1,6 +1,7 @@
 ﻿namespace VisitACity.Services.Data
 {
     using Microsoft.EntityFrameworkCore;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
     using VisitACity.Data.Common.Repositories;
@@ -14,6 +15,19 @@
         public CountriesService(IRepository<Country> countriesRepository)
         {
             this.countriesRepository = countriesRepository;
+        }
+
+        public async Task<IEnumerable<KeyValuePair<string, string>>> GetAllAsKeyValuePairs()
+        {
+            var result = await this.countriesRepository.All().Select(x => new
+            {
+                Id = x.Id,
+                Name = x.Name,
+            })
+              .ToListAsync();
+
+            return result.Select(x => new KeyValuePair<string, string>(x.Id.ToString(), x.Name))
+                .OrderBy(x => x.Value);
         }
 
         public int GetCountryCount()

@@ -14,11 +14,19 @@
     public class PlansController : BaseController
     {
         private readonly IPlansService plansService;
+        private readonly ICitiesService citiesService;
+        private readonly ICountriesService countriesService;
         private readonly UserManager<ApplicationUser> userManager;
 
-        public PlansController(IPlansService plansService, UserManager<ApplicationUser> userManager)
+        public PlansController(
+            IPlansService plansService,
+            ICitiesService citiesService,
+            ICountriesService countriesService,
+            UserManager<ApplicationUser> userManager)
         {
             this.plansService = plansService;
+            this.citiesService = citiesService;
+            this.countriesService = countriesService;
             this.userManager = userManager;
         }
 
@@ -36,11 +44,13 @@
             return this.View(viewModel);
         }
 
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
             var viewModel = new CreatePlanInputModel();
             viewModel.FromDate = DateTime.UtcNow;
             viewModel.ToDate = DateTime.UtcNow;
+            viewModel.CitiesItems = await this.citiesService.GetAllAsKeyValuePairs();
+            viewModel.CountriesItems = await this.countriesService.GetAllAsKeyValuePairs();
             return this.View(viewModel);
         }
 

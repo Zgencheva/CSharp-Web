@@ -1,6 +1,8 @@
 ﻿@model VisitACity.Web.ViewModels.Plans.CreatePlanInputModel
 @{
     this.ViewData["Title"] = "Add new plan";
+    var citiItems = this.Model.CitiesItems.Select(x => new SelectListItem(x.Value, x.Key));
+    var countryItems = this.Model.CountriesItems.Select(x => new SelectListItem(x.Value, x.Key));
 }
 
 <form method="post" class="col-md-6 offset-md-3" 
@@ -9,14 +11,14 @@
     <div asp-validation-summary="All" class="text-danger"></div>
     <div class="form-group">
         <label asp-for="Country"></label>
-        @* <select asp-for="CountryId" class="form-control" asp-items="countryItems"></select>*@
-        <input asp-for="Country" class="form-control" placeholder="Country" value="Bulgaria" readonly="true"/>
+        <select asp-for="Country" class="form-control" asp-items="countryItems"></select>
+       @* <input asp-for="Country" class="form-control" placeholder="Country" value="Bulgaria"/>*@
         <span asp-validation-for="Country" class="text-danger"></span>
     </div>
     <div class="form-group">
         <label asp-for="City"></label>
-        @* <select asp-for="CityId" class="form-control" asp-items="cityItems"></select>*@
-        <input asp-for="City" class="form-control" placeholder="City"/>
+        <select asp-for="City" class="form-control" asp-items="citiItems"></select>
+        @*<input asp-for="City" class="form-control" placeholder="City"/>*@
         <span asp-validation-for="City" class="text-danger"></span>
     </div>
         <div class="form-group">
