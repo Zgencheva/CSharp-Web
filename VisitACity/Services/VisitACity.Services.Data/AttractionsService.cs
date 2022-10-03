@@ -1,12 +1,13 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using VisitACity.Data.Common.Repositories;
-using VisitACity.Data.Models;
-using VisitACity.Services.Data.Contracts;
-
-namespace VisitACity.Services.Data
+﻿namespace VisitACity.Services.Data
 {
+    using System.Collections.Generic;
+    using System.Linq;
+
+    using VisitACity.Data.Common.Repositories;
+    using VisitACity.Data.Models;
+    using VisitACity.Services.Data.Contracts;
+    using VisitACity.Web.ViewModels.Attractions;
+
     public class AttractionsService : IAttractionsService
     {
         private readonly IDeletableEntityRepository<Attraction> attractionRepository;
@@ -21,14 +22,37 @@ namespace VisitACity.Services.Data
             return this.attractionRepository.AllAsNoTracking().ToArray().Length;
         }
 
-        public IEnumerable<Attraction> GetBestAttractions()
+        public IEnumerable<AttractionViewModel> GetBestAttractions(int page, int itemsPage)
         {
-            return this.attractionRepository.All().Take(6).ToArray();
+            return this.attractionRepository.All()
+                .OrderByDescending(x=> x.Id)
+                .Skip((page-1) * itemsPage).Take(itemsPage)
+                .Select(x => new AttractionViewModel
+                {
+                    Id = x.Id,
+                    Name = x.Name,
+                    Description = x.Description,
+                    ImageUrl = x.ImageUrl,
+                    Type = x.Type.ToString(),
+                })
+               .ToList();
         }
 
-        public IEnumerable<Attraction> GetAttractionsByCity(string cityName)
+        public IEnumerable<AttractionViewModel> GetAttractionsByCity(string cityName, int page, int itemsPage)
         {
-            return this.attractionRepository.All().Take(6).ToArray();
+            return this.attractionRepository.All()
+            .Where(x => x.City.Name == cityName)
+            .OrderByDescending(x => x.Id)
+            .Skip((page - 1) * itemsPage).Take(itemsPage)
+            .Select(x => new AttractionViewModel
+            {
+                Id = x.Id,
+                Name = x.Name,
+                Description = x.Description,
+                ImageUrl = x.ImageUrl,
+                Type = x.Type.ToString(),
+            })
+           .ToList();
         }
     }
 }

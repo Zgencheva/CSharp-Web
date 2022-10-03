@@ -1,10 +1,11 @@
-﻿using System.Linq;
-using VisitACity.Data.Common.Repositories;
-using VisitACity.Data.Models;
-using VisitACity.Services.Data.Contracts;
-
-namespace VisitACity.Services.Data
+﻿namespace VisitACity.Services.Data
 {
+    using System.Linq;
+
+    using VisitACity.Data.Common.Repositories;
+    using VisitACity.Data.Models;
+    using VisitACity.Services.Data.Contracts;
+
     public class RestaurantsService : IRestaurantsService
     {
         private readonly IDeletableEntityRepository<Restaurant> restaurantRepository;

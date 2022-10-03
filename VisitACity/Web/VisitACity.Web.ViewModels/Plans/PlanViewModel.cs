@@ -3,6 +3,7 @@
     using System;
     using System.ComponentModel.DataAnnotations;
     using VisitACity.Web.ViewModels.Attractions;
+    using VisitACity.Web.ViewModels.Home;
     using VisitACity.Web.ViewModels.Restaurants;
 
     public class PlanViewModel

@@ -1,6 +1,8 @@
-﻿namespace VisitACity.Web.ViewModels.Attractions
+﻿namespace VisitACity.Web.ViewModels.Home
 {
     using System.Collections.Generic;
+
+    using VisitACity.Web.ViewModels.Attractions;
 
     public class UserAttractionsViewModel
     {

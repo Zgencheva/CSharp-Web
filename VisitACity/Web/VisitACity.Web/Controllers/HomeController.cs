@@ -6,6 +6,7 @@
     using Microsoft.AspNetCore.Mvc;
     using VisitACity.Services.Data.Contracts;
     using VisitACity.Web.ViewModels;
+    using VisitACity.Web.ViewModels.Attractions;
     using VisitACity.Web.ViewModels.Home;
 
     public class HomeController : BaseController
@@ -24,8 +25,13 @@
             this.restaurantsService = restaurantsService;
         }
 
-        public IActionResult Index(string cityName)
+        public IActionResult Index(string cityName, int id = 1)
         {
+            if (id <= 0)
+            {
+                return this.NotFound();
+            };
+            const int ItemsPerPage = 6;
             var viewModel = new IndexViewModel
             {
                 CitiesCount = this.cityService.GetCitiesCount(),
@@ -35,32 +41,28 @@
 
             if (cityName == null)
             {
-                viewModel.AttractionList = this.attractionsService.GetBestAttractions()
-                .Select(x => new AttractionViewModel
+                viewModel.AttractionList = new AttractionsListViewModel
                 {
-                    Id = x.Id,
-                    Name = x.Name,
-                    Description = x.Description,
-                    ImageUrl = x.ImageUrl,
-                    Type = x.Type.ToString(),
-                });
+                    Attractions = this.attractionsService.GetBestAttractions(id, ItemsPerPage),
+                    PageNumber = id,
+                    AttractionsCount = this.attractionsService.GetAttractionsCount(),
+                    ItemsPerPage = ItemsPerPage,
+                };
             }
             else
             {
-                viewModel.AttractionList = this.attractionsService.GetAttractionsByCity(cityName)
-                     .Select(x => new AttractionViewModel
-                     {
-                         Id = x.Id,
-                         Name = x.Name,
-                         Description = x.Description,
-                         ImageUrl = x.ImageUrl,
-                         Type = x.Type.ToString(),
-                     });
-                }
+                viewModel.AttractionList = new AttractionsListViewModel
+                {
+                    Attractions = this.attractionsService.GetAttractionsByCity(cityName, id, ItemsPerPage),
+                    PageNumber = id,
+                    AttractionsCount = this.attractionsService.GetAttractionsCount(),
+                    ItemsPerPage = ItemsPerPage,
+                };
+            }
 
             return this.View(viewModel);
         }
-  
+
         public IActionResult Privacy()
         {
             return this.View();

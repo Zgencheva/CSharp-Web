@@ -2,7 +2,7 @@
 @using VisitACity.Web.ViewModels.Home
 @model IndexViewModel
 @{
-    this.ViewData["Title"] = "Home Page";
+    this.ViewData["Title"] = "Home Page, page" + Model.AttractionList.PageNumber;
 }
 
 <form>
@@ -51,8 +51,11 @@
 <p></p>
 <br/>
   <div class="card-group m">
-@for (int i = 0; i < 6; i++)
+@foreach (var attraction in this.Model.AttractionList.Attractions)
 {
-    <partial name="~/Views/Shared/_AttractionCard.cshtml", model = "@Model.AttractionList.ToArray()[i]" />
+        <partial name="~/Views/Shared/_AttractionCard.cshtml", model = "attraction" />
 }
+
  </div> 
+ <hr />
+<partial name="~/Views/Shared/_PagingPartial.cshtml" model="@Model.AttractionList" />

@@ -1,12 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
-
-namespace VisitACity.Web.Controllers
+﻿namespace VisitACity.Web.Controllers
 {
+    using Microsoft.AspNetCore.Mvc;
+
     public class AttractionsController : Controller
     {
         public IActionResult Index()
         {
-            return View();
+            return this.View();
         }
     }
 }

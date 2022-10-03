@@ -1,8 +1,7 @@
 ﻿namespace VisitACity.Web.ViewModels.Home
 {
-    using System.Collections.Generic;
 
-    using VisitACity.Data.Models;
+    using VisitACity.Web.ViewModels.Attractions;
 
     public class IndexViewModel
     {
@@ -12,6 +11,6 @@
 
         public int RestaurantCount { get; set; }
 
-        public IEnumerable<AttractionViewModel> AttractionList { get; set; }
+        public AttractionsListViewModel AttractionList { get; set; }
     }
 }

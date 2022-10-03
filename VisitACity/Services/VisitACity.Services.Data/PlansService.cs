@@ -9,6 +9,7 @@
     using VisitACity.Data.Models;
     using VisitACity.Services.Data.Contracts;
     using VisitACity.Web.ViewModels.Attractions;
+    using VisitACity.Web.ViewModels.Home;
     using VisitACity.Web.ViewModels.Plans;
     using VisitACity.Web.ViewModels.Restaurants;
 
@@ -82,6 +83,10 @@
                         MyAttractions = x.Attractions.Select(a => new AttractionViewModel
                         {
                             Name = a.Name,
+                            Description = a.Description,
+                            Id = a.Id,
+                            ImageUrl = a.ImageUrl,
+                            Type = a.Type.ToString(),
                         }).ToList(),
                     },
                     MyRestaurants = new UserRestaurantsViewModel

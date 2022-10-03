@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using VisitACity.Data.Models;
+using VisitACity.Web.ViewModels.Attractions;
 
 namespace VisitACity.Services.Data.Contracts
 {
@@ -7,8 +8,8 @@ namespace VisitACity.Services.Data.Contracts
     {
         int GetAttractionsCount();
 
-        IEnumerable<Attraction> GetBestAttractions();
+        IEnumerable<AttractionViewModel> GetBestAttractions(int page, int itemsPerPage);
 
-        IEnumerable<Attraction> GetAttractionsByCity(string cityName);
+        IEnumerable<AttractionViewModel> GetAttractionsByCity(string cityName, int page, int itemsPerPage);
     }
 }
