@@ -6,6 +6,7 @@
     using VisitACity.Data.Common.Repositories;
     using VisitACity.Data.Models;
     using VisitACity.Services.Data.Contracts;
+    using VisitACity.Services.Mapping;
     using VisitACity.Web.ViewModels.Attractions;
 
     public class AttractionsService : IAttractionsService
@@ -25,16 +26,9 @@
         public IEnumerable<AttractionViewModel> GetBestAttractions(int page, int itemsPage)
         {
             return this.attractionRepository.All()
-                .OrderByDescending(x=> x.Id)
-                .Skip((page-1) * itemsPage).Take(itemsPage)
-                .Select(x => new AttractionViewModel
-                {
-                    Id = x.Id,
-                    Name = x.Name,
-                    Description = x.Description,
-                    ImageUrl = x.ImageUrl,
-                    Type = x.Type.ToString(),
-                })
+                .OrderByDescending(x => x.Id)
+                .Skip((page - 1) * itemsPage).Take(itemsPage)
+                .To<AttractionViewModel>()
                .ToList();
         }
 
@@ -44,14 +38,7 @@
             .Where(x => x.City.Name == cityName)
             .OrderByDescending(x => x.Id)
             .Skip((page - 1) * itemsPage).Take(itemsPage)
-            .Select(x => new AttractionViewModel
-            {
-                Id = x.Id,
-                Name = x.Name,
-                Description = x.Description,
-                ImageUrl = x.ImageUrl,
-                Type = x.Type.ToString(),
-            })
+            .To<AttractionViewModel>()
            .ToList();
         }
     }

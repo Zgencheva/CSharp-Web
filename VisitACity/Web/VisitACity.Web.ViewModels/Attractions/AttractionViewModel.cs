@@ -1,6 +1,9 @@
 ﻿namespace VisitACity.Web.ViewModels.Attractions
 {
-    public class AttractionViewModel
+    using VisitACity.Data.Models;
+    using VisitACity.Services.Mapping;
+
+    public class AttractionViewModel : IMapFrom<Attraction>
     {
         public int Id { get; set; }
 
