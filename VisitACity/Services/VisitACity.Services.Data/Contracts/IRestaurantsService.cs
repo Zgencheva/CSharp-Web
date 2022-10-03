@@ -2,6 +2,6 @@
 {
     public interface IRestaurantsService
     {
-        int GetRestaurantsCount();
+        int GetCount();
     }
 }

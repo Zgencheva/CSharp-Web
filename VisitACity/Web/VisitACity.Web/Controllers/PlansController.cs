@@ -82,7 +82,7 @@
         [HttpPost]
         public async Task<IActionResult> Delete(int id)
         {
-            await this.plansService.DeletePlanAsync(id);
+            await this.plansService.DeleteAsync(id);
 
             return this.RedirectToAction(nameof(this.MyPlans));
         }

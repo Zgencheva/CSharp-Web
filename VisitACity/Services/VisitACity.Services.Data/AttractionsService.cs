@@ -18,7 +18,7 @@
             this.attractionRepository = attractionRepository;
         }
 
-        public int GetAttractionsCount()
+        public int GetCount()
         {
             return this.attractionRepository.AllAsNoTracking().ToArray().Length;
         }

@@ -18,7 +18,7 @@
             this.cityRepository = cityRepository;
         }
 
-        public int GetCitiesCount()
+        public int GetCount()
         {
             return this.cityRepository.AllAsNoTracking().ToArray().Length;
         }

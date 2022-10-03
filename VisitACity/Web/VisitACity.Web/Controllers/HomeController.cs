@@ -34,9 +34,9 @@
             const int ItemsPerPage = 6;
             var viewModel = new IndexViewModel
             {
-                CitiesCount = this.cityService.GetCitiesCount(),
-                AttractionsCount = this.attractionsService.GetAttractionsCount(),
-                RestaurantCount = this.restaurantsService.GetRestaurantsCount(),
+                CitiesCount = this.cityService.GetCount(),
+                AttractionsCount = this.attractionsService.GetCount(),
+                RestaurantCount = this.restaurantsService.GetCount(),
             };
 
             if (cityName == null)
@@ -45,7 +45,7 @@
                 {
                     Attractions = this.attractionsService.GetBestAttractions(id, ItemsPerPage),
                     PageNumber = id,
-                    AttractionsCount = this.attractionsService.GetAttractionsCount(),
+                    AttractionsCount = this.attractionsService.GetCount(),
                     ItemsPerPage = ItemsPerPage,
                 };
             }
@@ -55,7 +55,7 @@
                 {
                     Attractions = this.attractionsService.GetAttractionsByCity(cityName, id, ItemsPerPage),
                     PageNumber = id,
-                    AttractionsCount = this.attractionsService.GetAttractionsCount(),
+                    AttractionsCount = this.attractionsService.GetCount(),
                     ItemsPerPage = ItemsPerPage,
                 };
             }

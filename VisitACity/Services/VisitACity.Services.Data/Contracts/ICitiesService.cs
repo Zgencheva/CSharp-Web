@@ -5,7 +5,7 @@ namespace VisitACity.Services.Data.Contracts
 {
     public interface ICitiesService
     {
-        int GetCitiesCount();
+        int GetCount();
 
         Task<IEnumerable<KeyValuePair<string, string>>> GetAllAsKeyValuePairs();
     }

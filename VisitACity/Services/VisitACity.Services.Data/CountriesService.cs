@@ -30,7 +30,7 @@
                 .OrderBy(x => x.Value);
         }
 
-        public int GetCountryCount()
+        public int GetCount()
         {
             return this.countriesRepository.AllAsNoTracking().ToArray().Length;
         }

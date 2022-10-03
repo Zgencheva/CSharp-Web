@@ -15,7 +15,7 @@
             this.restaurantRepository = restaurantRepository;
         }
 
-        public int GetRestaurantsCount()
+        public int GetCount()
         {
             return this.restaurantRepository.AllAsNoTracking().ToArray().Count();
         }

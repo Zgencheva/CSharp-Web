@@ -6,7 +6,7 @@ namespace VisitACity.Services.Data.Contracts
 {
     public interface IAttractionsService
     {
-        int GetAttractionsCount();
+        int GetCount();
 
         IEnumerable<AttractionViewModel> GetBestAttractions(int page, int itemsPerPage);
 

@@ -60,7 +60,7 @@
             await this.cityRepository.SaveChangesAsync();
         }
 
-        public async Task DeletePlanAsync(int planId)
+        public async Task DeleteAsync(int planId)
         {
             var plan = await this.plansRepository.All().Where(x => x.Id == planId).FirstOrDefaultAsync();
             this.plansRepository.Delete(plan);
