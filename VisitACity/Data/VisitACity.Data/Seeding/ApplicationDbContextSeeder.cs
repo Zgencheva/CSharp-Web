@@ -28,6 +28,7 @@
                               new RolesSeeder(),
                               new SettingsSeeder(),
                               new AttractionSeeder(),
+                              new ImageSeeder(),
                           };
 
             foreach (var seeder in seeders)
