@@ -1,6 +1,7 @@
 ﻿namespace VisitACity.Web.Controllers
 {
     using System;
+    using System.Security.Claims;
     using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.Authorization;
@@ -32,10 +33,10 @@
 
         public async Task<IActionResult> MyPlans()
         {
-            var user = await this.userManager.GetUserAsync(this.User);
-            var userId = user.Id;
+            //var user = await this.userManager.GetUserAsync(this.User);
+            //var userId = user.Id;
 
-            // var userId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var userId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
             var plansViewModel = await this.plansService.GetUserPlansAsync(userId);
             var viewModel = new UserPlansViewModel
             {
@@ -62,9 +63,9 @@
                 return this.View(input);
             }
 
-            // var userId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            var user = await this.userManager.GetUserAsync(this.User);
-            var userId = user.Id;
+            var userId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            //var user = await this.userManager.GetUserAsync(this.User);
+            //var userId = user.Id;
 
             try
             {

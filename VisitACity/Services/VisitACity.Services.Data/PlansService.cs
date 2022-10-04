@@ -1,5 +1,6 @@
 ﻿namespace VisitACity.Services.Data
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
@@ -34,19 +35,18 @@
 
         public async Task CreateAsync(CreatePlanInputModel input, string userId)
         {
-            var country = await this.countryReository.All().FirstOrDefaultAsync(x => x.Name == input.Country);
+            var country = await this.countryReository.All().FirstOrDefaultAsync(x => x.Id == int.Parse(input.CountryId));
             if (country == null)
             {
-                country = new Country { Name = input.Country };
+                throw new Exception("Invalid country");
             }
 
-            var city = await this.cityRepository.All().FirstOrDefaultAsync(x => x.Name == input.City);
+            var city = await this.cityRepository.All().FirstOrDefaultAsync(x => x.Id == int.Parse(input.CityId));
 
             // TODO: not adding city that does not exist; This is for seeding the cities
             if (city == null)
             {
-                // throw new Exception($"Invalid city");
-                city = new City { Name = input.City, Country = country };
+                throw new Exception($"Invalid city");
             }
 
             var plan = new Plan

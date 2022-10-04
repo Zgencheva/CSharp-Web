@@ -44,7 +44,6 @@
             {
                 country = new Country { Name = "Bulgaria" };
                 await this.dbContext.Countries.AddAsync(country);
-
             }
 
             foreach (var city in cities)
