@@ -106,7 +106,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Views\Attractions\" />
     <Folder Include="wwwroot\images\Attractions\" />
   </ItemGroup>
 </Project>

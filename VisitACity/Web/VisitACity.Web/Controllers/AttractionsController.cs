@@ -4,7 +4,7 @@
 
     public class AttractionsController : Controller
     {
-        public IActionResult Index()
+        public IActionResult ById()
         {
             return this.View();
         }
