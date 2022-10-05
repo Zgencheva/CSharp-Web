@@ -3,7 +3,7 @@
 @{  var imagePath= $"images/Attractions/{Model.Images.FirstOrDefault().Id}.{Model.Images.FirstOrDefault().Extension}";
 }
  <div class="media col-md-4">
-    <img class="card-img-top" src="@imagePath" alt="Card image cap">
+    <img class="card-img-top" src="@Model.ImageUrl" alt="Card image cap">
     <div class="card-body">
       <h5 class="card-title">@Model.Name</h5>
       <p class="card-text">@Model.Description</p>
