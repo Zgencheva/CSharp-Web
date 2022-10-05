@@ -1,6 +1,7 @@
 ﻿@using VisitACity.Web.ViewModels.Attractions
 @model AttractionViewModel
-@{  var imagePath= $"images/Attractions/{Model.Images.FirstOrDefault().Id}.{Model.Images.FirstOrDefault().Extension}";
+@{  
+    var imagePath= $"~/images/Attractions/{Model.Images.FirstOrDefault().Id}.{Model.Images.FirstOrDefault().Extension}";
 }
  <div class="media col-md-4">
     <img class="card-img-top" src="@Model.ImageUrl" alt="Card image cap">
@@ -8,7 +9,9 @@
       <h5 class="card-title">@Model.Name</h5>
       <p class="card-text">@Model.Description</p>
     </div>
+         <a class="btn btn-info" asp-controller="Attractions" asp-action="ById">Details</a>
+         <a class="btn btn-success" asp-controller="Plans" asp-action="ById">Add to plan</a>   
     <div class="card-footer">
-      <small class="text-muted">Raiting: 0</small>
+        <small class="text-muted bottom-0">Raiting: 0</small>
     </div>
   </div>
