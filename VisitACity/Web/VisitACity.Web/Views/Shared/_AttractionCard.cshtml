@@ -9,8 +9,16 @@
       <h5 class="card-title">@Model.Name</h5>
       <p class="card-text">@Model.Description</p>
     </div>
-         <a class="btn btn-info" asp-controller="Attractions" asp-action="ById">Details</a>
-         <a class="btn btn-success" asp-controller="Plans" asp-action="ById">Add to plan</a>   
+         <a class="btn btn-info" asp-controller="Attractions" asp-action="ById">         
+             <div class="feature-icon">
+              <i class="fa fa-info-circle"></i> <span>Details</span>
+            </div>
+         </a>
+         <a class="btn btn-success" asp-controller="Plans" asp-action="ById">
+                      <div class="feature-icon">
+              <i class="fa fa-bus"></i> <span>Add to plan</span>
+            </div>
+         </a>   
     <div class="card-footer">
         <small class="text-muted bottom-0">Raiting: 0</small>
     </div>
