@@ -4,7 +4,10 @@
     var imagePath= $"~/images/Attractions/{Model.Images.FirstOrDefault().Id}.{Model.Images.FirstOrDefault().Extension}";
 }
  <div class="media col-md-4">
-    <img class="card-img-top" src="@Model.ImageUrl" alt="Card image cap">
+   
+    <a asp-controller="Attractions" asp-action="Details" asp-route-id="@Model.Id"> 
+        <img class="card-img-top" src="@Model.ImageUrl" alt="Card image cap" />
+    </a>
     <div class="card-body">
       <h4 class="card-title text-center">@Model.Name</h4>
       <p></p>
