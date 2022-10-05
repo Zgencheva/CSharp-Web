@@ -6,10 +6,14 @@
  <div class="media col-md-4">
     <img class="card-img-top" src="@Model.ImageUrl" alt="Card image cap">
     <div class="card-body">
-      <h5 class="card-title">@Model.Name</h5>
-      <p class="card-text">@Model.Description</p>
+      <h4 class="card-title text-center">@Model.Name</h4>
+      <p></p>
+      <h5 class="card-text text-center">City: @Model.CityName</h5>
+      <div class="card-text">Price: $@Model.Price</div>
+      <div class="card-text">Address: @Model.Address</div>
+      <p></p>
     </div>
-         <a class="btn btn-info" asp-controller="Attractions" asp-action="ById">         
+         <a class="btn btn-info" asp-controller="Attractions" asp-action="Details" asp-route-id="@Model.Id">         
              <div class="feature-icon">
               <i class="fa fa-info-circle"></i> <span>Details</span>
             </div>
@@ -20,6 +24,7 @@
             </div>
          </a>   
     <div class="card-footer">
-        <small class="text-muted bottom-0">Raiting: 0</small>
+        <small class="text-muted bottom-0">Raiting: @Model.ReviewsCount</small>
     </div>
+    <p></p>
   </div>

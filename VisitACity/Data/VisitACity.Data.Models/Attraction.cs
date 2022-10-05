@@ -1,5 +1,6 @@
 ﻿namespace VisitACity.Data.Models
 {
+    using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
@@ -18,10 +19,14 @@
         [Required]
         public string Name { get; set; }
 
+        [Required]
         public AttractionType Type { get; set; }
 
+        [Required]
+        [Range(0.0, double.MaxValue, ErrorMessage ="Price must be grater than 0")]
         public decimal Price { get; set; }
 
+        [Required]
         public string ImageUrl { get; set; }
 
         [Required]

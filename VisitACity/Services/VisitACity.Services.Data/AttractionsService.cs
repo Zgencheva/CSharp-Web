@@ -1,8 +1,9 @@
 ﻿namespace VisitACity.Services.Data
 {
+    using Microsoft.EntityFrameworkCore;
     using System.Collections.Generic;
     using System.Linq;
-
+    using System.Threading.Tasks;
     using VisitACity.Data.Common.Repositories;
     using VisitACity.Data.Models;
     using VisitACity.Services.Data.Contracts;
@@ -40,6 +41,14 @@
             .Skip((page - 1) * itemsPage).Take(itemsPage)
             .To<AttractionViewModel>()
            .ToList();
+        }
+
+        public async Task<AttractionViewModel> GetAttractionById(int id)
+        {
+            return await this.attractionRepository.All()
+                .Where(x => x.Id == id)
+                .To<AttractionViewModel>()
+                .FirstOrDefaultAsync();
         }
     }
 }

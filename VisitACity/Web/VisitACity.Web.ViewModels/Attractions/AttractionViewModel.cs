@@ -17,6 +17,14 @@
 
         public string Type { get; set; }
 
+        public decimal Price { get; set; }
+
+        public string Address { get; set; }
+
+        public string CityName { get; set; }
+
+        public int ReviewsCount { get; set; }
+
         public ICollection<ImageViewModel> Images { get; set; }
     }
 }

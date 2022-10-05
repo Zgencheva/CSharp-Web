@@ -10,10 +10,12 @@
     {
         [Required]
         [MaxLength(100)]
+        [Display(Name = "Country")]
         public string CountryId { get; set; }
 
         [Required]
         [MaxLength(100)]
+        [Display(Name = "City")]
         public string CityId { get; set; }
 
         [Display(Name="From date")]

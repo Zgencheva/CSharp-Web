@@ -1,0 +1,38 @@
+﻿@using VisitACity.Web.ViewModels.Attractions
+@model AttractionViewModel
+@{
+    this.ViewData["Title"] = "Details ";
+}
+<section id="scroll">
+            <div class="container px-5">
+                <div class="row gx-5 align-items-center">
+                    <div class="col-lg-6 order-lg-2">
+                        <div class="p-5"><img class="img-fluid rounded-circle" src="@Model.ImageUrl" alt="..."></div>
+                    </div>
+                    <div class="col-lg-6 order-lg-1">
+                        <div class="p-5">
+                            <h2 class="display-4">@Model.Name</h2>
+                            <h5>@Model.CityName</h5>
+                              <div class="card-text feature-icon">
+                             <i class="fa fa-search-location"></i> <span>Address: @Model.Address</span>
+                            </div>
+                            <p></p>
+                            <div>Type: @Model.Type</div>
+                            <p></p>
+                            <p>@Model.Description</p>
+                            <p>Price: $@Model.Price</p>
+                             <div class="card-text feature-icon">
+                             <i class="fa fa-star"></i> Raiting: @Model.ReviewsCount
+                            </div>
+                            <p></p>
+                         <a class="btn btn-success" asp-controller="Plans" asp-action="ById">
+                            <div class="feature-icon">
+                             <i class="fa fa-bus"></i> <span>Add to plan</span>
+                            </div>
+                         </a>   
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </section>
