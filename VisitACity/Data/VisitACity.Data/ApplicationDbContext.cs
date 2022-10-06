@@ -27,8 +27,6 @@
 
         public DbSet<Attraction> Attractions { get; set; }
 
-        public DbSet<AttractionReview> AttractionsReviews { get; set; }
-
         public DbSet<AttractionsPlans> AttractionsPlans { get; set; }
 
         public DbSet<City> Cities { get; set; }
@@ -38,8 +36,6 @@
         public DbSet<Plan> Plans { get; set; }
 
         public DbSet<Restaurant> Restaurants { get; set; }
-
-        public DbSet<RestaurantReview> RestaurantReviews { get; set; }
 
         public DbSet<Review> Reviews { get; set; }
 

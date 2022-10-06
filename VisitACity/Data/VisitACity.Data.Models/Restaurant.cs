@@ -9,7 +9,7 @@
     {
         public Restaurant()
         {
-            this.Reviews = new HashSet<RestaurantReview>();
+            this.Reviews = new HashSet<Review>();
             this.Plans = new HashSet<Plan>();
         }
 
@@ -25,7 +25,7 @@
 
         public virtual City City { get; set; }
 
-        public virtual ICollection<RestaurantReview> Reviews { get; set; }
+        public virtual ICollection<Review> Reviews { get; set; }
 
         public virtual ICollection<Plan> Plans { get; set; }
     }

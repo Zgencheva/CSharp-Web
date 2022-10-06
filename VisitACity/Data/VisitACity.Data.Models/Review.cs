@@ -1,6 +1,6 @@
 ﻿namespace VisitACity.Data.Models
 {
-    using System.Collections.Generic;
+    using System;
     using System.ComponentModel.DataAnnotations;
 
     using VisitACity.Data.Common.Models;
@@ -8,23 +8,22 @@
     public class Review : BaseDeletableModel<int>
     {
 
-        public Review()
-        {
-            this.RestaurantReviews = new HashSet<RestaurantReview>();
-            this.AttractionReviews = new HashSet<AttractionReview>();
-        }
-
         [Required]
         public string UserId { get; set; }
 
         public virtual ApplicationUser User { get; set; }
 
-        public double Rating { get; set; }
+        public byte Rating { get; set; }
 
         public string Content { get; set; }
 
-        public virtual ICollection<RestaurantReview> RestaurantReviews { get; set; }
+        public int? AttractionId { get; set; }
 
-        public virtual ICollection<AttractionReview> AttractionReviews { get; set; }
+        public virtual Attraction Attraction { get; set; }
+
+        public int? RestaurantId { get; set; }
+
+        public virtual Restaurant Restaurant { get; set; }
+
     }
 }
