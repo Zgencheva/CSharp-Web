@@ -55,11 +55,6 @@
             return this.View(viewModel);
         }
 
-        public IActionResult AddAttractionToPlan(int attractionId, int planId)
-        {
-            return this.RedirectToAction(nameof(this.MyPlans));
-        }
-
         [HttpPost]
         public async Task<IActionResult> Create(CreatePlanInputModel input)
         {
@@ -82,6 +77,10 @@
                 return this.View(input);
             }
 
+            return this.RedirectToAction(nameof(this.MyPlans));
+        }
+        public IActionResult AddAttractionToPlan(int attractionId, int planId)
+        {
             return this.RedirectToAction(nameof(this.MyPlans));
         }
 

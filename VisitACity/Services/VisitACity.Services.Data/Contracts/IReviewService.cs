@@ -9,7 +9,6 @@ namespace VisitACity.Services.Data.Contracts
 {
     public interface IReviewService
     {
-        Task AddReviewToAttractionAsync(ReviewAttractionViewModel input);
-
+        Task AddReviewToAttractionAsync(CreateReviewInputModel input, string userId, int attractionId);
     }
 }

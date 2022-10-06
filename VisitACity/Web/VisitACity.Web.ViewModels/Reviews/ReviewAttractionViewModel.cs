@@ -10,7 +10,7 @@
     {
         public int Id { get; set; }
 
-        public string UserId { get; set; }
+        public string UserUserName { get; set; }
 
         [Range(1, 5)]
         public byte Rating { get; set; }

@@ -7,6 +7,7 @@
     using VisitACity.Data.Models;
     using VisitACity.Services.Mapping;
     using VisitACity.Web.ViewModels.Images;
+    using VisitACity.Web.ViewModels.Reviews;
 
     public class AttractionViewModel : IMapFrom<Attraction>, IHaveCustomMappings
     {
@@ -27,6 +28,8 @@
         public string CityName { get; set; }
 
         public double Rating { get; set; }
+
+        public IEnumerable<ReviewAttractionViewModel> Reviews { get; set; }
 
         public ICollection<ImageViewModel> Images { get; set; }
 
