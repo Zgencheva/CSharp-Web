@@ -9,8 +9,7 @@ namespace VisitACity.Services.Data.Contracts
 {
     public interface IReviewService
     {
-        Task AddReviewToAttractionAsync(ReviewServiceModel input);
+        Task AddReviewToAttractionAsync(ReviewAttractionViewModel input);
 
-        double GetAttractionAverageRaiting(int id);
     }
 }

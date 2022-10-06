@@ -26,12 +26,7 @@ namespace VisitACity.Services.Data
             this.restaurantRepository = restaurantRepository;
         }
 
-        public Task AddReviewToAttractionAsync(ReviewServiceModel inpu)
-        {
-            throw new NotImplementedException();
-        }
-
-        public double GetAttractionAverageRaiting(int id)
+        public Task AddReviewToAttractionAsync(ReviewAttractionViewModel input)
         {
             throw new NotImplementedException();
         }
