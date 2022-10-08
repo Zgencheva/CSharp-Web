@@ -79,6 +79,7 @@
 
             return this.RedirectToAction(nameof(this.MyPlans));
         }
+
         public IActionResult AddAttractionToPlan(int attractionId, int planId)
         {
             return this.RedirectToAction(nameof(this.MyPlans));

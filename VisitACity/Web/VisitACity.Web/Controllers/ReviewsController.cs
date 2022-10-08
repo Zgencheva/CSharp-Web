@@ -45,7 +45,7 @@
                 return this.View(input);
             }
 
-            return this.Ok();
+            return this.RedirectToAction("Details", "Attractions", new { id = id });
         }
     }
 }

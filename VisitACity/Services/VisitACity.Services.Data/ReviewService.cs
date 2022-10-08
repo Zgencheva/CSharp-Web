@@ -1,5 +1,6 @@
 ﻿namespace VisitACity.Services.Data
 {
+    using Microsoft.EntityFrameworkCore;
     using System;
     using System.Threading.Tasks;
 
@@ -27,9 +28,24 @@
             this.userRepository = userRepository;
         }
 
-        public Task AddReviewToAttractionAsync(CreateReviewInputModel input, string userId, int attractionId)
+        public async Task AddReviewToAttractionAsync(CreateReviewInputModel input, string userId, int attractionId)
         {
-            throw new NotImplementedException();
+            var attraction = await this.attractionRespository.All().FirstOrDefaultAsync(x => x.Id == attractionId);
+            if (attraction == null)
+            {
+                throw new Exception("Invalid attraction");
+            }
+
+            var review = new Review
+            {
+                UserId = userId,
+                Content = input.Content,
+                Rating = input.Rating,
+                Attraction = attraction,
+            };
+
+            await this.reviewsRepository.AddAsync(review);
+            await this.reviewsRepository.SaveChangesAsync();
         }
     }
 }

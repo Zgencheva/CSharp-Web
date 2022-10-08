@@ -46,7 +46,7 @@
             // TODO: not adding city that does not exist; This is for seeding the cities
             if (city == null)
             {
-                throw new Exception($"Invalid city");
+                throw new Exception("Invalid city");
             }
 
             var plan = new Plan

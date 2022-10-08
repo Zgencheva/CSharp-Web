@@ -9,6 +9,7 @@ namespace VisitACity.Web.ViewModels.Reviews
         public byte Rating { get; set; }
 
         [Required]
+        [MaxLength(500)]
         public string Content { get; set; }
     }
 }
