@@ -4,60 +4,65 @@
     this.ViewData["Title"] = "Details ";
 }
 <section id="scroll">
-            <div class="container px-5">
-                <div class="row gx-5 align-items-center">
-                    <div class="col-lg-6 order-lg-2">
-                        <div class="p-5"><img class="img-fluid rounded-circle" src="@Model.ImageUrl" alt="..."></div>
-                    </div>
-                    <div class="col-lg-6 order-lg-1">
-                        <div class="p-5">
-                            <h2 class="display-4">@Model.Name</h2>
-                            <h5>@Model.CityName</h5>
-                              <div class="card-text feature-icon">
-                             <i class="fa fa-search-location"></i> <span>Address: @Model.Address</span>
-                            </div>
-                            <p></p>
-                            <div>Type: @Model.Type</div>
-                            <p></p>
-                            <p>@Model.Description</p>
-                            <p>Price: $@Model.Price</p>
-                            <div class="card-text feature-icon">
-                                      @for (int i = 0; i < @Model.Rating; i++)
-                                        {
-                                         <i class="fa fa-star"></i>
-                                        }
-                             
-                              <span>@Model.Rating.ToString("f1")</span> 
-                            </div>
-                           <p></p>
-                         <a class="btn btn-success" asp-controller="Plans" asp-action="AddAttractionToPlan">
-                            <div class="feature-icon">
-                                <i class="fa fa-bus"></i> <span>Add to plan</span>
-                            </div>
-                         </a>   
-                        <a class="btn btn-warning" asp-controller="Reviews" asp-action="Create" asp-route-id="@Model.Id">
-                            <div class="feature-icon">
-                                <i class="fa fa-comment"></i> <span>Comment</span>
-                            </div>
-                         </a>  
-                        </div>
-                        <h2 class="text-center">Comments:</h2>
-                        @if (Model.Reviews.Count() == 0)
-                        {
-                            <div class="text-center">No comments yet. Be the first to comment this attraction 
-                                <a asp-controller="Reviews" asp-action="Create" asp-route-id="@Model.Id">Here</a>                               
-                            </div>
-                            <br></br>
-                        }
-                        else
-                        {
-                            @foreach (var review in Model.Reviews.OrderByDescending(x=> x.CreatedOn))
-                                {
-                                     <partial name="~/Views/Reviews/_PartialReview.cshtml", model = "review" />
-                                }
-                        }
-                        
-                    </div>
-                </div>
+    <div class="container px-5">
+        <div class="row gx-5 align-items-center">
+            <div class="col-lg-6 order-lg-2">
+                <div class="p-5"><img class="img-fluid rounded-circle" src="@Model.ImageUrl" alt="..."></div>
             </div>
-        </section>
+            <div class="col-lg-6 order-lg-1">
+                <div class="p-5">
+                    <h2 class="display-4">@Model.Name</h2>
+                    <h5>@Model.CityName</h5>
+                    <div class="card-text feature-icon">
+                        <i class="fa fa-search-location"></i> <span>Address: @Model.Address</span>
+                    </div>
+                    <p></p>
+                    <div>Type: @Model.Type</div>
+                    <p></p>
+                    <p>@Model.Description</p>
+                    <p>Price: $@Model.Price</p>
+                    <div class="ratings">
+
+                        <span class="product-rating">@Model.Rating.ToString("f1")</span><span>/5</span>
+                        <div class="stars">
+                            @for (int i = 0; i < Model.Rating; i++)
+                            {
+                                <i class="fa fa-star"></i>
+                            }
+
+                        </div>
+
+                    </div>
+                    <p></p>
+                    <a class="btn btn-success" asp-controller="Plans" asp-action="AddAttractionToPlan">
+                        <div class="feature-icon">
+                            <i class="fa fa-bus"></i> <span>Add to plan</span>
+                        </div>
+                    </a>
+                    <a class="btn btn-warning" asp-controller="Reviews" asp-action="Create" asp-route-id="@Model.Id">
+                        <div class="feature-icon">
+                            <i class="fa fa-comment"></i> <span>Comment</span>
+                        </div>
+                    </a>
+                </div>
+                <h2 class="text-center">Comments:</h2>
+                @if (Model.Reviews.Count() == 0)
+                {
+                    <div class="text-center">
+                        No comments yet. Be the first to comment this attraction
+                        <a asp-controller="Reviews" asp-action="Create" asp-route-id="@Model.Id">Here</a>
+                    </div>
+                    <br></br>
+                }
+                else
+                {
+                    @foreach (var review in Model.Reviews.OrderByDescending(x => x.CreatedOn))
+                    {
+                        <partial name="~/Views/Reviews/_PartialReview.cshtml" , model="review" />
+                    }
+                }
+
+            </div>
+        </div>
+    </div>
+</section>

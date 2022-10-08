@@ -1,16 +1,16 @@
 ﻿@model VisitACity.Web.ViewModels.Plans.PlanViewModel
 
-          <tr>
-            <th scope="row">@Model.City</th>
-            <td>@Model.Country</td>
-            <td>@Html.DisplayFor(x => x.FromDate)</td>
-            <td>@Html.DisplayFor(x => x.ToDate)</td>
-            <td>@Model.Days</td>
-            <td>
-              <button type="button" class="btn btn-primary"><i class="far fa-eye"></i>View</button>
-              <button type="button" class="btn btn-success"><i class="fas fa-edit"></i>Edit</button>
-              <form asp-controller="Plans" asp-action="Delete" asp-route-id="@Model.Id">
-                    <input type="submit" value="Delete" class="btn btn-danger mb-2 fas fa-delete" />
-              </form>
-            </td>
-          </tr>
+<tr>
+    <th scope="row">@Model.City</th>
+    <td>@Model.Country</td>
+    <td>@Html.DisplayFor(x => x.FromDate)</td>
+    <td>@Html.DisplayFor(x => x.ToDate)</td>
+    <td>@Model.Days</td>
+    <td>
+        <button type="button" class="btn btn-primary"><i class="far fa-eye"></i>View</button>
+        <button type="button" class="btn btn-success"><i class="fas fa-edit"></i>Edit</button>
+        <form asp-controller="Plans" asp-action="Delete" asp-route-id="@Model.Id">
+            <input type="submit" value="Delete" class="btn btn-danger mb-2 fas fa-delete" />
+        </form>
+    </td>
+</tr>

@@ -5,14 +5,14 @@
     var countryItems = this.Model.CountriesItems.Select(x => new SelectListItem(x.Value, x.Key));
 }
 
-<form method="post" class="col-md-6 offset-md-3" 
+<form method="post" class="col-md-6 offset-md-3"
       enctype="multipart/form-data">
     <h2>Where are you travelling to?</h2>
     <div asp-validation-summary="All" class="text-danger"></div>
     <div class="form-group">
         <label asp-for="CountryId"></label>
         <select asp-for="CountryId" class="form-control" asp-items="countryItems"></select>
-       @* <input asp-for="Country" class="form-control" placeholder="Country" value="Bulgaria"/>*@
+        @* <input asp-for="Country" class="form-control" placeholder="Country" value="Bulgaria"/>*@
         <span asp-validation-for="CountryId" class="text-danger"></span>
     </div>
     <div class="form-group">
@@ -21,14 +21,14 @@
         @*<input asp-for="City" class="form-control" placeholder="City"/>*@
         <span asp-validation-for="CityId" class="text-danger"></span>
     </div>
-        <div class="form-group">
+    <div class="form-group">
         <label asp-for="FromDate"></label>
-        <input asp-for="FromDate" class="form-control"/>
+        <input asp-for="FromDate" class="form-control" />
         <span asp-validation-for="FromDate" class="text-danger"></span>
     </div>
-         <label asp-for="ToDate"></label>
-        <div class="form-group">
-        <input asp-for="ToDate" class="form-control"/>
+    <label asp-for="ToDate"></label>
+    <div class="form-group">
+        <input asp-for="ToDate" class="form-control" />
         <span asp-validation-for="ToDate" class="text-danger"></span>
     </div>
     <button type="submit" class="btn btn-primary">Create your plan</button>

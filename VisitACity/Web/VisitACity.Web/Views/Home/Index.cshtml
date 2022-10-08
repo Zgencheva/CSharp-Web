@@ -7,61 +7,64 @@
 
 <form>
     <div class="text-center">
-    <h1 class="display-4">Welcome to @GlobalConstants.SystemName!</h1>
-    <h2>Create Your Personal Travel Guide 
-        <a asp-controller="Plans" asp-action="Create">Here</a>
-    </h2>
-    <h3 style="margin-top:50px"; class="display-12">Where are you travelling to?</h3>
-   <div class="container">
-   <div class="input-group" style="margin-top:50px">
-        <input type="text" class="form-control py-2" name="cityName" placeholder="City in Bulgaria" />
-      <button class="btn btn-outline-primary border-right-0 border" 
-         type="button">Search</button>
+        <h1 class="display-4">Welcome to @GlobalConstants.SystemName!</h1>
+        <h2>
+            Create Your Personal Travel Guide
+            <a asp-controller="Plans" asp-action="Create">Here</a>
+        </h2>
+        <h3 style="margin-top:50px" ; class="display-12">Where are you travelling to?</h3>
+        <div class="container">
+            <div class="input-group" style="margin-top:50px">
+                <input type="text" class="form-control py-2" name="cityName" placeholder="City in Bulgaria" />
+                <button class="btn btn-outline-primary border-right-0 border"
+                        type="button">
+                    Search
+                </button>
+            </div>
+        </div>
     </div>
-</div>
-</div>
-<div class="form-check">
-  <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
-  <label class="form-check-label" for="flexRadioDefault1">
-    Attractions
-  </label>
-</div>
-<div class="form-check">
-  <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked>
-  <label class="form-check-label" for="flexRadioDefault2">
-    Restaurants
-  </label>
-</div>
+    <div class="form-check">
+        <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
+        <label class="form-check-label" for="flexRadioDefault1">
+            Attractions
+        </label>
+    </div>
+    <div class="form-check">
+        <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked>
+        <label class="form-check-label" for="flexRadioDefault2">
+            Restaurants
+        </label>
+    </div>
 </form>
 <hr></hr>
 <div class="h-10 d-inline-block, container" style="position:absolute; background-color: whitesmoke">
-  <div class="row align-items-center">
-    <div class="col-sm">
-         <div class="feature-icon">
-              <i class="fa fa-city"></i> <span>@Model.CitiesCount Cities</span>
-         </div>
+    <div class="row align-items-center">
+        <div class="col-sm">
+            <div class="feature-icon">
+                <i class="fa fa-city"></i> <span>@Model.CitiesCount Cities</span>
+            </div>
+        </div>
+        <div class="col-sm">
+            <div class="feature-icon">
+                <i class="fa fa-eye"></i> <span>@Model.AttractionsCount Attractions</span>
+            </div>
+        </div>
+        <div class="col-sm">
+            <div class="feature-icon">
+                <i class="fa fa-utensils"></i> <span>@Model.RestaurantCount Restaurants</span>
+            </div>
+        </div>
     </div>
-    <div class="col-sm">
-         <div class="feature-icon">
-              <i class="fa fa-eye"></i> <span>@Model.AttractionsCount Attractions</span>
-         </div>
-    </div>
-    <div class="col-sm">
-         <div class="feature-icon">
-              <i class="fa fa-utensils"></i> <span>@Model.RestaurantCount Restaurants</span>
-         </div>
-    </div>
-  </div>
 </div>
 <br></br>
 <p></p>
-<br/>
-  <div class="card-group m">
-@foreach (var attraction in this.Model.AttractionList.Attractions)
-{
-        <partial name="~/Views/Attractions/_AttractionCard.cshtml", model = "attraction" />
-}
+<br />
+<div class="card-group m">
+    @foreach (var attraction in this.Model.AttractionList.Attractions)
+    {
+        <partial name="~/Views/Attractions/_AttractionCard.cshtml" , model="attraction" />
+    }
 
- </div> 
- <hr />
+</div>
+<hr />
 <partial name="~/Views/Shared/_PagingPartial.cshtml" model="@Model.AttractionList" />
