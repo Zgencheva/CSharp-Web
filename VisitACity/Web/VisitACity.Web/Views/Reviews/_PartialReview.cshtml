@@ -1,32 +1,19 @@
 ﻿@using VisitACity.Web.ViewModels.Reviews
 @model ReviewAttractionViewModel
 
-<table style="width: 100%; border: 1px, solid black">
-    <tr>
-        <td>@Model.CreatedOn.ToShortDateString()</td>
-        
-    </tr>
-    <tr>
-        <td>@Model.UserUserName</td>
-        
-    </tr>
-        <tr>
-        <td>@Model.Content</td>
-    </tr>
-    <tr>
-        <td>
+<div class="media; media-body" style="width: 100%; border: 1px, solid black">
+  <h5 class="mt-0">@Model.CreatedOn.ToShortDateString() by @Model.UserUserName</h5>
+    <div class="media-body">@Model.Content</div>      
              @for (int i = 0; i < @Model.Rating; i++)
         {
-             <div class="feature-icon">
+
               <i class="fa fa-star"></i>
-            </div>
+ 
         }
-               @for (int i = @Model.Rating; i <5 ; i++)
+         @*      @for (int i = @Model.Rating; i <5 ; i++)
         {
-             <div class="feature-icon">
-              <i class="fa fa-star-half"></i>
-            </div>
-        }
-        </td>
-    </tr>
-</table>
+     
+              <i class="fa-light fa-star"></i>
+
+        }*@
+</div>

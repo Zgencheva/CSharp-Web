@@ -58,6 +58,11 @@
         "css/all.css",
         "css/all.min.css"
       ]
+    },
+    {
+      "provider": "cdnjs",
+      "library": "font-awesome@6.2.0",
+      "destination": "wwwroot/lib/font-awesome/"
     }
   ]
 }
