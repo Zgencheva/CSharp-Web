@@ -60,6 +60,8 @@
         {
             if (!this.ModelState.IsValid)
             {
+                input.CitiesItems = await this.citiesService.GetAllAsKeyValuePairs();
+                input.CountriesItems = await this.countriesService.GetAllAsKeyValuePairs();
                 return this.View(input);
             }
 
