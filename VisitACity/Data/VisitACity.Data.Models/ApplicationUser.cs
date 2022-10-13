@@ -3,6 +3,7 @@ namespace VisitACity.Data.Models
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
 
     using Microsoft.AspNetCore.Identity;
     using VisitACity.Data.Common.Models;
@@ -19,6 +20,12 @@ namespace VisitACity.Data.Models
             this.Reviews = new HashSet<Review>();
             this.Plans = new HashSet<Plan>();
         }
+
+        [StringLength(20)]
+        public string? FirstName { get; set; }
+
+        [StringLength(20)]
+        public string? LastName { get; set; }
 
         // Audit info
         public DateTime CreatedOn { get; set; }

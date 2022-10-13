@@ -1,7 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace VisitACity.Web.ViewModels.Reviews
+﻿namespace VisitACity.Web.ViewModels.Reviews
 {
+    using System.ComponentModel.DataAnnotations;
+
     public class CreateReviewInputModel
     {
         [Range(1, 5)]

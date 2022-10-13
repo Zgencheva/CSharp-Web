@@ -1,10 +1,11 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using VisitACity.Data.Models;
-using VisitACity.Web.ViewModels.Attractions;
-
-namespace VisitACity.Services.Data.Contracts
+﻿namespace VisitACity.Services.Data.Contracts
 {
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
+
+    using VisitACity.Data.Models;
+    using VisitACity.Web.ViewModels.Attractions;
+
     public interface IAttractionsService
     {
         int GetCount();

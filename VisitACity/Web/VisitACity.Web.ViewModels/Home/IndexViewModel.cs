@@ -1,6 +1,6 @@
-﻿namespace VisitACity.Web.ViewModels.Home
+﻿
+namespace VisitACity.Web.ViewModels.Home
 {
-
     using VisitACity.Web.ViewModels.Attractions;
 
     public class IndexViewModel
