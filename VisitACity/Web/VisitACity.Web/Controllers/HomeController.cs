@@ -2,7 +2,7 @@
 {
     using System.Diagnostics;
     using System.Linq;
-
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using VisitACity.Services.Data.Contracts;
     using VisitACity.Web.ViewModels;
@@ -25,6 +25,7 @@
             this.restaurantsService = restaurantsService;
         }
 
+        [AllowAnonymous]
         public IActionResult Index(string cityName, int id = 1)
         {
             if (id <= 0)
@@ -61,11 +62,6 @@
             }
 
             return this.View(viewModel);
-        }
-
-        public IActionResult Privacy()
-        {
-            return this.View();
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

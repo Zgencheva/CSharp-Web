@@ -11,7 +11,6 @@
     using VisitACity.Services.Data.Contracts;
     using VisitACity.Web.ViewModels.Plans;
 
-    [Authorize]
     public class PlansController : BaseController
     {
         private readonly IPlansService plansService;

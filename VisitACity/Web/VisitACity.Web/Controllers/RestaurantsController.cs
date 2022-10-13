@@ -1,6 +1,6 @@
 ﻿namespace VisitACity.Web.Controllers
 {
-    public class RestaurantsController
+    public class RestaurantsController : BaseController
     {
     }
 }
