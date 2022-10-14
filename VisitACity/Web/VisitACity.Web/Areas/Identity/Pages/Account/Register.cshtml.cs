@@ -18,6 +18,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
+using VisitACity.Common;
 using VisitACity.Data.Models;
 
 namespace VisitACity.Areas.Identity.Pages.Account
@@ -136,7 +137,7 @@ namespace VisitACity.Areas.Identity.Pages.Account
                 if (result.Succeeded)
                 {
                     await this._userManager
-                     .AddClaimAsync(user, new System.Security.Claims.Claim("firstName", user.FirstName));
+                     .AddClaimAsync(user, new System.Security.Claims.Claim(ClaimTypeConstants.FirstName, user.FirstName));
                     this._logger.LogInformation("User created a new account with password.");
 
                     var userId = await this._userManager.GetUserIdAsync(user);

@@ -1,9 +1,11 @@
 ﻿namespace VisitACity.Web.Controllers
 {
+    using System.Linq;
+
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.Filters;
-    using System.Linq;
+    using VisitACity.Common;
 
     [Authorize]
     public class BaseController : Controller
@@ -13,10 +15,10 @@
             get
             {
                 string firstName = string.Empty;
-                if (this.User != null && this.User.HasClaim(c => c.Type == "firstName"))
+                if (this.User != null && this.User.HasClaim(c => c.Type == ClaimTypeConstants.FirstName))
                 {
                     firstName = this.User.Claims
-                        .FirstOrDefault(c => c.Type == "firstName").Value;
+                        .FirstOrDefault(c => c.Type == ClaimTypeConstants.FirstName).Value;
                 }
 
                 return firstName;
@@ -25,7 +27,11 @@
 
         public override void OnActionExecuted(ActionExecutedContext context)
         {
-            this.ViewBag.UserFirstName = this.UserFirstName;
+            if (this.User.Identity.IsAuthenticated)
+            {
+                this.ViewBag.UserFirstName = this.UserFirstName;
+            }
+
             base.OnActionExecuted(context);
         }
     }
