@@ -2,7 +2,7 @@
 @model ReviewAttractionViewModel
 
 <div class="media; media-body" style="width: 100%; border: 1px, solid black">
-    <h5 class="mt-0">@Model.CreatedOn.ToShortDateString() by @Model.UserUserName</h5>
+    <h5 class="mt-0">@Model.CreatedOn.ToShortDateString() by @ViewBag.UserFirstName</h5>
     <div class="media-body">@Model.Content</div>
     <div class="ratings">
         <div class="stars">

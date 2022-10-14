@@ -3,14 +3,12 @@
 @using VisitACity.Data.Models
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
-@{
-    var currentUSer = this.UserManager.Users.FirstOrDefault(x => x.Email == this.User.Identity.Name);
-}
+
 <ul class="navbar-nav">
     @if (this.SignInManager.IsSignedIn(this.User))
     {
         <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello, @currentUSer.FirstName!</a>
+            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello, @ViewBag.UserFirstName!</a>
         </li>
         if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
         {
