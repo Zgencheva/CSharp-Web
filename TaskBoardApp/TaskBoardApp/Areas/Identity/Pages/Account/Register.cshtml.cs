@@ -76,7 +76,7 @@ namespace TaskBoardApp.Areas.Identity.Pages.Account
             [Required]
             [StringLength(MaxUserUsername)]
             [Display(Name = "Username")]
-            public string UserName { get; set; }
+            public string Username { get; set; }
 
             [Required]
             [StringLength(MaxUserFirstName)]
@@ -131,13 +131,13 @@ namespace TaskBoardApp.Areas.Identity.Pages.Account
             {
                 var user = new User
                 {
-                    UserName = Input.UserName,
+                    UserName = Input.Username,
                     Email = Input.Email,
                     FirstName = Input.FirstName,
                     LastName = Input.LastName,
                 };
 
-                await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
+                await _userStore.SetUserNameAsync(user, Input.Username, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
                 var result = await _userManager.CreateAsync(user, Input.Password);
 
