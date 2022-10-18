@@ -19,6 +19,7 @@ namespace Watchlist.Controllers
         {
             this.context = context;
         }
+
         [HttpGet]
         public async Task<IActionResult> Add()
         {
@@ -34,6 +35,17 @@ namespace Watchlist.Controllers
         [HttpPost]
         public async Task<IActionResult> Add(AddMovieModel model)
         {
+            if (!ModelState.IsValid)
+            {
+                model.Genres = await context.Genres.Select(g => new GenreInputModel
+                {
+                    Name = g.Name,
+                    Id = g.Id,
+                })
+                .ToListAsync();
+                return this.View(model);
+
+            }
             var movie = new Movie()
             {
                 Title = model.Title,
@@ -42,91 +54,142 @@ namespace Watchlist.Controllers
                 ImageUrl = model.ImageUrl,
                 GenreId = model.GenreId,
             };
-            await this.context.Movies.AddAsync(movie);
-            await this.context.SaveChangesAsync();
 
-            return RedirectToAction("All");
+            try
+            {
+                await this.context.Movies.AddAsync(movie);
+                await this.context.SaveChangesAsync();
+
+                return RedirectToAction(nameof(All));
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError(String.Empty, ex.Message);
+                return this.View(model);
+            }
         }
         public async Task<IActionResult> All()
         {
             var model = new AllMoviesModel();
-           model.Movies =  await this.context.Movies
-                .Select(m => new MovieViewModel()
-                {
-                    Id = m.Id,
-                    Title = m.Title,
-                    Director = m.Director,
-                    ImageUrl = m.ImageUrl,
-                    Rating = m.Rating,
-                    Genre = m.Genre.Name,
+            if (this.context.Movies.Count() > 0)
+            {
+                model.Movies = await this.context.Movies
+               .Select(m => new MovieViewModel()
+               {
+                   Id = m.Id,
+                   Title = m.Title,
+                   Director = m.Director,
+                   ImageUrl = m.ImageUrl,
+                   Rating = m.Rating,
+                   Genre = m.Genre.Name,
 
-                })
-                .ToListAsync();
-
+               })
+               .ToListAsync();
+            }
             return View(model);
         }
 
         public async Task<IActionResult> Watched()
         {
-            var userId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            var allMovies = await this.context.Movies
-                .Include(x=> x.Genre)
-                .Include(m => m.UsersMovies)
-                .ThenInclude(x => x.User)
-                .ToListAsync();
-            var userMovies = allMovies.SelectMany(x => x.UsersMovies.Where(u => u.UserId == userId)).ToList();
-            var model = new AllMoviesModel();
-            if (userMovies.Any())
+            var userId = this.GetUserId();
+            var user = await this.context.Users
+                .Where(x => x.Id == userId)
+                .Include(x => x.UsersMovies)
+                .ThenInclude(x=> x.Movie)
+                .ThenInclude(x=> x.Genre)
+                .FirstOrDefaultAsync();
+            if (user == null)
             {
-                model.Movies = userMovies.Select(x => new MovieViewModel()
-                {
-                    Id = x.Movie.Id,
-                    Title = x.Movie.Title,
-                    Director = x.Movie.Director,
-                    ImageUrl = x.Movie.ImageUrl,
-                    Rating = x.Movie.Rating,
-                    Genre = x.Movie.Genre.Name == null ? null : x.Movie.Genre.Name,
-
-                }).ToList();
-
+                throw new ArgumentException("Ivalid user");
             }
-            
+            var model = new AllMoviesModel();
+            if (user.UsersMovies.Any())
+            {
+                model.Movies = user.UsersMovies
+                    .Select(x => new MovieViewModel()
+                    {
+                        Id = x.Movie.Id,
+                        Title = x.Movie.Title,
+                        Director = x.Movie.Director,
+                        ImageUrl = x.Movie.ImageUrl,
+                        Rating = x.Movie.Rating,
+                        Genre = x.Movie.Genre.Name == null ? null : x.Movie.Genre.Name,
 
-            return View(model);
+                    }).ToList();
+                
+            }
+            return View("Mine", model);
         }
 
         public async Task<IActionResult> AddToCollection(int movieId)
         {
-            var movie = this.context.Movies
-                .Include(x => x.UsersMovies)
-                .ThenInclude(x => x.User)
-               .Where(x => x.Id == movieId);
-               //.ToListAsync();
             var userId = this.GetUserId();
-            if (movie.Any(x=>x.UsersMovies.Any(m=> m.UserId == userId)))
+            var user = await this.context
+                .Users
+                .Where(x => x.Id == userId)
+                .Include(u => u.UsersMovies)
+                .FirstOrDefaultAsync();
+            if (user == null)
             {
-                return RedirectToAction("All");
+                throw new ArgumentException("Invalid movie Id");
             }
-            var userMovie = new UserMovie()
+            var movie = await this.context.Movies
+               .FirstOrDefaultAsync(x => x.Id == movieId);
+            //.ToListAsync();
+            if (movie == null)
             {
-                UserId = userId,
-                MovieId = movieId
-            };
-            await this.context.UsersMovies.AddAsync(userMovie);
-            await this.context.SaveChangesAsync();
-            return RedirectToAction("All");
+                throw new ArgumentException("Invalid movie Id");
+            }
+           
+            if (user.UsersMovies.Any(x=> x.MovieId == movieId))
+            {
+                return RedirectToAction(nameof(All));
+            }
+           
+            try
+            {
+                user.UsersMovies.Add(new UserMovie()
+                {
+                    MovieId = movieId
+                });
+                await this.context.SaveChangesAsync();
+                return RedirectToAction(nameof(All));
+            }
+            catch (Exception ex)
+            {
+                throw new ArgumentException(ex.Message);
+            }
+
         }
 
         public async Task<IActionResult> RemoveFromCollection(int movieId)
         {
-            var userMovie = await this.context.UsersMovies.FirstAsync(x => x.MovieId == movieId);
-            this.context.UsersMovies.Remove(userMovie);
-            await this.context.SaveChangesAsync();
-            return RedirectToAction("Watched");
+            var userMovie = await this.context.UsersMovies
+                .Include(x=> x.User)
+                .Include(x=> x.Movie)
+                .FirstAsync(x => x.MovieId == movieId);
+            if (userMovie == null)
+            {
+                throw new ArgumentException("Invalid operation");
+            }
+            if (userMovie.User.Id == this.GetUserId())
+            {
+                try
+                {
+                    this.context.UsersMovies.Remove(userMovie);
+                    await this.context.SaveChangesAsync();
+                }
+                catch (Exception ex)
+                {
+                    throw new ArgumentException(ex.Message);
+                }
+            }
+            
+            return RedirectToAction(nameof(Watched));
         }
         public string GetUserId() 
         {
-            return this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+           return this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
         }
     }
 }

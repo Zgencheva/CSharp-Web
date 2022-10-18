@@ -6,8 +6,8 @@ namespace Watchlist.Data.Models
     {
         public User()
         {
-            this.UsesrMovies = new HashSet<UserMovie>();
+            this.UsersMovies = new HashSet<UserMovie>();
         }
-        public ICollection<UserMovie> UsesrMovies { get; set; }
+        public ICollection<UserMovie> UsersMovies { get; set; }
     }
 }
