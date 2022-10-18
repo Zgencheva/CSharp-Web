@@ -1,4 +1,4 @@
-﻿namespace Watchlist.Models
+﻿namespace Watchlist.Models.Movies
 {
     public class MovieViewModel
     {

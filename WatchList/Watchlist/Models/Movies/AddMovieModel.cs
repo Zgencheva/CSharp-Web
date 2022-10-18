@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Watchlist.Models.Genres;
 
-namespace Watchlist.Models
+namespace Watchlist.Models.Movies
 {
     public class AddMovieModel
     {

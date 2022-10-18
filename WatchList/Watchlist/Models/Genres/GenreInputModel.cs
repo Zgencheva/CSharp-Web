@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Watchlist.Models
+namespace Watchlist.Models.Genres
 {
     public class GenreInputModel
     {
