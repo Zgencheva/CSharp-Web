@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using TaskBoardApp.Data;
 using TaskBoardApp.Models;
 
 namespace TaskBoardApp.Controllers
 {
+    [Authorize]
     public class TasksController : Controller
     {
         private readonly TaskBoardAppDbContext context;
@@ -71,7 +73,7 @@ namespace TaskBoardApp.Controllers
                
             return this.View(model);
         }
-
+        [HttpGet]
         public IActionResult Edit(int id)
         {
             var task = context.Tasks.Find(id);

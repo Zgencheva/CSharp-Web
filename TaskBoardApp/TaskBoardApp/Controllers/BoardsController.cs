@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using TaskBoardApp.Data;
 using TaskBoardApp.Models;
 
 namespace TaskBoardApp.Controllers
 {
+    [Authorize]
     public class BoardsController : Controller
     {
         private readonly TaskBoardAppDbContext context;
