@@ -2,6 +2,7 @@
 {
     using System.Diagnostics;
     using System.Linq;
+    using System.Threading.Tasks;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using VisitACity.Services.Data.Contracts;
@@ -26,7 +27,7 @@
         }
 
         [AllowAnonymous]
-        public IActionResult Index(string cityName, int id = 1)
+        public async Task<IActionResult> Index(string cityName, int id = 1)
         {
             if (id <= 0)
             {
@@ -44,7 +45,7 @@
             {
                 viewModel.AttractionList = new AttractionsListViewModel
                 {
-                    Attractions = this.attractionsService.GetBestAttractions(id, ItemsPerPage),
+                    Attractions = await this.attractionsService.GetBestAttractions(id, ItemsPerPage),
                     PageNumber = id,
                     AttractionsCount = this.attractionsService.GetCount(),
                     ItemsPerPage = ItemsPerPage,
@@ -54,7 +55,7 @@
             {
                 viewModel.AttractionList = new AttractionsListViewModel
                 {
-                    Attractions = this.attractionsService.GetAttractionsByCity(cityName, id, ItemsPerPage),
+                    Attractions = await this.attractionsService.GetAttractionsByCity(cityName, id, ItemsPerPage),
                     PageNumber = id,
                     AttractionsCount = this.attractionsService.GetCount(),
                     ItemsPerPage = ItemsPerPage,

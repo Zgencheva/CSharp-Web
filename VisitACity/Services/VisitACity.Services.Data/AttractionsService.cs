@@ -9,6 +9,7 @@
     using VisitACity.Data.Models;
     using VisitACity.Services.Data.Contracts;
     using VisitACity.Services.Mapping;
+    using VisitACity.Web.ViewModels.Administration.Attractions;
     using VisitACity.Web.ViewModels.Attractions;
 
     public class AttractionsService : IAttractionsService
@@ -25,23 +26,23 @@
             return this.attractionRepository.AllAsNoTracking().ToArray().Length;
         }
 
-        public IEnumerable<AttractionViewModel> GetBestAttractions(int page, int itemsPage)
+        public async Task<IEnumerable<AttractionViewModel>> GetBestAttractions(int page, int itemsPage)
         {
-            return this.attractionRepository.All()
+            return await this.attractionRepository.All()
                 .OrderByDescending(x => x.Id)
                 .Skip((page - 1) * itemsPage).Take(itemsPage)
                 .To<AttractionViewModel>()
-               .ToList();
+               .ToListAsync();
         }
 
-        public IEnumerable<AttractionViewModel> GetAttractionsByCity(string cityName, int page, int itemsPage)
+        public async Task<IEnumerable<AttractionViewModel>> GetAttractionsByCity(string cityName, int page, int itemsPage)
         {
-            return this.attractionRepository.All()
+            return await this.attractionRepository.All()
             .Where(x => x.City.Name == cityName)
             .OrderByDescending(x => x.Id)
             .Skip((page - 1) * itemsPage).Take(itemsPage)
             .To<AttractionViewModel>()
-           .ToList();
+           .ToListAsync();
         }
 
         public async Task<AttractionViewModel> GetAttractionById(int id)
@@ -50,6 +51,11 @@
                 .Where(x => x.Id == id)
                 .To<AttractionViewModel>()
                 .FirstOrDefaultAsync();
+        }
+
+        public Task CreateAttractionAsync(CreateAttractionInputModel model)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }
