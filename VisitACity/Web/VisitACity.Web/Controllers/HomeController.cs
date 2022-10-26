@@ -45,7 +45,7 @@
             {
                 viewModel.AttractionList = new AttractionsListViewModel
                 {
-                    Attractions = await this.attractionsService.GetBestAttractions(id, ItemsPerPage),
+                    Attractions = await this.attractionsService.GetBestAttractionsAsync(id, ItemsPerPage),
                     PageNumber = id,
                     AttractionsCount = this.attractionsService.GetCount(),
                     ItemsPerPage = ItemsPerPage,
@@ -55,7 +55,7 @@
             {
                 viewModel.AttractionList = new AttractionsListViewModel
                 {
-                    Attractions = await this.attractionsService.GetAttractionsByCity(cityName, id, ItemsPerPage),
+                    Attractions = await this.attractionsService.GetByCityAsync(cityName, id, ItemsPerPage),
                     PageNumber = id,
                     AttractionsCount = this.attractionsService.GetCount(),
                     ItemsPerPage = ItemsPerPage,

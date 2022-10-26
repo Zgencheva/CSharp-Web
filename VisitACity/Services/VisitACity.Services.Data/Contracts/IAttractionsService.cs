@@ -11,11 +11,12 @@
     {
         int GetCount();
 
-        Task<IEnumerable<AttractionViewModel>> GetBestAttractions(int page, int itemsPerPage);
+        Task<IEnumerable<AttractionViewModel>> GetBestAttractionsAsync(int page, int itemsPerPage);
 
-        Task<IEnumerable<AttractionViewModel>> GetAttractionsByCity(string cityName, int page, int itemsPerPage);
+        Task<IEnumerable<AttractionViewModel>> GetByCityAsync(string cityName, int page, int itemsPerPage);
 
-        Task<AttractionViewModel> GetAttractionById(int id);
-        Task CreateAttractionAsync(CreateAttractionInputModel model);
+        Task<AttractionViewModel> GetByIdAsync(int id);
+
+        Task CreateAsync(CreateAttractionInputModel model);
     }
 }

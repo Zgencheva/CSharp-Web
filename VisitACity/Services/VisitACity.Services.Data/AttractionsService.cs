@@ -26,7 +26,7 @@
             return this.attractionRepository.AllAsNoTracking().ToArray().Length;
         }
 
-        public async Task<IEnumerable<AttractionViewModel>> GetBestAttractions(int page, int itemsPage)
+        public async Task<IEnumerable<AttractionViewModel>> GetBestAttractionsAsync(int page, int itemsPage)
         {
             return await this.attractionRepository.All()
                 .OrderByDescending(x => x.Id)
@@ -35,7 +35,7 @@
                .ToListAsync();
         }
 
-        public async Task<IEnumerable<AttractionViewModel>> GetAttractionsByCity(string cityName, int page, int itemsPage)
+        public async Task<IEnumerable<AttractionViewModel>> GetByCityAsync(string cityName, int page, int itemsPage)
         {
             return await this.attractionRepository.All()
             .Where(x => x.City.Name == cityName)
@@ -45,7 +45,7 @@
            .ToListAsync();
         }
 
-        public async Task<AttractionViewModel> GetAttractionById(int id)
+        public async Task<AttractionViewModel> GetByIdAsync(int id)
         {
             return await this.attractionRepository.All()
                 .Where(x => x.Id == id)
@@ -53,7 +53,7 @@
                 .FirstOrDefaultAsync();
         }
 
-        public Task CreateAttractionAsync(CreateAttractionInputModel model)
+        public Task CreateAsync(CreateAttractionInputModel model)
         {
             throw new System.NotImplementedException();
         }

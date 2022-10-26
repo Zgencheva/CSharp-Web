@@ -17,7 +17,7 @@
         [AllowAnonymous]
         public async Task<IActionResult> Details(int id)
         {
-            var viewModel = await this.attractionsService.GetAttractionById(id);
+            var viewModel = await this.attractionsService.GetByIdAsync(id);
             return this.View(viewModel);
         }
     }

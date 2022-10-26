@@ -23,7 +23,7 @@ namespace VisitACity.Web.Areas.Administration.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(CreateAttractionInputModel model)
         {
-            await this.attractionsService.CreateAttractionAsync(model);
+            await this.attractionsService.CreateAsync(model);
             return Ok();
         }
     }

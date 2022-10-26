@@ -2,11 +2,13 @@
 {
     using System.Collections.Generic;
     using System.Threading.Tasks;
+    using VisitACity.Data.Models;
+    using VisitACity.Web.ViewModels.Cities;
 
     public interface ICitiesService
     {
         int GetCount();
 
-        Task<IEnumerable<KeyValuePair<string, string>>> GetAllAsKeyValuePairs();
+        Task<IEnumerable<CityViewModel>> GetAllAsync();
     }
 }

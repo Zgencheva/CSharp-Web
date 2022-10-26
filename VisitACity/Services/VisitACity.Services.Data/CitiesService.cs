@@ -8,6 +8,8 @@
     using VisitACity.Data.Common.Repositories;
     using VisitACity.Data.Models;
     using VisitACity.Services.Data.Contracts;
+    using VisitACity.Web.ViewModels.Cities;
+    using VisitACity.Services.Mapping;
 
     public class CitiesService : ICitiesService
     {
@@ -23,17 +25,12 @@
             return this.cityRepository.AllAsNoTracking().ToArray().Length;
         }
 
-        public async Task<IEnumerable<KeyValuePair<string, string>>> GetAllAsKeyValuePairs()
+        public async Task<IEnumerable<CityViewModel>> GetAllAsync()
         {
-            var result = await this.cityRepository.All().Select(x => new
-            {
-                Id = x.Id,
-                Name = x.Name,
-            })
+            return await this.cityRepository
+                .All()
+                .To<CityViewModel>()
                 .ToListAsync();
-
-            return result.Select(x => new KeyValuePair<string, string>(x.Id.ToString(), x.Name))
-                .OrderBy(x => x.Value);
         }
     }
 }

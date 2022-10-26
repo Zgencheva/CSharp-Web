@@ -35,13 +35,13 @@
 
         public async Task CreateAsync(CreatePlanInputModel input, string userId)
         {
-            var country = await this.countryReository.All().FirstOrDefaultAsync(x => x.Id == int.Parse(input.CountryId));
+            var country = await this.countryReository.All().FirstOrDefaultAsync(x => x.Id == input.CountryId);
             if (country == null)
             {
                 throw new Exception("Invalid country");
             }
 
-            var city = await this.cityRepository.All().FirstOrDefaultAsync(x => x.Id == int.Parse(input.CityId));
+            var city = await this.cityRepository.All().FirstOrDefaultAsync(x => x.Id == input.CityId);
 
             // TODO: not adding city that does not exist; This is for seeding the cities
             if (city == null)

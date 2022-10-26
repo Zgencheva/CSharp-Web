@@ -47,8 +47,8 @@
             var viewModel = new CreatePlanInputModel();
             viewModel.FromDate = DateTime.UtcNow;
             viewModel.ToDate = DateTime.UtcNow;
-            viewModel.CitiesItems = await this.citiesService.GetAllAsKeyValuePairs();
-            viewModel.CountriesItems = await this.countriesService.GetAllAsKeyValuePairs();
+            viewModel.Cities = await this.citiesService.GetAllAsync();
+            viewModel.Countries = await this.countriesService.GetAllAsync();
             return this.View(viewModel);
         }
 
@@ -57,8 +57,8 @@
         {
             if (!this.ModelState.IsValid)
             {
-                input.CitiesItems = await this.citiesService.GetAllAsKeyValuePairs();
-                input.CountriesItems = await this.countriesService.GetAllAsKeyValuePairs();
+                input.Cities = await this.citiesService.GetAllAsync();
+                input.Countries = await this.countriesService.GetAllAsync();
                 return this.View(input);
             }
 

@@ -8,6 +8,8 @@
     using VisitACity.Data.Common.Repositories;
     using VisitACity.Data.Models;
     using VisitACity.Services.Data.Contracts;
+    using VisitACity.Services.Mapping;
+    using VisitACity.Web.ViewModels.Countries;
 
     public class CountriesService : ICountriesService
     {
@@ -18,17 +20,12 @@
             this.countriesRepository = countriesRepository;
         }
 
-        public async Task<IEnumerable<KeyValuePair<string, string>>> GetAllAsKeyValuePairs()
+        public async Task<IEnumerable<CountryViewModel>> GetAllAsync()
         {
-            var result = await this.countriesRepository.All().Select(x => new
-            {
-                Id = x.Id,
-                Name = x.Name,
-            })
-              .ToListAsync();
-
-            return result.Select(x => new KeyValuePair<string, string>(x.Id.ToString(), x.Name))
-                .OrderBy(x => x.Value);
+            return await this.countriesRepository
+                .All()
+                .To<CountryViewModel>()
+                .ToListAsync();
         }
 
         public int GetCount()
