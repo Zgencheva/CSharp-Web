@@ -41,7 +41,7 @@
 
         public async Task CreateAsync(CreateCityInputModel model)
         {
-            var country = this.countryRepository.All().FirstOrDefaultAsync(x => x.Id == model.CountryId);
+            var country = await this.countryRepository.All().FirstOrDefaultAsync(x => x.Id == model.CountryId);
             if (country == null)
             {
                 throw new ArgumentException("Invalid country");

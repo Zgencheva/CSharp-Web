@@ -45,6 +45,7 @@
                 return this.View(input);
             }
 
+            this.TempData["Message"] = "Thank you for your comment!";
             return this.RedirectToAction("Details", "Attractions", new { id = id });
         }
     }

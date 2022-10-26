@@ -3,6 +3,10 @@
 @{
     this.ViewData["Title"] = "Details ";
 }
+@if (this.TempData.ContainsKey("Message"))
+{
+    <div class="alert alert-success">@this.TempData["Message"]</div>
+}
 <section id="scroll">
     <div class="container px-5">
         <div class="row gx-5 align-items-center">

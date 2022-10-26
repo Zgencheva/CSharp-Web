@@ -4,7 +4,10 @@
 @{
     this.ViewData["Title"] = "Home Page, page" + Model.AttractionList.PageNumber;
 }
-
+@if (this.TempData.ContainsKey("Message"))
+{
+    <div class="alert alert-success">@this.TempData["Message"]</div>
+}
 <form>
     <div class="text-center">
         <h1 class="display-4">Welcome to @GlobalConstants.SystemName!</h1>

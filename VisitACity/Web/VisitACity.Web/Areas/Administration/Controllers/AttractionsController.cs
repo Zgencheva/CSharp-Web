@@ -25,7 +25,7 @@ namespace VisitACity.Web.Areas.Administration.Controllers
         {
             await this.attractionsService.CreateAsync(model);
             this.TempData["Message"] = "Attraction added successfully.";
-            return Ok();
+            return this.RedirectToAction("Index", "Home", new { area = "" });
         }
     }
 }

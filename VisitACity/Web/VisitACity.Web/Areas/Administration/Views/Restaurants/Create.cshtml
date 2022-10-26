@@ -2,8 +2,5 @@
 @{
     this.ViewData["Title"] = "Create restaurant";
 }
-@if (this.TempData.ContainsKey("Message"))
-{
-    <div class="alert alert-success">@this.TempData["Message"]</div>
-}
 <h1> Create restaurant</h1>
+<div asp-validation-summary="All" class="text-danger"></div>

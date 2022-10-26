@@ -25,7 +25,7 @@ namespace VisitACity.Web.Areas.Administration.Controllers
         {
             await this.restaurantsService.CreateAsync(model);
             this.TempData["Message"] = "Restaurant added successfully.";
-            return Ok();
+            return this.RedirectToAction("Index", "Home", new { area = "" });
         }
     }
 }

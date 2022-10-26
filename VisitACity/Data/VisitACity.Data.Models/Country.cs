@@ -13,6 +13,7 @@
         }
 
         [Required]
+        [MaxLength(100)]
         public string Name { get; set; }
 
         public virtual ICollection<City> Cities { get; set; }

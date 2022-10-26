@@ -39,7 +39,7 @@
                 this.ModelState.AddModelError(string.Empty, ex.Message);
                 return this.View(model);
             }
-            this.TempData["Message"] = "Country added successfully.";
+            this.TempData["Message"] = $"Country {model.Name} added successfully.";
             return this.RedirectToAction("Index", "Home", new { area = "" });
         }
     }
