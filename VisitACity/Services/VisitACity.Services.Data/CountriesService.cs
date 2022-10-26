@@ -9,6 +9,7 @@
     using VisitACity.Data.Models;
     using VisitACity.Services.Data.Contracts;
     using VisitACity.Services.Mapping;
+    using VisitACity.Web.ViewModels.Administration.Countries;
     using VisitACity.Web.ViewModels.Countries;
 
     public class CountriesService : ICountriesService
@@ -18,6 +19,16 @@
         public CountriesService(IRepository<Country> countriesRepository)
         {
             this.countriesRepository = countriesRepository;
+        }
+
+        public async Task CreateAsync(CreateCountryInputModel model)
+        {
+            var country = new Country
+            {
+                Name = model.Name,
+            };
+            await this.countriesRepository.AddAsync(country);
+            await this.countriesRepository.SaveChangesAsync();
         }
 
         public async Task<IEnumerable<CountryViewModel>> GetAllAsync()

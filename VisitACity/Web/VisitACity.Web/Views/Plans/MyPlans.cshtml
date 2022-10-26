@@ -2,6 +2,12 @@
 @{
     this.ViewData["Title"] = "My plans";
 }
+
+@if (this.TempData.ContainsKey("Message"))
+{
+    <div class="alert alert-success">@this.TempData["Message"]</div>
+}
+
 @if (Model.Plans.Count() == 0)
 {
     <partial name="_NoPlans" />

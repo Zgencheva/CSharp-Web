@@ -1,3 +1,9 @@
 ﻿@model VisitACity.Web.ViewModels.Administration.Attractions.CreateAttractionInputModel
-
+@{
+    this.ViewData["Title"] = "Create attraction";
+}
+@if (this.TempData.ContainsKey("Message"))
+{
+    <div class="alert alert-success">@this.TempData["Message"]</div>
+}
 <h1> Create attraction</h1>

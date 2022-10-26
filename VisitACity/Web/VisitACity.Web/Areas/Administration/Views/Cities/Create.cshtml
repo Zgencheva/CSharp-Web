@@ -1,0 +1,9 @@
+﻿@model VisitACity.Web.ViewModels.Administration.Cities.CreateCityInputModel
+@{
+    this.ViewData["Title"] = "Create city";
+}
+@if (this.TempData.ContainsKey("Message"))
+{
+    <div class="alert alert-success">@this.TempData["Message"]</div>
+}
+<h1> Create City</h1>

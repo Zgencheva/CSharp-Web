@@ -24,6 +24,7 @@ namespace VisitACity.Web.Areas.Administration.Controllers
         public async Task<IActionResult> Create(CreateAttractionInputModel model)
         {
             await this.attractionsService.CreateAsync(model);
+            this.TempData["Message"] = "Attraction added successfully.";
             return Ok();
         }
     }

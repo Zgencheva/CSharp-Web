@@ -1,5 +1,6 @@
 ﻿namespace VisitACity.Services.Data
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
@@ -8,16 +9,21 @@
     using VisitACity.Data.Common.Repositories;
     using VisitACity.Data.Models;
     using VisitACity.Services.Data.Contracts;
-    using VisitACity.Web.ViewModels.Cities;
     using VisitACity.Services.Mapping;
+    using VisitACity.Web.ViewModels.Administration.Cities;
+    using VisitACity.Web.ViewModels.Cities;
 
     public class CitiesService : ICitiesService
     {
         private readonly IDeletableEntityRepository<City> cityRepository;
+        private readonly IDeletableEntityRepository<Country> countryRepository;
 
-        public CitiesService(IDeletableEntityRepository<City> cityRepository)
+        public CitiesService(
+            IDeletableEntityRepository<City> cityRepository,
+            IDeletableEntityRepository<Country> countryRepository)
         {
             this.cityRepository = cityRepository;
+            this.countryRepository = countryRepository;
         }
 
         public int GetCount()
@@ -31,6 +37,23 @@
                 .All()
                 .To<CityViewModel>()
                 .ToListAsync();
+        }
+
+        public async Task CreateAsync(CreateCityInputModel model)
+        {
+            var country = this.countryRepository.All().FirstOrDefaultAsync(x => x.Id == model.CountryId);
+            if (country == null)
+            {
+                throw new ArgumentException("Invalid country");
+            }
+
+            var city = new City
+            {
+                Name = model.Name,
+                CountryId = model.CountryId,
+            };
+            await this.cityRepository.AddAsync(city);
+            await this.cityRepository.SaveChangesAsync();
         }
     }
 }

@@ -76,6 +76,7 @@
                 return this.View(input);
             }
 
+            this.TempData["Message"] = "Plan added successfully.";
             return this.RedirectToAction(nameof(this.MyPlans));
         }
 
