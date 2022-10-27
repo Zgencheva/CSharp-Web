@@ -8,7 +8,7 @@
     using VisitACity.Services.Mapping;
     using VisitACity.Web.ViewModels.Cities;
 
-    public class AttractionFormModel : IMapTo<Attraction>
+    public class AttractionFormModel : IMapFrom<Attraction>
     {
         [Required]
         [MaxLength(100)]

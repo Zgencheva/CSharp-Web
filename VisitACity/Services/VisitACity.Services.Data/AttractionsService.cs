@@ -51,12 +51,18 @@
            .ToListAsync();
         }
 
-        public async Task<AttractionViewModel> GetByIdAsync(int id)
+        public async Task<T> GetViewModelByIdAsync<T>(int id)
         {
-            return await this.attractionRepository.All()
+            var attraction = await this.attractionRepository.All()
                 .Where(x => x.Id == id)
-                .To<AttractionViewModel>()
+                .To<T>()
                 .FirstOrDefaultAsync();
+            if (attraction == null)
+            {
+                throw new NullReferenceException("Invalid attraction");
+            }
+
+            return attraction;
         }
 
         public async Task CreateAsync(AttractionFormModel model)
@@ -85,6 +91,52 @@
             };
 
             await this.attractionRepository.AddAsync(attraction);
+            await this.attractionRepository.SaveChangesAsync();
+        }
+
+        public async Task UpdateAsync(int id, AttractionFormModel model)
+        {
+            if (!Enum.TryParse(model.Type, true, out AttractionType activityTypeEnum))
+            {
+                throw new ArgumentException("Invalid attraction type");
+            }
+
+            var attraction = await this.attractionRepository.All().FirstOrDefaultAsync(x => x.Id == id);
+            if (attraction == null)
+            {
+                throw new NullReferenceException("No such attraction");
+
+            }
+
+            var city = await this.cityRepository.All().FirstOrDefaultAsync(x => x.Id == model.CityId);
+            if (city == null)
+            {
+                throw new NullReferenceException("No such city");
+            }
+
+            attraction.Name = model.Name;
+            attraction.City = city;
+            attraction.Address = model.Address;
+            attraction.AttractionUrl = model.AttractionUrl;
+            attraction.Description = model.Description;
+            attraction.Price = model.Price;
+            attraction.ImageUrl = model.ImageUrl;
+            attraction.Type = activityTypeEnum;
+
+            this.attractionRepository.Update(attraction);
+            await this.attractionRepository.SaveChangesAsync();
+        }
+
+        public async Task DeleteByIdAsync(int id)
+        {
+            var attraction = this.attractionRepository.All().FirstOrDefault(x => x.Id == id);
+            if (attraction == null)
+            {
+                throw new NullReferenceException("No such attraction");
+            }
+
+            attraction.IsDeleted = true;
+            this.attractionRepository.Update(attraction);
             await this.attractionRepository.SaveChangesAsync();
         }
     }

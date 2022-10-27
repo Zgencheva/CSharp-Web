@@ -14,8 +14,13 @@
 
         Task<IEnumerable<AttractionViewModel>> GetByCityAsync(string cityName, int page, int itemsPerPage);
 
-        Task<AttractionViewModel> GetByIdAsync(int id);
+        Task<T> GetViewModelByIdAsync<T>(int id);
 
         Task CreateAsync(AttractionFormModel model);
+
+        Task UpdateAsync(int id, AttractionFormModel model);
+
+        Task DeleteByIdAsync(int id);
+
     }
 }

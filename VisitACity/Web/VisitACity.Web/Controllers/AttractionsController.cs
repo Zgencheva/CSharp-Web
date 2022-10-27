@@ -4,6 +4,7 @@
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using VisitACity.Services.Data.Contracts;
+    using VisitACity.Web.ViewModels.Attractions;
 
     public class AttractionsController : BaseController
     {
@@ -17,7 +18,7 @@
         [AllowAnonymous]
         public async Task<IActionResult> Details(int id)
         {
-            var viewModel = await this.attractionsService.GetByIdAsync(id);
+            var viewModel = await this.attractionsService.GetViewModelByIdAsync<AttractionViewModel>(id);
             return this.View(viewModel);
         }
     }
