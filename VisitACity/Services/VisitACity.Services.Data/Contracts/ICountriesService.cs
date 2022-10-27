@@ -11,6 +11,6 @@
 
         Task<IEnumerable<CountryViewModel>> GetAllAsync();
 
-        Task CreateAsync(CreateCountryInputModel model);
+        Task CreateAsync(CountryFormModel model);
     }
 }

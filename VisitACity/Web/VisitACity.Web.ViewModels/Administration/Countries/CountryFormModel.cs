@@ -4,8 +4,10 @@
     using VisitACity.Data.Models;
     using VisitACity.Services.Mapping;
 
-    public class CreateCountryInputModel : IMapTo<Country>
+    public class CountryFormModel : IMapTo<Country>
     {
+        public int Id { get; set; }
+
         [Required]
         [MaxLength(100)]
         public string Name { get; set; }

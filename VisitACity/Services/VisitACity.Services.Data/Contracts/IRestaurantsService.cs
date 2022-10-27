@@ -7,6 +7,6 @@ namespace VisitACity.Services.Data.Contracts
     {
         int GetCount();
 
-        Task CreateAsync(CreateRestaurantInputModel model);
+        Task CreateAsync(RestaurantFromModel model);
     }
 }

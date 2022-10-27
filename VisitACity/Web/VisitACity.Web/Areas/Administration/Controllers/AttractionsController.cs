@@ -22,13 +22,13 @@
 
         public async Task<IActionResult> Create()
         {
-            var model = new CreateAttractionInputModel();
+            var model = new AttractionFormModel();
             model.Cities = await this.citiesService.GetAllAsync();
             return this.View(model);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(CreateAttractionInputModel model)
+        public async Task<IActionResult> Create(AttractionFormModel model)
         {
             if (!this.ModelState.IsValid)
             {
@@ -49,6 +49,20 @@
 
             this.TempData["Message"] = "Attraction added successfully.";
             return this.RedirectToAction("Index", "Home", new { area = "" });
+        }
+
+        public async Task<IActionResult> Edit(int id)
+        {
+            var model = new AttractionFormModel();
+            model.Cities = await this.citiesService.GetAllAsync();
+            return this.View(model);
+        }
+
+        public async Task<IActionResult> Delete(int id)
+        {
+            var model = new AttractionFormModel();
+            model.Cities = await this.citiesService.GetAllAsync();
+            return this.View(model);
         }
     }
 }

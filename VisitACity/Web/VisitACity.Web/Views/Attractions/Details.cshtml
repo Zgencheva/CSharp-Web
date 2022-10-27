@@ -48,6 +48,11 @@
                             <i class="fa fa-comment"></i> <span>Comment</span>
                         </div>
                     </a>
+                    @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+                    {
+                        <a class="btn btn-outline-dark" asp-area="Administration" asp-controller="Attractions" asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary mb-2">Edit</a>
+                        <a class="btn btn-outline-danger" asp-area="Administration" asp-controller="Attractions" asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-primary mb-2">Delete</a>
+                    }
                 </div>
                 <h2 class="text-center">Comments:</h2>
                 @if (Model.Reviews.Count() == 0)

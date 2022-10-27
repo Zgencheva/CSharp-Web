@@ -1,6 +1,7 @@
 ﻿namespace VisitACity.Services.Data
 {
     using System;
+    using System.Linq;
     using System.Threading.Tasks;
 
     using Microsoft.EntityFrameworkCore;
@@ -45,6 +46,19 @@
             };
 
             await this.reviewsRepository.AddAsync(review);
+            await this.reviewsRepository.SaveChangesAsync();
+        }
+
+        public async Task DeleteAsync(int id)
+        {
+            var review = await this.reviewsRepository.All().Where(x => x.Id == id).FirstOrDefaultAsync();
+
+            if (review == null)
+            {
+                throw new NullReferenceException("Invalid comment");
+            }
+            review.IsDeleted = true;
+            this.reviewsRepository.Update(review);
             await this.reviewsRepository.SaveChangesAsync();
         }
     }

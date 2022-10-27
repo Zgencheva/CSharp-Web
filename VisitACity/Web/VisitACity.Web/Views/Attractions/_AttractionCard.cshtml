@@ -1,8 +1,8 @@
 ﻿@using VisitACity.Web.ViewModels.Attractions
 @model AttractionViewModel
-@{
+@*@{
     var imagePath = $"~/images/Attractions/{Model.Images.FirstOrDefault().Id}.{Model.Images.FirstOrDefault().Extension}";
-}
+}*@
 <div class="media col-md-4">
 
     <a asp-controller="Attractions" asp-action="Details" asp-route-id="@Model.Id">

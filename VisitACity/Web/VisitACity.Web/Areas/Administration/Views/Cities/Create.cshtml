@@ -1,4 +1,4 @@
-﻿@model VisitACity.Web.ViewModels.Administration.Cities.CreateCityInputModel
+﻿@model VisitACity.Web.ViewModels.Administration.Cities.CityFormModel
 @{
     this.ViewData["Title"] = "Create city";
 }
@@ -14,9 +14,14 @@
                 <input asp-for="Name" class="form-control" aria-required="true" />
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
-            <div class="mb-3">
-                <label asp-for="CountryId" class="form-label">CountryId</label>
-                <input asp-for="CountryId" class="form-control" aria-required="true" />
+             <div class="mb-3">
+                <label asp-for="CountryId" class="form-label">Country</label>
+                <select asp-for="CountryId" class="form-control">
+                    @foreach (var country in Model.Countries)
+                    {
+                        <option value="@country.Id">@country.Name</option>
+                    }
+                </select>
                 <span asp-validation-for="CountryId" class="text-danger"></span>
             </div>
             <div class="mb-3">

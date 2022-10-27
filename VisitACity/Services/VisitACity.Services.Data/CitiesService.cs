@@ -39,7 +39,7 @@
                 .ToListAsync();
         }
 
-        public async Task CreateAsync(CreateCityInputModel model)
+        public async Task CreateAsync(CityFormModel model)
         {
             var country = await this.countryRepository.All().FirstOrDefaultAsync(x => x.Id == model.CountryId);
             if (country == null)

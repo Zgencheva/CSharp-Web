@@ -12,6 +12,6 @@
 
         Task<IEnumerable<CityViewModel>> GetAllAsync();
 
-        Task CreateAsync(CreateCityInputModel model);
+        Task CreateAsync(CityFormModel model);
     }
 }

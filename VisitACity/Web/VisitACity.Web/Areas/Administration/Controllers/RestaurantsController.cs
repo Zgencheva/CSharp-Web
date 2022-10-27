@@ -22,13 +22,13 @@
 
         public async Task<IActionResult> Create()
         {
-            var model = new CreateRestaurantInputModel();
+            var model = new RestaurantFromModel();
             model.Cities = await this.citiesService.GetAllAsync();
             return this.View(model);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(CreateRestaurantInputModel model)
+        public async Task<IActionResult> Create(RestaurantFromModel model)
         {
             if (!this.ModelState.IsValid)
             {

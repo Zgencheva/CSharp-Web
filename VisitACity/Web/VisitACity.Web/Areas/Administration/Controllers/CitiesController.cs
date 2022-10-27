@@ -10,23 +10,29 @@
     public class CitiesController : AdministrationController
     {
         private readonly ICitiesService citiesService;
+        private readonly ICountriesService countriesService;
 
-        public CitiesController(ICitiesService citiesService)
+        public CitiesController(
+            ICitiesService citiesService,
+            ICountriesService countriesService)
         {
             this.citiesService = citiesService;
+            this.countriesService = countriesService;
         }
 
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            var model = new CreateCityInputModel();
+            var model = new CityFormModel();
+            model.Countries = await this.countriesService.GetAllAsync();
             return this.View(model);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(CreateCityInputModel model)
+        public async Task<IActionResult> Create(CityFormModel model)
         {
             if (!this.ModelState.IsValid)
             {
+                model.Countries = await this.countriesService.GetAllAsync();
                 return this.View(model);
             }
 
@@ -37,6 +43,7 @@
             catch (Exception ex)
             {
                 this.ModelState.AddModelError(string.Empty, ex.Message);
+                model.Countries = await this.countriesService.GetAllAsync();
                 return this.View(model);
             }
             this.TempData["Message"] = $"City {model.Name} added successfully.";

@@ -14,5 +14,8 @@
         </div>
 
     </div>
-
+    @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+    {
+        <a class="btn btn-outline-danger" asp-area="Administration" asp-controller="Reviews" asp-action="Delete" asp-route-attractionId="@Model.AttractionId" asp-route-reviewId="@Model.Id" class="btn btn-primary mb-2">Delete</a>
+    }
 </div>

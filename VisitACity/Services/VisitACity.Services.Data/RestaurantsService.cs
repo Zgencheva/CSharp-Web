@@ -1,5 +1,7 @@
 ﻿namespace VisitACity.Services.Data
 {
+    using Microsoft.EntityFrameworkCore;
+    using System;
     using System.Linq;
     using System.Threading.Tasks;
     using VisitACity.Data.Common.Repositories;
@@ -10,15 +12,34 @@
     public class RestaurantsService : IRestaurantsService
     {
         private readonly IDeletableEntityRepository<Restaurant> restaurantRepository;
+        private readonly IDeletableEntityRepository<City> cityRepository;
 
-        public RestaurantsService(IDeletableEntityRepository<Restaurant> restaurantRepository)
+        public RestaurantsService(
+            IDeletableEntityRepository<Restaurant> restaurantRepository,
+            IDeletableEntityRepository<City> cityRepository)
         {
             this.restaurantRepository = restaurantRepository;
+            this.cityRepository = cityRepository;
         }
 
-        public Task CreateAsync(CreateRestaurantInputModel model)
+        public async Task CreateAsync(RestaurantFromModel model)
         {
-            throw new System.NotImplementedException();
+            var city = await this.cityRepository.All().FirstOrDefaultAsync(x => x.Id == model.CityId);
+            if (city == null)
+            {
+                throw new NullReferenceException("No such city");
+            }
+
+            var restaurant = new Restaurant
+            {
+                Name = model.Name,
+                City = city,
+                Address = model.Address,  
+                ImageUrl = model.ImageUrl,
+            };
+
+            await this.restaurantRepository.AddAsync(restaurant);
+            await this.restaurantRepository.SaveChangesAsync();
         }
 
         public int GetCount()

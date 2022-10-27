@@ -18,12 +18,12 @@
 
         public IActionResult Create()
         {
-            var model = new CreateCountryInputModel();
+            var model = new CountryFormModel();
             return this.View(model);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(CreateCountryInputModel model)
+        public async Task<IActionResult> Create(CountryFormModel model)
         {
             if (!this.ModelState.IsValid)
             {

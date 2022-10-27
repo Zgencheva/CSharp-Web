@@ -16,6 +16,6 @@
 
         Task<AttractionViewModel> GetByIdAsync(int id);
 
-        Task CreateAsync(CreateAttractionInputModel model);
+        Task CreateAsync(AttractionFormModel model);
     }
 }
