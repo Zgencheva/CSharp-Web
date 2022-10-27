@@ -3,7 +3,6 @@
     using System.Collections.Generic;
     using System.Threading.Tasks;
 
-    using VisitACity.Data.Models;
     using VisitACity.Web.ViewModels.Administration.Attractions;
     using VisitACity.Web.ViewModels.Attractions;
 
