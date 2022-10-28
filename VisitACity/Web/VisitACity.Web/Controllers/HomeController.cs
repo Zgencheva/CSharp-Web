@@ -32,7 +32,8 @@
             if (id <= 0)
             {
                 return this.NotFound();
-            };
+            }
+
             const int ItemsPerPage = 6;
             var viewModel = new IndexViewModel
             {

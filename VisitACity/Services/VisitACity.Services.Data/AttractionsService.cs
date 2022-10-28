@@ -35,7 +35,7 @@
         public async Task<IEnumerable<AttractionViewModel>> GetBestAttractionsAsync(int page, int itemsPage)
         {
             return await this.attractionRepository.All()
-                .OrderByDescending(x => x.Id)
+                .OrderByDescending(x => x.Reviews.Average(r => r.Rating))
                 .Skip((page - 1) * itemsPage).Take(itemsPage)
                 .To<AttractionViewModel>()
                .ToListAsync();
