@@ -16,6 +16,32 @@
     </div>
     @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
     {
-        <a class="btn btn-outline-danger" asp-area="Administration" asp-controller="Reviews" asp-action="Delete" asp-route-attractionId="@Model.AttractionId" asp-route-reviewId="@Model.Id" class="btn btn-primary mb-2">Delete</a>
+        <button class="btn btn-danger" onclick="document.getElementById('id01').style.display='block'">Delete</button>
     }
 </div>
+
+<div id="id01" class="modal">
+  <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
+  <form class="modal-content" action="/action_page.php">
+    <div class="container">
+      <h1>Delete comment</h1>
+      <p>Are you sure you want to delete this comment?</p>
+
+      <div class="clearfix">
+         <a class="btn btn-outline-danger" asp-area="" asp-controller="Attractions" asp-action="Details" asp-route-attractionId="@Model.AttractionId" asp-route-reviewId="@Model.Id" class="btn btn-primary mb-2">No</a>
+         <a class="btn btn-outline-success" asp-area="Administration" asp-controller="Reviews" asp-action="Delete" asp-route-attractionId="@Model.AttractionId" asp-route-reviewId="@Model.Id" class="btn btn-primary mb-2">Yes</a>
+      </div>
+    </div>
+  </form>
+</div>
+
+<script>
+// Get the modal
+var modal = document.getElementById('id01');
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+  if (event.target == modal) {
+    modal.style.display = "none";
+  }
+}
+</script>
