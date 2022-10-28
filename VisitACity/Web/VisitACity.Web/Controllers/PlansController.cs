@@ -76,7 +76,7 @@
                 return this.View(input);
             }
 
-            this.TempData["Message"] = "Plan added successfully.";
+            //this.TempData["Message"] = "Plan added successfully.";
             return this.RedirectToAction(nameof(this.MyPlans));
         }
 
@@ -85,11 +85,10 @@
             return this.RedirectToAction(nameof(this.MyPlans));
         }
 
-        [HttpPost]
         public async Task<IActionResult> Delete(int id)
         {
             await this.plansService.DeleteAsync(id);
-
+            this.TempData["Message"] = "Plan deleted successfully.";
             return this.RedirectToAction(nameof(this.MyPlans));
         }
     }
