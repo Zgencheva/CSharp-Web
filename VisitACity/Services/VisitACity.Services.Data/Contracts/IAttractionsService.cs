@@ -22,5 +22,6 @@
 
         Task DeleteByIdAsync(int id);
 
+        int GetCountByCity(string cityName);
     }
 }

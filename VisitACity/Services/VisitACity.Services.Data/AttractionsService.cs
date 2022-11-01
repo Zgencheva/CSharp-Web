@@ -139,5 +139,12 @@
             this.attractionRepository.Update(attraction);
             await this.attractionRepository.SaveChangesAsync();
         }
+
+        public int GetCountByCity(string cityName)
+        {
+            return this.attractionRepository.AllAsNoTracking()
+                .Where(x=> x.City.Name == cityName)
+                .ToArray().Length;
+        }
     }
 }

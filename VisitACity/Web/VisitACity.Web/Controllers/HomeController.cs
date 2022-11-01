@@ -58,7 +58,7 @@
                 {
                     Attractions = await this.attractionsService.GetByCityAsync(cityName, id, ItemsPerPage),
                     PageNumber = id,
-                    AttractionsCount = this.attractionsService.GetCount(),
+                    AttractionsCount = this.attractionsService.GetCountByCity(cityName),
                     ItemsPerPage = ItemsPerPage,
                 };
             }
