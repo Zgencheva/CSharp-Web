@@ -1,9 +1,10 @@
 ﻿namespace VisitACity.Services.Data
 {
-    using Microsoft.EntityFrameworkCore;
     using System;
     using System.Linq;
     using System.Threading.Tasks;
+
+    using Microsoft.EntityFrameworkCore;
     using VisitACity.Data.Common.Repositories;
     using VisitACity.Data.Models;
     using VisitACity.Services.Data.Contracts;

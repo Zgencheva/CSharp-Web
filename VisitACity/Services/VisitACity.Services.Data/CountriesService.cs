@@ -31,11 +31,11 @@
             await this.countriesRepository.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<CountryViewModel>> GetAllAsync()
+        public async Task<IEnumerable<T>> GetAllAsync<T>()
         {
             return await this.countriesRepository
                 .All()
-                .To<CountryViewModel>()
+                .To<T>()
                 .ToListAsync();
         }
 

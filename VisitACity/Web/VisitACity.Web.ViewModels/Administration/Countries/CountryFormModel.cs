@@ -1,6 +1,7 @@
 ﻿namespace VisitACity.Web.ViewModels.Administration.Countries
 {
     using System.ComponentModel.DataAnnotations;
+
     using VisitACity.Data.Models;
     using VisitACity.Services.Mapping;
 

@@ -39,8 +39,9 @@
         </label>
     </div>
 </form>
-<hr></hr>
-<div class="h-10 d-inline-block, container" style="position:absolute; background-color: whitesmoke">
+<hr>
+<cache expires-after="@TimeSpan.FromHours(8)">
+    <div class="h-10 d-inline-block, container" style="position:absolute; background-color: whitesmoke">
     <div class="row align-items-center">
         <div class="col-sm">
             <div class="feature-icon">
@@ -59,7 +60,8 @@
         </div>
     </div>
 </div>
-<br></br>
+</cache>
+<br>
 <p></p>
 <br />
 <div class="card-group m">

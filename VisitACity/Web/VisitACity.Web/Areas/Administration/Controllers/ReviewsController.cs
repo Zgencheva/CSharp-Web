@@ -1,9 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
-using VisitACity.Services.Data.Contracts;
-
-namespace VisitACity.Web.Areas.Administration.Controllers
+﻿namespace VisitACity.Web.Areas.Administration.Controllers
 {
+    using System.Threading.Tasks;
+
+    using Microsoft.AspNetCore.Mvc;
+    using VisitACity.Services.Data.Contracts;
+
     public class ReviewsController : AdministrationController
     {
         private readonly IReviewService reviewService;

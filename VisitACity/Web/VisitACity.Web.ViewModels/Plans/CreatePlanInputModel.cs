@@ -3,7 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
-    using VisitACity.Data.Models;
+
     using VisitACity.Web.Infrastructure.ValidationAttributes;
     using VisitACity.Web.ViewModels.Cities;
     using VisitACity.Web.ViewModels.Countries;

@@ -6,6 +6,7 @@
     using Microsoft.AspNetCore.Mvc;
     using VisitACity.Services.Data.Contracts;
     using VisitACity.Web.ViewModels.Administration.Cities;
+    using VisitACity.Web.ViewModels.Countries;
 
     public class CitiesController : AdministrationController
     {
@@ -23,7 +24,7 @@
         public async Task<IActionResult> Create()
         {
             var model = new CityFormModel();
-            model.Countries = await this.countriesService.GetAllAsync();
+            model.Countries = await this.countriesService.GetAllAsync<CountryViewModel>();
             return this.View(model);
         }
 
@@ -32,7 +33,7 @@
         {
             if (!this.ModelState.IsValid)
             {
-                model.Countries = await this.countriesService.GetAllAsync();
+                model.Countries = await this.countriesService.GetAllAsync<CountryViewModel>();
                 return this.View(model);
             }
 
@@ -43,7 +44,7 @@
             catch (Exception ex)
             {
                 this.ModelState.AddModelError(string.Empty, ex.Message);
-                model.Countries = await this.countriesService.GetAllAsync();
+                model.Countries = await this.countriesService.GetAllAsync<CountryViewModel>();
                 return this.View(model);
             }
             this.TempData["Message"] = $"City {model.Name} added successfully.";

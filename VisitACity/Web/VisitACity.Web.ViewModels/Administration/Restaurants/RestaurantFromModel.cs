@@ -2,6 +2,7 @@
 {
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
+
     using VisitACity.Data.Models;
     using VisitACity.Services.Mapping;
     using VisitACity.Web.ViewModels.Cities;

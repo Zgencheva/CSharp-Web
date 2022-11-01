@@ -11,6 +11,7 @@
     public interface IReviewService
     {
         Task AddReviewToAttractionAsync(CreateReviewInputModel input, string userId, int attractionId);
+
         Task DeleteAsync(int id);
     }
 }

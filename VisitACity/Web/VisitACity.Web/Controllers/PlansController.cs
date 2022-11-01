@@ -7,6 +7,8 @@
     using Microsoft.AspNetCore.Mvc;
     using VisitACity.Data.Models;
     using VisitACity.Services.Data.Contracts;
+    using VisitACity.Web.ViewModels.Cities;
+    using VisitACity.Web.ViewModels.Countries;
     using VisitACity.Web.ViewModels.Plans;
 
     public class PlansController : BaseController
@@ -30,9 +32,6 @@
 
         public async Task<IActionResult> MyPlans()
         {
-            //var user = await this.userManager.GetUserAsync(this.User);
-            //var userId = user.Id;
-
             var userId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
             var plansViewModel = await this.plansService.GetUserPlansAsync(userId);
             var viewModel = new UserPlansViewModel
@@ -47,8 +46,8 @@
             var viewModel = new CreatePlanInputModel();
             viewModel.FromDate = DateTime.UtcNow;
             viewModel.ToDate = DateTime.UtcNow;
-            viewModel.Cities = await this.citiesService.GetAllAsync();
-            viewModel.Countries = await this.countriesService.GetAllAsync();
+            viewModel.Cities = await this.citiesService.GetAllAsync<CityViewModel>();
+            viewModel.Countries = await this.countriesService.GetAllAsync<CountryViewModel>();
             return this.View(viewModel);
         }
 
@@ -57,14 +56,12 @@
         {
             if (!this.ModelState.IsValid)
             {
-                input.Cities = await this.citiesService.GetAllAsync();
-                input.Countries = await this.countriesService.GetAllAsync();
+                input.Cities = await this.citiesService.GetAllAsync<CityViewModel>();
+                input.Countries = await this.countriesService.GetAllAsync<CountryViewModel>();
                 return this.View(input);
             }
 
             var userId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            //var user = await this.userManager.GetUserAsync(this.User);
-            //var userId = user.Id;
 
             try
             {
@@ -76,7 +73,7 @@
                 return this.View(input);
             }
 
-            //this.TempData["Message"] = "Plan added successfully.";
+            // this.TempData["Message"] = "Plan added successfully.";
             return this.RedirectToAction(nameof(this.MyPlans));
         }
 

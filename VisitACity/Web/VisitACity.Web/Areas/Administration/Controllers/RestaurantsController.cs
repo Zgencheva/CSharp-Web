@@ -6,6 +6,7 @@
     using Microsoft.AspNetCore.Mvc;
     using VisitACity.Services.Data.Contracts;
     using VisitACity.Web.ViewModels.Administration.Restaurants;
+    using VisitACity.Web.ViewModels.Cities;
 
     public class RestaurantsController : AdministrationController
     {
@@ -23,7 +24,7 @@
         public async Task<IActionResult> Create()
         {
             var model = new RestaurantFromModel();
-            model.Cities = await this.citiesService.GetAllAsync();
+            model.Cities = await this.citiesService.GetAllAsync<CityViewModel>();
             return this.View(model);
         }
 
@@ -32,7 +33,7 @@
         {
             if (!this.ModelState.IsValid)
             {
-                model.Cities = await this.citiesService.GetAllAsync();
+                model.Cities = await this.citiesService.GetAllAsync<CityViewModel>();
                 return this.View(model);
             }
 
@@ -43,7 +44,7 @@
             catch (Exception ex)
             {
                 this.ModelState.AddModelError(string.Empty, ex.Message);
-                model.Cities = await this.citiesService.GetAllAsync();
+                model.Cities = await this.citiesService.GetAllAsync<CityViewModel>();
                 return this.View(model);
             }
 

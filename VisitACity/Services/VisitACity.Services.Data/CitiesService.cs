@@ -11,7 +11,6 @@
     using VisitACity.Services.Data.Contracts;
     using VisitACity.Services.Mapping;
     using VisitACity.Web.ViewModels.Administration.Cities;
-    using VisitACity.Web.ViewModels.Cities;
 
     public class CitiesService : ICitiesService
     {
@@ -31,11 +30,11 @@
             return this.cityRepository.AllAsNoTracking().ToArray().Length;
         }
 
-        public async Task<IEnumerable<CityViewModel>> GetAllAsync()
+        public async Task<IEnumerable<T>> GetAllAsync<T>()
         {
             return await this.cityRepository
                 .All()
-                .To<CityViewModel>()
+                .To<T>()
                 .ToListAsync();
         }
 

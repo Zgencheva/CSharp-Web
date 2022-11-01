@@ -1,8 +1,9 @@
-﻿using System.Threading.Tasks;
-using VisitACity.Web.ViewModels.Administration.Restaurants;
-
-namespace VisitACity.Services.Data.Contracts
+﻿namespace VisitACity.Services.Data.Contracts
 {
+    using System.Threading.Tasks;
+
+    using VisitACity.Web.ViewModels.Administration.Restaurants;
+
     public interface IRestaurantsService
     {
         int GetCount();

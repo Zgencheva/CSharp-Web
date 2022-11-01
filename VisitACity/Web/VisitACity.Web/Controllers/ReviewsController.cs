@@ -32,9 +32,10 @@
             }
 
             var userId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            //var user = await this.userManager.GetUserAsync(this.User);
-            //var userId = user.Id;
 
+            // var user = await this.userManager.GetUserAsync(this.User);
+
+            // var userId = user.Id;
             try
             {
                 await this.reviewService.AddReviewToAttractionAsync(input, userId, id);

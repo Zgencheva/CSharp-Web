@@ -2,9 +2,9 @@
 {
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
+
     using VisitACity.Data.Models;
     using VisitACity.Services.Mapping;
-    using VisitACity.Web.ViewModels.Administration.Countries;
     using VisitACity.Web.ViewModels.Countries;
 
     public class CityFormModel : IMapTo<City>
