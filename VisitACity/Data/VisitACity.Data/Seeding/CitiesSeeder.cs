@@ -30,9 +30,10 @@
             await dbContext.Cities.AddAsync(new City { Name = "Bankya", Country = country });
             await dbContext.Cities.AddAsync(new City { Name = "Blagoevgrad", Country = country });
             await dbContext.Cities.AddAsync(new City { Name = "Velingrad", Country = country });
-            await dbContext.Cities.AddAsync(new City { Name = "Velingrad", Country = country });
-            await dbContext.Cities.AddAsync(new City { Name = "Velingrad", Country = country });
-            await dbContext.Cities.AddAsync(new City { Name = "Velingrad", Country = country });
+            await dbContext.Cities.AddAsync(new City { Name = "Asenovgrad", Country = country });
+            await dbContext.Cities.AddAsync(new City { Name = "Varna", Country = country });
+
+            await dbContext.SaveChangesAsync();
         }
     }
 }

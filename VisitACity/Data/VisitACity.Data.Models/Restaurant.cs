@@ -16,10 +16,17 @@
         [Required]
         public string Name { get; set; }
 
+        [Required]
         public string ImageUrl { get; set; }
 
         [Required]
         public string Address { get; set; }
+
+        [Required]
+        public string Url { get; set; }
+
+        [Required]
+        public string PhoneNumber { get; set; }
 
         public int CityId { get; set; }
 

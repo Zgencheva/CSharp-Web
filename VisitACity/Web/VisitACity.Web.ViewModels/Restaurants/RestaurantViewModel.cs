@@ -20,6 +20,10 @@
 
         public string CityName { get; set; }
 
+        public string Url { get; set; }
+
+        public string PhoneNumber { get; set; }
+
         public double Rating { get; set; }
 
         public IEnumerable<ReviewRestaurantViewModel> Reviews { get; set; }

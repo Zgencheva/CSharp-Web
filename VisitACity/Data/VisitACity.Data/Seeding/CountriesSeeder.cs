@@ -19,6 +19,8 @@
             await dbContext.Countries.AddAsync(new Country { Name = "Croatia" });
             await dbContext.Countries.AddAsync(new Country { Name = "USA" });
             await dbContext.Countries.AddAsync(new Country { Name = "Thailand" });
+
+            await dbContext.SaveChangesAsync();
         }
     }
 }

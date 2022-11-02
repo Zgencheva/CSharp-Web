@@ -20,7 +20,33 @@
             }
 
             var citySofia = await dbContext.Cities.FirstOrDefaultAsync(x => x.Name == "Sofia");
+            var cityVarna = await dbContext.Cities.FirstOrDefaultAsync(x => x.Name == "Varna");
+            var cityPlovdiv = await dbContext.Cities.FirstOrDefaultAsync(x => x.Name == "Plovdiv");
+            var cityAsenovgrad = await dbContext.Cities.FirstOrDefaultAsync(x => x.Name == "Asenovgrad");
 
+            await dbContext.Attractions.AddAsync(new Attraction
+            {
+                Name = "Muzeiko",
+                Type = (AttractionType)30,
+                AttractionUrl = "https://www.muzeiko.bg/bg",
+                Price = 10,
+                Address = "3 Professor Boyan Kamenov, 1756 Studentski",
+                City = citySofia,
+                ImageUrl = "https://www.muzeiko.bg/files/thumbnails/exhibition-4-2685_exhibition_detail.JPG",
+                Description = "Children's museum featuring interactive science-related exhibits, a cafe & a gift shop.",
+            });
+
+            await dbContext.Attractions.AddAsync(new Attraction
+            {
+                Name = "Nacional History Museum",
+                Type = (AttractionType)30,
+                AttractionUrl = "https://historymuseum.org/",
+                Price = 10,
+                Address = "16 Vitoshko lale",
+                City = citySofia,
+                ImageUrl = "https://static.bnr.bg/gallery/cr/fbb127416dc19bd0c41600296db20a4f.jpg",
+                Description = "The National Historical Museum in Sofia is Bulgaria's largest museum. It was founded on 5 May 1973. A new representative exhibition was opened in the building of the Court of Justice on 2 March 1984, to commemorate the 13th centenary of the Bulgarian state",
+            });
             await dbContext.Attractions.AddAsync(new Attraction
             {
                 Name = "Sait Sofia",
@@ -35,6 +61,18 @@
 
             await dbContext.Attractions.AddAsync(new Attraction
             {
+                Name = "Boyana Waterfall",
+                Type = (AttractionType)0,
+                AttractionUrl = "",
+                Price = 0,
+                Address = "In the woods, near Sofia",
+                City = citySofia,
+                ImageUrl = "https://static.standartnews.com/storage/thumbnails/large_article/5816/2965/2691/vodopad.jpg",
+                Description = "Boyana Waterfall is the largest waterfall in the Bulgarian Vitosha mountain, with a height of 25 meters.",
+            });
+
+            await dbContext.Attractions.AddAsync(new Attraction
+            {
                 Name = "Museum of illusions",
                 Type = (AttractionType)30,
                 AttractionUrl = "https://museumofillusions.bg/",
@@ -43,6 +81,17 @@
                 City = citySofia,
                 ImageUrl = "https://museumofillusions.bg/uploads/2022/03/04.jpg",
                 Description = "It's fascinating. It's fun. It's sure to be surprising. 400 m2 full of riveting illusions, wonderful atmosphere and helpful staff.",
+            });
+            await dbContext.Attractions.AddAsync(new Attraction
+            {
+                Name = "Dolphinarium",
+                Type = (AttractionType)0,
+                AttractionUrl = "https://dolphinariumvarna.bg/",
+                Price = 25,
+                Address = "Saltanat primorski park",
+                City = cityVarna,
+                ImageUrl = "https://m.netinfo.bg/media/images/29504/29504954/640-420-32-godini-delfinarium.jpg",
+                Description = "Yes, you can swim with dolphins. Dolphins can have fun.",
             });
 
             await dbContext.Attractions.AddAsync(new Attraction
@@ -81,8 +130,6 @@
                 Description = "The Boyana Church is a medieval Bulgarian Orthodox church situated on the outskirts of Sofia, the capital of Bulgaria, in the Boyana quarter. In 1979, the building was added to the UNESCO World Heritage List.",
             });
 
-            var cityPlovdiv = await dbContext.Cities.FirstOrDefaultAsync(x => x.Name == "Plovdiv");
-
             await dbContext.Attractions.AddAsync(new Attraction
             {
                 Name = "Kapana",
@@ -107,7 +154,6 @@
                 Description = "Rome old stadium",
             });
 
-            var cityAsenovgrad = await dbContext.Cities.FirstOrDefaultAsync(x => x.Name == "Asenovgrad");
             await dbContext.Attractions.AddAsync(new Attraction
             {
                 Name = "Paleontological Museum",
