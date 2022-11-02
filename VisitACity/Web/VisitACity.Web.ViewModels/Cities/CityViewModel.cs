@@ -1,8 +1,8 @@
-﻿using VisitACity.Services.Mapping;
-using VisitACity.Data.Models;
-
-namespace VisitACity.Web.ViewModels.Cities
+﻿namespace VisitACity.Web.ViewModels.Cities
 {
+    using VisitACity.Data.Models;
+    using VisitACity.Services.Mapping;
+
     public class CityViewModel : IMapFrom<City>
     {
         public int Id { get; set; }

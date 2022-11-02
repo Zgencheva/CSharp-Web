@@ -18,7 +18,7 @@
     <h3 style="margin-top:50px" ; class="display-12">Where are you travelling to?</h3>
 </div>
 <br>
-<form asp-action="Search" method="Get" class="col-md-6 offset-md-3">
+<form method="Get" class="col-md-6 offset-md-3">
     <div class="form-group col-md-6 offset-md-3">
         <input name="cityName" class="form-control" />
     </div>
@@ -67,19 +67,38 @@
 <br />
 @if (@Model.IsAttraction)
 {
-    <div class="card-group m">
-    @foreach (var attraction in this.Model.List)
+    @if (@Model.EventsCount == 0)
     {
-        <partial name="~/Views/Attractions/_AttractionCard.cshtml" , model="attraction" />
+        <h1 class="text-center">No attractions</h1>
     }
+    else
+    {
+        <div class="card-group m">
+            @foreach (var attraction in this.Model.List)
+            {
+                <partial name="~/Views/Attractions/_AttractionCard.cshtml" , model="attraction" />
+            }
 
-</div>
-<hr />
-
-
+        </div>
+        <hr />
+    }
 }
 else
 {
-    
+    @if (@Model.EventsCount == 0)
+    {
+        <h1 class="text-center">No restaurants</h1>
+    }
+    else
+    {
+        <div class="card-group m">
+            @foreach (var restaurant in this.Model.List)
+            {
+                <partial name="~/Views/Restaurants/_RestaurantCard.cshtml" , model="restaurant" />
+            }
+
+        </div>
+        <hr />
+    }
 }
 <partial name="~/Views/Shared/_PagingPartial.cshtml" model="@Model" />

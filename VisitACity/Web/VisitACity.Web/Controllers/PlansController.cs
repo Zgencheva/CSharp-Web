@@ -82,6 +82,11 @@
             return this.RedirectToAction(nameof(this.MyPlans));
         }
 
+        public IActionResult AddRestaurantToPlan(int restaurantId, int planId)
+        {
+            return this.RedirectToAction(nameof(this.MyPlans));
+        }
+
         public async Task<IActionResult> Delete(int id)
         {
             await this.plansService.DeleteAsync(id);

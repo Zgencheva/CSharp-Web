@@ -2,7 +2,6 @@
 namespace VisitACity.Web.ViewModels.Home
 {
     using System.Collections;
-    using VisitACity.Web.ViewModels.Restaurants;
 
     public class IndexViewModel : PagingViewModel
     {

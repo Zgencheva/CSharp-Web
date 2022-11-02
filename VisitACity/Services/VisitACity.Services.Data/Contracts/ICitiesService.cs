@@ -2,6 +2,7 @@
 {
     using System.Collections.Generic;
     using System.Threading.Tasks;
+
     using VisitACity.Web.ViewModels.Administration.Cities;
 
     public interface ICitiesService

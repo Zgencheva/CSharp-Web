@@ -1,17 +1,14 @@
-﻿@using VisitACity.Web.ViewModels.Attractions
-@model AttractionViewModel
+﻿@using VisitACity.Web.ViewModels.Restaurants
+@model RestaurantViewModel
 @*@{
     var imagePath = $"~/images/Attractions/{Model.Images.FirstOrDefault().Id}.{Model.Images.FirstOrDefault().Extension}";
 }*@
 <div class="media col-md-4">
-    <a asp-controller="Attractions" asp-action="Details" asp-route-id="@Model.Id">
-        <img class="mr-3 img-responsive" width="400" height="300" src="@Model.ImageUrl" alt="Card image cap" />
-    </a>
+    <img class="mr-3 img-responsive" width="400" height="300" src="@Model.ImageUrl" alt="Card image cap" />
     <div class="card-body">
         <h4 class="card-title text-center">@Model.Name</h4>
         <p></p>
         <h5 class="card-text text-center">City: @Model.CityName</h5>
-        <div class="card-text">Price: $@Model.Price</div>
         <div class="card-text">Address: @Model.Address</div>
         <p></p>
 
@@ -37,12 +34,7 @@
         </div>
     </div>
     <div class="text-center">
-        <a class="btn btn-info" asp-controller="Attractions" asp-action="Details" asp-route-id="@Model.Id">
-            <div class="feature-icon">
-                <i class="fa fa-info-circle"></i> <span>Details</span>
-            </div>
-        </a>
-        <a class="btn btn-success" asp-controller="Plans" asp-action="AddAttractionToPlan" asp-route-id="@Model.Id">
+        <a class="btn btn-success" asp-controller="Plans" asp-action="AddRestaurantToPlan" asp-route-id="@Model.Id">
             <div class="feature-icon">
                 <i class="fa fa-bus"></i> <span>Add to plan</span>
             </div>
