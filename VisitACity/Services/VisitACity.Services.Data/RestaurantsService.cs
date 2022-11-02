@@ -1,6 +1,7 @@
 ﻿namespace VisitACity.Services.Data
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
 
@@ -8,7 +9,9 @@
     using VisitACity.Data.Common.Repositories;
     using VisitACity.Data.Models;
     using VisitACity.Services.Data.Contracts;
+    using VisitACity.Services.Mapping;
     using VisitACity.Web.ViewModels.Administration.Restaurants;
+    using VisitACity.Web.ViewModels.Restaurants;
 
     public class RestaurantsService : IRestaurantsService
     {
@@ -43,9 +46,26 @@
             await this.restaurantRepository.SaveChangesAsync();
         }
 
+        public async Task<IEnumerable<T>> GetByCityAsync<T>(string restaurantName, int page, int itemsPage)
+        {
+            return await this.restaurantRepository.All()
+            .Where(x => x.City.Name == restaurantName)
+            .OrderByDescending(x => x.Id)
+            .Skip((page - 1) * itemsPage).Take(itemsPage)
+            .To<T>()
+           .ToListAsync();
+        }
+
         public int GetCount()
         {
             return this.restaurantRepository.AllAsNoTracking().ToArray().Count();
+        }
+
+        public int GetCountByCity(string cityName)
+        {
+            return this.restaurantRepository.AllAsNoTracking()
+                .Where(x => x.City.Name == cityName)
+                .ToArray().Length;
         }
     }
 }

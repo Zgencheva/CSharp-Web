@@ -10,9 +10,9 @@
     {
         int GetCount();
 
-        Task<IEnumerable<AttractionViewModel>> GetBestAttractionsAsync(int page, int itemsPerPage);
+        Task<IEnumerable<T>> GetBestAttractionsAsync<T>(int page, int itemsPerPage);
 
-        Task<IEnumerable<AttractionViewModel>> GetByCityAsync(string cityName, int page, int itemsPerPage);
+        Task<IEnumerable<T>> GetByCityAsync<T>(string cityName, int page, int itemsPerPage);
 
         Task<T> GetViewModelByIdAsync<T>(int id);
 

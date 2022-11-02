@@ -18,9 +18,9 @@
 
         public int NextPageNumber => this.PageNumber + 1;
 
-        public int PagesCount => (int)Math.Ceiling((double)this.AttractionsCount / this.ItemsPerPage);
+        public int PagesCount => (int)Math.Ceiling((double)this.EventsCount / this.ItemsPerPage);
 
-        public int AttractionsCount { get; set; }
+        public int EventsCount { get; set; }
 
         public int ItemsPerPage { get; set; }
     }

@@ -1,9 +1,10 @@
 ﻿
 namespace VisitACity.Web.ViewModels.Home
 {
-    using VisitACity.Web.ViewModels.Attractions;
+    using System.Collections;
+    using VisitACity.Web.ViewModels.Restaurants;
 
-    public class IndexViewModel
+    public class IndexViewModel : PagingViewModel
     {
         public int CitiesCount { get; set; }
 
@@ -11,6 +12,9 @@ namespace VisitACity.Web.ViewModels.Home
 
         public int RestaurantCount { get; set; }
 
-        public AttractionsListViewModel AttractionList { get; set; }
+        public IEnumerable List { get; set; }
+
+        public bool IsAttraction { get; set; } = true;
+
     }
 }

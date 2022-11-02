@@ -32,22 +32,22 @@
             return this.attractionRepository.AllAsNoTracking().ToArray().Length;
         }
 
-        public async Task<IEnumerable<AttractionViewModel>> GetBestAttractionsAsync(int page, int itemsPage)
+        public async Task<IEnumerable<T>> GetBestAttractionsAsync<T>(int page, int itemsPage)
         {
             return await this.attractionRepository.All()
                 .OrderByDescending(x => x.Reviews.Average(r => r.Rating))
                 .Skip((page - 1) * itemsPage).Take(itemsPage)
-                .To<AttractionViewModel>()
+                .To<T>()
                .ToListAsync();
         }
 
-        public async Task<IEnumerable<AttractionViewModel>> GetByCityAsync(string cityName, int page, int itemsPage)
+        public async Task<IEnumerable<T>> GetByCityAsync<T>(string cityName, int page, int itemsPage)
         {
             return await this.attractionRepository.All()
             .Where(x => x.City.Name == cityName)
             .OrderByDescending(x => x.Id)
             .Skip((page - 1) * itemsPage).Take(itemsPage)
-            .To<AttractionViewModel>()
+            .To<T>()
            .ToListAsync();
         }
 

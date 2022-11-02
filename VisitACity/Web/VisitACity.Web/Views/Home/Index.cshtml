@@ -2,7 +2,7 @@
 @using VisitACity.Web.ViewModels.Home
 @model IndexViewModel
 @{
-    this.ViewData["Title"] = "Home Page, page" + Model.AttractionList.PageNumber;
+    this.ViewData["Title"] = "Home Page, page" + Model.PageNumber;
 }
 @if (this.TempData.ContainsKey("Message"))
 {
@@ -16,14 +16,30 @@
         <a asp-controller="Plans" asp-action="Create">Here</a>
     </h2>
     <h3 style="margin-top:50px" ; class="display-12">Where are you travelling to?</h3>
-    <form asp-action="Index" method="Get" class="col-md-6 offset-md-3"> 
-        <div class="form-group">
-            <input name="cityName" class="form-control" />
-        </div>
-         <button type="submit" class="btn btn-primary">Search</button>
-    </form>
-
 </div>
+<br>
+<form asp-action="Search" method="Get" class="col-md-6 offset-md-3">
+    <div class="form-group col-md-6 offset-md-3">
+        <input name="cityName" class="form-control" />
+    </div>
+    <fieldset class="col-md-6 offset-md-4">
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="radioOption" id="exampleRadios1" value="Attractions" checked>
+            <label class="form-check-label" for="exampleRadios1">
+                Attractions
+            </label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="radioOption" id="exampleRadios2" value="Restaurants">
+            <label class="form-check-label" for="exampleRadios2">
+                Restaurants
+            </label>
+        </div>
+    </fieldset>
+    <button type="submit" class="btn btn-primary col-md-3 offset-md-4">Search</button>
+</form>
+
+
 <hr>
 <cache expires-after="@TimeSpan.FromHours(8)">
     <div class="h-10 d-inline-block, container" style="position:absolute; background-color: whitesmoke">
@@ -49,12 +65,21 @@
 <br>
 <p></p>
 <br />
-<div class="card-group m">
-    @foreach (var attraction in this.Model.AttractionList.Attractions)
+@if (@Model.IsAttraction)
+{
+    <div class="card-group m">
+    @foreach (var attraction in this.Model.List)
     {
         <partial name="~/Views/Attractions/_AttractionCard.cshtml" , model="attraction" />
     }
 
 </div>
 <hr />
-<partial name="~/Views/Shared/_PagingPartial.cshtml" model="@Model.AttractionList" />
+
+
+}
+else
+{
+    
+}
+<partial name="~/Views/Shared/_PagingPartial.cshtml" model="@Model" />
