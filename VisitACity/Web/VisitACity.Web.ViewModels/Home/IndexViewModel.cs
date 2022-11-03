@@ -15,5 +15,7 @@ namespace VisitACity.Web.ViewModels.Home
 
         public bool IsAttraction { get; set; } = true;
 
+        public IndexSearchQueryModel? queryModel { get; set; }
+
     }
 }

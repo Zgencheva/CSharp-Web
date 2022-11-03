@@ -14,6 +14,15 @@
         [MinLength(3)]
         public string Name { get; set; }
 
+        [Required]
+        [MaxLength(50)]
+        public string PhoneNumber { get; set; }
+
+        [Url]
+        [Required]
+        public string Url { get; set; }
+
+        [Required]
         [Url]
         public string ImageUrl { get; set; }
 
@@ -21,6 +30,7 @@
         [MaxLength(500)]
         public string Address { get; set; }
 
+        [Required]
         public int CityId { get; set; }
 
         public IEnumerable<CityViewModel> Cities { get; set; }

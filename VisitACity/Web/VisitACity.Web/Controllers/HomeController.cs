@@ -57,11 +57,13 @@
                     viewModel.IsAttraction = false;
                     viewModel.EventsCount = this.restaurantsService.GetCountByCity(query.CityName);
                     viewModel.List = await this.restaurantsService.GetByCityAsync<RestaurantViewModel>(query.CityName, id, ItemsPerPage);
+                    viewModel.queryModel = query;
                 }
                 else if (query.RadioOption == "Attractions")
                 {
                     viewModel.List = await this.attractionsService.GetByCityAsync<AttractionViewModel>(query.CityName, id, ItemsPerPage);
                     viewModel.EventsCount = this.attractionsService.GetCountByCity(query.CityName);
+                    viewModel.queryModel = query;
                 }
             }
 
