@@ -88,7 +88,7 @@
 
             await this.attractionsService.DeleteByIdAsync(id);
 
-            this.TempData["Message"] = "Attraction delete successfully.";
+            this.TempData["Message"] = "Attraction deleted successfully.";
             return this.RedirectToAction("Index", "Home", new { area = "" });
         }
     }

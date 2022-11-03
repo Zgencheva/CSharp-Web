@@ -51,7 +51,7 @@
                     @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
                     {
                         <a class="btn btn-outline-dark" asp-area="Administration" asp-controller="Attractions" asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary mb-2">Edit</a>
-                        <a class="btn btn-outline-danger" asp-area="Administration" asp-controller="Attractions" asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-primary mb-2">Delete</a>
+                        <button class="btn btn-danger" onclick="document.getElementById('id01').style.display='block'">Delete</button>
                     }
                 </div>
                 <h2 class="text-center">Comments:</h2>
@@ -61,7 +61,7 @@
                         No comments yet. Be the first to comment this attraction
                         <a asp-controller="Reviews" asp-action="Create" asp-route-id="@Model.Id">Here</a>
                     </div>
-                    <br></br>
+                    <br>
                 }
                 else
                 {
@@ -75,3 +75,29 @@
         </div>
     </div>
 </section>
+
+<div id="id01" class="modal">
+    <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
+    <form class="modal-content" action="/action_page.php">
+        <div class="container">
+            <h1>Delete comment</h1>
+            <p>Are you sure you want to delete this comment?</p>
+
+            <div class="clearfix">
+                <a class="btn btn-outline-danger" asp-area="" asp-controller="Home" asp-action="Index" asp-route-id="1" class="btn btn-primary mb-2">No</a>
+                <a class="btn btn-outline-success" asp-area="Administration" asp-controller="Attractions" asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-primary mb-2">Yes</a>
+            </div>
+        </div>
+    </form>
+</div>
+
+<script>
+    // Get the modal
+    var modal = document.getElementById('id01');
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+</script>

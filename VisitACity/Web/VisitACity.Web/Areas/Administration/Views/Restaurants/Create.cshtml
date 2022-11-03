@@ -22,6 +22,16 @@
                 <input asp-for="Address" class="form-control" aria-required="true" />
                 <span asp-validation-for="Address" class="text-danger"></span>
             </div>
+             <div class="mb-3">
+                <label asp-for="PhoneNumber" class="form-label">PhoneNumber</label>
+                <input asp-for="PhoneNumber" class="form-control" aria-required="true" />
+                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Url" class="form-label">Restaurant Url</label>
+                <input asp-for="Url" class="form-control" aria-required="true" />
+                <span asp-validation-for="Url" class="text-danger"></span>
+            </div>
             <div class="mb-3">
                 <label asp-for="CityId" class="form-label">City</label>
                 <select asp-for="CityId" class="form-control">
