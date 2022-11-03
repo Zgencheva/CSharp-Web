@@ -14,11 +14,18 @@
             this.reviewService = reviewService;
         }
 
-        public async Task<IActionResult> Delete(int reviewId, int attractionId)
+        public async Task<IActionResult> Delete(int id)
         {
-            await this.reviewService.DeleteAsync(reviewId);
+            await this.reviewService.DeleteAsync(id);
             this.TempData["Message"] = $"Comment deleted successfully.";
-            return this.RedirectToAction("Details", "Attractions", new { area = "", id = attractionId });
+            return this.Ok();
         }
+
+        //public async Task<IActionResult> Delete(int id, int attractionId)
+        //{
+        //    await this.reviewService.DeleteAsync(id);
+        //    this.TempData["Message"] = $"Comment deleted successfully.";
+        //    return this.RedirectToAction("Details", "Attractions", new { area = "", id = attractionId });
+        //}
     }
 }

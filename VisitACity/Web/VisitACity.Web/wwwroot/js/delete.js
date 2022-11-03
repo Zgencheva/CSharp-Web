@@ -28,11 +28,17 @@
         target = e.target;
         var Id = $(target).data('id');
         var controller = $(target).data('controller');
+        var area = $(target).data('area');
         var action = $(target).data('action');
         var bodyMessage = $(target).data('body-message');
         redirectUrl = $(target).data('redirect-url');
-
-        url = "/" + controller + "/" + action + "?Id=" + Id;
+        if (area != null) {
+            url = "/" + area + "/" + controller + "/" + action + "?Id=" + Id;
+        }
+        else {
+            url = "/" + controller + "/" + action + "?Id=" + Id;
+        }
+        
         $(".delete-modal-body").text(bodyMessage);
         $("#deleteModal").modal('show');
     });

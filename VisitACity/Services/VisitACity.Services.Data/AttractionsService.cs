@@ -135,15 +135,14 @@
                 throw new NullReferenceException("No such attraction");
             }
 
-            attraction.IsDeleted = true;
-            this.attractionRepository.Update(attraction);
+            this.attractionRepository.Delete(attraction);
             await this.attractionRepository.SaveChangesAsync();
         }
 
         public int GetCountByCity(string cityName)
         {
             return this.attractionRepository.AllAsNoTracking()
-                .Where(x=> x.City.Name == cityName)
+                .Where(x => x.City.Name == cityName)
                 .ToArray().Length;
         }
     }
