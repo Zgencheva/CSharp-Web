@@ -11,8 +11,12 @@
         <h4 class="card-title text-center">@Model.Name</h4>
         <p></p>
         <h5 class="card-text text-center">City: @Model.CityName</h5>
-        <div class="card-text">Address: @Model.Address</div>
-        <div class="card-text">Phone: @Model.PhoneNumber</div>
+        <div class="card-text feature-icon">
+            <i class="fa fa-search-location"></i> <span>Address: @Model.Address</span>
+        </div>
+                <div class="card-text feature-icon">
+            <i class="fa fa-phone"></i> <span>Phone: @Model.PhoneNumber</span>
+        </div>
         <p></p>
 
     </div>
