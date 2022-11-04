@@ -13,6 +13,9 @@
             <div class="col-lg-6 order-lg-2">
                 <div class="p-5"><img class="img-fluid rounded-circle" src="@Model.ImageUrl" alt="..."></div>
             </div>
+                  <form method="post" asp-action="SendToEmail" asp-route-id="@Model.Id">
+                            <button class="btn btn-warning">Send to my email</button>
+                        </form>
             <div class="col-lg-6 order-lg-1">
                 <div class="p-5">
                     <h2 class="display-4">@Model.Name</h2>
