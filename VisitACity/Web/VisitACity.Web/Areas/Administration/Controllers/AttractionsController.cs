@@ -80,7 +80,8 @@
             }
 
             this.TempData["Message"] = "Attraction updated successfully.";
-            return this.RedirectToAction("Index", "Home", new { area = "" });
+            var city = await this.citiesService.GetByIdAsync<CityViewModel>(model.CityId);
+            return this.RedirectToAction("Details", "Attractions", new { area = "", id});
         }
 
         public async Task<IActionResult> Delete(int id)

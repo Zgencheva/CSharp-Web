@@ -54,5 +54,19 @@
             await this.cityRepository.AddAsync(city);
             await this.cityRepository.SaveChangesAsync();
         }
+
+        public async Task<T> GetByIdAsync<T>(int id)
+        {
+            var city = await this.cityRepository.All()
+                .Where(x => x.Id == id)
+                .To<T>()
+                .FirstOrDefaultAsync();
+            if (city == null)
+            {
+                throw new NullReferenceException("Invalid city");
+            }
+
+            return city;
+        }
     }
 }

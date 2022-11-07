@@ -18,5 +18,8 @@
 
         Task<T> GetViewModelByIdAsync<T>(int id);
 
+        Task UpdateAsync(int id, RestaurantFromModel model);
+
+        Task DeleteByIdAsync(int id);
     }
 }

@@ -46,6 +46,18 @@
             await this.restaurantRepository.SaveChangesAsync();
         }
 
+        public async Task DeleteByIdAsync(int id)
+        {
+            var restaurant = await this.restaurantRepository.All().FirstOrDefaultAsync(x => x.Id == id);
+            if (restaurant == null)
+            {
+                throw new NullReferenceException("No such restaurant");
+            }
+
+            this.restaurantRepository.Delete(restaurant);
+            await this.restaurantRepository.SaveChangesAsync();
+        }
+
         public async Task<IEnumerable<T>> GetByCityAsync<T>(string restaurantName, int page, int itemsPage)
         {
             return await this.restaurantRepository.All()
@@ -80,6 +92,32 @@
             }
 
             return restaurant;
+        }
+
+        public async Task UpdateAsync(int id, RestaurantFromModel model)
+        {
+
+            var restaurant = await this.restaurantRepository.All().FirstOrDefaultAsync(x => x.Id == id);
+            if (restaurant == null)
+            {
+                throw new NullReferenceException("No such attraction");
+
+            }
+
+            var city = await this.cityRepository.All().FirstOrDefaultAsync(x => x.Id == model.CityId);
+            if (city == null)
+            {
+                throw new NullReferenceException("No such city");
+            }
+
+            restaurant.Name = model.Name;
+            restaurant.City = city;
+            restaurant.Address = model.Address;
+            restaurant.Url = model.Url;
+            restaurant.ImageUrl = model.ImageUrl;
+
+            this.restaurantRepository.Update(restaurant);
+            await this.restaurantRepository.SaveChangesAsync();
         }
     }
 }

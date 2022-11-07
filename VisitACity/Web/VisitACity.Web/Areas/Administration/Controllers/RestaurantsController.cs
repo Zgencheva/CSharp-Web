@@ -7,6 +7,7 @@
     using VisitACity.Services.Data.Contracts;
     using VisitACity.Web.ViewModels.Administration.Restaurants;
     using VisitACity.Web.ViewModels.Cities;
+    using VisitACity.Web.ViewModels.Home;
 
     public class RestaurantsController : AdministrationController
     {
@@ -49,6 +50,47 @@
             }
 
             this.TempData["Message"] = "Restaurant added successfully.";
+            return this.RedirectToAction("Index", "Home", new { area = "" });
+        }
+
+        public async Task<IActionResult> Edit(int id)
+        {
+            var modelToEdit = await this.restaurantsService.GetViewModelByIdAsync<RestaurantFromModel>(id);
+            modelToEdit.Cities = await this.citiesService.GetAllAsync<CityViewModel>();
+            return this.View(modelToEdit);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(int id, RestaurantFromModel model)
+        {
+            if (!this.ModelState.IsValid)
+            {
+                model.Cities = await this.citiesService.GetAllAsync<CityViewModel>();
+                return this.View(model);
+            }
+
+            try
+            {
+                await this.restaurantsService.UpdateAsync(id, model);
+            }
+            catch (Exception ex)
+            {
+                this.ModelState.AddModelError(string.Empty, ex.Message);
+                model.Cities = await this.citiesService.GetAllAsync<CityViewModel>();
+                return this.View(model);
+            }
+
+            this.TempData["Message"] = "Restaurant updated successfully.";
+            //var city = await this.citiesService.GetByIdAsync<CityViewModel>(model.CityId);
+            return this.RedirectToAction("Details", "Restaurants", new { area = "", id=id, });
+        }
+
+        public async Task<IActionResult> Delete(int id)
+        {
+
+            await this.restaurantsService.DeleteByIdAsync(id);
+
+            this.TempData["Message"] = "Restaurant deleted successfully.";
             return this.RedirectToAction("Index", "Home", new { area = "" });
         }
     }

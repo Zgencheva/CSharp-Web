@@ -12,5 +12,7 @@
         Task<IEnumerable<T>> GetAllAsync<T>();
 
         Task CreateAsync(CityFormModel model);
+
+        Task<T> GetByIdAsync<T>(int id);
     }
 }

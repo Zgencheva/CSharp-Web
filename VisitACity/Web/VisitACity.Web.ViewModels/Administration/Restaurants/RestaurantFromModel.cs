@@ -7,7 +7,7 @@
     using VisitACity.Services.Mapping;
     using VisitACity.Web.ViewModels.Cities;
 
-    public class RestaurantFromModel : IMapTo<Restaurant>
+    public class RestaurantFromModel : IMapFrom<Restaurant>
     {
         [Required]
         [MaxLength(100)]
