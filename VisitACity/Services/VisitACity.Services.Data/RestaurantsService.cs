@@ -67,5 +67,19 @@
                 .Where(x => x.City.Name == cityName)
                 .ToArray().Length;
         }
+
+        public async Task<T> GetViewModelByIdAsync<T>(int id)
+        {
+            var restaurant = await this.restaurantRepository.All()
+                .Where(x => x.Id == id)
+                .To<T>()
+                .FirstOrDefaultAsync();
+            if (restaurant == null)
+            {
+                throw new NullReferenceException("Invalid restaurant");
+            }
+
+            return restaurant;
+        }
     }
 }

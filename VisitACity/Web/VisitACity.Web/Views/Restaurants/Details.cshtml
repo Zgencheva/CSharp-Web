@@ -1,0 +1,63 @@
+﻿@using VisitACity.Web.ViewModels.Restaurants
+@model RestaurantViewModel
+@{
+    this.ViewData["Title"] = "Details ";
+}
+@if (this.TempData.ContainsKey("Message"))
+{
+    <div class="alert alert-success">@this.TempData["Message"]</div>
+}
+<div class="card mb-3">
+    <a href="@Model.Url">
+        <img width="300px" height="500px" src="@Model.ImageUrl" class="card-img-top" alt="Restaurant img">
+    </a>
+    <div class="card-body">
+        <h5 class="card-title text-center">@Model.Name</h5>
+        <h5 class="card-title text-center">Address: @Model.Address</h5>
+        <p class="card-text text-center">Phone: @Model.PhoneNumber</p>
+        <p class="card-text text-center">
+            <div class="ratings text-center">
+
+                <span class="product-rating">@Model.Rating.ToString("f1")</span><span>/5</span>
+                <div class="stars">
+                    @for (int i = 1; i < Model.Rating; i++)
+                    {
+                        <i class="fa fa-star"></i>
+                    }
+                </div>
+            </div>
+        </p>
+    </div>
+</div>
+
+<div class="text-center">
+    <a class="btn btn-warning" asp-controller="Reviews" asp-action="Create" asp-route-id="@Model.Id">
+        <div class="feature-icon">
+            <i class="fa fa-comment"></i> <span>Comment</span>
+        </div>
+    </a>
+    <a class="btn btn-success" asp-controller="Plans" asp-action="AddRestaurantToPlan" asp-route-id="@Model.Id">
+        <div class="feature-icon">
+            <i class="fa fa-bus"></i> <span>Add to plan</span>
+        </div>
+    </a>
+</div>
+<p></p>
+</div>
+
+ <h2 class="text-center">Comments:</h2>
+                @if (Model.Reviews.Count() == 0)
+                {
+                    <div class="text-center">
+                        No comments yet. Be the first to comment this restaurant
+                        <a asp-controller="Reviews" asp-action="Create" asp-route-id="@Model.Id">Here</a>
+                    </div>
+                    <br>
+                }
+                else
+                {
+                    @foreach (var review in Model.Reviews.OrderByDescending(x => x.CreatedOn))
+                    {
+                        <partial name="~/Views/Reviews/_PartialReview.cshtml" , model="review" />
+                    }
+                }

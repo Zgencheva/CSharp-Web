@@ -38,7 +38,7 @@
             // var userId = user.Id;
             try
             {
-                await this.reviewService.AddReviewToAttractionAsync(input, userId, id);
+                await this.reviewService.AddReviewToRestaurantAsync(input, userId, id);
             }
             catch (Exception ex)
             {
@@ -47,7 +47,7 @@
             }
 
             this.TempData["Message"] = "Thank you for your comment!";
-            return this.RedirectToAction("Details", "Attractions", new { id = id });
+            return this.RedirectToAction("Details", "Restaurants", new { id = id });
         }
     }
 }

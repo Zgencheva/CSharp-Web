@@ -15,5 +15,8 @@
         Task<IEnumerable<T>> GetByCityAsync<T>(string restaurantName, int id, int itemsPerPage);
 
         int GetCountByCity(string cityName);
+
+        Task<T> GetViewModelByIdAsync<T>(int id);
+
     }
 }

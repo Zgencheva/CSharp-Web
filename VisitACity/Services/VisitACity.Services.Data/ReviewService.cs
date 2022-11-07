@@ -49,6 +49,26 @@
             await this.reviewsRepository.SaveChangesAsync();
         }
 
+        public async Task AddReviewToRestaurantAsync(CreateReviewInputModel input, string userId, int id)
+        {
+            var restarant = await this.restaurantRepository.All().FirstOrDefaultAsync(x => x.Id == id);
+            if (restarant == null)
+            {
+                throw new Exception("Invalid restaurant");
+            }
+
+            var review = new Review
+            {
+                UserId = userId,
+                Content = input.Content,
+                Rating = input.Rating,
+                Restaurant = restarant,
+            };
+
+            await this.reviewsRepository.AddAsync(review);
+            await this.reviewsRepository.SaveChangesAsync();
+        }
+
         public async Task DeleteAsync(int id)
         {
             var review = await this.reviewsRepository.All().Where(x => x.Id == id).FirstOrDefaultAsync();

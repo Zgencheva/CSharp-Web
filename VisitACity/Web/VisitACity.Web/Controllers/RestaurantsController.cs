@@ -1,4 +1,8 @@
-﻿using VisitACity.Services.Data.Contracts;
+﻿using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
+using System.Web.Mvc;
+using VisitACity.Services.Data.Contracts;
+using VisitACity.Web.ViewModels.Restaurants;
 
 namespace VisitACity.Web.Controllers
 {
@@ -9,6 +13,13 @@ namespace VisitACity.Web.Controllers
         public RestaurantsController(IRestaurantsService restaurantsService)
         {
             this.restaurantsService = restaurantsService;
+        }
+
+        [AllowAnonymous]
+        public async Task<IActionResult> Details(int id)
+        {
+            var viewModel = await this.restaurantsService.GetViewModelByIdAsync<RestaurantViewModel>(id);
+            return this.View(viewModel);
         }
     }
 }

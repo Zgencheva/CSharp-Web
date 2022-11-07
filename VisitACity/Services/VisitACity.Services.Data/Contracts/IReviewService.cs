@@ -13,5 +13,6 @@
         Task AddReviewToAttractionAsync(CreateReviewInputModel input, string userId, int attractionId);
 
         Task DeleteAsync(int id);
+        Task AddReviewToRestaurantAsync(CreateReviewInputModel input, string userId, int id);
     }
 }
