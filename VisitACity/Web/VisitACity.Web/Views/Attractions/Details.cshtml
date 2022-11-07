@@ -28,27 +28,10 @@
                     <p></p>
                     <p>@Model.Description</p>
                     <p>Price: $@Model.Price</p>
-                    <div class="ratings">
-
-                        <span class="product-rating">@Model.Rating.ToString("f1")</span><span>/5</span>
-                        <div class="stars">
-                            @for (int i = 0; i < Model.Rating; i++)
-                            {
-                                <i class="fa fa-star"></i>
-                            }
-
-                        </div>
-
-                    </div>
                     <p></p>
                     <a class="btn btn-success" asp-controller="Plans" asp-action="AddAttractionToPlan">
                         <div class="feature-icon">
                             <i class="fa fa-bus"></i> <span>Add to plan</span>
-                        </div>
-                    </a>
-                    <a class="btn btn-warning" asp-controller="Reviews" asp-action="Create" asp-route-id="@Model.Id">
-                        <div class="feature-icon">
-                            <i class="fa fa-comment"></i> <span>Comment</span>
                         </div>
                     </a>
                     @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
@@ -59,7 +42,6 @@
                         </a>
                     }
                 </div>
-                <h2 class="text-center">Comments:</h2>
             </div>
         </div>
     </div>

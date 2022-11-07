@@ -29,26 +29,6 @@
             this.userRepository = userRepository;
         }
 
-        public async Task AddReviewToAttractionAsync(CreateReviewInputModel input, string userId, int attractionId)
-        {
-            var attraction = await this.attractionRespository.All().FirstOrDefaultAsync(x => x.Id == attractionId);
-            if (attraction == null)
-            {
-                throw new Exception("Invalid attraction");
-            }
-
-            var review = new Review
-            {
-                UserId = userId,
-                Content = input.Content,
-                Rating = input.Rating,
-                Attraction = attraction,
-            };
-
-            await this.reviewsRepository.AddAsync(review);
-            await this.reviewsRepository.SaveChangesAsync();
-        }
-
         public async Task AddReviewToRestaurantAsync(CreateReviewInputModel input, string userId, int id)
         {
             var restarant = await this.restaurantRepository.All().FirstOrDefaultAsync(x => x.Id == id);

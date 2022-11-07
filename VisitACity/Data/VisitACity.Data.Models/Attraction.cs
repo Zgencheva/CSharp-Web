@@ -11,7 +11,7 @@
     {
         public Attraction()
         {
-            this.Reviews = new HashSet<Review>();
+            this.UsersReviews = new HashSet<ApplicationUser>();
             this.Plans = new HashSet<Plan>();
             this.Images = new HashSet<Image>();
         }
@@ -41,7 +41,7 @@
 
         public virtual City City { get; set; }
 
-        public virtual ICollection<Review> Reviews { get; set; }
+        public virtual ICollection<ApplicationUser> UsersReviews { get; set; }
 
         public virtual ICollection<Plan> Plans { get; set; }
 

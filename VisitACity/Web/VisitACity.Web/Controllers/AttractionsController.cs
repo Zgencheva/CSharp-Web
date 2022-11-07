@@ -36,7 +36,6 @@
 
         [HttpPost]
         [AllowAnonymous]
-
         public async Task<IActionResult> SendToEmail(int id)
         {
             var viewModel = await this.attractionsService.GetViewModelByIdAsync<AttractionViewModel>(id);

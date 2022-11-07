@@ -7,7 +7,6 @@
     using VisitACity.Services.Data.Contracts;
     using VisitACity.Web.ViewModels.Administration.Restaurants;
     using VisitACity.Web.ViewModels.Cities;
-    using VisitACity.Web.ViewModels.Home;
 
     public class RestaurantsController : AdministrationController
     {
@@ -81,7 +80,6 @@
             }
 
             this.TempData["Message"] = "Restaurant updated successfully.";
-            //var city = await this.citiesService.GetByIdAsync<CityViewModel>(model.CityId);
             return this.RedirectToAction("Details", "Restaurants", new { area = "", id=id, });
         }
 

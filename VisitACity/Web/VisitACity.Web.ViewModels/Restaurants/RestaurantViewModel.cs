@@ -33,6 +33,7 @@
             configuration.CreateMap<Restaurant, RestaurantViewModel>()
                 .ForMember(x => x.Rating, opt =>
                     opt.MapFrom(x => x.Reviews.Count() == 0 ? 0 : x.Reviews.Average(x => (double)x.Rating)));
+
         }
     }
 }

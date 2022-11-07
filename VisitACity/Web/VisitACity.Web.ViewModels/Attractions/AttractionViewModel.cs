@@ -27,17 +27,15 @@
 
         public string CityName { get; set; }
 
-        public double Rating { get; set; }
-
-        public IEnumerable<ReviewAttractionViewModel> Reviews { get; set; }
+        public int Reviews { get; set; }
 
         public ICollection<ImageViewModel> Images { get; set; }
 
         public void CreateMappings(IProfileExpression configuration)
         {
             configuration.CreateMap<Attraction, AttractionViewModel>()
-                .ForMember(x => x.Rating, opt =>
-                    opt.MapFrom(x => x.Reviews.Count() == 0 ? 0 : x.Reviews.Average(x => (double)x.Rating)));
+                .ForMember(x => x.Reviews, opt =>
+                    opt.MapFrom(x => x.UsersReviews.Count() == 0 ? 0 : x.UsersReviews.Count()));
         }
     }
 }

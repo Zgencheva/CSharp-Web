@@ -21,8 +21,7 @@
                 </a>
             }
         <p class="blockquote">
-            @Model.CreatedOn.ToShortDateString() by @ViewBag.UserFirstName
-           
+            @Model.CreatedOn.ToShortDateString() by @Model.UserUserName.Split("@")[0]
         </p>
         <figcaption class="blockquote-footer">
             @Model.Content

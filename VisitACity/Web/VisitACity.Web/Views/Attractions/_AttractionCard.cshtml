@@ -21,23 +21,8 @@
 
     </div>
     <div class="card-footer">
-        <div class="d-flex justify-content-center">
-            <div style="margin: 0;
-     padding: 0;
-     font-family: 'Open Sans', serif;
-     " class="content text-center">
-
-                <div class="ratings">
-
-                    <span class="product-rating">@Model.Rating.ToString("f1")</span><span>/5</span>
-                    <div class="stars">
-                        @for (int i = 0; i < Model.Rating; i++)
-                        {
-                            <i class="fa fa-star"></i>
-                        }
-                    </div>
-                </div>
-            </div>
+         <div class="card-text feature-icon">
+            <i class="fa fa-eye"></i> <span>Revied by @Model.Reviews adventurers</span>
         </div>
     </div>
     <div class="text-center">

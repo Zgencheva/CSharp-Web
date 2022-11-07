@@ -19,6 +19,7 @@ namespace VisitACity.Data.Models
 
             this.Reviews = new HashSet<Review>();
             this.Plans = new HashSet<Plan>();
+            this.AttractionsReviewed = new HashSet<Attraction>();
         }
 
         [StringLength(20)]
@@ -44,6 +45,8 @@ namespace VisitACity.Data.Models
         public virtual ICollection<IdentityUserLogin<string>> Logins { get; set; }
 
         public virtual ICollection<Review> Reviews { get; set; }
+
+        public virtual ICollection<Attraction> AttractionsReviewed { get; set; }
 
         public virtual ICollection<Plan> Plans { get; set; }
     }
