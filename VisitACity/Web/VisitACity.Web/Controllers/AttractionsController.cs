@@ -1,5 +1,6 @@
 ﻿namespace VisitACity.Web.Controllers
 {
+    using System.Security.Claims;
     using System.Text;
     using System.Threading.Tasks;
 
@@ -30,6 +31,12 @@
         [AllowAnonymous]
         public async Task<IActionResult> Details(int id)
         {
+            var userId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            if (userId != null)
+            {
+                await this.attractionsService.AddReviewToUserAsync(userId, id);
+            }
+
             var viewModel = await this.attractionsService.GetViewModelByIdAsync<AttractionViewModel>(id);
             return this.View(viewModel);
         }

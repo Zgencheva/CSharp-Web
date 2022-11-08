@@ -13,43 +13,47 @@
     <script src="~/js/script.js"></script>
 </head>
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index" asp-route-id="1">@GlobalConstants.SystemName</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
+    <div class="navbar navbar-expand-sm navbar-dark bg-primary fixed-top border-bottom box-shadow mb-3">
+        <div class="container">
+            <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index" asp-route-id="1">@GlobalConstants.SystemName</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                <ul class="navbar-nav flex-grow-1">
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index" asp-route-id="1">Home</a>
+                    </li>
+                    @if (this.User.Identity.IsAuthenticated)
+                    {
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index" asp-route-id="1">Home</a>
-                        </li>  
-                        @if (this.User.Identity.IsAuthenticated)
-                        {
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Plans" asp-action="Create">Create Plan</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Plans" asp-action="MyPlans">My plans</a>
-                            </li>
-                        }
-                    </ul>
-                    <partial name="_LoginPartial" />
-                </div>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Plans" asp-action="Create">Create Plan</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Plans" asp-action="MyPlans">My plans</a>
+                        </li>
+                    }
+                </ul>
+                <partial name="_LoginPartial" />
             </div>
-        </nav>
-    </header>
-    
+        </div>
+    </div>
+
     <div class="container">
+        <br>
+        <br>
+        <br>
         <partial name="_CookieConsentPartial" />
         <main role="main" class="pb-3">
-            @this.RenderBody()
+            <div class="bs-docs-section">
+                @this.RenderBody()
+            </div>
+            
         </main>
     </div>
-    
-    <footer class="border-primary footer text-muted">
+
+    <footer class="border-primary footer text-muted" id="footer">
         <div class="container">
             &copy; @DateTime.Now.Year - @GlobalConstants.SystemName - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>

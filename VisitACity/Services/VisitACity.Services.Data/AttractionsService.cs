@@ -18,13 +18,17 @@
     {
         private readonly IDeletableEntityRepository<Attraction> attractionRepository;
         private readonly IDeletableEntityRepository<City> cityRepository;
+        private readonly IDeletableEntityRepository<ApplicationUser> userRepository;
 
         public AttractionsService(
             IDeletableEntityRepository<Attraction> attractionRepository,
-            IDeletableEntityRepository<City> cityRepository)
+            IDeletableEntityRepository<City> cityRepository,
+            IDeletableEntityRepository<ApplicationUser> userRepository
+            )
         {
             this.attractionRepository = attractionRepository;
             this.cityRepository = cityRepository;
+            this.userRepository = userRepository;
         }
 
         public int GetCount()
@@ -144,6 +148,32 @@
             return this.attractionRepository.AllAsNoTracking()
                 .Where(x => x.City.Name == cityName)
                 .ToArray().Length;
+        }
+
+        public async Task AddReviewToUserAsync(string userId, int attractionId)
+        {
+            var attraction = await this.attractionRepository
+                .All()
+                .Include(x => x.UsersReviews)
+                .Where(x => x.Id == attractionId)
+                .FirstOrDefaultAsync();
+            if (attraction == null)
+            {
+                throw new NullReferenceException("No such attraction");
+            }
+
+            var user = await this.userRepository.All().Where(x => x.Id == userId).FirstOrDefaultAsync();
+            if (user == null)
+            {
+                throw new NullReferenceException("Not existing user");
+            }
+
+            if (!attraction.UsersReviews.Any(x => x.Id == userId))
+            {
+                attraction.UsersReviews.Add(user);
+                await this.userRepository.SaveChangesAsync();
+                await this.attractionRepository.SaveChangesAsync();
+            }
         }
     }
 }

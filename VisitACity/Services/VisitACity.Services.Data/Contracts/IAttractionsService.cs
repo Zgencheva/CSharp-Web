@@ -4,7 +4,6 @@
     using System.Threading.Tasks;
 
     using VisitACity.Web.ViewModels.Administration.Attractions;
-    using VisitACity.Web.ViewModels.Attractions;
 
     public interface IAttractionsService
     {
@@ -23,5 +22,7 @@
         Task DeleteByIdAsync(int id);
 
         int GetCountByCity(string cityName);
+
+        Task AddReviewToUserAsync(string userId, int attractionId);
     }
 }
