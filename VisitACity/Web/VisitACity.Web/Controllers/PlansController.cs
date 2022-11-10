@@ -3,6 +3,7 @@
     using System;
     using System.Security.Claims;
     using System.Threading.Tasks;
+
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using VisitACity.Data.Models;

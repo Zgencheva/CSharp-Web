@@ -11023,3 +11023,7 @@ legend {
 .list-group-item .h6 {
   color: inherit;
 }
+
+.hiddenRow {
+    padding: 0 !important;
+}
