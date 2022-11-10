@@ -68,5 +68,16 @@
 
             return city;
         }
+
+        public async Task<int> GetCountryIdAsync(int cityId)
+        {
+            var city = await this.cityRepository
+                .All()
+                .Where(x => x.Id == cityId)
+                .Include(x=> x.Country)
+                .FirstOrDefaultAsync();
+
+            return city.CountryId;
+        }
     }
 }

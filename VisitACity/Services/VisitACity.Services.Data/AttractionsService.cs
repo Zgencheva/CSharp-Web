@@ -175,5 +175,16 @@
                 await this.attractionRepository.SaveChangesAsync();
             }
         }
+
+        public async Task<int> GetAttractionCityIdAsync(int attractionId)
+        {
+            var attraction = await this.attractionRepository
+                .All()
+                .Include(x => x.City)
+                .Where(x => x.Id == attractionId)
+                .FirstOrDefaultAsync();
+
+            return attraction.City.Id;
+        }
     }
 }

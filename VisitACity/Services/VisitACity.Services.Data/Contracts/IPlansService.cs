@@ -12,5 +12,7 @@
         Task<ICollection<PlanViewModel>> GetUserPlansAsync(string userId);
 
         Task DeleteAsync(int planId);
+
+        Task<bool> AddAttractionToPlanAsync(int attractionId, string userId);
     }
 }

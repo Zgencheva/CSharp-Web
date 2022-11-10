@@ -24,5 +24,7 @@
         int GetCountByCity(string cityName);
 
         Task AddReviewToUserAsync(string userId, int attractionId);
+
+        Task<int> GetAttractionCityIdAsync(int attractionId);
     }
 }

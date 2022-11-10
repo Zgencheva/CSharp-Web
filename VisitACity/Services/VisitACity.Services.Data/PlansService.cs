@@ -19,18 +19,51 @@
         private readonly IDeletableEntityRepository<Plan> plansRepository;
         private readonly IDeletableEntityRepository<City> cityRepository;
         private readonly IDeletableEntityRepository<Country> countryReository;
+        private readonly IDeletableEntityRepository<Attraction> attractionRepository;
         private readonly IDeletableEntityRepository<ApplicationUser> userRepository;
 
         public PlansService(
             IDeletableEntityRepository<Plan> plansRepository,
             IDeletableEntityRepository<City> cityRepository,
             IDeletableEntityRepository<Country> countryReository,
+            IDeletableEntityRepository<Attraction> attractionRepository,
             IDeletableEntityRepository<ApplicationUser> userRepository)
         {
             this.plansRepository = plansRepository;
             this.cityRepository = cityRepository;
             this.countryReository = countryReository;
+            this.attractionRepository = attractionRepository;
             this.userRepository = userRepository;
+        }
+
+        public async Task<bool> AddAttractionToPlanAsync(int attractionId, string userId)
+        {
+            var attraction = await this.attractionRepository.All().FirstOrDefaultAsync(x => x.Id == attractionId);
+            if (attraction == null)
+            {
+                throw new NullReferenceException("Invalid attraction");
+            }
+
+            var cityId = attraction.CityId;
+            var user = await this.userRepository
+                .All()
+                .Where(x => x.Id == userId)
+                .Include(x => x.Plans)
+                .ThenInclude(x => x.Attractions)
+                .FirstOrDefaultAsync();
+            if (!user.Plans.Any(x => x.CityId == cityId))
+            {
+                return false;
+            }
+            else
+            {
+                foreach (var plan in user.Plans.Where(x => x.CityId == cityId))
+                {
+                    plan.Attractions.Add(attraction);
+                }
+                await this.plansRepository.SaveChangesAsync();
+                return true;
+            }
         }
 
         public async Task CreateAsync(CreatePlanInputModel input, string userId)
@@ -69,6 +102,7 @@
 
         public async Task<ICollection<PlanViewModel>> GetUserPlansAsync(string userId)
         {
+            //TODO: Make it with automapper
             var plans = await this.plansRepository.All().Where(x => x.UserId == userId)
                 .Select(x => new PlanViewModel
                 {
@@ -78,24 +112,20 @@
                     Days = (x.ToDate.Date - x.FromDate.Date).Days,
                     FromDate = x.FromDate,
                     ToDate = x.ToDate,
-                    MyAttractions = new UserAttractionsViewModel
-                    {
-                        MyAttractions = x.Attractions.Select(a => new AttractionViewModel
+                    MyAttractions = x.Attractions.Select(a => new AttractionViewModel
                         {
+                            Id= a.Id,
                             Name = a.Name,
                             Description = a.Description,
-                            Id = a.Id,
                             ImageUrl = a.ImageUrl,
                             Type = a.Type.ToString(),
                         }).ToList(),
-                    },
-                    MyRestaurants = new UserRestaurantsViewModel
-                    {
-                        MyRestaurants = x.Restaurants.Select(r => new RestaurantViewModel
+                    MyRestaurants = x.Restaurants.Select(r => new RestaurantViewModel
                         {
-                        Name = r.Name,
+                            Id = r.Id,
+                            CityName = r.City.Name,
+                            Name = r.Name,
                         }).ToList(),
-                    },
                 })
                 .OrderByDescending(x => x.FromDate)
                 .ToListAsync();

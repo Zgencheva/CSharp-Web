@@ -14,7 +14,7 @@
                             
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal" id="cancel-delete">Cancel</button>
+                            <button type="button" class="btn btn-primary" data-dismiss="modal" id="cancel-delete">Cancel</button>
                             <button type="button" class="btn btn-danger" id="confirm-delete">Delete</button>
                         </div>
                         </div>
@@ -58,5 +58,9 @@
                 $("#deleteModal").modal('hide');
             });
     });
+
+    $("#cancel-delete").on('click', () => {
+        $("#deleteModal").modal('hide');
+    })
 
 }()));

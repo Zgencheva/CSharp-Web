@@ -3,7 +3,10 @@
     this.ViewData["Title"] = "Add new plan";
 
 }
-
+@if (this.TempData.ContainsKey("Message"))
+{
+    <div class="alert alert-danger">@this.TempData["Message"]</div>
+}
 <form method="post" class="col-md-6 offset-md-3"
       enctype="multipart/form-data">
     <h2>Where are you travelling to?</h2>
