@@ -19,6 +19,7 @@
         private readonly ICitiesService citiesService;
         private readonly ICountriesService countriesService;
         private readonly IAttractionsService attractionsService;
+        private readonly IRestaurantsService restaurantsService;
         private readonly UserManager<ApplicationUser> userManager;
 
         public PlansController(
@@ -26,12 +27,14 @@
             ICitiesService citiesService,
             ICountriesService countriesService,
             IAttractionsService attractionsService,
+            IRestaurantsService restaurantsService,
             UserManager<ApplicationUser> userManager)
         {
             this.plansService = plansService;
             this.citiesService = citiesService;
             this.countriesService = countriesService;
             this.attractionsService = attractionsService;
+            this.restaurantsService = restaurantsService;
             this.userManager = userManager;
         }
 
@@ -106,8 +109,35 @@
             }
         }
 
-        public IActionResult AddRestaurantToPlan(int restaurantId, int planId)
+        public async Task<IActionResult> AddRestaurantToPlan(int restaurantId, int? planId)
         {
+            var userId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+
+            bool result = await this.plansService.AddRestaurantToPlanAsync(restaurantId, userId);
+            if (result == true)
+            {
+                this.TempData["Message"] = "Restaurant added successfully to your plan.";
+                return this.RedirectToAction(nameof(this.MyPlans));
+            }
+            else
+            {
+                int cityToViewModelId = await this.restaurantsService.GetRestaurantCityIdAsync(restaurantId);
+                this.TempData["Message"] = "You have no plans in this city. Please create it";
+                return this.RedirectToAction("Create", new { cityId = cityToViewModelId });
+            }
+        }
+
+        public async Task<IActionResult> DeleteAttractionFromPlan(int attractionId, int planId)
+        {
+            await this.plansService.DeleteAttractionFromPlanAsync(attractionId, planId);
+            this.TempData["Message"] = "Attraction deleted successfully";
+            return this.RedirectToAction(nameof(this.MyPlans));
+        }
+
+        public async Task<IActionResult> DeleteRestaurantFromPlan(int restaurantId, int planId)
+        {
+            await this.plansService.DeleteRestaurantFromPlanAsync(restaurantId, planId);
+            this.TempData["Message"] = "Restaurant deleted successfully";
             return this.RedirectToAction(nameof(this.MyPlans));
         }
 

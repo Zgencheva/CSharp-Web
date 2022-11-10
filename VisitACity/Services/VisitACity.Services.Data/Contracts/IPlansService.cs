@@ -14,5 +14,8 @@
         Task DeleteAsync(int planId);
 
         Task<bool> AddAttractionToPlanAsync(int attractionId, string userId);
+        Task<bool> AddRestaurantToPlanAsync(int restaurantId, string userId);
+        Task DeleteAttractionFromPlanAsync(int attractionId, int planId);
+        Task DeleteRestaurantFromPlanAsync(int restaurantId, int planId);
     }
 }

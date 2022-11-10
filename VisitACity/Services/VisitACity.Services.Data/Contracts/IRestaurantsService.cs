@@ -21,5 +21,6 @@
         Task UpdateAsync(int id, RestaurantFromModel model);
 
         Task DeleteByIdAsync(int id);
+        Task<int> GetRestaurantCityIdAsync(int restaurantId);
     }
 }

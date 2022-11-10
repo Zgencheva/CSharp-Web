@@ -20,6 +20,7 @@
         private readonly IDeletableEntityRepository<City> cityRepository;
         private readonly IDeletableEntityRepository<Country> countryReository;
         private readonly IDeletableEntityRepository<Attraction> attractionRepository;
+        private readonly IDeletableEntityRepository<Restaurant> restaurantRepository;
         private readonly IDeletableEntityRepository<ApplicationUser> userRepository;
 
         public PlansService(
@@ -27,12 +28,14 @@
             IDeletableEntityRepository<City> cityRepository,
             IDeletableEntityRepository<Country> countryReository,
             IDeletableEntityRepository<Attraction> attractionRepository,
+            IDeletableEntityRepository<Restaurant> restaurantRepository,
             IDeletableEntityRepository<ApplicationUser> userRepository)
         {
             this.plansRepository = plansRepository;
             this.cityRepository = cityRepository;
             this.countryReository = countryReository;
             this.attractionRepository = attractionRepository;
+            this.restaurantRepository = restaurantRepository;
             this.userRepository = userRepository;
         }
 
@@ -61,6 +64,38 @@
                 {
                     plan.Attractions.Add(attraction);
                 }
+
+                await this.plansRepository.SaveChangesAsync();
+                return true;
+            }
+        }
+
+        public async Task<bool> AddRestaurantToPlanAsync(int restaurantId, string userId)
+        {
+            var restaurant = await this.restaurantRepository.All().FirstOrDefaultAsync(x => x.Id == restaurantId);
+            if (restaurant == null)
+            {
+                throw new NullReferenceException("Invalid restaurant");
+            }
+
+            var cityId = restaurant.CityId;
+            var user = await this.userRepository
+                .All()
+                .Where(x => x.Id == userId)
+                .Include(x => x.Plans)
+                .ThenInclude(x => x.Attractions)
+                .FirstOrDefaultAsync();
+            if (!user.Plans.Any(x => x.CityId == cityId))
+            {
+                return false;
+            }
+            else
+            {
+                foreach (var plan in user.Plans.Where(x => x.CityId == cityId))
+                {
+                    plan.Restaurants.Add(restaurant);
+                }
+
                 await this.plansRepository.SaveChangesAsync();
                 return true;
             }
@@ -71,7 +106,7 @@
             var country = await this.countryReository.All().FirstOrDefaultAsync(x => x.Id == input.CountryId);
             if (country == null)
             {
-                throw new Exception("Invalid country");
+                throw new NullReferenceException("Invalid country");
             }
 
             var city = await this.cityRepository.All().FirstOrDefaultAsync(x => x.Id == input.CityId);
@@ -79,7 +114,7 @@
             // TODO: not adding city that does not exist; This is for seeding the cities
             if (city == null)
             {
-                throw new Exception("Invalid city");
+                throw new NullReferenceException("Invalid city");
             }
 
             var plan = new Plan
@@ -96,8 +131,58 @@
         public async Task DeleteAsync(int planId)
         {
             var plan = await this.plansRepository.All().Where(x => x.Id == planId).FirstOrDefaultAsync();
+            if (plan == null)
+            {
+                throw new NullReferenceException("Invalid plan");
+            }
+
             this.plansRepository.Delete(plan);
             await this.plansRepository.SaveChangesAsync();
+        }
+
+        public async Task DeleteAttractionFromPlanAsync(int attractionId, int planId)
+        {
+            var plan = await this.plansRepository
+                .All()
+                .Where(x => x.Id == planId)
+                .Include(x => x.Attractions)
+                .FirstOrDefaultAsync();
+            if (plan == null)
+            {
+                throw new NullReferenceException("Invalid plan");
+            }
+
+            var attraction = plan.Attractions.FirstOrDefault(x => x.Id == attractionId);
+
+            if (attraction == null)
+            {
+                throw new NullReferenceException("No such attraction in your plan");
+            }
+            plan.Attractions.Remove(attraction);
+            await this.plansRepository.SaveChangesAsync();
+        }
+
+        public async Task DeleteRestaurantFromPlanAsync(int restaurantId, int planId)
+        {
+            var plan = await this.plansRepository
+               .All()
+               .Where(x => x.Id == planId)
+               .Include(x => x.Restaurants)
+               .FirstOrDefaultAsync();
+            if (plan == null)
+            {
+                throw new NullReferenceException("Invalid plan");
+            }
+
+            var restaurant = plan.Attractions.FirstOrDefault(x => x.Id == restaurantId);
+            if (restaurant == null)
+            {
+                throw new NullReferenceException("No such restaurant in your plan");
+            }
+
+            plan.Attractions.Remove(restaurant);
+            await this.plansRepository.SaveChangesAsync();
+
         }
 
         public async Task<ICollection<PlanViewModel>> GetUserPlansAsync(string userId)
@@ -114,7 +199,7 @@
                     ToDate = x.ToDate,
                     MyAttractions = x.Attractions.Select(a => new AttractionViewModel
                         {
-                            Id= a.Id,
+                            Id = a.Id,
                             Name = a.Name,
                             Description = a.Description,
                             ImageUrl = a.ImageUrl,
