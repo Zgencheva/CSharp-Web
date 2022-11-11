@@ -15,15 +15,18 @@
     public class AttractionsController : BaseController
     {
         private readonly IAttractionsService attractionsService;
+        private readonly IPlansService plansService;
         private readonly IEmailSender emailSender;
         private readonly UserManager<ApplicationUser> userManager;
 
         public AttractionsController(
             IAttractionsService attractionsService,
+            IPlansService plansService,
             IEmailSender emailSender,
             UserManager<ApplicationUser> userManager)
         {
             this.attractionsService = attractionsService;
+            this.plansService = plansService;
             this.emailSender = emailSender;
             this.userManager = userManager;
         }
@@ -38,6 +41,7 @@
             }
 
             var viewModel = await this.attractionsService.GetViewModelByIdAsync<AttractionViewModel>(id);
+            viewModel.UserPlan = await this.plansService.GetUserUpcomingPlansByCityAsync(viewModel.CityName, userId);
             return this.View(viewModel);
         }
 

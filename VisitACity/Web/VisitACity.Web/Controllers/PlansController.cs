@@ -1,6 +1,7 @@
 ﻿namespace VisitACity.Web.Controllers
 {
     using System;
+    using System.Linq;
     using System.Security.Claims;
     using System.Threading.Tasks;
 
@@ -76,6 +77,14 @@
             }
 
             var userId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var userPlans = await this.plansService.GetUpcomingUserPlansAsync(userId);
+            if (userPlans.Any(x => x.CityId == input.CityId))
+            {
+                this.ModelState.AddModelError(string.Empty, "You already have upcoming plan to this city!");
+                input.Cities = await this.citiesService.GetAllAsync<CityViewModel>();
+                input.Countries = await this.countriesService.GetAllAsync<CountryViewModel>();
+                return this.View(input);
+            }
 
             try
             {
@@ -84,6 +93,8 @@
             catch (Exception ex)
             {
                 this.ModelState.AddModelError(string.Empty, ex.Message);
+                input.Cities = await this.citiesService.GetAllAsync<CityViewModel>();
+                input.Countries = await this.countriesService.GetAllAsync<CountryViewModel>();
                 return this.View(input);
             }
 
@@ -91,11 +102,15 @@
             return this.RedirectToAction(nameof(this.MyPlans));
         }
 
-        public async Task<IActionResult> AddAttractionToPlan(int attractionId, int? planId)
+        public async Task<IActionResult> AddAttractionToPlan(int attractionId, int planId)
         {
-            var userId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            if (await this.plansService.DoesAttractionExist(attractionId, planId))
+            {
+                this.TempData["Message"] = "Attraction already in your plan.";
+                return this.RedirectToAction(nameof(this.MyPlans));
+            }
 
-            bool result = await this.plansService.AddAttractionToPlanAsync(attractionId, userId);
+            bool result = await this.plansService.AddAttractionToPlanAsync(attractionId, planId);
             if (result == true)
             {
                 this.TempData["Message"] = "Attraction added successfully to your plan.";
@@ -109,11 +124,9 @@
             }
         }
 
-        public async Task<IActionResult> AddRestaurantToPlan(int restaurantId, int? planId)
+        public async Task<IActionResult> AddRestaurantToPlan(int restaurantId, int planId)
         {
-            var userId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
-
-            bool result = await this.plansService.AddRestaurantToPlanAsync(restaurantId, userId);
+            bool result = await this.plansService.AddRestaurantToPlanAsync(restaurantId, planId);
             if (result == true)
             {
                 this.TempData["Message"] = "Restaurant added successfully to your plan.";

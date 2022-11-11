@@ -17,6 +17,5 @@
         public int CountryId { get; set; }
 
         public IEnumerable<CountryViewModel> Countries { get; set; }
-
     }
 }

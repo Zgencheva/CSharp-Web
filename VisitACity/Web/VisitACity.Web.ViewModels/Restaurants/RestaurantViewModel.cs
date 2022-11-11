@@ -6,6 +6,7 @@
     using AutoMapper;
     using VisitACity.Data.Models;
     using VisitACity.Services.Mapping;
+    using VisitACity.Web.ViewModels.Plans;
     using VisitACity.Web.ViewModels.Reviews;
 
     public class RestaurantViewModel : IMapFrom<Restaurant>, IHaveCustomMappings
@@ -26,6 +27,9 @@
 
         public double Rating { get; set; }
 
+        public PlanQueryModel UserPlan { get; set; }
+
+
         public IEnumerable<ReviewRestaurantViewModel> Reviews { get; set; }
 
         public void CreateMappings(IProfileExpression configuration)
@@ -33,7 +37,6 @@
             configuration.CreateMap<Restaurant, RestaurantViewModel>()
                 .ForMember(x => x.Rating, opt =>
                     opt.MapFrom(x => x.Reviews.Count() == 0 ? 0 : x.Reviews.Average(x => (double)x.Rating)));
-
         }
     }
 }

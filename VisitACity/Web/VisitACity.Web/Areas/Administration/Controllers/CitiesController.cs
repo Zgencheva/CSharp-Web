@@ -47,6 +47,7 @@
                 model.Countries = await this.countriesService.GetAllAsync<CountryViewModel>();
                 return this.View(model);
             }
+
             this.TempData["Message"] = $"City {model.Name} added successfully.";
             return this.RedirectToAction("Index", "Home", new { area = "" });
         }

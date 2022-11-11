@@ -3,8 +3,8 @@
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
+
     using VisitACity.Web.ViewModels.Attractions;
-    using VisitACity.Web.ViewModels.Home;
     using VisitACity.Web.ViewModels.Restaurants;
 
     public class PlanViewModel
@@ -14,6 +14,8 @@
         public string Country { get; set; }
 
         public string City { get; set; }
+
+        public int CityId { get; set; }
 
         public int Days { get; set; }
 

@@ -7,7 +7,6 @@
 
     public class Review : BaseDeletableModel<int>
     {
-
         [Required]
         public string UserId { get; set; }
 
@@ -20,6 +19,5 @@
         public int? RestaurantId { get; set; }
 
         public virtual Restaurant Restaurant { get; set; }
-
     }
 }

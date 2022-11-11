@@ -109,7 +109,6 @@ namespace VisitACity.Areas.Identity.Pages.Account
             public string LastName { get; set; }
         }
 
-
         public async Task OnGetAsync(string returnUrl = null)
         {
             this.ReturnUrl = returnUrl;
@@ -162,6 +161,7 @@ namespace VisitACity.Areas.Identity.Pages.Account
                         return this.LocalRedirect(returnUrl);
                     }
                 }
+
                 foreach (var error in result.Errors)
                 {
                     this.ModelState.AddModelError(string.Empty, error.Description);
@@ -192,6 +192,7 @@ namespace VisitACity.Areas.Identity.Pages.Account
             {
                 throw new NotSupportedException("The default UI requires a user store with email support.");
             }
+
             return (IUserEmailStore<ApplicationUser>)this._userStore;
         }
     }

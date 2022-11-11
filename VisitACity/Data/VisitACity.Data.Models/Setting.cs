@@ -1,5 +1,4 @@
-﻿
-namespace VisitACity.Data.Models
+﻿namespace VisitACity.Data.Models
 {
     using VisitACity.Data.Common.Models;
 

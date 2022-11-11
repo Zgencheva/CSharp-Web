@@ -57,6 +57,7 @@
             {
                 throw new NullReferenceException("Invalid comment");
             }
+
             review.IsDeleted = true;
             this.reviewsRepository.Update(review);
             await this.reviewsRepository.SaveChangesAsync();

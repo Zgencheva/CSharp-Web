@@ -19,6 +19,5 @@
         public int AttractionId { get; set; }
 
         public virtual Attraction Attraction { get; set; }
-
     }
 }

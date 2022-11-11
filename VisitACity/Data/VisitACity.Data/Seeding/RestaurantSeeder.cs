@@ -14,7 +14,7 @@
             if (dbContext.Restaurants.Any())
             {
                 return;
-            };
+            }
 
             var citySofia = await dbContext.Cities.FirstOrDefaultAsync(x => x.Name == "Sofia");
             var cityVarna = await dbContext.Cities.FirstOrDefaultAsync(x => x.Name == "Varna");

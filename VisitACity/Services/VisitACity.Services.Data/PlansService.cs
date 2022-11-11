@@ -9,8 +9,8 @@
     using VisitACity.Data.Common.Repositories;
     using VisitACity.Data.Models;
     using VisitACity.Services.Data.Contracts;
+    using VisitACity.Services.Mapping;
     using VisitACity.Web.ViewModels.Attractions;
-    using VisitACity.Web.ViewModels.Home;
     using VisitACity.Web.ViewModels.Plans;
     using VisitACity.Web.ViewModels.Restaurants;
 
@@ -39,63 +39,59 @@
             this.userRepository = userRepository;
         }
 
-        public async Task<bool> AddAttractionToPlanAsync(int attractionId, string userId)
+        public async Task<bool> AddAttractionToPlanAsync(int attractionId, int planId)
         {
-            var attraction = await this.attractionRepository.All().FirstOrDefaultAsync(x => x.Id == attractionId);
-            if (attraction == null)
+            var plan = await this.plansRepository
+                .All()
+                .Include(x => x.Attractions)
+                .FirstOrDefaultAsync(x => x.Id == planId);
+            if (plan == null)
             {
-                throw new NullReferenceException("Invalid attraction");
+                throw new NullReferenceException("Invalid plan");
             }
 
-            var cityId = attraction.CityId;
-            var user = await this.userRepository
+            var attraction = await this.attractionRepository
                 .All()
-                .Where(x => x.Id == userId)
-                .Include(x => x.Plans)
-                .ThenInclude(x => x.Attractions)
-                .FirstOrDefaultAsync();
-            if (!user.Plans.Any(x => x.CityId == cityId))
+                .Include(x => x.City)
+                .FirstOrDefaultAsync(x => x.Id == attractionId);
+            if (attraction == null)
+            {
+                throw new NullReferenceException("Invalid plan");
+            }
+
+            if (!plan.Attractions.Any(x => x.CityId == attraction.CityId))
             {
                 return false;
             }
             else
             {
-                foreach (var plan in user.Plans.Where(x => x.CityId == cityId))
-                {
-                    plan.Attractions.Add(attraction);
-                }
-
+                plan.Attractions.Add(attraction);
                 await this.plansRepository.SaveChangesAsync();
                 return true;
             }
         }
 
-        public async Task<bool> AddRestaurantToPlanAsync(int restaurantId, string userId)
+        public async Task<bool> AddRestaurantToPlanAsync(int restaurantId, int planId)
         {
-            var restaurant = await this.restaurantRepository.All().FirstOrDefaultAsync(x => x.Id == restaurantId);
-            if (restaurant == null)
+            var plan = await this.plansRepository.All().FirstOrDefaultAsync(x => x.Id == planId);
+            if (plan == null)
             {
-                throw new NullReferenceException("Invalid restaurant");
+                throw new NullReferenceException("Invalid plan");
             }
 
-            var cityId = restaurant.CityId;
-            var user = await this.userRepository
-                .All()
-                .Where(x => x.Id == userId)
-                .Include(x => x.Plans)
-                .ThenInclude(x => x.Attractions)
-                .FirstOrDefaultAsync();
-            if (!user.Plans.Any(x => x.CityId == cityId))
+            var restaurant = await this.attractionRepository.All().FirstOrDefaultAsync(x => x.Id == restaurantId);
+            if (restaurant == null)
+            {
+                throw new NullReferenceException("Invalid plan");
+            }
+
+            if (!plan.Attractions.Any(x => x.Id == restaurantId))
             {
                 return false;
             }
             else
             {
-                foreach (var plan in user.Plans.Where(x => x.CityId == cityId))
-                {
-                    plan.Restaurants.Add(restaurant);
-                }
-
+                plan.Attractions.Add(restaurant);
                 await this.plansRepository.SaveChangesAsync();
                 return true;
             }
@@ -182,7 +178,47 @@
 
             plan.Attractions.Remove(restaurant);
             await this.plansRepository.SaveChangesAsync();
+        }
 
+        public async Task<bool> DoesAttractionExist(int attractionId, int planId)
+        {
+            var plan = await this.plansRepository.AllAsNoTracking()
+                .Where(x => x.Id == planId)
+                .Include(x=> x.Attractions)
+                .FirstOrDefaultAsync();
+            return plan.Attractions.Any(x => x.Id == attractionId);
+        }
+
+        public async Task<ICollection<PlanViewModel>> GetUpcomingUserPlansAsync(string userId)
+        {
+            var plans = await this.plansRepository.All().Where(x => x.UserId == userId && x.ToDate >= DateTime.UtcNow)
+               .Select(x => new PlanViewModel
+               {
+                   Id = x.Id,
+                   Country = x.City.Country.Name,
+                   City = x.City.Name,
+                   CityId = x.City.Id,
+                   Days = (x.ToDate.Date - x.FromDate.Date).Days,
+                   FromDate = x.FromDate,
+                   ToDate = x.ToDate,
+                   MyAttractions = x.Attractions.Select(a => new AttractionViewModel
+                   {
+                       Id = a.Id,
+                       Name = a.Name,
+                       Description = a.Description,
+                       ImageUrl = a.ImageUrl,
+                       Type = a.Type.ToString(),
+                   }).ToList(),
+                   MyRestaurants = x.Restaurants.Select(r => new RestaurantViewModel
+                   {
+                       Id = r.Id,
+                       CityName = r.City.Name,
+                       Name = r.Name,
+                   }).ToList(),
+               })
+               .OrderByDescending(x => x.FromDate)
+               .ToListAsync();
+            return plans;
         }
 
         public async Task<ICollection<PlanViewModel>> GetUserPlansAsync(string userId)
@@ -194,6 +230,7 @@
                     Id = x.Id,
                     Country = x.City.Country.Name,
                     City = x.City.Name,
+                    CityId = x.City.Id,
                     Days = (x.ToDate.Date - x.FromDate.Date).Days,
                     FromDate = x.FromDate,
                     ToDate = x.ToDate,
@@ -215,6 +252,14 @@
                 .OrderByDescending(x => x.FromDate)
                 .ToListAsync();
             return plans;
+        }
+
+        public async Task<PlanQueryModel> GetUserUpcomingPlansByCityAsync(string cityName, string userId)
+        {
+            return await this.plansRepository.All()
+                .Where(x => x.UserId == userId && x.City.Name == cityName)
+                .To<PlanQueryModel>()
+                .FirstOrDefaultAsync();
         }
     }
 }

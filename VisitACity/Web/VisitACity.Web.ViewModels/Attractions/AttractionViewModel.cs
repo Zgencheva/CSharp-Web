@@ -7,7 +7,7 @@
     using VisitACity.Data.Models;
     using VisitACity.Services.Mapping;
     using VisitACity.Web.ViewModels.Images;
-    using VisitACity.Web.ViewModels.Reviews;
+    using VisitACity.Web.ViewModels.Plans;
 
     public class AttractionViewModel : IMapFrom<Attraction>, IHaveCustomMappings
     {
@@ -27,9 +27,13 @@
 
         public string CityName { get; set; }
 
+        public int CityId { get; set; }
+
         public int Reviews { get; set; }
 
         public ICollection<ImageViewModel> Images { get; set; }
+
+        public PlanQueryModel UserPlan { get; set; }
 
         public void CreateMappings(IProfileExpression configuration)
         {

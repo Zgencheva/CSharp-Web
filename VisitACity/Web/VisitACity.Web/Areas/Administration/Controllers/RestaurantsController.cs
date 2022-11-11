@@ -85,7 +85,6 @@
 
         public async Task<IActionResult> Delete(int id)
         {
-
             await this.restaurantsService.DeleteByIdAsync(id);
 
             this.TempData["Message"] = "Restaurant deleted successfully.";

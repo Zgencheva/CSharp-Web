@@ -30,7 +30,7 @@
                               new RolesSeeder(),
                               new AttractionSeeder(),
                               new RestaurantSeeder(),
-                              //new ImageSeeder(),
+                              // new ImageSeeder(),
                           };
 
             foreach (var seeder in seeders)
