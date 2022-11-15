@@ -47,7 +47,7 @@
                 .FirstOrDefaultAsync(x => x.Id == planId);
             if (plan == null)
             {
-                throw new NullReferenceException("Invalid plan");
+                return false;
             }
 
             var attraction = await this.attractionRepository
@@ -59,16 +59,9 @@
                 throw new NullReferenceException("Invalid plan");
             }
 
-            if (!plan.Attractions.Any(x => x.CityId == attraction.CityId))
-            {
-                return false;
-            }
-            else
-            {
-                plan.Attractions.Add(attraction);
-                await this.plansRepository.SaveChangesAsync();
-                return true;
-            }
+            plan.Attractions.Add(attraction);
+            await this.plansRepository.SaveChangesAsync();
+            return true;
         }
 
         public async Task<bool> AddRestaurantToPlanAsync(int restaurantId, int planId)

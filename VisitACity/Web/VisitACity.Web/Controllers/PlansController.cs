@@ -104,6 +104,13 @@
 
         public async Task<IActionResult> AddAttractionToPlan(int attractionId, int planId)
         {
+            if (planId == 0)
+            {
+                int cityToViewModelId = await this.attractionsService.GetAttractionCityIdAsync(attractionId);
+                this.TempData["Message"] = "You have no plans in this city. Please create it";
+                return this.RedirectToAction("Create", new { cityId = cityToViewModelId });
+            }
+
             if (await this.plansService.DoesAttractionExist(attractionId, planId))
             {
                 this.TempData["Message"] = "Attraction already in your plan.";
