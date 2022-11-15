@@ -30,5 +30,7 @@
         Task<bool> AddRestaurantToPlanAsync(int restaurantId, int planId);
 
         Task<bool> DoesUserHavePlanInTheCity(string userId, string cityName);
+
+        Task<bool> DoesRestaurantExistInThePlan(int restaurantId, int planId);
     }
 }

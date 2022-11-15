@@ -182,6 +182,15 @@
             return plan.Attractions.Any(x => x.Id == attractionId);
         }
 
+        public async Task<bool> DoesRestaurantExistInThePlan(int restaurantId, int planId)
+        {
+            var plan = await this.plansRepository.AllAsNoTracking()
+               .Where(x => x.Id == planId)
+               .Include(x => x.Restaurants)
+               .FirstOrDefaultAsync();
+            return plan.Restaurants.Any(x => x.Id == restaurantId);
+        }
+
         public async Task<bool> DoesUserHavePlanInTheCity(string userId, string cityName)
         {
             var plans = await this.plansRepository

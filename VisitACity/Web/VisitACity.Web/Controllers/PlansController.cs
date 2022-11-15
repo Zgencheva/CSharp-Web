@@ -150,6 +150,12 @@
             }
 
             int planId = await this.plansService.GerUserPlanIdAsync(cityName, userId);
+            if (await this.plansService.DoesRestaurantExistInThePlan(restaurantId, planId))
+            {
+                this.TempData["Message"] = "Restaurant already in your plan.";
+                return this.RedirectToAction(nameof(this.MyPlans));
+            }
+
             try
             {
                 bool result = await this.plansService.AddRestaurantToPlanAsync(restaurantId, planId);
