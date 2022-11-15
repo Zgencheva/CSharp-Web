@@ -49,7 +49,7 @@
             }
 
             this.TempData["Message"] = "Restaurant added successfully.";
-            return this.RedirectToAction("Index", "Home", new { area = "" });
+            return this.RedirectToAction("Index", "Home", new { area = string.Empty });
         }
 
         public async Task<IActionResult> Edit(int id)
@@ -80,7 +80,7 @@
             }
 
             this.TempData["Message"] = "Restaurant updated successfully.";
-            return this.RedirectToAction("Details", "Restaurants", new { area = "", id=id, });
+            return this.RedirectToAction("Details", "Restaurants", new { area = string.Empty, id });
         }
 
         public async Task<IActionResult> Delete(int id)
@@ -88,7 +88,7 @@
             await this.restaurantsService.DeleteByIdAsync(id);
 
             this.TempData["Message"] = "Restaurant deleted successfully.";
-            return this.RedirectToAction("Index", "Home", new { area = "" });
+            return this.RedirectToAction("Index", "Home", new { area = string.Empty });
         }
     }
 }

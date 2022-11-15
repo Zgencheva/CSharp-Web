@@ -56,7 +56,7 @@
                 .FirstOrDefaultAsync(x => x.Id == attractionId);
             if (attraction == null)
             {
-                throw new NullReferenceException("Invalid plan");
+                throw new NullReferenceException("Invalid attraction");
             }
 
             plan.Attractions.Add(attraction);
@@ -66,28 +66,27 @@
 
         public async Task<bool> AddRestaurantToPlanAsync(int restaurantId, int planId)
         {
-            var plan = await this.plansRepository.All().FirstOrDefaultAsync(x => x.Id == planId);
+            var plan = await this.plansRepository
+                .All()
+                .Include(x => x.Restaurants)
+                .FirstOrDefaultAsync(x => x.Id == planId);
             if (plan == null)
-            {
-                throw new NullReferenceException("Invalid plan");
-            }
-
-            var restaurant = await this.attractionRepository.All().FirstOrDefaultAsync(x => x.Id == restaurantId);
-            if (restaurant == null)
-            {
-                throw new NullReferenceException("Invalid plan");
-            }
-
-            if (!plan.Attractions.Any(x => x.Id == restaurantId))
             {
                 return false;
             }
-            else
+
+            var restaurant = await this.restaurantRepository
+                .All()
+                .Include(x => x.City)
+                .FirstOrDefaultAsync(x => x.Id == restaurantId);
+            if (restaurant == null)
             {
-                plan.Attractions.Add(restaurant);
-                await this.plansRepository.SaveChangesAsync();
-                return true;
+                throw new NullReferenceException("Invalid restaurant");
             }
+
+            plan.Restaurants.Add(restaurant);
+            await this.plansRepository.SaveChangesAsync();
+            return true;
         }
 
         public async Task CreateAsync(CreatePlanInputModel input, string userId)
@@ -147,6 +146,7 @@
             {
                 throw new NullReferenceException("No such attraction in your plan");
             }
+
             plan.Attractions.Remove(attraction);
             await this.plansRepository.SaveChangesAsync();
         }
@@ -177,9 +177,30 @@
         {
             var plan = await this.plansRepository.AllAsNoTracking()
                 .Where(x => x.Id == planId)
-                .Include(x=> x.Attractions)
+                .Include(x => x.Attractions)
                 .FirstOrDefaultAsync();
             return plan.Attractions.Any(x => x.Id == attractionId);
+        }
+
+        public async Task<bool> DoesUserHavePlanInTheCity(string userId, string cityName)
+        {
+            var plans = await this.plansRepository
+               .AllAsNoTracking()
+               .Include(x => x.City)
+               .Where(x => x.UserId == userId)
+               .ToListAsync();
+            return plans.Any(x => x.City.Name == cityName);
+        }
+
+        public async Task<int> GerUserPlanIdAsync(string cityName, string userId)
+        {
+            var plans = await this.plansRepository
+                .AllAsNoTracking()
+                .Include(x => x.City)
+                .Where(x => x.UserId == userId)
+                .ToListAsync();
+            var currentPlan = plans.Where(x => x.City.Name == cityName).FirstOrDefault();
+            return currentPlan.Id;
         }
 
         public async Task<ICollection<PlanViewModel>> GetUpcomingUserPlansAsync(string userId)

@@ -49,7 +49,7 @@
             }
 
             this.TempData["Message"] = "Attraction added successfully.";
-            return this.RedirectToAction("Index", "Home", new { area = "" });
+            return this.RedirectToAction("Index", "Home", new { area = string.Empty });
         }
 
         public async Task<IActionResult> Edit(int id)
@@ -80,17 +80,15 @@
             }
 
             this.TempData["Message"] = "Attraction updated successfully.";
-            var city = await this.citiesService.GetByIdAsync<CityViewModel>(model.CityId);
-            return this.RedirectToAction("Details", "Attractions", new { area = "", id});
+            return this.RedirectToAction("Details", "Attractions", new { area = string.Empty, id });
         }
 
         public async Task<IActionResult> Delete(int id)
         {
-
             await this.attractionsService.DeleteByIdAsync(id);
 
             this.TempData["Message"] = "Attraction deleted successfully.";
-            return this.RedirectToAction("Index", "Home", new { area = "" });
+            return this.RedirectToAction("Index", "Home", new { area = string.Empty });
         }
     }
 }

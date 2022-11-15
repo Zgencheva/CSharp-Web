@@ -117,33 +117,58 @@
                 return this.RedirectToAction(nameof(this.MyPlans));
             }
 
-            bool result = await this.plansService.AddAttractionToPlanAsync(attractionId, planId);
-            if (result == true)
+            try
             {
-                this.TempData["Message"] = "Attraction added successfully to your plan.";
-                return this.RedirectToAction(nameof(this.MyPlans));
+                bool result = await this.plansService.AddAttractionToPlanAsync(attractionId, planId);
+                if (result == true)
+                {
+                    this.TempData["Message"] = "Attraction added successfully to your plan.";
+                    return this.RedirectToAction(nameof(this.MyPlans));
+                }
+                else
+                {
+                    int cityToViewModelId = await this.attractionsService.GetAttractionCityIdAsync(attractionId);
+                    this.TempData["Message"] = "You have no plans in this city. Please create it";
+                    return this.RedirectToAction("Create", new { cityId = cityToViewModelId });
+                }
             }
-            else
+            catch (Exception ex)
             {
-                int cityToViewModelId = await this.attractionsService.GetAttractionCityIdAsync(attractionId);
-                this.TempData["Message"] = "You have no plans in this city. Please create it";
-                return this.RedirectToAction("Create", new { cityId = cityToViewModelId });
+                throw new Exception(ex.Message);
             }
         }
 
-        public async Task<IActionResult> AddRestaurantToPlan(int restaurantId, int planId)
+        public async Task<IActionResult> AddRestaurantToPlan(int restaurantId)
         {
-            bool result = await this.plansService.AddRestaurantToPlanAsync(restaurantId, planId);
-            if (result == true)
-            {
-                this.TempData["Message"] = "Restaurant added successfully to your plan.";
-                return this.RedirectToAction(nameof(this.MyPlans));
-            }
-            else
+            string cityName = await this.restaurantsService.GetRestaurantCityNameAsync(restaurantId);
+            var userId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            if (!await this.plansService.DoesUserHavePlanInTheCity(userId, cityName))
             {
                 int cityToViewModelId = await this.restaurantsService.GetRestaurantCityIdAsync(restaurantId);
                 this.TempData["Message"] = "You have no plans in this city. Please create it";
                 return this.RedirectToAction("Create", new { cityId = cityToViewModelId });
+            }
+
+            int planId = await this.plansService.GerUserPlanIdAsync(cityName, userId);
+            try
+            {
+                bool result = await this.plansService.AddRestaurantToPlanAsync(restaurantId, planId);
+                if (result == true)
+                {
+                    this.TempData["Message"] = "Restaurant added successfully to your plan.";
+                    return this.RedirectToAction(nameof(this.MyPlans));
+                }
+                else
+                {
+                    int cityToViewModelId = await this.restaurantsService.GetRestaurantCityIdAsync(restaurantId);
+                    this.TempData["Message"] = "You have no plans in this city. Please create it";
+                    return this.RedirectToAction("Create", new { cityId = cityToViewModelId });
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception(ex.Message);
             }
         }
 

@@ -91,6 +91,17 @@
             return restaurant.City.Id;
         }
 
+        public async Task<string> GetRestaurantCityNameAsync(int restaurantId)
+        {
+            var restaurant = await this.restaurantRepository
+                .All()
+                .Include(x => x.City)
+                .Where(x => x.Id == restaurantId)
+                .FirstOrDefaultAsync();
+
+            return restaurant.City.Name;
+        }
+
         public async Task<T> GetViewModelByIdAsync<T>(int id)
         {
             var restaurant = await this.restaurantRepository.All()

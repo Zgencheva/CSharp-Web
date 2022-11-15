@@ -19,13 +19,16 @@
 
         Task<bool> AddAttractionToPlanAsync(int attractionId, int planId);
 
-        Task<bool> AddRestaurantToPlanAsync(int attractionId, int planId);
-
         Task DeleteAttractionFromPlanAsync(int attractionId, int planId);
 
         Task DeleteRestaurantFromPlanAsync(int restaurantId, int planId);
 
         Task<bool> DoesAttractionExist(int attractionId, int planId);
 
+        Task<int> GerUserPlanIdAsync(string cityName, string userId);
+
+        Task<bool> AddRestaurantToPlanAsync(int restaurantId, int planId);
+
+        Task<bool> DoesUserHavePlanInTheCity(string userId, string cityName);
     }
 }

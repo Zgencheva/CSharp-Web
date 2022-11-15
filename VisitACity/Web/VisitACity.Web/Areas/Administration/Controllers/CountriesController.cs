@@ -41,7 +41,7 @@
             }
 
             this.TempData["Message"] = $"Country {model.Name} added successfully.";
-            return this.RedirectToAction("Index", "Home", new { area = "" });
+            return this.RedirectToAction("Index", "Home", new { area = string.Empty });
         }
     }
 }
