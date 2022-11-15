@@ -186,5 +186,16 @@
 
             return attraction.City.Id;
         }
+
+        public async Task<string> GetAttractionCityNameAsync(int attractionId)
+        {
+            var attraction = await this.attractionRepository
+                .All()
+                .Include(x => x.City)
+                .Where(x => x.Id == attractionId)
+                .FirstOrDefaultAsync();
+
+            return attraction.City.Name;
+        }
     }
 }

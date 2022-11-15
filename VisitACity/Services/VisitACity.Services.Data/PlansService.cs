@@ -163,13 +163,13 @@
                 throw new NullReferenceException("Invalid plan");
             }
 
-            var restaurant = plan.Attractions.FirstOrDefault(x => x.Id == restaurantId);
+            var restaurant = plan.Restaurants.FirstOrDefault(x => x.Id == restaurantId);
             if (restaurant == null)
             {
                 throw new NullReferenceException("No such restaurant in your plan");
             }
 
-            plan.Attractions.Remove(restaurant);
+            plan.Restaurants.Remove(restaurant);
             await this.plansRepository.SaveChangesAsync();
         }
 

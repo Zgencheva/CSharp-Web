@@ -26,5 +26,7 @@
         Task AddReviewToUserAsync(string userId, int attractionId);
 
         Task<int> GetAttractionCityIdAsync(int attractionId);
+
+        Task<string> GetAttractionCityNameAsync(int attractionId);
     }
 }

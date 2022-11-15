@@ -9,7 +9,6 @@
     using Microsoft.AspNetCore.Mvc;
     using VisitACity.Data.Models;
     using VisitACity.Services.Data.Contracts;
-    using VisitACity.Web.ViewModels.Attractions;
     using VisitACity.Web.ViewModels.Cities;
     using VisitACity.Web.ViewModels.Countries;
     using VisitACity.Web.ViewModels.Plans;
@@ -178,18 +177,40 @@
             }
         }
 
-        public async Task<IActionResult> DeleteAttractionFromPlan(int attractionId, int planId)
+        public async Task<IActionResult> DeleteAttractionFromPlan(int id)
         {
-            await this.plansService.DeleteAttractionFromPlanAsync(attractionId, planId);
-            this.TempData["Message"] = "Attraction deleted successfully";
-            return this.RedirectToAction(nameof(this.MyPlans));
+            string cityName = await this.attractionsService.GetAttractionCityNameAsync(id);
+            var userId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            try
+            {
+                int planId = await this.plansService.GerUserPlanIdAsync(cityName, userId);
+                await this.plansService.DeleteAttractionFromPlanAsync(id, planId);
+                this.TempData["Message"] = "Attraction deleted successfully";
+                return this.RedirectToAction(nameof(this.MyPlans));
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception(ex.Message);
+            }
         }
 
-        public async Task<IActionResult> DeleteRestaurantFromPlan(int restaurantId, int planId)
+        public async Task<IActionResult> DeleteRestaurantFromPlan(int id)
         {
-            await this.plansService.DeleteRestaurantFromPlanAsync(restaurantId, planId);
-            this.TempData["Message"] = "Restaurant deleted successfully";
-            return this.RedirectToAction(nameof(this.MyPlans));
+            string cityName = await this.restaurantsService.GetRestaurantCityNameAsync(id);
+            var userId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            try
+            {
+                int planId = await this.plansService.GerUserPlanIdAsync(cityName, userId);
+                await this.plansService.DeleteRestaurantFromPlanAsync(id, planId);
+                this.TempData["Message"] = "Attraction deleted successfully";
+                return this.RedirectToAction(nameof(this.MyPlans));
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception(ex.Message);
+            }
         }
 
         public async Task<IActionResult> Delete(int id)
