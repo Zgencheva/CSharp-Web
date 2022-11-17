@@ -8,11 +8,19 @@
     @if (this.SignInManager.IsSignedIn(this.User))
     {
         <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello, @User.Claims.FirstOrDefault(c => c.Type == ClaimTypeConstants.FirstName).Value!</a>
+            @if (@User.Claims.FirstOrDefault(c => c.Type == ClaimTypeConstants.FirstName) != null)
+            {
+                <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello, @User.Claims.FirstOrDefault(c => c.Type == ClaimTypeConstants.FirstName).Value!</a>
+            }
+            else
+            {
+                <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello, @User.Identity.Name!</a>
+            }
+            
         </li>
         if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
         {
-           <partial name="_AdminPartial"/>
+            <partial name="_AdminPartial" />
         }
         <li class="nav-item">
             <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@this.Url.Action("Index", "Home", new { area = string.Empty })">
