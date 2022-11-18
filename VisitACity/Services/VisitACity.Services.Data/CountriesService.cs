@@ -39,6 +39,11 @@
                 .ToListAsync();
         }
 
+        public async Task<bool> DoesCountryExist(string countryName)
+        {
+            return await this.countriesRepository.AllAsNoTracking().AnyAsync(x => x.Name == countryName);
+        }
+
         public int GetCount()
         {
             return this.countriesRepository.AllAsNoTracking().ToArray().Length;

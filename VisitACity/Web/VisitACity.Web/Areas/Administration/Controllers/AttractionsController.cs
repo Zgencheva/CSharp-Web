@@ -4,6 +4,7 @@
     using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.Mvc;
+    using VisitACity.Common;
     using VisitACity.Services.Data.Contracts;
     using VisitACity.Web.ViewModels.Administration.Attractions;
     using VisitACity.Web.ViewModels.Cities;
@@ -48,7 +49,7 @@
                 return this.View(model);
             }
 
-            this.TempData["Message"] = "Attraction added successfully.";
+            this.TempData["Message"] = TempDataMessageConstants.Attraction.AttractionAdded;
             return this.RedirectToAction("Index", "Home", new { area = string.Empty });
         }
 
@@ -79,7 +80,7 @@
                 return this.View(model);
             }
 
-            this.TempData["Message"] = "Attraction updated successfully.";
+            this.TempData["Message"] = TempDataMessageConstants.Attraction.AttractionUpdated;
             return this.RedirectToAction("Details", "Attractions", new { area = string.Empty, id });
         }
 
@@ -87,7 +88,7 @@
         {
             await this.attractionsService.DeleteByIdAsync(id);
 
-            this.TempData["Message"] = "Attraction deleted successfully.";
+            this.TempData["Message"] = TempDataMessageConstants.Attraction.AttractionDeleted;
             return this.RedirectToAction("Index", "Home", new { area = string.Empty });
         }
     }

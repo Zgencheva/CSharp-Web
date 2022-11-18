@@ -130,7 +130,6 @@ namespace VisitACity.Areas.Identity.Pages.Account
                     this._logger.LogWarning("User account locked out.");
                     return this.RedirectToPage("./Lockout");
                 }
-
                 else
                 {
                     this.ModelState.AddModelError(string.Empty, "Invalid login attempt.");

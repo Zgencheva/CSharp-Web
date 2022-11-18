@@ -4,6 +4,7 @@
     using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.Mvc;
+    using VisitACity.Common;
     using VisitACity.Services.Data.Contracts;
     using VisitACity.Web.ViewModels.Administration.Countries;
 
@@ -29,7 +30,12 @@
             {
                 return this.View(model);
             }
-
+            var countryName = model.Name;
+            if (await this.countriesService.DoesCountryExist(countryName))
+            {
+                this.ModelState.AddModelError(string.Empty, "Country already exist");
+                return this.View(model);
+            }
             try
             {
                 await this.countriesService.CreateAsync(model);
@@ -40,7 +46,7 @@
                 return this.View(model);
             }
 
-            this.TempData["Message"] = $"Country {model.Name} added successfully.";
+            this.TempData["Message"] = string.Format(TempDataMessageConstants.CountryAdded, $"{model.Name}");
             return this.RedirectToAction("Index", "Home", new { area = string.Empty });
         }
     }

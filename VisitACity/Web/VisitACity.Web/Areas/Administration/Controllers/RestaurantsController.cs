@@ -4,6 +4,7 @@
     using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.Mvc;
+    using VisitACity.Common;
     using VisitACity.Services.Data.Contracts;
     using VisitACity.Web.ViewModels.Administration.Restaurants;
     using VisitACity.Web.ViewModels.Cities;
@@ -48,7 +49,7 @@
                 return this.View(model);
             }
 
-            this.TempData["Message"] = "Restaurant added successfully.";
+            this.TempData["Message"] = TempDataMessageConstants.Restaurant.RestaurantAdded;
             return this.RedirectToAction("Index", "Home", new { area = string.Empty });
         }
 
@@ -79,7 +80,7 @@
                 return this.View(model);
             }
 
-            this.TempData["Message"] = "Restaurant updated successfully.";
+            this.TempData["Message"] = TempDataMessageConstants.Restaurant.RestaurantUpdated;
             return this.RedirectToAction("Details", "Restaurants", new { area = string.Empty, id });
         }
 
@@ -87,7 +88,7 @@
         {
             await this.restaurantsService.DeleteByIdAsync(id);
 
-            this.TempData["Message"] = "Restaurant deleted successfully.";
+            this.TempData["Message"] = TempDataMessageConstants.Restaurant.RestaurantDeleted;
             return this.RedirectToAction("Index", "Home", new { area = string.Empty });
         }
     }

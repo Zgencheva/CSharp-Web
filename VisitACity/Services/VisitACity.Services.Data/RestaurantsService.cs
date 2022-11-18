@@ -118,12 +118,10 @@
 
         public async Task UpdateAsync(int id, RestaurantFromModel model)
         {
-
             var restaurant = await this.restaurantRepository.All().FirstOrDefaultAsync(x => x.Id == id);
             if (restaurant == null)
             {
                 throw new NullReferenceException("No such attraction");
-
             }
 
             var city = await this.cityRepository.All().FirstOrDefaultAsync(x => x.Id == model.CityId);

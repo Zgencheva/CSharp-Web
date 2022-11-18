@@ -79,5 +79,10 @@
 
             return city.CountryId;
         }
+
+        public async Task<bool> DoesCityExist(string cityName)
+        {
+            return await this.cityRepository.AllAsNoTracking().AnyAsync(x => x.Name == cityName);
+        }
     }
 }

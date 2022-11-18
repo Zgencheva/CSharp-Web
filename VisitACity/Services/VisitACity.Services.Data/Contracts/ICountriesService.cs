@@ -12,5 +12,7 @@
         Task<IEnumerable<Т>> GetAllAsync<Т>();
 
         Task CreateAsync(CountryFormModel model);
+
+        Task<bool> DoesCountryExist(string countryName);
     }
 }

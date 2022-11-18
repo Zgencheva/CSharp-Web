@@ -29,7 +29,6 @@
 
         public PlanQueryModel UserPlan { get; set; }
 
-
         public IEnumerable<ReviewRestaurantViewModel> Reviews { get; set; }
 
         public void CreateMappings(IProfileExpression configuration)

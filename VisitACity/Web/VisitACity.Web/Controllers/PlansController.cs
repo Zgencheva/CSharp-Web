@@ -7,6 +7,7 @@
 
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
+    using VisitACity.Common;
     using VisitACity.Data.Models;
     using VisitACity.Services.Data.Contracts;
     using VisitACity.Web.ViewModels.Cities;
@@ -79,7 +80,7 @@
             var userPlans = await this.plansService.GetUpcomingUserPlansAsync(userId);
             if (userPlans.Any(x => x.CityId == input.CityId))
             {
-                this.ModelState.AddModelError(string.Empty, "You already have upcoming plan to this city!");
+                this.ModelState.AddModelError(string.Empty, TempDataMessageConstants.Plan.ExistingUpcomingPlanToTheCity);
                 input.Cities = await this.citiesService.GetAllAsync<CityViewModel>();
                 input.Countries = await this.countriesService.GetAllAsync<CountryViewModel>();
                 return this.View(input);
@@ -106,13 +107,13 @@
             if (planId == 0)
             {
                 int cityToViewModelId = await this.attractionsService.GetAttractionCityIdAsync(attractionId);
-                this.TempData["Message"] = "You have no plans in this city. Please create it";
+                this.TempData["Message"] = TempDataMessageConstants.Plan.NoPlansInTheCity;
                 return this.RedirectToAction("Create", new { cityId = cityToViewModelId });
             }
 
             if (await this.plansService.DoesAttractionExist(attractionId, planId))
             {
-                this.TempData["Message"] = "Attraction already in your plan.";
+                this.TempData["Message"] = TempDataMessageConstants.Attraction.ExistingAttractionToThePlan;
                 return this.RedirectToAction(nameof(this.MyPlans));
             }
 
@@ -121,13 +122,13 @@
                 bool result = await this.plansService.AddAttractionToPlanAsync(attractionId, planId);
                 if (result == true)
                 {
-                    this.TempData["Message"] = "Attraction added successfully to your plan.";
+                    this.TempData["Message"] = TempDataMessageConstants.Attraction.AttractionAddedToPlan;
                     return this.RedirectToAction(nameof(this.MyPlans));
                 }
                 else
                 {
                     int cityToViewModelId = await this.attractionsService.GetAttractionCityIdAsync(attractionId);
-                    this.TempData["Message"] = "You have no plans in this city. Please create it";
+                    this.TempData["Message"] = TempDataMessageConstants.Plan.NoPlansInTheCity;
                     return this.RedirectToAction("Create", new { cityId = cityToViewModelId });
                 }
             }
@@ -144,14 +145,14 @@
             if (!await this.plansService.DoesUserHavePlanInTheCity(userId, cityName))
             {
                 int cityToViewModelId = await this.restaurantsService.GetRestaurantCityIdAsync(restaurantId);
-                this.TempData["Message"] = "You have no plans in this city. Please create it";
+                this.TempData["Message"] = TempDataMessageConstants.Plan.NoPlansInTheCity;
                 return this.RedirectToAction("Create", new { cityId = cityToViewModelId });
             }
 
             int planId = await this.plansService.GerUserPlanIdAsync(cityName, userId);
             if (await this.plansService.DoesRestaurantExistInThePlan(restaurantId, planId))
             {
-                this.TempData["Message"] = "Restaurant already in your plan.";
+                this.TempData["Message"] = TempDataMessageConstants.Restaurant.ExistingRestaurantToThePlan;
                 return this.RedirectToAction(nameof(this.MyPlans));
             }
 
@@ -160,19 +161,18 @@
                 bool result = await this.plansService.AddRestaurantToPlanAsync(restaurantId, planId);
                 if (result == true)
                 {
-                    this.TempData["Message"] = "Restaurant added successfully to your plan.";
+                    this.TempData["Message"] = TempDataMessageConstants.Restaurant.RestaurantAddedToPlan;
                     return this.RedirectToAction(nameof(this.MyPlans));
                 }
                 else
                 {
                     int cityToViewModelId = await this.restaurantsService.GetRestaurantCityIdAsync(restaurantId);
-                    this.TempData["Message"] = "You have no plans in this city. Please create it";
+                    this.TempData["Message"] = TempDataMessageConstants.Plan.NoPlansInTheCity;
                     return this.RedirectToAction("Create", new { cityId = cityToViewModelId });
                 }
             }
             catch (Exception ex)
             {
-
                 throw new Exception(ex.Message);
             }
         }
@@ -185,12 +185,11 @@
             {
                 int planId = await this.plansService.GerUserPlanIdAsync(cityName, userId);
                 await this.plansService.DeleteAttractionFromPlanAsync(id, planId);
-                this.TempData["Message"] = "Attraction deleted successfully";
+                this.TempData["Message"] = TempDataMessageConstants.Attraction.AttractionDeleted;
                 return this.RedirectToAction(nameof(this.MyPlans));
             }
             catch (Exception ex)
             {
-
                 throw new Exception(ex.Message);
             }
         }
@@ -203,12 +202,11 @@
             {
                 int planId = await this.plansService.GerUserPlanIdAsync(cityName, userId);
                 await this.plansService.DeleteRestaurantFromPlanAsync(id, planId);
-                this.TempData["Message"] = "Attraction deleted successfully";
+                this.TempData["Message"] = TempDataMessageConstants.Restaurant.RestaurantDeleted;
                 return this.RedirectToAction(nameof(this.MyPlans));
             }
             catch (Exception ex)
             {
-
                 throw new Exception(ex.Message);
             }
         }
@@ -216,7 +214,7 @@
         public async Task<IActionResult> Delete(int id)
         {
             await this.plansService.DeleteAsync(id);
-            this.TempData["Message"] = "Plan deleted successfully.";
+            this.TempData["Message"] = TempDataMessageConstants.Plan.PlanDeleted;
             return this.RedirectToAction(nameof(this.MyPlans));
         }
     }

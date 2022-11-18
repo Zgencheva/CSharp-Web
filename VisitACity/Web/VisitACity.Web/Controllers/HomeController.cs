@@ -1,12 +1,11 @@
 ﻿namespace VisitACity.Web.Controllers
 {
-    using System.Collections.Generic;
     using System.Diagnostics;
-    using System.Linq;
     using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
+    using VisitACity.Common;
     using VisitACity.Services.Data.Contracts;
     using VisitACity.Web.ViewModels;
     using VisitACity.Web.ViewModels.Attractions;
@@ -30,14 +29,14 @@
         }
 
         [AllowAnonymous]
-        public async Task<IActionResult> Index([FromQuery]IndexSearchQueryModel query, int id = 1)
+        public async Task<IActionResult> Index([FromQuery]IndexSearchQueryModel query, int id = ModelConstants.DefaultPageNumber)
         {
             if (id <= 0)
             {
                 return this.NotFound();
             }
 
-            const int ItemsPerPage = 6;
+            const int ItemsPerPage = ModelConstants.DefaultPageSize;
             var viewModel = new IndexViewModel
             {
                 CitiesCount = this.cityService.GetCount(),
@@ -53,14 +52,14 @@
             }
             else
             {
-                if (query.RadioOption == "Restaurants")
+                if (query.RadioOption == ModelConstants.RestaurantsRadioOption)
                 {
                     viewModel.IsAttraction = false;
                     viewModel.EventsCount = this.restaurantsService.GetCountByCity(query.CityName);
                     viewModel.List = await this.restaurantsService.GetByCityAsync<RestaurantViewModel>(query.CityName, id, ItemsPerPage);
                     viewModel.queryModel = query;
                 }
-                else if (query.RadioOption == "Attractions")
+                else if (query.RadioOption == ModelConstants.AttractionsRadioOption)
                 {
                     viewModel.List = await this.attractionsService.GetByCityAsync<AttractionViewModel>(query.CityName, id, ItemsPerPage);
                     viewModel.EventsCount = this.attractionsService.GetCountByCity(query.CityName);

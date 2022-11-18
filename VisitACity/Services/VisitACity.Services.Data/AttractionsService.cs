@@ -23,8 +23,7 @@
         public AttractionsService(
             IDeletableEntityRepository<Attraction> attractionRepository,
             IDeletableEntityRepository<City> cityRepository,
-            IDeletableEntityRepository<ApplicationUser> userRepository
-            )
+            IDeletableEntityRepository<ApplicationUser> userRepository)
         {
             this.attractionRepository = attractionRepository;
             this.cityRepository = cityRepository;
@@ -109,7 +108,6 @@
             if (attraction == null)
             {
                 throw new NullReferenceException("No such attraction");
-
             }
 
             var city = await this.cityRepository.All().FirstOrDefaultAsync(x => x.Id == model.CityId);

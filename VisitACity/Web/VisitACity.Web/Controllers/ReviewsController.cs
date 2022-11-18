@@ -5,6 +5,7 @@
     using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.Mvc;
+    using VisitACity.Common;
     using VisitACity.Services.Data.Contracts;
     using VisitACity.Web.ViewModels.Reviews;
 
@@ -46,8 +47,8 @@
                 return this.View(input);
             }
 
-            this.TempData["Message"] = "Thank you for your comment!";
-            return this.RedirectToAction("Details", "Restaurants", new { id = id });
+            this.TempData["Message"] = TempDataMessageConstants.ThankForComment;
+            return this.RedirectToAction("Details", "Restaurants", new { id });
         }
     }
 }

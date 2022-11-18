@@ -34,14 +34,17 @@
         [AllowAnonymous]
         public async Task<IActionResult> Details(int id)
         {
-            var userId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            if (userId != null)
+            var user = this.User.FindFirst(ClaimTypes.NameIdentifier);
+            var viewModel = await this.attractionsService.GetViewModelByIdAsync<AttractionViewModel>(id);
+
+            if (user != null)
             {
+                var userId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
                 await this.attractionsService.AddReviewToUserAsync(userId, id);
+                viewModel.UserPlan = await this.plansService.GetUserUpcomingPlansByCityAsync(viewModel.CityName, userId);
+
             }
 
-            var viewModel = await this.attractionsService.GetViewModelByIdAsync<AttractionViewModel>(id);
-            viewModel.UserPlan = await this.plansService.GetUserUpcomingPlansByCityAsync(viewModel.CityName, userId);
             return this.View(viewModel);
         }
 
@@ -57,7 +60,7 @@
             html.AppendLine($"<div>{viewModel.Description}</div>");
             var user = await this.userManager.GetUserAsync(this.User);
             var userEmail = user.Email;
-            await this.emailSender.SendEmailAsync("visitAcity@gmail.com", "Visit a city", userEmail, viewModel.Name, html.ToString());
+            await this.emailSender.SendEmailAsync("zornitsa.r.gencheva@gmail.com", "Visit a city", userEmail, viewModel.Name, html.ToString());
             return this.RedirectToAction(nameof(this.Details), new { id });
         }
     }
