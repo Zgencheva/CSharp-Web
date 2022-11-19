@@ -16,20 +16,32 @@
 
     public class CountriesService : ICountriesService
     {
-        private readonly IRepository<Country> countriesRepository;
+        private readonly IDeletableEntityRepository<Country> countriesRepository;
 
-        public CountriesService(IRepository<Country> countriesRepository)
+        public CountriesService(IDeletableEntityRepository<Country> countriesRepository)
         {
             this.countriesRepository = countriesRepository;
         }
 
         public async Task CreateAsync(CountryFormModel model)
         {
-            var country = new Country
+            var country = await this.countriesRepository
+                .AllWithDeleted()
+                .FirstOrDefaultAsync(x => x.Name == model.Name);
+            if (country != null)
             {
-                Name = model.Name,
-            };
-            await this.countriesRepository.AddAsync(country);
+                country.IsDeleted = false;
+                this.countriesRepository.Update(country);
+            }
+            else
+            {
+                var newCountry = new Country
+                {
+                    Name = model.Name,
+                };
+                await this.countriesRepository.AddAsync(newCountry);
+            }
+
             await this.countriesRepository.SaveChangesAsync();
         }
 

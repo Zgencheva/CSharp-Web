@@ -47,12 +47,21 @@
                 throw new ArgumentException(ExceptionMessages.Country.NotExists);
             }
 
-            var city = new City
+            var city = await this.cityRepository.AllWithDeleted().FirstOrDefaultAsync(x => x.Name == model.Name);
+            if (city != null)
             {
-                Name = model.Name,
-                CountryId = model.CountryId,
-            };
-            await this.cityRepository.AddAsync(city);
+                city.IsDeleted = false;
+            }
+            else
+            {
+                var newCity = new City
+                {
+                    Name = model.Name,
+                    CountryId = model.CountryId,
+                };
+                await this.cityRepository.AddAsync(newCity);
+            }
+
             await this.cityRepository.SaveChangesAsync();
         }
 

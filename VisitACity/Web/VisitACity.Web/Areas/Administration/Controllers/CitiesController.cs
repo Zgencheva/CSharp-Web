@@ -38,26 +38,19 @@
                 return this.View(model);
             }
 
-            var cityName = model.Name;
-            if (await this.citiesService.DoesCityExist(cityName))
-            {
-                this.ModelState.AddModelError(string.Empty, string.Format(ModelConstants.City.CityExists, $"{cityName}"));
-                model.Countries = await this.countriesService.GetAllAsync<CountryViewModel>();
-                return this.View(model);
-            }
-
             try
             {
-                await this.citiesService.CreateAsync(model);
+                   await this.citiesService.CreateAsync(model);
             }
-            catch (Exception ex)
+             catch (Exception ex)
             {
-                this.ModelState.AddModelError(string.Empty, ex.Message);
-                model.Countries = await this.countriesService.GetAllAsync<CountryViewModel>();
-                return this.View(model);
+                  this.ModelState.AddModelError(string.Empty, ex.Message);
+                  model.Countries = await this.countriesService.GetAllAsync<CountryViewModel>();
+                  return this.View(model);
             }
 
             this.TempData["Message"] = string.Format(TempDataMessageConstants.CityAdded, $"{model.Name}");
+
             return this.RedirectToAction("Index", "Home", new { area = string.Empty });
         }
 

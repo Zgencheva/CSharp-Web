@@ -31,13 +31,6 @@
                 return this.View(model);
             }
 
-            var countryName = model.Name;
-            if (await this.countriesService.DoesCountryExist(countryName))
-            {
-                this.ModelState.AddModelError(string.Empty, string.Format(ModelConstants.City.CityExists, $"{countryName}"));
-                return this.View(model);
-            }
-
             try
             {
                 await this.countriesService.CreateAsync(model);
