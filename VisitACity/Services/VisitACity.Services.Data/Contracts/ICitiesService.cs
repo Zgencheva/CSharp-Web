@@ -18,6 +18,7 @@
         Task<int> GetCountryIdAsync(int cityId);
 
         Task<bool> DoesCityExist(string cityName);
+
         Task DeleteAsync(string name);
     }
 }

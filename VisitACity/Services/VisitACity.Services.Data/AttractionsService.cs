@@ -38,7 +38,7 @@
 
         public async Task<IEnumerable<T>> GetBestAttractionsAsync<T>(int page, int itemsPage)
         {
-            return await this.attractionRepository.All()
+            return await this.attractionRepository.AllAsNoTracking()
                 .OrderByDescending(x => x.UsersReviews.Count)
                 .Skip((page - 1) * itemsPage).Take(itemsPage)
                 .To<T>()
@@ -47,7 +47,7 @@
 
         public async Task<IEnumerable<T>> GetByCityAsync<T>(string cityName, int page, int itemsPage)
         {
-            return await this.attractionRepository.All()
+            return await this.attractionRepository.AllAsNoTracking()
             .Where(x => x.City.Name == cityName)
             .OrderByDescending(x => x.Id)
             .Skip((page - 1) * itemsPage).Take(itemsPage)
@@ -57,7 +57,7 @@
 
         public async Task<T> GetViewModelByIdAsync<T>(int id)
         {
-            var attraction = await this.attractionRepository.All()
+            var attraction = await this.attractionRepository.AllAsNoTracking()
                 .Where(x => x.Id == id)
                 .To<T>()
                 .FirstOrDefaultAsync();
@@ -178,7 +178,7 @@
         public async Task<int> GetAttractionCityIdAsync(int attractionId)
         {
             var attraction = await this.attractionRepository
-                .All()
+                .AllAsNoTracking()
                 .Include(x => x.City)
                 .Where(x => x.Id == attractionId)
                 .FirstOrDefaultAsync();
@@ -189,7 +189,7 @@
         public async Task<string> GetAttractionCityNameAsync(int attractionId)
         {
             var attraction = await this.attractionRepository
-                .All()
+                .AllAsNoTracking()
                 .Include(x => x.City)
                 .Where(x => x.Id == attractionId)
                 .FirstOrDefaultAsync();

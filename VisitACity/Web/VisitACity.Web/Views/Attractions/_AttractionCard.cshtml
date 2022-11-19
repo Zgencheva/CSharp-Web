@@ -31,23 +31,6 @@
                 <i class="fa fa-info-circle"></i> <span>Details</span>
             </div>
         </a>
-       @* @if (Model.UserPlan != null)
-        {
-            <a class="btn btn-success" asp-controller="Plans" asp-action="AddAttractionToPlan" asp-route-attractionId="@Model.Id" asp-route-planId="@Model.UserPlan.Id">
-                <div class="feature-icon">
-                    <i class="fa fa-bus"></i> <span>Add to plan</span>
-                </div>
-            </a>
-        }
-        else
-        {
-            <a class="btn btn-success" asp-controller="Plans" asp-action="Create" asp-route-cityId="@Model.CityId">
-                <div class="feature-icon">
-                    <i class="fa fa-bus"></i> <span>Add to plan</span>
-                </div>
-            </a>
-        }*@
-
     </div>
     <p></p>
 </div>

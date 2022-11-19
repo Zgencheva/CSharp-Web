@@ -149,7 +149,7 @@
                 return this.RedirectToAction("Create", new { cityId = cityToViewModelId });
             }
 
-            int planId = await this.plansService.GerUserPlanIdAsync(cityName, userId);
+            int planId = await this.plansService.GetUserPlanIdAsync(cityName, userId);
             if (await this.plansService.DoesRestaurantExistInThePlan(restaurantId, planId))
             {
                 this.TempData["Message"] = TempDataMessageConstants.Restaurant.ExistingRestaurantToThePlan;
@@ -183,7 +183,7 @@
             var userId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
             try
             {
-                int planId = await this.plansService.GerUserPlanIdAsync(cityName, userId);
+                int planId = await this.plansService.GetUserPlanIdAsync(cityName, userId);
                 await this.plansService.DeleteAttractionFromPlanAsync(id, planId);
                 this.TempData["Message"] = TempDataMessageConstants.Attraction.AttractionDeleted;
                 return this.RedirectToAction(nameof(this.MyPlans));
@@ -200,7 +200,7 @@
             var userId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
             try
             {
-                int planId = await this.plansService.GerUserPlanIdAsync(cityName, userId);
+                int planId = await this.plansService.GetUserPlanIdAsync(cityName, userId);
                 await this.plansService.DeleteRestaurantFromPlanAsync(id, planId);
                 this.TempData["Message"] = TempDataMessageConstants.Restaurant.RestaurantDeleted;
                 return this.RedirectToAction(nameof(this.MyPlans));

@@ -12,7 +12,6 @@
     using VisitACity.Services.Data.Contracts;
     using VisitACity.Services.Mapping;
     using VisitACity.Web.ViewModels.Administration.Countries;
-    using VisitACity.Web.ViewModels.Countries;
 
     public class CountriesService : ICountriesService
     {
@@ -28,18 +27,27 @@
             var country = await this.countriesRepository
                 .AllWithDeleted()
                 .FirstOrDefaultAsync(x => x.Name == model.Name);
-            if (country != null)
-            {
-                country.IsDeleted = false;
-                this.countriesRepository.Update(country);
-            }
-            else
+            if (country == null)
             {
                 var newCountry = new Country
                 {
                     Name = model.Name,
                 };
                 await this.countriesRepository.AddAsync(newCountry);
+            }
+            else
+            {
+                if (country.IsDeleted == true)
+                {
+                    country.IsDeleted = false;
+                    this.countriesRepository.Update(country);
+                }
+                else
+                {
+                    throw new ArgumentException(
+                        string.Format(ModelConstants.Country.CountryExists, country.Name));
+                }
+
             }
 
             await this.countriesRepository.SaveChangesAsync();
@@ -48,7 +56,7 @@
         public async Task<IEnumerable<T>> GetAllAsync<T>()
         {
             return await this.countriesRepository
-                .All()
+                .AllAsNoTracking()
                 .To<T>()
                 .ToListAsync();
         }

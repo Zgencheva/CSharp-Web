@@ -60,7 +60,7 @@
 
         public async Task<IEnumerable<T>> GetByCityAsync<T>(string restaurantName, int page, int itemsPage)
         {
-            return await this.restaurantRepository.All()
+            return await this.restaurantRepository.AllAsNoTracking()
             .Where(x => x.City.Name == restaurantName)
             .OrderByDescending(x => x.Id)
             .Skip((page - 1) * itemsPage).Take(itemsPage)
@@ -83,7 +83,7 @@
         public async Task<int> GetRestaurantCityIdAsync(int restaurantId)
         {
             var restaurant = await this.restaurantRepository
-                .All()
+                .AllAsNoTracking()
                 .Include(x => x.City)
                 .Where(x => x.Id == restaurantId)
                 .FirstOrDefaultAsync();
@@ -94,7 +94,7 @@
         public async Task<string> GetRestaurantCityNameAsync(int restaurantId)
         {
             var restaurant = await this.restaurantRepository
-                .All()
+                .AllAsNoTracking()
                 .Include(x => x.City)
                 .Where(x => x.Id == restaurantId)
                 .FirstOrDefaultAsync();
@@ -104,7 +104,8 @@
 
         public async Task<T> GetViewModelByIdAsync<T>(int id)
         {
-            var restaurant = await this.restaurantRepository.All()
+            var restaurant = await this.restaurantRepository
+                .AllAsNoTracking()
                 .Where(x => x.Id == id)
                 .To<T>()
                 .FirstOrDefaultAsync();

@@ -25,7 +25,7 @@
 
         Task<bool> DoesAttractionExist(int attractionId, int planId);
 
-        Task<int> GerUserPlanIdAsync(string cityName, string userId);
+        Task<int> GetUserPlanIdAsync(string cityName, string userId);
 
         Task<bool> AddRestaurantToPlanAsync(int restaurantId, int planId);
 

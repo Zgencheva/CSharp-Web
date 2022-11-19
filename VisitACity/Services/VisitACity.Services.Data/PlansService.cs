@@ -202,7 +202,7 @@
             return plans.Any(x => x.City.Name == cityName);
         }
 
-        public async Task<int> GerUserPlanIdAsync(string cityName, string userId)
+        public async Task<int> GetUserPlanIdAsync(string cityName, string userId)
         {
             var plans = await this.plansRepository
                 .AllAsNoTracking()
@@ -215,7 +215,7 @@
 
         public async Task<ICollection<PlanViewModel>> GetUpcomingUserPlansAsync(string userId)
         {
-            var plans = await this.plansRepository.All().Where(x => x.UserId == userId && x.ToDate >= DateTime.UtcNow)
+            var plans = await this.plansRepository.AllAsNoTracking().Where(x => x.UserId == userId && x.ToDate >= DateTime.UtcNow)
                .Select(x => new PlanViewModel
                {
                    Id = x.Id,
@@ -248,7 +248,7 @@
         public async Task<ICollection<PlanViewModel>> GetUserPlansAsync(string userId)
         {
             // TODO: Make it with automapper
-            var plans = await this.plansRepository.All().Where(x => x.UserId == userId)
+            var plans = await this.plansRepository.AllAsNoTracking().Where(x => x.UserId == userId)
                 .Select(x => new PlanViewModel
                 {
                     Id = x.Id,
@@ -280,7 +280,7 @@
 
         public async Task<PlanQueryModel> GetUserUpcomingPlansByCityAsync(string cityName, string userId)
         {
-            return await this.plansRepository.All()
+            return await this.plansRepository.AllAsNoTracking()
                 .Where(x => x.UserId == userId && x.City.Name == cityName)
                 .To<PlanQueryModel>()
                 .FirstOrDefaultAsync();

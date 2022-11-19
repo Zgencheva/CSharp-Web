@@ -34,7 +34,7 @@
         public async Task<IEnumerable<T>> GetAllAsync<T>()
         {
             return await this.cityRepository
-                .All()
+                .AllAsNoTracking()
                 .To<T>()
                 .ToListAsync();
         }
@@ -48,11 +48,7 @@
             }
 
             var city = await this.cityRepository.AllWithDeleted().FirstOrDefaultAsync(x => x.Name == model.Name);
-            if (city != null)
-            {
-                city.IsDeleted = false;
-            }
-            else
+            if (city == null)
             {
                 var newCity = new City
                 {
@@ -61,13 +57,26 @@
                 };
                 await this.cityRepository.AddAsync(newCity);
             }
+            else
+            {
+                if (city.IsDeleted == true)
+                {
+                    city.IsDeleted = false;
+                    this.cityRepository.Update(city);
+                }
+                else
+                {
+                    throw new ArgumentException(
+                        string.Format(ModelConstants.City.CityExists, city.Name));
+                }
+            }
 
             await this.cityRepository.SaveChangesAsync();
         }
 
         public async Task<T> GetByIdAsync<T>(int id)
         {
-            var city = await this.cityRepository.All()
+            var city = await this.cityRepository.AllAsNoTracking()
                 .Where(x => x.Id == id)
                 .To<T>()
                 .FirstOrDefaultAsync();
@@ -82,7 +91,7 @@
         public async Task<int> GetCountryIdAsync(int cityId)
         {
             var city = await this.cityRepository
-                .All()
+                .AllAsNoTracking()
                 .Where(x => x.Id == cityId)
                 .Include(x=> x.Country)
                 .FirstOrDefaultAsync();
