@@ -8,16 +8,20 @@
 {
     <div class="alert alert-success">@this.TempData["Message"]</div>
 }
-
-<div class="text-center page-header">
+<div class="bg">
+    <div class="text-center page-header">
     <h1 class="display-4">Welcome to Visit<span class="feature-icon"><i class="fa fa-mountain"></i></span>City</h1>
     <h2>
         Create Your Personal Travel Guide
         <a asp-controller="Plans" asp-action="Create">Here</a>
     </h2>
-    <h3 style="margin-top:50px" ; class="display-12">Where are you travelling to?</h3>
+    <br>
+    <br>
+    <h3 style="color:white;" ; class="display-12">Where are you travelling to?</h3>
 </div>
 <br>
+
+
 <form method="Get" asp-route-id = "1" class="col-md-6 offset-md-3">
     <div class="form-group col-md-6 offset-md-3">
         <input name="cityName" class="form-control" placeholder="City" />
@@ -38,7 +42,8 @@
     </fieldset>
     <button type="submit" class="btn btn-primary col-md-3 offset-md-4">Search</button>
 </form>
-
+<br>
+</div>
 
 <hr>
 <cache expires-after="@TimeSpan.FromHours(8)">
@@ -65,6 +70,7 @@
 <br>
 <p></p>
 <br />
+
 @if (@Model.IsAttraction)
 {
     @if (@Model.EventsCount == 0)
