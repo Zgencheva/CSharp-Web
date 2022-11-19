@@ -5,6 +5,7 @@
     using System.Linq;
 
     using Microsoft.AspNetCore.Http;
+    using VisitACity.Common;
 
     public class AllowedExtensionsAttribute : ValidationAttribute
     {
@@ -17,7 +18,7 @@
 
         public string GetErrorMessage()
         {
-            return $"This photo extension is not allowed!";
+            return ModelConstants.PhotoExtensionNotAllowed;
         }
 
         protected override ValidationResult IsValid(

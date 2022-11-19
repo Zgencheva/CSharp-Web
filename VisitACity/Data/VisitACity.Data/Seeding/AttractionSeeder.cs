@@ -56,7 +56,7 @@
                 Address = "2 Paris",
                 City = citySofia,
                 ImageUrl = "https://upload.wikimedia.org/wikipedia/commons/5/51/Basilica_of_Hagia_Sofia%2C_Bulgaria.jpg",
-                Description = "The church was built on the site of several earlier churches from the 4th century, and places of worship dating back to the days when it was the necropolis of the Roman town of Serdica. In the 2nd century, it was the location of a Roman theatre. Over the next few centuries, several other churches were constructed, only to be destroyed by invading forces such as the Goths and the Huns. The basic cross design of the present basilica, with its two east towers and one tower-cupola, is believed to be the fifth structure to be constructed on the site and was built during the reign of Byzantine Emperor Justinian I in the middle of the 6th century (527–565). It is thus a contemporary of the better-known Hagia Sophia church in Constantinople.[1]",
+                Description = "The church was built on the site of several earlier churches from the 4th century, and places of worship dating back to the days when it was the necropolis of the Roman town of Serdica.",
             });
 
             await dbContext.Attractions.AddAsync(new Attraction

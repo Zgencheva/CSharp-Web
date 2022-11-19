@@ -2,12 +2,13 @@
 {
     using System;
     using System.ComponentModel.DataAnnotations;
+    using VisitACity.Common;
 
     public class DateMinValueAttribute : ValidationAttribute
     {
         public DateMinValueAttribute()
         {
-            this.ErrorMessage = $"Travelling date cannot be in the past";
+            this.ErrorMessage = ModelConstants.TravellingDateInThePast;
         }
 
         public override bool IsValid(object value)

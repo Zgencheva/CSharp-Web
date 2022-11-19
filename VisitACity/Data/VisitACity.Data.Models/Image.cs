@@ -13,6 +13,7 @@
         }
 
         [Required]
+        [MaxLength(10)]
         public string Extension { get; set; }
 
         [Required]

@@ -6,6 +6,7 @@
     using System.Threading.Tasks;
 
     using Microsoft.EntityFrameworkCore;
+    using VisitACity.Common;
     using VisitACity.Data.Common.Repositories;
     using VisitACity.Data.Models;
     using VisitACity.Services.Data.Contracts;
@@ -56,7 +57,7 @@
                 .FirstOrDefaultAsync(x => x.Id == attractionId);
             if (attraction == null)
             {
-                throw new NullReferenceException("Invalid attraction");
+                throw new NullReferenceException(ExceptionMessages.Attraction.InvalidAttraction);
             }
 
             plan.Attractions.Add(attraction);
@@ -81,7 +82,7 @@
                 .FirstOrDefaultAsync(x => x.Id == restaurantId);
             if (restaurant == null)
             {
-                throw new NullReferenceException("Invalid restaurant");
+                throw new NullReferenceException(ExceptionMessages.Restaurant.InvalidRestaurant);
             }
 
             plan.Restaurants.Add(restaurant);
@@ -94,7 +95,7 @@
             var country = await this.countryReository.All().FirstOrDefaultAsync(x => x.Id == input.CountryId);
             if (country == null)
             {
-                throw new NullReferenceException("Invalid country");
+                throw new NullReferenceException(ExceptionMessages.Country.NotExists);
             }
 
             var city = await this.cityRepository.All().FirstOrDefaultAsync(x => x.Id == input.CityId);
@@ -102,7 +103,7 @@
             // TODO: not adding city that does not exist; This is for seeding the cities
             if (city == null)
             {
-                throw new NullReferenceException("Invalid city");
+                throw new NullReferenceException(ExceptionMessages.City.NotExists);
             }
 
             var plan = new Plan
@@ -121,7 +122,7 @@
             var plan = await this.plansRepository.All().Where(x => x.Id == planId).FirstOrDefaultAsync();
             if (plan == null)
             {
-                throw new NullReferenceException("Invalid plan");
+                throw new NullReferenceException(ExceptionMessages.Plan.NotExists);
             }
 
             this.plansRepository.Delete(plan);
@@ -137,14 +138,14 @@
                 .FirstOrDefaultAsync();
             if (plan == null)
             {
-                throw new NullReferenceException("Invalid plan");
+                throw new NullReferenceException(ExceptionMessages.Plan.NotExists);
             }
 
             var attraction = plan.Attractions.FirstOrDefault(x => x.Id == attractionId);
 
             if (attraction == null)
             {
-                throw new NullReferenceException("No such attraction in your plan");
+                throw new NullReferenceException(ExceptionMessages.Plan.NotExistingAttraction);
             }
 
             plan.Attractions.Remove(attraction);
@@ -160,13 +161,13 @@
                .FirstOrDefaultAsync();
             if (plan == null)
             {
-                throw new NullReferenceException("Invalid plan");
+                throw new NullReferenceException(ExceptionMessages.Plan.NotExists);
             }
 
             var restaurant = plan.Restaurants.FirstOrDefault(x => x.Id == restaurantId);
             if (restaurant == null)
             {
-                throw new NullReferenceException("No such restaurant in your plan");
+                throw new NullReferenceException(ExceptionMessages.Plan.NotExistingRestaurant);
             }
 
             plan.Restaurants.Remove(restaurant);
@@ -246,7 +247,7 @@
 
         public async Task<ICollection<PlanViewModel>> GetUserPlansAsync(string userId)
         {
-            //TODO: Make it with automapper
+            // TODO: Make it with automapper
             var plans = await this.plansRepository.All().Where(x => x.UserId == userId)
                 .Select(x => new PlanViewModel
                 {

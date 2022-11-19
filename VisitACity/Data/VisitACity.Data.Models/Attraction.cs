@@ -3,7 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
-
+    using VisitACity.Common;
     using VisitACity.Data.Common.Models;
     using VisitACity.Data.Models.Enums;
 
@@ -17,24 +17,29 @@
         }
 
         [Required]
+        [MaxLength(ModelConstants.Attraction.NameMaxSize)]
         public string Name { get; set; }
 
         [Required]
         public AttractionType Type { get; set; }
 
         [Required]
-        [Range(0.0, double.MaxValue, ErrorMessage ="Price must be grater than 0")]
+        [Range(0.0, double.MaxValue, ErrorMessage = ModelConstants.PricePositiveNumber)]
         public decimal Price { get; set; }
 
         [Required]
+        [MaxLength(ModelConstants.UrlMaxLength)]
         public string ImageUrl { get; set; }
 
         [Required]
+        [MaxLength(ModelConstants.Attraction.AddressMaxSize)]
         public string Address { get; set; }
 
+        [MaxLength(ModelConstants.UrlMaxLength)]
         public string AttractionUrl { get; set; }
 
         [Required]
+        [MaxLength(ModelConstants.Attraction.DescriptionMaxLength)]
         public string Description { get; set; }
 
         public int CityId { get; set; }

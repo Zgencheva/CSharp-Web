@@ -6,12 +6,12 @@
     using System.Threading.Tasks;
 
     using Microsoft.EntityFrameworkCore;
+    using VisitACity.Common;
     using VisitACity.Data.Common.Repositories;
     using VisitACity.Data.Models;
     using VisitACity.Services.Data.Contracts;
     using VisitACity.Services.Mapping;
     using VisitACity.Web.ViewModels.Administration.Restaurants;
-    using VisitACity.Web.ViewModels.Restaurants;
 
     public class RestaurantsService : IRestaurantsService
     {
@@ -31,14 +31,14 @@
             var city = await this.cityRepository.All().FirstOrDefaultAsync(x => x.Id == model.CityId);
             if (city == null)
             {
-                throw new NullReferenceException("No such city");
+                throw new NullReferenceException(ExceptionMessages.City.NotExists);
             }
 
             var restaurant = new Restaurant
             {
                 Name = model.Name,
                 City = city,
-                Address = model.Address,  
+                Address = model.Address,
                 ImageUrl = model.ImageUrl,
             };
 
@@ -51,7 +51,7 @@
             var restaurant = await this.restaurantRepository.All().FirstOrDefaultAsync(x => x.Id == id);
             if (restaurant == null)
             {
-                throw new NullReferenceException("No such restaurant");
+                throw new NullReferenceException(ExceptionMessages.Restaurant.InvalidRestaurant);
             }
 
             this.restaurantRepository.Delete(restaurant);
@@ -110,7 +110,7 @@
                 .FirstOrDefaultAsync();
             if (restaurant == null)
             {
-                throw new NullReferenceException("Invalid restaurant");
+                throw new NullReferenceException(ExceptionMessages.Restaurant.InvalidRestaurant);
             }
 
             return restaurant;
@@ -121,13 +121,13 @@
             var restaurant = await this.restaurantRepository.All().FirstOrDefaultAsync(x => x.Id == id);
             if (restaurant == null)
             {
-                throw new NullReferenceException("No such attraction");
+                throw new NullReferenceException(ExceptionMessages.Attraction.InvalidAttraction);
             }
 
             var city = await this.cityRepository.All().FirstOrDefaultAsync(x => x.Id == model.CityId);
             if (city == null)
             {
-                throw new NullReferenceException("No such city");
+                throw new NullReferenceException(ExceptionMessages.City.NotExists);
             }
 
             restaurant.Name = model.Name;

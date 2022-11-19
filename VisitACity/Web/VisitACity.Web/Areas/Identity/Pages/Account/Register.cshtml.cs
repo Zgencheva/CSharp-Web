@@ -78,7 +78,7 @@ namespace VisitACity.Areas.Identity.Pages.Account
             /// </summary>
             [Required]
             [EmailAddress]
-            [Display(Name = "Email")]
+            [Display(Name = ModelConstants.Account.EmailDisplay)]
             public string Email { get; set; }
 
             /// <summary>
@@ -86,9 +86,12 @@ namespace VisitACity.Areas.Identity.Pages.Account
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
             [Required]
-            [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
+            [StringLength(
+                ModelConstants.Account.PasswordMaxSize,
+                ErrorMessage = ModelConstants.Account.PasswordLengthError,
+                MinimumLength = ModelConstants.Account.PasswordMinSize)]
             [DataType(DataType.Password)]
-            [Display(Name = "Password")]
+            [Display(Name = ModelConstants.Account.PasswordDisplay)]
             public string Password { get; set; }
 
             /// <summary>
@@ -96,16 +99,24 @@ namespace VisitACity.Areas.Identity.Pages.Account
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
             [DataType(DataType.Password)]
-            [Display(Name = "Confirm password")]
-            [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+            [Display(Name = ModelConstants.Account.ConfirmPasswordDisplay)]
+            [Compare("Password", ErrorMessage = ModelConstants.Account.PasswordError)]
             public string ConfirmPassword { get; set; }
 
             [Required]
-            [Display(Name = "First name")]
+            [Display(Name = ModelConstants.Account.FirstNameDisplay)]
+            [StringLength(
+                ModelConstants.Account.NameMaxSize,
+                ErrorMessage = ModelConstants.NameLengthError,
+                MinimumLength = ModelConstants.Account.NameMinSize)]
             public string FirstName { get; set; }
 
             [Required]
-            [Display(Name = "Last name")]
+            [Display(Name = ModelConstants.Account.FirstNameDisplay)]
+            [StringLength(
+                ModelConstants.Account.NameMaxSize,
+                ErrorMessage = ModelConstants.NameLengthError,
+                MinimumLength = ModelConstants.Account.NameMinSize)]
             public string LastName { get; set; }
         }
 
@@ -137,7 +148,7 @@ namespace VisitACity.Areas.Identity.Pages.Account
                 {
                     await this._userManager
                      .AddClaimAsync(user, new System.Security.Claims.Claim(ClaimTypeConstants.FirstName, user.FirstName));
-                    this._logger.LogInformation("User created a new account with password.");
+                    this._logger.LogInformation(ModelConstants.Account.UserCreatedAccountLogger);
 
                     var userId = await this._userManager.GetUserIdAsync(user);
                     var code = await this._userManager.GenerateEmailConfirmationTokenAsync(user);

@@ -19,6 +19,7 @@
 
         public virtual ApplicationUser User { get; set; }
 
+        [Required]
         public int CityId { get; set; }
 
         public virtual City City { get; set; }

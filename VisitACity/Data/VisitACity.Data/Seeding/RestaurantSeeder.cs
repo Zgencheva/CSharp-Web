@@ -94,12 +94,12 @@
             });
             await dbContext.Restaurants.AddAsync(new Restaurant
             {
-                Name = "Umbrella Bar",
-                Url = "https://www.takeaway.com/bg-en/menu/umbrella-bar?k1111=k1111&gclid=Cj0KCQjwqoibBhDUARIsAH2OpWjKamqEmX96315Y_QxMeZJQMDSoE6ABxYbkZP5JoYIKkfvUCEE0flsaAmjYEALw_wcB&gclsrc=aw.ds",
-                Address = "25 8-mi dekemvri",
+                Name = "Neighbors",
+                Url = "https://neighbors.bg/",
+                Address = "Slav Karaslavov 10",
                 City = citySofia,
-                ImageUrl = "https://fastly.4sqi.net/img/general/600x600/imMiXi9QvjCuKg4la7ztxgqMK4e0_z3DFZlvOFeS-K8.jpg",
-                PhoneNumber = "+359888298257",
+                ImageUrl = "https://lh3.googleusercontent.com/p/AF1QipNQlXQj1XdN9pVMvodeNKLkQ2F5mDGAfi2nAT_F=s680-w680-h510",
+                PhoneNumber = "+359899995534",
             });
             await dbContext.Restaurants.AddAsync(new Restaurant
             {

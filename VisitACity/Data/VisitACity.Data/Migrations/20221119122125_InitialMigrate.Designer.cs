@@ -12,8 +12,8 @@ using VisitACity.Data;
 namespace VisitACity.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20221013111530_ExtendedApplicationUser")]
-    partial class ExtendedApplicationUser
+    [Migration("20221119122125_InitialMigrate")]
+    partial class InitialMigrate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -23,6 +23,21 @@ namespace VisitACity.Data.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
+
+            modelBuilder.Entity("ApplicationUserAttraction", b =>
+                {
+                    b.Property<int>("AttractionsReviewedId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UsersReviewsId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("AttractionsReviewedId", "UsersReviewsId");
+
+                    b.HasIndex("UsersReviewsId");
+
+                    b.ToTable("ApplicationUserAttraction");
+                });
 
             modelBuilder.Entity("AttractionPlan", b =>
                 {
@@ -298,10 +313,12 @@ namespace VisitACity.Data.Migrations
 
                     b.Property<string>("Address")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
 
                     b.Property<string>("AttractionUrl")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
 
                     b.Property<int>("CityId")
                         .HasColumnType("int");
@@ -314,11 +331,13 @@ namespace VisitACity.Data.Migrations
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
 
                     b.Property<string>("ImageUrl")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
@@ -328,7 +347,8 @@ namespace VisitACity.Data.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
@@ -407,7 +427,8 @@ namespace VisitACity.Data.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.HasKey("Id");
 
@@ -440,7 +461,8 @@ namespace VisitACity.Data.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.HasKey("Id");
 
@@ -462,7 +484,8 @@ namespace VisitACity.Data.Migrations
 
                     b.Property<string>("Extension")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
 
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime2");
@@ -528,7 +551,8 @@ namespace VisitACity.Data.Migrations
 
                     b.Property<string>("Address")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
 
                     b.Property<int>("CityId")
                         .HasColumnType("int");
@@ -540,7 +564,9 @@ namespace VisitACity.Data.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("ImageUrl")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
@@ -550,7 +576,18 @@ namespace VisitACity.Data.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
+
+                    b.Property<string>("PhoneNumber")
+                        .IsRequired()
+                        .HasMaxLength(15)
+                        .HasColumnType("nvarchar(15)");
+
+                    b.Property<string>("Url")
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
 
                     b.HasKey("Id");
 
@@ -569,11 +606,10 @@ namespace VisitACity.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int?>("AttractionId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Content")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(400)
+                        .HasColumnType("nvarchar(400)");
 
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
@@ -598,8 +634,6 @@ namespace VisitACity.Data.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("AttractionId");
 
                     b.HasIndex("IsDeleted");
 
@@ -641,6 +675,21 @@ namespace VisitACity.Data.Migrations
                     b.HasIndex("IsDeleted");
 
                     b.ToTable("Settings");
+                });
+
+            modelBuilder.Entity("ApplicationUserAttraction", b =>
+                {
+                    b.HasOne("VisitACity.Data.Models.Attraction", null)
+                        .WithMany()
+                        .HasForeignKey("AttractionsReviewedId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("VisitACity.Data.Models.ApplicationUser", null)
+                        .WithMany()
+                        .HasForeignKey("UsersReviewsId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("AttractionPlan", b =>
@@ -808,10 +857,6 @@ namespace VisitACity.Data.Migrations
 
             modelBuilder.Entity("VisitACity.Data.Models.Review", b =>
                 {
-                    b.HasOne("VisitACity.Data.Models.Attraction", "Attraction")
-                        .WithMany("Reviews")
-                        .HasForeignKey("AttractionId");
-
                     b.HasOne("VisitACity.Data.Models.Restaurant", "Restaurant")
                         .WithMany("Reviews")
                         .HasForeignKey("RestaurantId");
@@ -821,8 +866,6 @@ namespace VisitACity.Data.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
-
-                    b.Navigation("Attraction");
 
                     b.Navigation("Restaurant");
 
@@ -845,8 +888,6 @@ namespace VisitACity.Data.Migrations
             modelBuilder.Entity("VisitACity.Data.Models.Attraction", b =>
                 {
                     b.Navigation("Images");
-
-                    b.Navigation("Reviews");
                 });
 
             modelBuilder.Entity("VisitACity.Data.Models.City", b =>

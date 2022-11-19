@@ -41,7 +41,7 @@
             var cityName = model.Name;
             if (await this.citiesService.DoesCityExist(cityName))
             {
-                this.ModelState.AddModelError(string.Empty, "City already exist");
+                this.ModelState.AddModelError(string.Empty, string.Format(ModelConstants.City.CityExists, $"{cityName}"));
                 model.Countries = await this.countriesService.GetAllAsync<CountryViewModel>();
                 return this.View(model);
             }

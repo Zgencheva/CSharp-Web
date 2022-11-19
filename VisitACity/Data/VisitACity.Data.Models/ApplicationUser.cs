@@ -6,6 +6,7 @@ namespace VisitACity.Data.Models
     using System.ComponentModel.DataAnnotations;
 
     using Microsoft.AspNetCore.Identity;
+    using VisitACity.Common;
     using VisitACity.Data.Common.Models;
 
     public class ApplicationUser : IdentityUser, IAuditInfo, IDeletableEntity
@@ -22,10 +23,10 @@ namespace VisitACity.Data.Models
             this.AttractionsReviewed = new HashSet<Attraction>();
         }
 
-        [StringLength(20)]
+        [MaxLength(ModelConstants.Account.NameMaxSize)]
         public string? FirstName { get; set; }
 
-        [StringLength(20)]
+        [MaxLength(ModelConstants.Account.NameMaxSize)]
         public string? LastName { get; set; }
 
         // Audit info

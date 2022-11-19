@@ -7,6 +7,7 @@
 
     using SendGrid;
     using SendGrid.Helpers.Mail;
+    using VisitACity.Common;
 
     public class SendGridEmailSender : IEmailSender
     {
@@ -21,7 +22,7 @@
         {
             if (string.IsNullOrWhiteSpace(subject) && string.IsNullOrWhiteSpace(htmlContent))
             {
-                throw new ArgumentException("Subject and message should be provided.");
+                throw new ArgumentException(ExceptionMessages.InvalidSubjectAndMessage);
             }
 
             var fromAddress = new EmailAddress(from, fromName);

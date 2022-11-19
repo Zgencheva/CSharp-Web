@@ -6,6 +6,7 @@
     using System.Threading.Tasks;
 
     using Microsoft.EntityFrameworkCore;
+    using VisitACity.Common;
     using VisitACity.Data.Common.Repositories;
     using VisitACity.Data.Models;
     using VisitACity.Services.Data.Contracts;
@@ -43,7 +44,7 @@
             var country = await this.countryRepository.All().FirstOrDefaultAsync(x => x.Id == model.CountryId);
             if (country == null)
             {
-                throw new ArgumentException("Invalid country");
+                throw new ArgumentException(ExceptionMessages.Country.NotExists);
             }
 
             var city = new City
@@ -63,7 +64,7 @@
                 .FirstOrDefaultAsync();
             if (city == null)
             {
-                throw new NullReferenceException("Invalid city");
+                throw new NullReferenceException(ExceptionMessages.City.NotExists);
             }
 
             return city;

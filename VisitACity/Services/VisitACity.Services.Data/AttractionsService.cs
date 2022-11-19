@@ -6,6 +6,7 @@
     using System.Threading.Tasks;
 
     using Microsoft.EntityFrameworkCore;
+    using VisitACity.Common;
     using VisitACity.Data.Common.Repositories;
     using VisitACity.Data.Models;
     using VisitACity.Data.Models.Enums;
@@ -38,7 +39,7 @@
         public async Task<IEnumerable<T>> GetBestAttractionsAsync<T>(int page, int itemsPage)
         {
             return await this.attractionRepository.All()
-                .OrderByDescending(x => x.UsersReviews.Count())
+                .OrderByDescending(x => x.UsersReviews.Count)
                 .Skip((page - 1) * itemsPage).Take(itemsPage)
                 .To<T>()
                .ToListAsync();
@@ -62,7 +63,7 @@
                 .FirstOrDefaultAsync();
             if (attraction == null)
             {
-                throw new NullReferenceException("Invalid attraction");
+                throw new NullReferenceException(ExceptionMessages.Attraction.InvalidAttraction);
             }
 
             return attraction;
@@ -72,13 +73,13 @@
         {
             if (!Enum.TryParse(model.Type, true, out AttractionType activityTypeEnum))
             {
-                throw new ArgumentException("Invalid attraction type");
+                throw new ArgumentException(ExceptionMessages.Attraction.InvalidAttractionType);
             }
 
             var city = await this.cityRepository.All().FirstOrDefaultAsync(x => x.Id == model.CityId);
             if (city == null)
             {
-                throw new NullReferenceException("No such city");
+                throw new NullReferenceException(ExceptionMessages.City.NotExists);
             }
 
             var attraction = new Attraction
@@ -101,19 +102,19 @@
         {
             if (!Enum.TryParse(model.Type, true, out AttractionType activityTypeEnum))
             {
-                throw new ArgumentException("Invalid attraction type");
+                throw new ArgumentException(ExceptionMessages.Attraction.InvalidAttractionType);
             }
 
             var attraction = await this.attractionRepository.All().FirstOrDefaultAsync(x => x.Id == id);
             if (attraction == null)
             {
-                throw new NullReferenceException("No such attraction");
+                throw new NullReferenceException(ExceptionMessages.Attraction.InvalidAttraction);
             }
 
             var city = await this.cityRepository.All().FirstOrDefaultAsync(x => x.Id == model.CityId);
             if (city == null)
             {
-                throw new NullReferenceException("No such city");
+                throw new NullReferenceException(ExceptionMessages.City.NotExists);
             }
 
             attraction.Name = model.Name;
@@ -134,7 +135,7 @@
             var attraction = this.attractionRepository.All().FirstOrDefault(x => x.Id == id);
             if (attraction == null)
             {
-                throw new NullReferenceException("No such attraction");
+                throw new NullReferenceException(ExceptionMessages.Attraction.InvalidAttraction);
             }
 
             this.attractionRepository.Delete(attraction);
@@ -157,13 +158,13 @@
                 .FirstOrDefaultAsync();
             if (attraction == null)
             {
-                throw new NullReferenceException("No such attraction");
+                throw new NullReferenceException(ExceptionMessages.Attraction.InvalidAttraction);
             }
 
             var user = await this.userRepository.All().Where(x => x.Id == userId).FirstOrDefaultAsync();
             if (user == null)
             {
-                throw new NullReferenceException("Not existing user");
+                throw new NullReferenceException(ExceptionMessages.NotExistingUser);
             }
 
             if (!attraction.UsersReviews.Any(x => x.Id == userId))

@@ -5,6 +5,7 @@
     using System.Threading.Tasks;
 
     using Microsoft.EntityFrameworkCore;
+    using VisitACity.Common;
     using VisitACity.Data.Common.Repositories;
     using VisitACity.Data.Models;
     using VisitACity.Services.Data.Contracts;
@@ -13,9 +14,7 @@
     public class ReviewService : IReviewService
     {
         private readonly IDeletableEntityRepository<Review> reviewsRepository;
-        private readonly IDeletableEntityRepository<Attraction> attractionRespository;
         private readonly IDeletableEntityRepository<Restaurant> restaurantRepository;
-        private readonly IDeletableEntityRepository<ApplicationUser> userRepository;
 
         public ReviewService(
             IDeletableEntityRepository<Review> reviewsRepository,
@@ -24,9 +23,7 @@
             IDeletableEntityRepository<ApplicationUser> userRepository)
         {
             this.reviewsRepository = reviewsRepository;
-            this.attractionRespository = attractionRespository;
             this.restaurantRepository = restaurantRepository;
-            this.userRepository = userRepository;
         }
 
         public async Task AddReviewToRestaurantAsync(CreateReviewInputModel input, string userId, int id)
@@ -34,7 +31,7 @@
             var restarant = await this.restaurantRepository.All().FirstOrDefaultAsync(x => x.Id == id);
             if (restarant == null)
             {
-                throw new Exception("Invalid restaurant");
+                throw new Exception(ExceptionMessages.Restaurant.InvalidRestaurant);
             }
 
             var review = new Review
@@ -55,7 +52,7 @@
 
             if (review == null)
             {
-                throw new NullReferenceException("Invalid comment");
+                throw new NullReferenceException(ExceptionMessages.InvalidComment);
             }
 
             review.IsDeleted = true;

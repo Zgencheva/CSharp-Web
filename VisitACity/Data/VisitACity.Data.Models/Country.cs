@@ -2,7 +2,7 @@
 {
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
-
+    using VisitACity.Common;
     using VisitACity.Data.Common.Models;
 
     public class Country : BaseDeletableModel<int>
@@ -13,7 +13,7 @@
         }
 
         [Required]
-        [MaxLength(100)]
+        [MaxLength(ModelConstants.Country.NameMaxSize)]
         public string Name { get; set; }
 
         public virtual ICollection<City> Cities { get; set; }
