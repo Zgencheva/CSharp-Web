@@ -51,5 +51,41 @@
             this.TempData["Message"] = string.Format(TempDataMessageConstants.CountryAdded, $"{model.Name}");
             return this.RedirectToAction("Index", "Home", new { area = string.Empty });
         }
+
+        [HttpGet]
+        public async Task<IActionResult> Delete()
+        {
+            var model = new CountryFormModel();
+            return this.View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(CountryFormModel model)
+        {
+            if (!this.ModelState.IsValid)
+            {
+                return this.View(model);
+            }
+
+            var countryName = model.Name;
+            if (!await this.countriesService.DoesCountryExist(countryName))
+            {
+                this.ModelState.AddModelError(string.Empty, string.Format(ModelConstants.Country.CountryDoesNotExists, $"{countryName}"));
+                return this.View(model);
+            }
+
+            try
+            {
+                await this.countriesService.DeleteAsync(model.Name);
+            }
+            catch (Exception ex)
+            {
+                this.ModelState.AddModelError(string.Empty, ex.Message);
+                return this.View(model);
+            }
+
+            this.TempData["Message"] = string.Format(TempDataMessageConstants.CityDeleted, $"{model.Name}");
+            return this.RedirectToAction("Index", "Home", new { area = string.Empty });
+        }
     }
 }

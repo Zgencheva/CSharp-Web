@@ -14,5 +14,6 @@
         Task CreateAsync(CountryFormModel model);
 
         Task<bool> DoesCountryExist(string countryName);
+        Task DeleteAsync(string name);
     }
 }

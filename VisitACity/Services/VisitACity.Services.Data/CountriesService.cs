@@ -1,10 +1,12 @@
 ﻿namespace VisitACity.Services.Data
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
 
     using Microsoft.EntityFrameworkCore;
+    using VisitACity.Common;
     using VisitACity.Data.Common.Repositories;
     using VisitACity.Data.Models;
     using VisitACity.Services.Data.Contracts;
@@ -47,6 +49,20 @@
         public int GetCount()
         {
             return this.countriesRepository.AllAsNoTracking().ToArray().Length;
+        }
+
+        public async Task DeleteAsync(string name)
+        {
+            var country = await this.countriesRepository.All().Where(x => x.Name == name).FirstOrDefaultAsync();
+
+            if (country == null)
+            {
+                throw new NullReferenceException(ExceptionMessages.Country.NotExists);
+            }
+
+            country.IsDeleted = true;
+            this.countriesRepository.Update(country);
+            await this.countriesRepository.SaveChangesAsync();
         }
     }
 }

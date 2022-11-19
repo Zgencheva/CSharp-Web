@@ -5,7 +5,9 @@
 
         public const string ThankForComment = "Thank you for your comment!";
         public const string CityAdded = "City {0} added successfully.";
+        public const string CityDeleted = "City {0} deleted successfully.";
         public const string CountryAdded = "Country {0} added successfully.";
+        public const string CountryDeleted = "Country {0} deleted successfully.";
 
         public class Attraction
         {

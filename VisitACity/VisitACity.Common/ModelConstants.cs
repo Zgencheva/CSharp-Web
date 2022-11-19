@@ -39,6 +39,7 @@
             public const int NameMinSize = 2;
 
             public const string CountryExists = "Country {0} already exists";
+            public const string CountryDoesNotExists = "Country {0} does not exists";
             public const string CountryDisplay = "Country";
         }
 
@@ -48,6 +49,7 @@
             public const int NameMinSize = 2;
 
             public const string CityExists = "City {0} already exists";
+            public const string CityDoesNotExist = "City {0} does not exists";
             public const string CityDisplay = "City";
         }
 

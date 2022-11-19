@@ -85,5 +85,19 @@
         {
             return await this.cityRepository.AllAsNoTracking().AnyAsync(x => x.Name == cityName);
         }
+
+        public async Task DeleteAsync(string name)
+        {
+            var city = await this.cityRepository.All().Where(x => x.Name == name).FirstOrDefaultAsync();
+
+            if (city == null)
+            {
+                throw new NullReferenceException(ExceptionMessages.City.NotExists);
+            }
+
+            city.IsDeleted = true;
+            this.cityRepository.Update(city);
+            await this.cityRepository.SaveChangesAsync();
+        }
     }
 }
