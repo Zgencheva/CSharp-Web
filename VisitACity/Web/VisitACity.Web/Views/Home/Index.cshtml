@@ -27,13 +27,13 @@
         <input name="cityName" class="form-control" placeholder="City" />
     </div>
     <fieldset class="col-md-6 offset-md-4">
-        <div class="form-check">
+        <div class="form-check" style="color:white">
             <input class="form-check-input" type="radio" name="radioOption" id="exampleRadios1" value="Attractions" checked>
             <label class="form-check-label" for="exampleRadios1">
                 Attractions
             </label>
         </div>
-        <div class="form-check">
+        <div class="form-check" style="color:white">
             <input class="form-check-input" type="radio" name="radioOption" id="exampleRadios2" value="Restaurants">
             <label class="form-check-label" for="exampleRadios2">
                 Restaurants
@@ -43,7 +43,7 @@
     <button type="submit" class="btn btn-primary col-md-3 offset-md-4">Search</button>
 </form>
 <br>
-</div>
+
 
 <hr>
 <cache expires-after="@TimeSpan.FromHours(8)">
@@ -69,8 +69,9 @@
 </cache>
 <br>
 <p></p>
-<br />
+</div>
 
+<br />
 @if (@Model.IsAttraction)
 {
     @if (@Model.EventsCount == 0)

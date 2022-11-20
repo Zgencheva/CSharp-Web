@@ -213,9 +213,9 @@
 
         public async Task<IActionResult> Delete(int id)
         {
-            await this.plansService.DeleteAsync(id);
-            this.TempData["Message"] = TempDataMessageConstants.Plan.PlanDeleted;
-            return this.RedirectToAction(nameof(this.MyPlans));
+             await this.plansService.DeleteAsync(id);
+             this.TempData["Message"] = TempDataMessageConstants.Plan.PlanDeleted;
+             return this.RedirectToAction(nameof(this.MyPlans));
         }
     }
 }

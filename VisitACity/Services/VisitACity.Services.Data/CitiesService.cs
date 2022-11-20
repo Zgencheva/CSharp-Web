@@ -61,7 +61,7 @@
             {
                 if (city.IsDeleted == true)
                 {
-                    city.IsDeleted = false;
+                    this.cityRepository.Undelete(city);
                     this.cityRepository.Update(city);
                 }
                 else
@@ -113,7 +113,7 @@
                 throw new NullReferenceException(ExceptionMessages.City.NotExists);
             }
 
-            city.IsDeleted = true;
+            this.cityRepository.Delete(city);
             this.cityRepository.Update(city);
             await this.cityRepository.SaveChangesAsync();
         }

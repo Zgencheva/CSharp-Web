@@ -39,7 +39,7 @@
             {
                 if (country.IsDeleted == true)
                 {
-                    country.IsDeleted = false;
+                    this.countriesRepository.Undelete(country);
                     this.countriesRepository.Update(country);
                 }
                 else
@@ -80,7 +80,7 @@
                 throw new NullReferenceException(ExceptionMessages.Country.NotExists);
             }
 
-            country.IsDeleted = true;
+            this.countriesRepository.Delete(country);
             this.countriesRepository.Update(country);
             await this.countriesRepository.SaveChangesAsync();
         }
