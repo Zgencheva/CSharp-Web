@@ -20,6 +20,11 @@
   <ItemGroup>
     <Content Remove="wwwroot\css\rating.css~RF148642a3.TMP" />
   </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="appsettings.Development.json" />
+    <_ContentIncludedByDefault Remove="appsettings.json" />
+  </ItemGroup>
 	<ItemGroup>
 		<AdditionalFiles Include="..\..\stylecop.json" />
 	</ItemGroup>
