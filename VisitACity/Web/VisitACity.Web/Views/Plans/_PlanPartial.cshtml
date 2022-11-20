@@ -39,9 +39,10 @@
                             <br>
                             Visit the attraction <a asp-action="Details" asp-controller="Attractions" asp-route-id="@attraction.Id">here</a>
                         </div>
-                        <a class="badge bg-primary rounded-pill btn btn-danger delete mb-2 fas fa-delete delete" data-id="@attraction.Id" data-controller="Plans" data-action="DeleteAttractionFromPlan" data-body-message="Are you sure you want to delete this attraction?">
-                            <i class="fas fa-trash"></i>
-                        </a>
+                               <a class="btn btn-danger delete mb-2 fas fa-delete rounded-pill" data-id="@attraction.Id" data-controller="Plans" data-action="DeleteAttractionFromPlan" data-body-message="Are you sure you want to delete this attraction?">
+                                <i class="fas fa-trash"></i>
+                                Delete
+                                </a>
                     </li>
                     </div>
                 }
@@ -66,9 +67,10 @@
                             <br>
                             Visit the restaurant <a asp-action="Details" asp-controller="Restaurants" asp-route-id="@restaurant.Id">here</a>
                         </div>
-                        <a class="badge bg-primary rounded-pill btn btn-danger delete mb-2 fas fa-delete delete" data-id="@restaurant.Id" data-controller="Plans" data-action="DeleteRestaurantFromPlan" data-body-message="Are you sure you want to delete this restaurant?">
-                            <i class="fas fa-trash"></i>
-                        </a>
+                         <a class="btn btn-danger delete mb-2 fas fa-delete rounded-pill" data-id="@restaurant.Id" data-controller="Plans" data-action="DeleteRestaurantFromPlan" data-body-message="Are you sure you want to delete this restaurant?">
+                                <i class="fas fa-trash"></i>
+                                Delete
+                                </a>
                     </li>
                     </div>
                 }
