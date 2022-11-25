@@ -1,15 +1,9 @@
 @using VisitACity.Common
 @using VisitACity.Web.ViewModels.Home
-@inject Microsoft.AspNetCore.Hosting.IWebHostEnvironment enviroment
-@inject Microsoft.Extensions.Configuration.IConfiguration configuration
 @model IndexViewModel
 @{
     this.ViewData["Title"] = "Home Page, page" + Model.PageNumber;
 }
-
-<h1>@Environment.OSVersion</h1>
-<h1>@enviroment.EnvironmentName</h1>
-<h1>@configuration["ConnectionStrings:DefaultConnection"]</h1>
 
 @if (this.TempData.ContainsKey("Message"))
 {
