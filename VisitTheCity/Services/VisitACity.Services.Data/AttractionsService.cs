@@ -4,7 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
-
+    using Azure.Storage.Blobs;
     using Microsoft.EntityFrameworkCore;
     using VisitACity.Common;
     using VisitACity.Data.Common.Repositories;
@@ -20,15 +20,18 @@
         private readonly IDeletableEntityRepository<Attraction> attractionRepository;
         private readonly IDeletableEntityRepository<City> cityRepository;
         private readonly IDeletableEntityRepository<ApplicationUser> userRepository;
+        private readonly BlobServiceClient blobService;
 
         public AttractionsService(
             IDeletableEntityRepository<Attraction> attractionRepository,
             IDeletableEntityRepository<City> cityRepository,
-            IDeletableEntityRepository<ApplicationUser> userRepository)
+            IDeletableEntityRepository<ApplicationUser> userRepository,
+            BlobServiceClient blobService)
         {
             this.attractionRepository = attractionRepository;
             this.cityRepository = cityRepository;
             this.userRepository = userRepository;
+            this.blobService = blobService;
         }
 
         public int GetCount()
@@ -82,6 +85,11 @@
                 throw new NullReferenceException(ExceptionMessages.City.NotExists);
             }
 
+            await UploadImateToBlob(model);
+            var container = blobService.GetBlobContainerClient("images");
+            var blob = container.GetBlobClient(model.Name + "-" + model.CityId + ".jpg");
+            var url = blob.Uri.AbsoluteUri;
+
             var attraction = new Attraction
             {
                 Name = model.Name,
@@ -90,12 +98,19 @@
                 AttractionUrl = model.AttractionUrl,
                 Description = model.Description,
                 Price = model.Price,
-                ImageUrl = model.ImageUrl,
+                ImageUrl = url,
                 Type = activityTypeEnum,
             };
 
             await this.attractionRepository.AddAsync(attraction);
             await this.attractionRepository.SaveChangesAsync();
+        }
+
+        private async Task UploadImateToBlob(AttractionFormModel model)
+        {
+            var stream = model.ImageToBlob.OpenReadStream();
+            var container = this.blobService.GetBlobContainerClient("images");
+            await container.UploadBlobAsync(model.Name + "-" + model.CityId + ".jpg", stream);
         }
 
         public async Task UpdateAsync(int id, AttractionFormModel model)

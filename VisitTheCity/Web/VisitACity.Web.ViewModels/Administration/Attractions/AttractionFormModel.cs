@@ -1,5 +1,6 @@
 ﻿namespace VisitACity.Web.ViewModels.Administration.Attractions
 {
+    using Microsoft.AspNetCore.Http;
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
@@ -30,6 +31,9 @@
         [Url]
         [MaxLength(ModelConstants.UrlMaxLength)]
         public string ImageUrl { get; set; }
+
+        [Required]
+        public IFormFile ImageToBlob { get; set; }
 
         [Required]
         [StringLength(

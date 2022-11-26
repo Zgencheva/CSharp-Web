@@ -2,7 +2,7 @@
 {
     using System;
     using System.Threading.Tasks;
-
+    using Azure.Storage.Blobs;
     using Microsoft.AspNetCore.Mvc;
     using VisitACity.Common;
     using VisitACity.Services.Data.Contracts;
@@ -13,13 +13,16 @@
     {
         private readonly IAttractionsService attractionsService;
         private readonly ICitiesService citiesService;
+        private readonly BlobServiceClient blobService;
 
         public AttractionsController(
             IAttractionsService attractionsService,
-            ICitiesService citiesService)
+            ICitiesService citiesService,
+            BlobServiceClient blobService)
         {
             this.attractionsService = attractionsService;
             this.citiesService = citiesService;
+            this.blobService = blobService;
         }
 
         public async Task<IActionResult> Create()
