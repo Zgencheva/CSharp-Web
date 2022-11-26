@@ -1,0 +1,57 @@
+﻿@using VisitACity.Web.ViewModels.Restaurants
+@model RestaurantViewModel
+@*@{
+    var imagePath = $"~/images/Attractions/{Model.Images.FirstOrDefault().Id}.{Model.Images.FirstOrDefault().Extension}";
+}*@
+
+<div class="media col-md-4">
+    <a asp-controller="Restaurants" asp-action="Details" asp-route-id="@Model.Id">
+        <img class="mr-3 img-responsive" width="400" height="300" src="@Model.ImageUrl" alt="Card image cap" />
+    </a>
+    <div class="card-body">
+        <h4 class="card-title text-center">@Model.Name</h4>
+        <p></p>
+        <h5 class="card-text text-center">City: @Model.CityName</h5>
+        <div class="card-text feature-icon">
+            <i class="fa fa-phone"></i> <span>Phone: @Model.PhoneNumber</span>
+        </div>
+        <div class="card-text feature-icon">
+            <i class="fa fa-search-location"></i> <span>Address: @Model.Address</span>
+        </div>
+        <p></p>
+
+    </div>
+    <div class="card-footer">
+        <div class="d-flex justify-content-center">
+            <div style="margin: 0;
+     padding: 0;
+     font-family: 'Open Sans', serif;
+     " class="content text-center">
+
+                <div class="ratings">
+
+                    <span class="product-rating">@Model.Rating.ToString("f1")</span><span>/5</span>
+                    <div class="stars">
+                        @for (int i = 0; i < Math.Round(Model.Rating); i++)
+                        {
+                            <i class="fa fa-star"></i>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="text-center">
+        <a class="btn btn-info" asp-controller="Restaurants" asp-action="Details" asp-route-id="@Model.Id">
+            <div class="feature-icon">
+                <i class="fa fa-info-circle"></i> <span>Details</span>
+            </div>
+        </a>
+        <a class="btn btn-success" asp-controller="Plans" asp-action="AddRestaurantToPlan" asp-route-restaurantId="@Model.Id">
+            <div class="feature-icon">
+                <i class="fa fa-bus"></i> <span>Add to plan</span>
+            </div>
+        </a>
+    </div>
+    <p></p>
+</div>

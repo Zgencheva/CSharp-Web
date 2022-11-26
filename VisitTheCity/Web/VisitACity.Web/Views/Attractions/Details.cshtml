@@ -1,0 +1,62 @@
+﻿@using VisitACity.Web.ViewModels.Attractions
+@model AttractionViewModel
+@{
+    this.ViewData["Title"] = "Details ";
+}
+@if (this.TempData.ContainsKey("Message"))
+{
+    <div class="alert alert-success">@this.TempData["Message"]</div>
+}
+<section id="scroll">
+    <div class="container px-5">
+        <div class="row gx-5 align-items-center">
+            <div class="col-lg-6 order-lg-2">
+                <div class="p-5"><img class="img-fluid rounded-circle" src="@Model.ImageUrl" alt="..."></div>
+            </div>
+            @if (User.Identity.IsAuthenticated)
+            {
+                <form method="post" asp-action="SendToEmail" asp-route-id="@Model.Id">
+                <button class="btn btn-warning">Send to my email</button>
+            </form>
+            }
+            <div class="col-lg-6 order-lg-1">
+                <div class="p-5">
+                    <h2 class="display-4">@Model.Name</h2>
+                    <h5>@Model.CityName</h5>
+                    <div class="card-text feature-icon">
+                        <i class="fa fa-search-location"></i> <span>Address: @Model.Address</span>
+                    </div>
+                    <p></p>
+                    <div>Type: @Model.Type</div>
+                    <p></p>
+                    <p>@Model.Description</p>
+                    <p>Price: $@Model.Price</p>
+                    <p></p>
+                    @if (Model.UserPlan != null)
+                    {
+                        <a class="btn btn-success" asp-controller="Plans" asp-action="AddAttractionToPlan" asp-route-attractionId="@Model.Id" asp-route-planId="@Model.UserPlan.Id">
+                            <div class="feature-icon">
+                                <i class="fa fa-bus"></i> <span>Add to plan</span>
+                            </div>
+                        </a>
+                    }
+                    else
+                    {
+                         <a class="btn btn-success" asp-controller="Plans" asp-action="AddAttractionToPlan" asp-route-attractionId="@Model.Id" asp-route-planId=0>
+                            <div class="feature-icon">
+                                <i class="fa fa-bus"></i> <span>Add to plan</span>
+                            </div>
+                        </a>
+                    }
+                    @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+                    {
+                        <a class="btn btn-outline-dark" asp-area="Administration" asp-controller="Attractions" asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
+                        <a class="btn btn-outline-danger delete" data-id="@Model.Id" data-area="Administration" data-controller="Attractions" data-action="Delete" data-body-message="Are you sure you want to delete this attraction?" data-redirect-url="/Home/Index/1?cityName=@Model.CityName&radioOption=Attractions">
+                            Delete
+                        </a>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

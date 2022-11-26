@@ -1,0 +1,70 @@
+﻿@using VisitACity.Web.ViewModels.Home
+@model IndexViewModel
+<nav aria-label="...">
+    <ul class="pagination justify-content-center">
+        <li class="page-item @if (!Model.HasPreviousPage) {
+        <text>disabled</text>
+ }">
+            @if (Model.queryModel == null)
+            {
+                    <a class="page-link" asp-action="Index" asp-route-id="@Model.PreviousPageNumber">Previous</a>
+            }
+            else
+            {
+                    <a class="page-link" asp-action="Index" asp-route-id="@Model.PreviousPageNumber" asp-route-cityName="@Model.queryModel.CityName" asp-route-radioOption="@Model.queryModel.RadioOption">Previous</a>
+
+            }
+        </li>
+        @for (int i = Model.PageNumber - 4; i < Model.PageNumber; i++)
+        {
+            if (i > 0)
+            {
+                @if (Model.queryModel == null)
+                {
+                <li class="page-item"><a class="page-link" asp-action="Index" asp-route-id="@i">@i</a></li>
+                    
+                }
+                else
+                {
+                <li class="page-item"><a class="page-link" asp-action="Index" asp-route-id="@i" asp-route-cityName="@Model.queryModel.CityName" asp-route-radioOption="@Model.queryModel.RadioOption">@i</a></li>
+                }
+            }
+        }
+        <li class="page-item active" aria-current="page">
+            <span class="page-link">
+                @Model.PageNumber
+                <span class="sr-only"></span>
+            </span>
+        </li>
+        @for (int i = Model.PageNumber + 1; i <= Model.PageNumber + 4; i++)
+        {
+            if (i <= Model.PagesCount)
+            {
+                @if (Model.queryModel == null)
+                {
+                <li class="page-item"><a class="page-link" asp-action="Index" asp-route-id="@i">@i</a></li>
+                    
+                }
+                else
+                {
+                <li class="page-item"><a class="page-link" asp-action="Index" asp-route-id="@i" asp-route-cityName="@Model.queryModel.CityName" asp-route-radioOption="@Model.queryModel.RadioOption">@i</a></li>
+                    
+                }
+            }
+        }
+        <li class="page-item @if (!Model.HasNextPage) {
+        <text>disabled</text>
+ }">
+        @if (Model.queryModel == null)
+            {
+            <a class="page-link" asp-action="Index" asp-route-id="@Model.NextPageNumber">Next</a>
+                
+            }
+            else
+            {
+            <a class="page-link" asp-action="Index" asp-route-id="@Model.NextPageNumber" asp-route-cityName="@Model.queryModel.CityName" asp-route-radioOption="@Model.queryModel.RadioOption">Next</a>
+                    
+            }
+        </li>
+    </ul>
+</nav>

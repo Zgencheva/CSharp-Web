@@ -1,0 +1,60 @@
+﻿@model VisitACity.Web.ViewModels.Administration.Attractions.AttractionFormModel
+@{
+    this.ViewData["Title"] = "Create attraction";
+}
+<h1 class="text-center"> Create attraction</h1>
+<div asp-validation-summary="All" class="text-danger"></div>
+<div class="row">
+    <div class="col-sm-12 offset-lg-2 col-lg-8 offset-xl-3 col-xl-6">
+        <form asp-action="Create" method="post">
+            <div class="mb-3">
+                <label asp-for="Name" class="form-label">Name</label>
+                <input asp-for="Name" class="form-control" aria-required="true" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Type" class="form-label">Type</label>
+                <input asp-for="Type" class="form-control" aria-required="true" />
+                <span asp-validation-for="Type" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Price" class="form-label">Price</label>
+                <input asp-for="Price" class="form-control" aria-required="true" />
+                <span asp-validation-for="Price" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="ImageUrl" class="form-label">ImageUrl</label>
+                <input asp-for="ImageUrl" class="form-control" aria-required="true" />
+                <span asp-validation-for="ImageUrl" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Address" class="form-label">Address</label>
+                <input asp-for="Address" class="form-control" aria-required="true" />
+                <span asp-validation-for="Address" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="AttractionUrl" class="form-label">AttractionUrl</label>
+                <input asp-for="AttractionUrl" class="form-control" aria-required="true" />
+                <span asp-validation-for="AttractionUrl" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Description" class="form-label">Description</label>
+                <input asp-for="Description" class="form-control" aria-required="true" />
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="CityId" class="form-label">City</label>
+                <select asp-for="CityId" class="form-control">
+                    @foreach (var city in Model.Cities)
+                    {
+                        <option value="@city.Id">@city.Name</option>
+                    }
+                </select>
+                <span asp-validation-for="CityId" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <input class="btn btn-primary" type="submit" value="Add" />
+            </div>
+        </form>
+    </div>
+</div>

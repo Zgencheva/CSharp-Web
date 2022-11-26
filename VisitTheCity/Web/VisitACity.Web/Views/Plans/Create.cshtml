@@ -1,0 +1,49 @@
+﻿@model VisitACity.Web.ViewModels.Plans.CreatePlanInputModel
+@{
+    this.ViewData["Title"] = "Add new plan";
+
+}
+@if (this.TempData.ContainsKey("Message"))
+{
+    <div class="alert alert-danger">@this.TempData["Message"]</div>
+}
+<form method="post" class="col-md-6 offset-md-3"
+      enctype="multipart/form-data">
+    <h2>Where are you travelling to?</h2>
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <div class="form-group">
+       <label asp-for="CountryId" class="form-label">Country</label>
+                <select asp-for="CountryId" class="form-control">
+                    @foreach (var country in Model.Countries)
+                    {
+                        <option value="@country.Id">@country.Name</option>
+                    }
+                </select>
+                <span asp-validation-for="CountryId" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="CityId" class="form-label">Category</label>
+                <select asp-for="CityId" class="form-control">
+                    @foreach (var city in Model.Cities)
+                    {
+                        <option value="@city.Id">@city.Name</option>
+                    }
+                </select>
+                <span asp-validation-for="CityId" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="FromDate"></label>
+        <input asp-for="FromDate" class="form-control" />
+        <span asp-validation-for="FromDate" class="text-danger"></span>
+    </div>
+    <label asp-for="ToDate"></label>
+    <div class="form-group">
+        <input asp-for="ToDate" class="form-control" />
+        <span asp-validation-for="ToDate" class="text-danger"></span>
+    </div>
+    <p></p>
+    <button type="submit" class="btn btn-primary">Create your plan</button>
+</form>
+@*@section Scripts{
+    <partial name="_ValidationScriptsPartial" />
+}*@
