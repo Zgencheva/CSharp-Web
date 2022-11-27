@@ -17,7 +17,7 @@
 
         Task CreateAsync(AttractionFormModel model, string imageId, string imageExtension);
 
-        Task UpdateAsync(string id, AttractionFormModel model);
+        Task UpdateAsync(string id, AttractionFormUpdateModel model);
 
         Task DeleteByIdAsync(string id);
 
@@ -28,5 +28,6 @@
         Task<int> GetAttractionCityIdAsync(string attractionId);
 
         Task<string> GetAttractionCityNameAsync(string attractionId);
+        Task UploadImageAsync(string id, AttractionFormUpdateModel model, string imageId, string imageExtension);
     }
 }

@@ -1,25 +1,24 @@
 ﻿namespace VisitACity.Web.ViewModels.Administration.Attractions
 {
-    using Microsoft.AspNetCore.Http;
-    using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
+
+    using Microsoft.AspNetCore.Http;
     using VisitACity.Common;
     using VisitACity.Data.Models;
     using VisitACity.Services.Mapping;
     using VisitACity.Web.ViewModels.Cities;
 
-    public class AttractionFormModel : IMapFrom<Attraction>
+    public class AttractionFormUpdateModel : IMapFrom<Attraction>
     {
         [Required]
         [StringLength(
-            ModelConstants.Attraction.NameMaxSize,
-            MinimumLength = ModelConstants.Attraction.NameMinSize,
-            ErrorMessage = ModelConstants.NameLengthError)]
+           ModelConstants.Attraction.NameMaxSize,
+           MinimumLength = ModelConstants.Attraction.NameMinSize,
+           ErrorMessage = ModelConstants.NameLengthError)]
         public string Name { get; set; }
 
         [Required]
-        [Display(Name = "Type")]
         [MaxLength(ModelConstants.Attraction.TypeMaxLength)]
         public string Type { get; set; }
 
@@ -27,7 +26,6 @@
         [Range(0.0, double.MaxValue, ErrorMessage = ModelConstants.PricePositiveNumber)]
         public decimal Price { get; set; }
 
-        [Required]
         [Display(Name = "Image")]
         public IFormFile ImageToBlob { get; set; }
 

@@ -2,9 +2,11 @@
 {
     using System;
     using System.Threading.Tasks;
+
     using VisitACity.Data.Common.Repositories;
     using VisitACity.Data.Models;
     using VisitACity.Services.Data.Contracts;
+    using VisitACity.Web.ViewModels.Administration.Attractions;
 
     public class ImageService : IImageService
     {
@@ -23,5 +25,6 @@
             await this.imageRepository.SaveChangesAsync();
             return imageId;
         }
+
     }
 }

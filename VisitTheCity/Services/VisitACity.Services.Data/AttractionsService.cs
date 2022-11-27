@@ -6,6 +6,7 @@
     using System.Threading.Tasks;
 
     using Azure.Storage.Blobs;
+    using Microsoft.AspNetCore.Http;
     using Microsoft.EntityFrameworkCore;
     using VisitACity.Common;
     using VisitACity.Data.Common.Repositories;
@@ -88,9 +89,9 @@
                 throw new NullReferenceException(ExceptionMessages.City.NotExists);
             }
 
-            await UploadImateToBlob(model, imageId, imageExtension);
+            await this.UploadImateToBlob(model.ImageToBlob, imageId, imageExtension);
 
-            var container = blobService.GetBlobContainerClient("images");
+            var container = this.blobService.GetBlobContainerClient("images");
 
             var blob = container.GetBlobClient(imageId + "." + imageExtension);
             var url = blob.Uri.AbsoluteUri;
@@ -116,14 +117,14 @@
             await this.attractionRepository.SaveChangesAsync();
         }
 
-        private async Task UploadImateToBlob(AttractionFormModel model, string imageId, string imageExtension)
+        private async Task UploadImateToBlob(IFormFile file, string imageId, string imageExtension)
         {
-            var stream = model.ImageToBlob.OpenReadStream();
+            var stream = file.OpenReadStream();
             var container = this.blobService.GetBlobContainerClient("images");
             await container.UploadBlobAsync(imageId + "." + imageExtension, stream);
         }
 
-        public async Task UpdateAsync(string id, AttractionFormModel model)
+        public async Task UpdateAsync(string id, AttractionFormUpdateModel model)
         {
             if (!Enum.TryParse(model.Type, true, out AttractionType activityTypeEnum))
             {
@@ -152,6 +153,33 @@
 
             this.attractionRepository.Update(attraction);
             await this.attractionRepository.SaveChangesAsync();
+        }
+        public async Task UploadImageAsync(string id, AttractionFormUpdateModel model, string imageId, string imageExtension)
+        {
+            var attraction = await this.attractionRepository
+                .All()
+                .FirstOrDefaultAsync(x => x.Id == id);
+            if (attraction == null)
+            {
+                throw new NullReferenceException(ExceptionMessages.Attraction.InvalidAttraction);
+            }
+
+            await this.UploadImateToBlob(model.ImageToBlob, imageId, imageExtension);
+
+            var container = this.blobService.GetBlobContainerClient("images");
+
+            var blob = container.GetBlobClient(imageId + "." + imageExtension);
+            var url = blob.Uri.AbsoluteUri;
+            var image = await this.imageRepository.All().FirstOrDefaultAsync(x => x.Id == imageId);
+            if (image == null)
+            {
+                throw new NullReferenceException(ExceptionMessages.Image.NotExists);
+            }
+
+            attraction.Image = image;
+            this.attractionRepository.Update(attraction);
+            await this.attractionRepository.SaveChangesAsync();
+
         }
 
         public async Task DeleteByIdAsync(string id)

@@ -58,7 +58,6 @@
             }
             catch (Exception ex)
             {
-
                 this.ModelState.AddModelError(string.Empty, ex.Message);
                 model.Cities = await this.citiesService.GetAllAsync<CityViewModel>();
                 return this.View(model);
@@ -70,13 +69,13 @@
 
         public async Task<IActionResult> Edit(string id)
         {
-            var modelToEdit = await this.attractionsService.GetViewModelByIdAsync<AttractionFormModel>(id);
+            var modelToEdit = await this.attractionsService.GetViewModelByIdAsync<AttractionFormUpdateModel>(id);
             modelToEdit.Cities = await this.citiesService.GetAllAsync<CityViewModel>();
             return this.View(modelToEdit);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(string id, AttractionFormModel model)
+        public async Task<IActionResult> Edit(string id, AttractionFormUpdateModel model)
         {
             if (!this.ModelState.IsValid)
             {
@@ -84,15 +83,40 @@
                 return this.View(model);
             }
 
-            try
+            if (model.ImageToBlob is null)
             {
-                await this.attractionsService.UpdateAsync(id, model);
+                try
+                {
+                    await this.attractionsService.UpdateAsync(id, model);
+                }
+                catch (Exception ex)
+                {
+                    this.ModelState.AddModelError(string.Empty, ex.Message);
+                    model.Cities = await this.citiesService.GetAllAsync<CityViewModel>();
+                    return this.View(model);
+                }
             }
-            catch (Exception ex)
+            else
             {
-                this.ModelState.AddModelError(string.Empty, ex.Message);
-                model.Cities = await this.citiesService.GetAllAsync<CityViewModel>();
-                return this.View(model);
+                string imageExtension = model.ImageToBlob.ContentType.Split('/')[1];
+                if (!this.IsExtensionValid(imageExtension))
+                {
+                    model.Cities = await this.citiesService.GetAllAsync<CityViewModel>();
+                    return this.View(model);
+                }
+
+                try
+                {
+                    var imageId = await this.imageService.CreateAsync(imageExtension);
+                    await this.attractionsService.UpdateAsync(id, model);
+                    await this.attractionsService.UploadImageAsync(id, model, imageId, imageExtension);
+                }
+                catch (Exception ex)
+                {
+                    this.ModelState.AddModelError(string.Empty, ex.Message);
+                    model.Cities = await this.citiesService.GetAllAsync<CityViewModel>();
+                    return this.View(model);
+                }
             }
 
             this.TempData["Message"] = TempDataMessageConstants.Attraction.AttractionUpdated;
