@@ -76,6 +76,22 @@ namespace VisitACity.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Images",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Extension = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    DeletedOn = table.Column<DateTime>(type: "datetime2", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Images", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Settings",
                 columns: table => new
                 {
@@ -227,12 +243,11 @@ namespace VisitACity.Data.Migrations
                 name: "Attractions",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     Type = table.Column<int>(type: "int", nullable: false),
                     Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    ImageUrl = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
+                    ImageId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Address = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
                     AttractionUrl = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: true),
                     Description = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
@@ -249,6 +264,12 @@ namespace VisitACity.Data.Migrations
                         name: "FK_Attractions_Cities_CityId",
                         column: x => x.CityId,
                         principalTable: "Cities",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Attractions_Images_ImageId",
+                        column: x => x.ImageId,
+                        principalTable: "Images",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -317,7 +338,7 @@ namespace VisitACity.Data.Migrations
                 name: "ApplicationUserAttraction",
                 columns: table => new
                 {
-                    AttractionsReviewedId = table.Column<int>(type: "int", nullable: false),
+                    AttractionsReviewedId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     UsersReviewsId = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
@@ -338,31 +359,10 @@ namespace VisitACity.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Images",
-                columns: table => new
-                {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Extension = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
-                    AttractionId = table.Column<int>(type: "int", nullable: false),
-                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Images", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Images_Attractions_AttractionId",
-                        column: x => x.AttractionId,
-                        principalTable: "Attractions",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "AttractionPlan",
                 columns: table => new
                 {
-                    AttractionsId = table.Column<int>(type: "int", nullable: false),
+                    AttractionsId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     PlansId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -389,6 +389,7 @@ namespace VisitACity.Data.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     AttractionId = table.Column<int>(type: "int", nullable: false),
+                    AttractionId1 = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     PlanId = table.Column<int>(type: "int", nullable: false),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
@@ -399,11 +400,10 @@ namespace VisitACity.Data.Migrations
                 {
                     table.PrimaryKey("PK_AttractionsPlans", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_AttractionsPlans_Attractions_AttractionId",
-                        column: x => x.AttractionId,
+                        name: "FK_AttractionsPlans_Attractions_AttractionId1",
+                        column: x => x.AttractionId1,
                         principalTable: "Attractions",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_AttractionsPlans_Plans_PlanId",
                         column: x => x.PlanId,
@@ -532,14 +532,19 @@ namespace VisitACity.Data.Migrations
                 column: "CityId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Attractions_ImageId",
+                table: "Attractions",
+                column: "ImageId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Attractions_IsDeleted",
                 table: "Attractions",
                 column: "IsDeleted");
 
             migrationBuilder.CreateIndex(
-                name: "IX_AttractionsPlans_AttractionId",
+                name: "IX_AttractionsPlans_AttractionId1",
                 table: "AttractionsPlans",
-                column: "AttractionId");
+                column: "AttractionId1");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AttractionsPlans_IsDeleted",
@@ -567,9 +572,9 @@ namespace VisitACity.Data.Migrations
                 column: "IsDeleted");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Images_AttractionId",
+                name: "IX_Images_IsDeleted",
                 table: "Images",
-                column: "AttractionId");
+                column: "IsDeleted");
 
             migrationBuilder.CreateIndex(
                 name: "IX_PlanRestaurant_RestaurantsId",
@@ -649,9 +654,6 @@ namespace VisitACity.Data.Migrations
                 name: "AttractionsPlans");
 
             migrationBuilder.DropTable(
-                name: "Images");
-
-            migrationBuilder.DropTable(
                 name: "PlanRestaurant");
 
             migrationBuilder.DropTable(
@@ -671,6 +673,9 @@ namespace VisitACity.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "Restaurants");
+
+            migrationBuilder.DropTable(
+                name: "Images");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");

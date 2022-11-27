@@ -28,11 +28,6 @@
         public decimal Price { get; set; }
 
         [Required]
-        [Url]
-        [MaxLength(ModelConstants.UrlMaxLength)]
-        public string ImageUrl { get; set; }
-
-        [Required]
         public IFormFile ImageToBlob { get; set; }
 
         [Required]

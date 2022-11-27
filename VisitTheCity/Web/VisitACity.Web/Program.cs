@@ -85,6 +85,7 @@
             services.AddTransient<IAttractionsService, AttractionsService>();
             services.AddTransient<IRestaurantsService, RestaurantsService>();
             services.AddTransient<IReviewService, ReviewService>();
+            services.AddTransient<IImageService, ImageService>();
         }
 
         private static void Configure(WebApplication app)

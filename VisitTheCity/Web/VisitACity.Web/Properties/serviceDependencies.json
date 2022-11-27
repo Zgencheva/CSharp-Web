@@ -3,9 +3,9 @@
     "secrets1": {
       "type": "secrets"
     },
-    "appInsights1": {
-      "type": "appInsights",
-      "connectionId": "APPLICATIONINSIGHTS_CONNECTION_STRING",
+    "storage1": {
+      "type": "storage",
+      "connectionId": "BlobConnectionString",
       "dynamicId": null
     },
     "mssql1": {
@@ -13,9 +13,9 @@
       "connectionId": "ConnectionStrings:DefaultConnection",
       "dynamicId": null
     },
-    "storage1": {
-      "type": "storage",
-      "connectionId": "BlobConnectionString",
+    "appInsights1": {
+      "type": "appInsights",
+      "connectionId": "APPLICATIONINSIGHTS_CONNECTION_STRING",
       "dynamicId": null
     }
   }

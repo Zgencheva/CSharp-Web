@@ -1,9 +1,7 @@
 ﻿namespace VisitACity.Data.Seeding
 {
     using System;
-    using System.Collections.Generic;
     using System.Linq;
-    using System.Text;
     using System.Threading.Tasks;
 
     using Microsoft.EntityFrameworkCore;
@@ -32,7 +30,7 @@
                 Price = 10,
                 Address = "3 Professor Boyan Kamenov, 1756 Studentski",
                 City = citySofia,
-                ImageUrl = "https://www.muzeiko.bg/files/thumbnails/exhibition-4-2685_exhibition_detail.JPG",
+                Image = new Image { Id = "02c5467a-4c9f-4708-86c7-20ca782d8d92", Extension = "jpg" },
                 Description = "Children's museum featuring interactive science-related exhibits, a cafe & a gift shop.",
             });
 
@@ -44,7 +42,7 @@
                 Price = 10,
                 Address = "16 Vitoshko lale",
                 City = citySofia,
-                ImageUrl = "https://static.bnr.bg/gallery/cr/fbb127416dc19bd0c41600296db20a4f.jpg",
+                Image = new Image { Id = "0a4c0be2-e549-49e8-9d4e-d9881080009f", Extension = "jpg" },
                 Description = "The National Historical Museum in Sofia is Bulgaria's largest museum. It was founded on 5 May 1973. A new representative exhibition was opened in the building of the Court of Justice on 2 March 1984, to commemorate the 13th centenary of the Bulgarian state",
             });
             await dbContext.Attractions.AddAsync(new Attraction
@@ -55,7 +53,7 @@
                 Price = 0,
                 Address = "2 Paris",
                 City = citySofia,
-                ImageUrl = "https://upload.wikimedia.org/wikipedia/commons/5/51/Basilica_of_Hagia_Sofia%2C_Bulgaria.jpg",
+                Image = new Image { Id = "0b38c0d5-5a00-4aff-80dc-cfbb692e9db1", Extension = "jpg" },
                 Description = "The church was built on the site of several earlier churches from the 4th century, and places of worship dating back to the days when it was the necropolis of the Roman town of Serdica.",
             });
 
@@ -67,7 +65,7 @@
                 Price = 0,
                 Address = "In the woods, near Sofia",
                 City = citySofia,
-                ImageUrl = "https://static.standartnews.com/storage/thumbnails/large_article/5816/2965/2691/vodopad.jpg",
+                Image = new Image { Id = "58686ce8-3ebb-4aa3-8480-65900630643f", Extension = "jpg" },
                 Description = "Boyana Waterfall is the largest waterfall in the Bulgarian Vitosha mountain, with a height of 25 meters.",
             });
 
@@ -79,7 +77,7 @@
                 Price = 20,
                 Address = "16 Maria Luiza",
                 City = citySofia,
-                ImageUrl = "https://museumofillusions.bg/uploads/2022/03/04.jpg",
+                Image = new Image { Id = "626a4614-f668-48ea-b646-1fe70f1b325d", Extension = "jpg" },
                 Description = "It's fascinating. It's fun. It's sure to be surprising. 400 m2 full of riveting illusions, wonderful atmosphere and helpful staff.",
             });
             await dbContext.Attractions.AddAsync(new Attraction
@@ -90,7 +88,7 @@
                 Price = 25,
                 Address = "Saltanat primorski park",
                 City = cityVarna,
-                ImageUrl = "https://m.netinfo.bg/media/images/29504/29504954/640-420-32-godini-delfinarium.jpg",
+                Image = new Image { Id = "62cde487-6b82-468f-bdbf-fcfe2d7c779b", Extension = "jpg" },
                 Description = "Yes, you can swim with dolphins. Dolphins can have fun.",
             });
 
@@ -102,7 +100,7 @@
                 Price = 15,
                 Address = "37 Chavdar Mutafov",
                 City = citySofia,
-                ImageUrl = "http://zoosofia.eu/wp-content/uploads/2020/05/70470268_418593165457994_2397962378311368704_n.jpg",
+                Image = new Image { Id = "65bb5bae-3402-48e8-870a-2524efff998c", Extension = "jpg" },
                 Description = "Sofia Zoo in Sofia, the capital of Bulgaria, was founded by royal decree on 1 May 1888, and is the oldest and largest zoological garden in southeastern Europe. It covers 36 hectares and, in March 2006, housed 4,850 animals representing 840 species.",
             });
 
@@ -114,7 +112,7 @@
                 Price = 60,
                 Address = "In the mountain Rila",
                 City = citySofia,
-                ImageUrl = "https://freesofiatour.com/wp-content/uploads/2018/05/seven-rila-lakes-how-to-get-to-1200x675.jpeg",
+                Image = new Image { Id = "8c2658a9-bae8-4943-ae08-01755ad64129", Extension = "jpg" },
                 Description = "The Seven Rila Lakes are a group of glacial lakes, situated in the northwestern Rila Mountain in Bulgaria. They are the most visited group of lakes in Bulgaria. The lakes are situated between 2,100 and 2,500 metres elevation above sea level. Each lake carries a name associated with its most characteristic feature.,",
             });
 
@@ -126,7 +124,7 @@
                 Price = 10,
                 Address = "3 Boyansko ezero",
                 City = citySofia,
-                ImageUrl = "https://static.bnr.bg/gallery/cr/medium/c664e2ac09d19888c4690dc31d0ff917.jpg",
+                Image = new Image { Id = "9141ebf6-40ad-46f4-8a83-b928a6ec36cc", Extension = "jpg" },
                 Description = "The Boyana Church is a medieval Bulgarian Orthodox church situated on the outskirts of Sofia, the capital of Bulgaria, in the Boyana quarter. In 1979, the building was added to the UNESCO World Heritage List.",
             });
 
@@ -138,7 +136,7 @@
                 Price = 10,
                 Address = "In the center of Plovdiv",
                 City = cityPlovdiv,
-                ImageUrl = "https://freeplovdivtour.com/wp-content/uploads/2018/02/kapana-tour.jpg",
+                Image = new Image { Id = "a0f8a448-9e9a-475c-a303-7969f60dee6d", Extension = "jpg" },
                 Description = "As Bulgaria’s first dedicated creative district, Kapana is a charming arts and cultural destination where cobblestone streets give way to restored buildings with art galleries and specialty shops. Patrons flock to sidewalk patios at an array of bakeries, diverse eateries and gastropubs that serve everything from classic regional eats to French cuisine. Kapana Fest showcases performers and artists each August.",
             });
 
@@ -150,7 +148,7 @@
                 Price = 0,
                 Address = "Knqz Aleksandyr 1",
                 City = cityPlovdiv,
-                ImageUrl = "http://www.romanplovdiv.org/wp-content/uploads/2020/01/rimski-stadion-den-1024x576.jpg",
+                Image = new Image { Id = "d3033433-143d-4bff-b465-fa68aaf0af35", Extension = "jpg" },
                 Description = "Rome old stadium",
             });
 
@@ -162,7 +160,7 @@
                 Price = 10,
                 Address = "35 Slivnica",
                 City = cityAsenovgrad,
-                ImageUrl = "https://www.nmnhs.com/images/main/exhibitions/asenovgrad/deinotherium.jpg",
+                Image = new Image { Id = "f4656919-2330-4488-9f8d-2b5f15665010", Extension = "jpg" },
                 Description = "Rome old stadium",
             });
         }

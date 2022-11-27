@@ -24,8 +24,8 @@ namespace VisitACity.Data.Migrations
 
             modelBuilder.Entity("ApplicationUserAttraction", b =>
                 {
-                    b.Property<int>("AttractionsReviewedId")
-                        .HasColumnType("int");
+                    b.Property<string>("AttractionsReviewedId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("UsersReviewsId")
                         .HasColumnType("nvarchar(450)");
@@ -39,8 +39,8 @@ namespace VisitACity.Data.Migrations
 
             modelBuilder.Entity("AttractionPlan", b =>
                 {
-                    b.Property<int>("AttractionsId")
-                        .HasColumnType("int");
+                    b.Property<string>("AttractionsId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("PlansId")
                         .HasColumnType("int");
@@ -303,11 +303,8 @@ namespace VisitACity.Data.Migrations
 
             modelBuilder.Entity("VisitACity.Data.Models.Attraction", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Address")
                         .IsRequired()
@@ -332,10 +329,9 @@ namespace VisitACity.Data.Migrations
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
 
-                    b.Property<string>("ImageUrl")
+                    b.Property<string>("ImageId")
                         .IsRequired()
-                        .HasMaxLength(150)
-                        .HasColumnType("nvarchar(150)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
@@ -358,6 +354,8 @@ namespace VisitACity.Data.Migrations
 
                     b.HasIndex("CityId");
 
+                    b.HasIndex("ImageId");
+
                     b.HasIndex("IsDeleted");
 
                     b.ToTable("Attractions");
@@ -373,6 +371,9 @@ namespace VisitACity.Data.Migrations
 
                     b.Property<int>("AttractionId")
                         .HasColumnType("int");
+
+                    b.Property<string>("AttractionId1")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
@@ -391,7 +392,7 @@ namespace VisitACity.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AttractionId");
+                    b.HasIndex("AttractionId1");
 
                     b.HasIndex("IsDeleted");
 
@@ -474,10 +475,10 @@ namespace VisitACity.Data.Migrations
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<int>("AttractionId")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedOn")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Extension")
@@ -485,12 +486,15 @@ namespace VisitACity.Data.Migrations
                         .HasMaxLength(10)
                         .HasColumnType("nvarchar(10)");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AttractionId");
+                    b.HasIndex("IsDeleted");
 
                     b.ToTable("Images");
                 });
@@ -779,16 +783,22 @@ namespace VisitACity.Data.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.HasOne("VisitACity.Data.Models.Image", "Image")
+                        .WithMany("Attractions")
+                        .HasForeignKey("ImageId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.Navigation("City");
+
+                    b.Navigation("Image");
                 });
 
             modelBuilder.Entity("VisitACity.Data.Models.AttractionsPlans", b =>
                 {
                     b.HasOne("VisitACity.Data.Models.Attraction", "Attraction")
                         .WithMany()
-                        .HasForeignKey("AttractionId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .HasForeignKey("AttractionId1");
 
                     b.HasOne("VisitACity.Data.Models.Plan", "Plan")
                         .WithMany()
@@ -810,17 +820,6 @@ namespace VisitACity.Data.Migrations
                         .IsRequired();
 
                     b.Navigation("Country");
-                });
-
-            modelBuilder.Entity("VisitACity.Data.Models.Image", b =>
-                {
-                    b.HasOne("VisitACity.Data.Models.Attraction", "Attraction")
-                        .WithMany("Images")
-                        .HasForeignKey("AttractionId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Attraction");
                 });
 
             modelBuilder.Entity("VisitACity.Data.Models.Plan", b =>
@@ -883,11 +882,6 @@ namespace VisitACity.Data.Migrations
                     b.Navigation("Roles");
                 });
 
-            modelBuilder.Entity("VisitACity.Data.Models.Attraction", b =>
-                {
-                    b.Navigation("Images");
-                });
-
             modelBuilder.Entity("VisitACity.Data.Models.City", b =>
                 {
                     b.Navigation("Attractions");
@@ -900,6 +894,11 @@ namespace VisitACity.Data.Migrations
             modelBuilder.Entity("VisitACity.Data.Models.Country", b =>
                 {
                     b.Navigation("Cities");
+                });
+
+            modelBuilder.Entity("VisitACity.Data.Models.Image", b =>
+                {
+                    b.Navigation("Attractions");
                 });
 
             modelBuilder.Entity("VisitACity.Data.Models.Restaurant", b =>

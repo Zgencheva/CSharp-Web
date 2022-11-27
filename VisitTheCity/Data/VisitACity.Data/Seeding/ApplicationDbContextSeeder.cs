@@ -25,13 +25,13 @@
 
             var seeders = new List<ISeeder>
                           {
+                              //new ImageSeeder(),
                               new RolesSeeder(),
                               new UserSeeder(),
                               new CountriesSeeder(),
                               new CitiesSeeder(),
                               new AttractionSeeder(),
                               new RestaurantSeeder(),
-                              // new ImageSeeder(),
                           };
 
             foreach (var seeder in seeders)

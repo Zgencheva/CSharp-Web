@@ -12,6 +12,7 @@
     using VisitACity.Services.Data.Contracts;
     using VisitACity.Services.Mapping;
     using VisitACity.Web.ViewModels.Attractions;
+    using VisitACity.Web.ViewModels.Images;
     using VisitACity.Web.ViewModels.Plans;
     using VisitACity.Web.ViewModels.Restaurants;
 
@@ -40,7 +41,7 @@
             this.userRepository = userRepository;
         }
 
-        public async Task<bool> AddAttractionToPlanAsync(int attractionId, int planId)
+        public async Task<bool> AddAttractionToPlanAsync(string attractionId, int planId)
         {
             var plan = await this.plansRepository
                 .All()
@@ -129,7 +130,7 @@
             await this.plansRepository.SaveChangesAsync();
         }
 
-        public async Task DeleteAttractionFromPlanAsync(int attractionId, int planId)
+        public async Task DeleteAttractionFromPlanAsync(string attractionId, int planId)
         {
             var plan = await this.plansRepository
                 .All()
@@ -174,7 +175,7 @@
             await this.plansRepository.SaveChangesAsync();
         }
 
-        public async Task<bool> DoesAttractionExist(int attractionId, int planId)
+        public async Task<bool> DoesAttractionExist(string attractionId, int planId)
         {
             var plan = await this.plansRepository.AllAsNoTracking()
                 .Where(x => x.Id == planId)
@@ -230,7 +231,7 @@
                        Id = a.Id,
                        Name = a.Name,
                        Description = a.Description,
-                       ImageUrl = a.ImageUrl,
+                       Image = new ImageViewModel { Id = a.Image.Id, Extension = a.Image.Extension },
                        Type = a.Type.ToString(),
                    }).ToList(),
                    MyRestaurants = x.Restaurants.Select(r => new RestaurantViewModel
@@ -263,7 +264,7 @@
                             Id = a.Id,
                             Name = a.Name,
                             Description = a.Description,
-                            ImageUrl = a.ImageUrl,
+                            Image = new ImageViewModel { Id = a.Image.Id, Extension = a.Image.Extension},
                             Type = a.Type.ToString(),
                         }).ToList(),
                     MyRestaurants = x.Restaurants.Select(r => new RestaurantViewModel
