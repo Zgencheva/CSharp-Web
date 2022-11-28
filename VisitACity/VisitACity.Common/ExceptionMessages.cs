@@ -22,6 +22,11 @@
             public const string NotExists = "Invalid city";
         }
 
+        public class Image
+        {
+            public const string NotExists = "Invalid image";
+        }
+
         public class Country
         {
             public const string NotExists = "Invalid country";

@@ -6,7 +6,7 @@
 <div asp-validation-summary="All" class="text-danger"></div>
 <div class="row">
     <div class="col-sm-12 offset-lg-2 col-lg-8 offset-xl-3 col-xl-6">
-        <form asp-action="Create" method="post">
+        <form enctype="multipart/form-data" asp-action="Create" method="post">
             <div class="mb-3">
                 <label asp-for="Name" class="form-label">Name</label>
                 <input asp-for="Name" class="form-control" aria-required="true" />
@@ -22,10 +22,10 @@
                 <input asp-for="Price" class="form-control" aria-required="true" />
                 <span asp-validation-for="Price" class="text-danger"></span>
             </div>
-            <div class="mb-3">
-                <label asp-for="ImageUrl" class="form-label">ImageUrl</label>
-                <input asp-for="ImageUrl" class="form-control" aria-required="true" />
-                <span asp-validation-for="ImageUrl" class="text-danger"></span>
+             <div class="mb-3">
+                <label asp-for="ImageToBlob" class="form-label">ImageToBlob</label>
+                <input type="file" asp-for="ImageToBlob" class="form-control" aria-required="true" />
+                <span asp-validation-for="ImageToBlob" class="text-danger"></span>
             </div>
             <div class="mb-3">
                 <label asp-for="Address" class="form-label">Address</label>

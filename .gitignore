@@ -350,3 +350,4 @@ MigrationBackup/
 .ionide/
 /VisitACity/Web/VisitACity.Web/appsettings.Development.json
 /VisitACity/Web/VisitACity.Web/appsettings.json
+*.json

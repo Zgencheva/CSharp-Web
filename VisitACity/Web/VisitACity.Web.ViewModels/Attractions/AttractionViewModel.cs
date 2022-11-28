@@ -11,11 +11,13 @@
 
     public class AttractionViewModel : IMapFrom<Attraction>, IHaveCustomMappings
     {
-        public int Id { get; set; }
+        public string Id { get; set; }
 
         public string Name { get; set; }
 
-        public string ImageUrl { get; set; }
+        //public string ImageId { get; set; }
+
+        //public string ImageExtension { get; set; }
 
         public string Description { get; set; }
 
@@ -31,7 +33,7 @@
 
         public int Reviews { get; set; }
 
-        public ICollection<ImageViewModel> Images { get; set; }
+        public ImageViewModel Image { get; set; }
 
         public PlanQueryModel UserPlan { get; set; }
 

@@ -1,12 +1,17 @@
 {
   "dependencies": {
+    "secrets1": {
+      "type": "secrets"
+    },
+    "storage1": {
+      "type": "storage",
+      "connectionId": "BlobConnectionString",
+      "dynamicId": null
+    },
     "mssql1": {
       "type": "mssql",
       "connectionId": "ConnectionStrings:DefaultConnection",
       "dynamicId": null
-    },
-    "secrets1": {
-      "type": "secrets"
     },
     "appInsights1": {
       "type": "appInsights",

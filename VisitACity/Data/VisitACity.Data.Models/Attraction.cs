@@ -3,17 +3,20 @@
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
+
     using VisitACity.Common;
     using VisitACity.Data.Common.Models;
     using VisitACity.Data.Models.Enums;
 
-    public class Attraction : BaseDeletableModel<int>
+    public class Attraction : BaseDeletableModel<string>
     {
         public Attraction()
         {
+            this.Id = Guid.NewGuid().ToString();
+
             this.UsersReviews = new HashSet<ApplicationUser>();
             this.Plans = new HashSet<Plan>();
-            this.Images = new HashSet<Image>();
         }
 
         [Required]
@@ -28,8 +31,11 @@
         public decimal Price { get; set; }
 
         [Required]
-        [MaxLength(ModelConstants.UrlMaxLength)]
-        public string ImageUrl { get; set; }
+        [ForeignKey(nameof(Image))]
+        public string ImageId { get; set; }
+
+        [Required]
+        public virtual Image Image { get; set; }
 
         [Required]
         [MaxLength(ModelConstants.Attraction.AddressMaxSize)]
@@ -50,6 +56,5 @@
 
         public virtual ICollection<Plan> Plans { get; set; }
 
-        public virtual ICollection<Image> Images { get; set; }
     }
 }

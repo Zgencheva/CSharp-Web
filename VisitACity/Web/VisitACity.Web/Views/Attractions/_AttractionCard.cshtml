@@ -1,11 +1,11 @@
 ﻿@using VisitACity.Web.ViewModels.Attractions
 @model AttractionViewModel
-@*@{
-    var imagePath = $"~/images/Attractions/{Model.Images.FirstOrDefault().Id}.{Model.Images.FirstOrDefault().Extension}";
-}*@
+@{
+    var url = $"https://visitacity.blob.core.windows.net/images/{Model.Image.Id}.{Model.Image.Extension}";
+}
 <div class="media col-md-4">
     <a asp-controller="Attractions" asp-action="Details" asp-route-id="@Model.Id">
-        <img class="mr-3 img-responsive" width="400" height="300" src="@Model.ImageUrl" alt="Card image cap" />
+        <img class="mr-3 img-responsive" width="400" height="300" src=@url alt="Card image cap" />
     </a>
     <div class="card-body">
         <h4 class="card-title text-center">@Model.Name</h4>

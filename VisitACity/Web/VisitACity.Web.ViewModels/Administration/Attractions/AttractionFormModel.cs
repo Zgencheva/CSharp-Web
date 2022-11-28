@@ -1,5 +1,6 @@
 ﻿namespace VisitACity.Web.ViewModels.Administration.Attractions
 {
+    using Microsoft.AspNetCore.Http;
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
@@ -27,9 +28,8 @@
         public decimal Price { get; set; }
 
         [Required]
-        [Url]
-        [MaxLength(ModelConstants.UrlMaxLength)]
-        public string ImageUrl { get; set; }
+        [Display(Name = "Image")]
+        public IFormFile ImageToBlob { get; set; }
 
         [Required]
         [StringLength(

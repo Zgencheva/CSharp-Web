@@ -27,6 +27,8 @@
 
         public DbSet<Attraction> Attractions { get; set; }
 
+        public DbSet<Image> Images { get; set; }
+
         public DbSet<AttractionsPlans> AttractionsPlans { get; set; }
 
         public DbSet<City> Cities { get; set; }
@@ -38,8 +40,6 @@
         public DbSet<Restaurant> Restaurants { get; set; }
 
         public DbSet<Review> Reviews { get; set; }
-
-        public DbSet<Image> Images { get; set; }
 
         public override int SaveChanges() => this.SaveChanges(true);
 
@@ -62,6 +62,11 @@
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
+            builder.Entity<Attraction>()
+                .HasOne(x => x.Image)
+                .WithMany(x => x.Attractions)
+                .HasForeignKey(x=> x.ImageId);
+
             // Needed for Identity models configuration
             base.OnModelCreating(builder);
 

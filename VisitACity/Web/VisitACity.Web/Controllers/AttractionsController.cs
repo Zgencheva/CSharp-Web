@@ -32,7 +32,7 @@
         }
 
         [AllowAnonymous]
-        public async Task<IActionResult> Details(int id)
+        public async Task<IActionResult> Details(string id)
         {
             var user = this.User.FindFirst(ClaimTypes.NameIdentifier);
             var viewModel = await this.attractionsService.GetViewModelByIdAsync<AttractionViewModel>(id);
@@ -50,13 +50,12 @@
 
         [HttpPost]
         [AllowAnonymous]
-        public async Task<IActionResult> SendToEmail(int id)
+        public async Task<IActionResult> SendToEmail(string id)
         {
             var viewModel = await this.attractionsService.GetViewModelByIdAsync<AttractionViewModel>(id);
             var html = new StringBuilder();
             html.AppendLine($"<h1>{viewModel.Name}</h1>");
             html.AppendLine($"<h3>{viewModel.Type.ToString()}</h3>");
-            html.AppendLine($"<img src=\"{viewModel.ImageUrl}\" />");
             html.AppendLine($"<div>{viewModel.Description}</div>");
             var user = await this.userManager.GetUserAsync(this.User);
             var userEmail = user.Email;

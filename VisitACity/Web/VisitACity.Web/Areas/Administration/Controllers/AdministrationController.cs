@@ -9,5 +9,9 @@
     [Area("Administration")]
     public class AdministrationController : BaseController
     {
+        protected bool IsExtensionValid(string extension)
+        {
+            return extension == GlobalConstants.JpegFormat || extension == GlobalConstants.PngFormat || extension == GlobalConstants.JpgFormat;
+        }
     }
 }

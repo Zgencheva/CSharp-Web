@@ -102,7 +102,7 @@
             return this.RedirectToAction(nameof(this.MyPlans));
         }
 
-        public async Task<IActionResult> AddAttractionToPlan(int attractionId, int planId)
+        public async Task<IActionResult> AddAttractionToPlan(string attractionId, int planId)
         {
             if (planId == 0)
             {
@@ -177,7 +177,7 @@
             }
         }
 
-        public async Task<IActionResult> DeleteAttractionFromPlan(int id)
+        public async Task<IActionResult> DeleteAttractionFromPlan(string id)
         {
             string cityName = await this.attractionsService.GetAttractionCityNameAsync(id);
             var userId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;

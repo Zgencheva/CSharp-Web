@@ -13,20 +13,21 @@
 
         Task<IEnumerable<T>> GetByCityAsync<T>(string cityName, int page, int itemsPerPage);
 
-        Task<T> GetViewModelByIdAsync<T>(int id);
+        Task<T> GetViewModelByIdAsync<T>(string id);
 
-        Task CreateAsync(AttractionFormModel model);
+        Task CreateAsync(AttractionFormModel model, string imageId, string imageExtension);
 
-        Task UpdateAsync(int id, AttractionFormModel model);
+        Task UpdateAsync(string id, AttractionFormUpdateModel model);
 
-        Task DeleteByIdAsync(int id);
+        Task DeleteByIdAsync(string id);
 
         int GetCountByCity(string cityName);
 
-        Task AddReviewToUserAsync(string userId, int attractionId);
+        Task AddReviewToUserAsync(string userId, string attractionId);
 
-        Task<int> GetAttractionCityIdAsync(int attractionId);
+        Task<int> GetAttractionCityIdAsync(string attractionId);
 
-        Task<string> GetAttractionCityNameAsync(int attractionId);
+        Task<string> GetAttractionCityNameAsync(string attractionId);
+        Task UploadImageAsync(string id, AttractionFormUpdateModel model, string imageId, string imageExtension);
     }
 }

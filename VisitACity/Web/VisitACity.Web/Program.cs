@@ -1,7 +1,7 @@
 ﻿namespace VisitACity.Web
 {
     using System.Reflection;
-
+    using Azure.Storage.Blobs;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
@@ -68,6 +68,8 @@
             services.AddDatabaseDeveloperPageExceptionFilter();
 
             services.AddSingleton(configuration);
+            services.AddSingleton(x => new BlobServiceClient(configuration.GetValue<string>("BlobConnectionString")));
+
 
             // Data repositories
             services.AddScoped(typeof(IDeletableEntityRepository<>), typeof(EfDeletableEntityRepository<>));
@@ -83,6 +85,7 @@
             services.AddTransient<IAttractionsService, AttractionsService>();
             services.AddTransient<IRestaurantsService, RestaurantsService>();
             services.AddTransient<IReviewService, ReviewService>();
+            services.AddTransient<IImageService, ImageService>();
         }
 
         private static void Configure(WebApplication app)

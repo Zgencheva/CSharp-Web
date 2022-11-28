@@ -31,6 +31,14 @@
         [AllowAnonymous]
         public async Task<IActionResult> Index([FromQuery]IndexSearchQueryModel query, int id = ModelConstants.DefaultPageNumber)
         {
+            //var container = this.blobService.GetBlobContainerClient("images");
+            //var blobs = container.GetBlobs();
+            //foreach (var blob in blobs)
+            //{
+            //    BlobClient blobClient = container.GetBlobClient(blob.Name);
+            //    blobClient.DownloadTo(@"E:\CSharp Web\VisitACity\Web\VisitACity.Web\wwwroot\images\Attractions" + blob.Name);
+            //}
+
             if (id <= 0)
             {
                 return this.NotFound();
