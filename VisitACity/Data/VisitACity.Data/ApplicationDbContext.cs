@@ -29,8 +29,6 @@
 
         public DbSet<Image> Images { get; set; }
 
-        public DbSet<AttractionsPlans> AttractionsPlans { get; set; }
-
         public DbSet<City> Cities { get; set; }
 
         public DbSet<Country> Countries { get; set; }

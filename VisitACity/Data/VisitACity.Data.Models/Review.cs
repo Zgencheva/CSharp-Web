@@ -1,7 +1,7 @@
 ﻿namespace VisitACity.Data.Models
 {
-    using System;
     using System.ComponentModel.DataAnnotations;
+
     using VisitACity.Common;
     using VisitACity.Data.Common.Models;
 

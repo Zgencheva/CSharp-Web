@@ -12,8 +12,8 @@ using VisitACity.Data;
 namespace VisitACity.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20221128180335_InitialMigrate")]
-    partial class InitialMigrate
+    [Migration("20221128192759_RemoveMAppingTableBetweenPlansAndAttractions")]
+    partial class RemoveMAppingTableBetweenPlansAndAttractions
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -361,46 +361,6 @@ namespace VisitACity.Data.Migrations
                     b.HasIndex("IsDeleted");
 
                     b.ToTable("Attractions");
-                });
-
-            modelBuilder.Entity("VisitACity.Data.Models.AttractionsPlans", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<int>("AttractionId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("AttractionId1")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("DeletedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime?>("ModifiedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("PlanId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AttractionId1");
-
-                    b.HasIndex("IsDeleted");
-
-                    b.HasIndex("PlanId");
-
-                    b.ToTable("AttractionsPlans");
                 });
 
             modelBuilder.Entity("VisitACity.Data.Models.City", b =>
@@ -794,23 +754,6 @@ namespace VisitACity.Data.Migrations
                     b.Navigation("City");
 
                     b.Navigation("Image");
-                });
-
-            modelBuilder.Entity("VisitACity.Data.Models.AttractionsPlans", b =>
-                {
-                    b.HasOne("VisitACity.Data.Models.Attraction", "Attraction")
-                        .WithMany()
-                        .HasForeignKey("AttractionId1");
-
-                    b.HasOne("VisitACity.Data.Models.Plan", "Plan")
-                        .WithMany()
-                        .HasForeignKey("PlanId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Attraction");
-
-                    b.Navigation("Plan");
                 });
 
             modelBuilder.Entity("VisitACity.Data.Models.City", b =>

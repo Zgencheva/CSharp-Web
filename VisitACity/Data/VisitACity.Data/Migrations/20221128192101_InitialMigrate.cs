@@ -388,8 +388,7 @@ namespace VisitACity.Data.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    AttractionId = table.Column<int>(type: "int", nullable: false),
-                    AttractionId1 = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    AttractionId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     PlanId = table.Column<int>(type: "int", nullable: false),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
@@ -400,8 +399,8 @@ namespace VisitACity.Data.Migrations
                 {
                     table.PrimaryKey("PK_AttractionsPlans", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_AttractionsPlans_Attractions_AttractionId1",
-                        column: x => x.AttractionId1,
+                        name: "FK_AttractionsPlans_Attractions_AttractionId",
+                        column: x => x.AttractionId,
                         principalTable: "Attractions",
                         principalColumn: "Id");
                     table.ForeignKey(
@@ -542,9 +541,9 @@ namespace VisitACity.Data.Migrations
                 column: "IsDeleted");
 
             migrationBuilder.CreateIndex(
-                name: "IX_AttractionsPlans_AttractionId1",
+                name: "IX_AttractionsPlans_AttractionId",
                 table: "AttractionsPlans",
-                column: "AttractionId1");
+                column: "AttractionId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AttractionsPlans_IsDeleted",
