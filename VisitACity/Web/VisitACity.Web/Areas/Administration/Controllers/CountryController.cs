@@ -8,11 +8,11 @@
     using VisitACity.Services.Data.Contracts;
     using VisitACity.Web.ViewModels.Administration.Countries;
 
-    public class CountriesController : AdministrationController
+    public class CountryController : AdministrationController
     {
         private readonly ICountriesService countriesService;
 
-        public CountriesController(ICountriesService countriesService)
+        public CountryController(ICountriesService countriesService)
         {
             this.countriesService = countriesService;
         }

@@ -12,14 +12,14 @@
     using VisitACity.Services.Messaging;
     using VisitACity.Web.ViewModels.Attractions;
 
-    public class AttractionsController : BaseController
+    public class AttractionController : BaseController
     {
         private readonly IAttractionsService attractionsService;
         private readonly IPlansService plansService;
         private readonly IEmailSender emailSender;
         private readonly UserManager<ApplicationUser> userManager;
 
-        public AttractionsController(
+        public AttractionController(
             IAttractionsService attractionsService,
             IPlansService plansService,
             IEmailSender emailSender,
@@ -59,7 +59,7 @@
             html.AppendLine($"<div>{viewModel.Description}</div>");
             var user = await this.userManager.GetUserAsync(this.User);
             var userEmail = user.Email;
-            await this.emailSender.SendEmailAsync("zornitsa.r.gencheva@gmail.com", "Visit a city", userEmail, viewModel.Name, html.ToString());
+            await this.emailSender.SendEmailAsync("visitacity@visitacity.bg", "Visit a city", userEmail, viewModel.Name, html.ToString());
             return this.RedirectToAction(nameof(this.Details), new { id });
         }
     }

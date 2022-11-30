@@ -7,11 +7,11 @@
     using VisitACity.Services.Data.Contracts;
     using VisitACity.Web.ViewModels.Restaurants;
 
-    public class RestaurantsController : BaseController
+    public class RestaurantController : BaseController
     {
         private readonly IRestaurantsService restaurantsService;
 
-        public RestaurantsController(IRestaurantsService restaurantsService)
+        public RestaurantController(IRestaurantsService restaurantsService)
         {
             this.restaurantsService = restaurantsService;
         }

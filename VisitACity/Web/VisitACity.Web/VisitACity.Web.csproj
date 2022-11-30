@@ -71,7 +71,6 @@
     <ProjectReference Include="..\..\Data\VisitACity.Data\VisitACity.Data.csproj" />
     <ProjectReference Include="..\..\Services\VisitACity.Services.Data\VisitACity.Services.Data.csproj" />
     <ProjectReference Include="..\..\Services\VisitACity.Services.Mapping\VisitACity.Services.Mapping.csproj" />
-    <ProjectReference Include="..\..\Services\VisitACity.Services\VisitACity.Services.csproj" />
     <ProjectReference Include="..\VisitACity.Web.Infrastructure\VisitACity.Web.Infrastructure.csproj" />
     <ProjectReference Include="..\VisitACity.Web.ViewModels\VisitACity.Web.ViewModels.csproj" />
   </ItemGroup>
@@ -80,7 +79,7 @@
     <Content Update="citiesInBulgaria.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Update="Views\Plans\MyPlans.cshtml">
+    <Content Update="Views\Plan\MyPlans.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Update="wwwroot\css\site.css">

@@ -14,7 +14,7 @@
     <h1 class="display-4">Welcome to Visit<span class="feature-icon"><i class="fa fa-mountain"></i></span>City</h1>
     <h2>
         Create Your Personal Travel Guide
-        <a asp-controller="Plans" asp-action="Create">Here</a>
+        <a asp-controller="Plan" asp-action="Create">Here</a>
     </h2>
     <br>
     <br>
@@ -84,7 +84,7 @@
         <div class="card-group m">
             @foreach (var attraction in this.Model.List)
             {
-                <partial name="~/Views/Attractions/_AttractionCard.cshtml" , model="attraction" />
+                <partial name="~/Views/Attraction/_AttractionCard.cshtml" , model="attraction" />
             }
 
         </div>
@@ -102,7 +102,7 @@ else
         <div class="card-group m">
             @foreach (var restaurant in this.Model.List)
             {
-                <partial name="~/Views/Restaurants/_RestaurantCard.cshtml" , model="restaurant" />
+                <partial name="~/Views/Restaurant/_RestaurantCard.cshtml" , model="restaurant" />
             }
 
         </div>

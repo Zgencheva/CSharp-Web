@@ -9,14 +9,14 @@
     using VisitACity.Web.ViewModels.Administration.Attractions;
     using VisitACity.Web.ViewModels.Cities;
 
-    public class AttractionsController : AdministrationController
+    public class AttractionController : AdministrationController
     {
         private readonly IAttractionsService attractionsService;
         private readonly ICitiesService citiesService;
         private readonly IImageService imageService;
         private readonly BlobServiceClient blobService;
 
-        public AttractionsController(
+        public AttractionController(
             IAttractionsService attractionsService,
             ICitiesService citiesService,
             IImageService imageService,
@@ -120,7 +120,7 @@
             }
 
             this.TempData["Message"] = TempDataMessageConstants.Attraction.AttractionUpdated;
-            return this.RedirectToAction("Details", "Attractions", new { area = string.Empty, id });
+            return this.RedirectToAction("Details", "Attraction", new { area = string.Empty, id });
         }
 
         public async Task<IActionResult> Delete(string id)

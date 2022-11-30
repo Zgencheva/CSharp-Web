@@ -35,7 +35,7 @@
                     <p></p>
                     @if (Model.UserPlan != null)
                     {
-                        <a class="btn btn-success" asp-controller="Plans" asp-action="AddAttractionToPlan" asp-route-attractionId="@Model.Id" asp-route-planId="@Model.UserPlan.Id">
+                        <a class="btn btn-success" asp-controller="Plan" asp-action="AddAttractionToPlan" asp-route-attractionId="@Model.Id" asp-route-planId="@Model.UserPlan.Id">
                             <div class="feature-icon">
                                 <i class="fa fa-bus"></i> <span>Add to plan</span>
                             </div>
@@ -43,7 +43,7 @@
                     }
                     else
                     {
-                         <a class="btn btn-success" asp-controller="Plans" asp-action="AddAttractionToPlan" asp-route-attractionId="@Model.Id" asp-route-planId=0>
+                         <a class="btn btn-success" asp-controller="Plan" asp-action="AddAttractionToPlan" asp-route-attractionId="@Model.Id" asp-route-planId=0>
                             <div class="feature-icon">
                                 <i class="fa fa-bus"></i> <span>Add to plan</span>
                             </div>
@@ -51,8 +51,8 @@
                     }
                     @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
                     {
-                        <a class="btn btn-outline-dark" asp-area="Administration" asp-controller="Attractions" asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
-                        <a class="btn btn-outline-danger delete" data-id="@Model.Id" data-area="Administration" data-controller="Attractions" data-action="Delete" data-body-message="Are you sure you want to delete this attraction?" data-redirect-url="/Home/Index/1?cityName=@Model.CityName&radioOption=Attractions">
+                        <a class="btn btn-outline-dark" asp-area="Administration" asp-controller="Attraction" asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
+                        <a class="btn btn-outline-danger delete" data-id="@Model.Id" data-area="Administration" data-controller="Attraction" data-action="Delete" data-body-message="Are you sure you want to delete this attraction?" data-redirect-url="/Home/Index/1">
                             Delete
                         </a>
                     }

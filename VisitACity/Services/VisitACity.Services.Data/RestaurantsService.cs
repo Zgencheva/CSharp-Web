@@ -40,6 +40,8 @@
                 City = city,
                 Address = model.Address,
                 ImageUrl = model.ImageUrl,
+                Url = model.Url,
+                PhoneNumber = model.PhoneNumber,
             };
 
             await this.restaurantRepository.AddAsync(restaurant);

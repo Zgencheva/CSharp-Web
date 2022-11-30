@@ -14,7 +14,7 @@
     using VisitACity.Web.ViewModels.Countries;
     using VisitACity.Web.ViewModels.Plans;
 
-    public class PlansController : BaseController
+    public class PlanController : BaseController
     {
         private readonly IPlansService plansService;
         private readonly ICitiesService citiesService;
@@ -23,7 +23,7 @@
         private readonly IRestaurantsService restaurantsService;
         private readonly UserManager<ApplicationUser> userManager;
 
-        public PlansController(
+        public PlanController(
             IPlansService plansService,
             ICitiesService citiesService,
             ICountriesService countriesService,

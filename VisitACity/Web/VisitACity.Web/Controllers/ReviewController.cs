@@ -9,11 +9,11 @@
     using VisitACity.Services.Data.Contracts;
     using VisitACity.Web.ViewModels.Reviews;
 
-    public class ReviewsController : BaseController
+    public class ReviewController : BaseController
     {
         private readonly IReviewService reviewService;
 
-        public ReviewsController(IReviewService reviewService)
+        public ReviewController(IReviewService reviewService)
         {
             this.reviewService = reviewService;
         }
@@ -48,7 +48,7 @@
             }
 
             this.TempData["Message"] = TempDataMessageConstants.ThankForComment;
-            return this.RedirectToAction("Details", "Restaurants", new { id });
+            return this.RedirectToAction("Details", "Restaurant", new { id });
         }
     }
 }

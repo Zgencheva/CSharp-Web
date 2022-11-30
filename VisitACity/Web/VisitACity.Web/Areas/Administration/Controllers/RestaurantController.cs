@@ -9,12 +9,12 @@
     using VisitACity.Web.ViewModels.Administration.Restaurants;
     using VisitACity.Web.ViewModels.Cities;
 
-    public class RestaurantsController : AdministrationController
+    public class RestaurantController : AdministrationController
     {
         private readonly IRestaurantsService restaurantsService;
         private readonly ICitiesService citiesService;
 
-        public RestaurantsController(
+        public RestaurantController(
             IRestaurantsService restaurantsService,
             ICitiesService citiesService)
         {
@@ -81,7 +81,7 @@
             }
 
             this.TempData["Message"] = TempDataMessageConstants.Restaurant.RestaurantUpdated;
-            return this.RedirectToAction("Details", "Restaurants", new { area = string.Empty, id });
+            return this.RedirectToAction("Details", "Restaurant", new { area = string.Empty, id });
         }
 
         public async Task<IActionResult> Delete(int id)

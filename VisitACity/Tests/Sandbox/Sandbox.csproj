@@ -39,7 +39,6 @@
     <ProjectReference Include="..\..\Services\VisitACity.Services.Data\VisitACity.Services.Data.csproj" />
     <ProjectReference Include="..\..\Services\VisitACity.Services.Mapping\VisitACity.Services.Mapping.csproj" />
     <ProjectReference Include="..\..\Services\VisitACity.Services.Messaging\VisitACity.Services.Messaging.csproj" />
-    <ProjectReference Include="..\..\Services\VisitACity.Services\VisitACity.Services.csproj" />
   </ItemGroup>
 
 </Project>

@@ -5,11 +5,11 @@
     using Microsoft.AspNetCore.Mvc;
     using VisitACity.Services.Data.Contracts;
 
-    public class ReviewsController : AdministrationController
+    public class ReviewController : AdministrationController
     {
         private readonly IReviewService reviewService;
 
-        public ReviewsController(IReviewService reviewService)
+        public ReviewController(IReviewService reviewService)
         {
             this.reviewService = reviewService;
         }

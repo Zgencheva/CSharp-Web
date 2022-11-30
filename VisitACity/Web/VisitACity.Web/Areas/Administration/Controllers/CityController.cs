@@ -9,12 +9,12 @@
     using VisitACity.Web.ViewModels.Administration.Cities;
     using VisitACity.Web.ViewModels.Countries;
 
-    public class CitiesController : AdministrationController
+    public class CityController : AdministrationController
     {
         private readonly ICitiesService citiesService;
         private readonly ICountriesService countriesService;
 
-        public CitiesController(
+        public CityController(
             ICitiesService citiesService,
             ICountriesService countriesService)
         {
