@@ -5,5 +5,8 @@
     public interface IImageService
     {
         Task<string> CreateAsync(string extension);
+
+        //TODO:
+        Task<string> UpdateAsync(string extension);
     }
 }

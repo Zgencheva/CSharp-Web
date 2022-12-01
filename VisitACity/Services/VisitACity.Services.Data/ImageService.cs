@@ -26,5 +26,9 @@
             return imageId;
         }
 
+        public Task<string> UpdateAsync(string extension)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

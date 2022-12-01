@@ -4,10 +4,13 @@
     using System.Threading.Tasks;
 
     using VisitACity.Web.ViewModels.Administration.Attractions;
+    using VisitACity.Web.ViewModels.Cities;
 
     public interface IAttractionsService
     {
         int GetCount();
+
+        int GetCountByCity(string cityName);
 
         Task<IEnumerable<T>> GetBestAttractionsAsync<T>(int page, int itemsPerPage);
 
@@ -21,13 +24,10 @@
 
         Task DeleteByIdAsync(string id);
 
-        int GetCountByCity(string cityName);
-
         Task AddReviewToUserAsync(string userId, string attractionId);
 
-        Task<int> GetAttractionCityIdAsync(string attractionId);
+        Task<CityViewModel> GetAttractionCityAsync(string attractionId);
 
-        Task<string> GetAttractionCityNameAsync(string attractionId);
         Task UploadImageAsync(string id, AttractionFormUpdateModel model, string imageId, string imageExtension);
     }
 }

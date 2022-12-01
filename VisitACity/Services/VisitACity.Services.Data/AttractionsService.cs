@@ -15,6 +15,8 @@
     using VisitACity.Services.Data.Contracts;
     using VisitACity.Services.Mapping;
     using VisitACity.Web.ViewModels.Administration.Attractions;
+    using VisitACity.Web.ViewModels.Attractions;
+    using VisitACity.Web.ViewModels.Cities;
 
     public class AttractionsService : IAttractionsService
     {
@@ -154,6 +156,7 @@
             this.attractionRepository.Update(attraction);
             await this.attractionRepository.SaveChangesAsync();
         }
+
         public async Task UploadImageAsync(string id, AttractionFormUpdateModel model, string imageId, string imageExtension)
         {
             var attraction = await this.attractionRepository
@@ -227,26 +230,21 @@
             }
         }
 
-        public async Task<int> GetAttractionCityIdAsync(string attractionId)
+        public async Task<CityViewModel> GetAttractionCityAsync(string attractionId)
         {
             var attraction = await this.attractionRepository
                 .AllAsNoTracking()
                 .Include(x => x.City)
                 .Where(x => x.Id == attractionId)
+                .To<AttractionViewModel>()
                 .FirstOrDefaultAsync();
-
-            return attraction.City.Id;
+            var city = new CityViewModel
+            {
+                Name = attraction.CityName,
+                Id = attraction.CityId,
+            };
+            return city;
         }
 
-        public async Task<string> GetAttractionCityNameAsync(string attractionId)
-        {
-            var attraction = await this.attractionRepository
-                .AllAsNoTracking()
-                .Include(x => x.City)
-                .Where(x => x.Id == attractionId)
-                .FirstOrDefaultAsync();
-
-            return attraction.City.Name;
-        }
     }
 }

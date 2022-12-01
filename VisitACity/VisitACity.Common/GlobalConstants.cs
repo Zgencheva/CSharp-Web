@@ -6,10 +6,10 @@
 
         public const string AdministratorRoleName = "Administrator";
 
-        public const string JpgFormat = "jpg";
+        public const string JpgFormat = ".jpg";
 
-        public const string PngFormat = "png";
+        public const string PngFormat = ".png";
 
-        public const string JpegFormat = "jpeg";
+        public const string JpegFormat = ".jpeg";
     }
 }

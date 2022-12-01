@@ -1,12 +1,15 @@
 ﻿namespace VisitACity.Web.ViewModels.Administration.Attractions
 {
-    using Microsoft.AspNetCore.Http;
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
+
+    using Microsoft.AspNetCore.Http;
     using VisitACity.Common;
     using VisitACity.Data.Models;
     using VisitACity.Services.Mapping;
+    using VisitACity.Web.Attributes;
+    using VisitACity.Web.Infrastructure.ValidationAttributes;
     using VisitACity.Web.ViewModels.Cities;
 
     public class AttractionFormModel : IMapFrom<Attraction>
@@ -29,6 +32,14 @@
 
         [Required]
         [Display(Name = "Image")]
+        [AllowedExtensions(
+            new string[]
+            {
+                GlobalConstants.JpegFormat,
+                GlobalConstants.JpgFormat,
+                GlobalConstants.PngFormat,
+            })]
+        [MaxFileSize(5 * 1024 * 1024)]
         public IFormFile ImageToBlob { get; set; }
 
         [Required]

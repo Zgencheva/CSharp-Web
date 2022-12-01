@@ -1,6 +1,7 @@
 ﻿namespace VisitACity.Web
 {
     using System.Reflection;
+
     using Azure.Storage.Blobs;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Http;

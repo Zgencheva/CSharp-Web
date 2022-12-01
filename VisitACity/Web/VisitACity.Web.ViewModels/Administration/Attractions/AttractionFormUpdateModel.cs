@@ -7,6 +7,7 @@
     using VisitACity.Common;
     using VisitACity.Data.Models;
     using VisitACity.Services.Mapping;
+    using VisitACity.Web.Attributes;
     using VisitACity.Web.ViewModels.Cities;
 
     public class AttractionFormUpdateModel : IMapFrom<Attraction>
@@ -27,6 +28,14 @@
         public decimal Price { get; set; }
 
         [Display(Name = "Image")]
+        [AllowedExtensions(
+            new string[]
+            {
+                GlobalConstants.JpegFormat,
+                GlobalConstants.JpgFormat,
+                GlobalConstants.PngFormat,
+            })]
+        [MaxFileSize(5 * 1024 * 1024)]
         public IFormFile ImageToBlob { get; set; }
 
         [Required]

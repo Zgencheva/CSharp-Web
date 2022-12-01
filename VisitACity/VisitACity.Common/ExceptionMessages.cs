@@ -1,6 +1,6 @@
 ﻿namespace VisitACity.Common
 {
-    public class ExceptionMessages
+    public static class ExceptionMessages
     {
         public const string NotExistingUser = "User does not exist";
         public const string InvalidComment = "Comment does not exist";

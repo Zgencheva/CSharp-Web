@@ -13,7 +13,7 @@
 
         Task<ICollection<PlanViewModel>> GetUpcomingUserPlansAsync(string userId);
 
-        Task<PlanQueryModel> GetUserUpcomingPlansByCityAsync(string cityName, string userId);
+        Task<Т> GetUserUpcomingPlansByCityAsync<Т>(string cityName, string userId);
 
         Task DeleteAsync(int planId);
 

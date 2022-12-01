@@ -1,6 +1,6 @@
 ﻿namespace VisitACity.Common
 {
-    public class TempDataMessageConstants
+    public static class TempDataMessageConstants
     {
 
         public const string ThankForComment = "Thank you for your comment!";

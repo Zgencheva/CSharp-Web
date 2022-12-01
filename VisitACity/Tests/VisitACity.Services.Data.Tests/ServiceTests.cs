@@ -13,7 +13,6 @@
             AutoMapperConfig.RegisterMappings(typeof(AttractionViewModel).GetTypeInfo().Assembly);
 
         }
-
         public void Dispose()
         {
             throw new NotImplementedException();

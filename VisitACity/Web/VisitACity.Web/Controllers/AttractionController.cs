@@ -7,10 +7,13 @@
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
+    using SendGrid;
+    using SendGrid.Helpers.Mail;
     using VisitACity.Data.Models;
     using VisitACity.Services.Data.Contracts;
     using VisitACity.Services.Messaging;
     using VisitACity.Web.ViewModels.Attractions;
+    using VisitACity.Web.ViewModels.Plans;
 
     public class AttractionController : BaseController
     {
@@ -41,8 +44,7 @@
             {
                 var userId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
                 await this.attractionsService.AddReviewToUserAsync(userId, id);
-                viewModel.UserPlan = await this.plansService.GetUserUpcomingPlansByCityAsync(viewModel.CityName, userId);
-
+                viewModel.UserPlan = await this.plansService.GetUserUpcomingPlansByCityAsync<PlanQueryModel>(viewModel.CityName, userId);
             }
 
             return this.View(viewModel);
@@ -59,7 +61,8 @@
             html.AppendLine($"<div>{viewModel.Description}</div>");
             var user = await this.userManager.GetUserAsync(this.User);
             var userEmail = user.Email;
-            await this.emailSender.SendEmailAsync("visitacity@visitacity.bg", "Visit a city", userEmail, viewModel.Name, html.ToString());
+            var result = this.emailSender.SendEmailAsync("zornitsa.r.gencheva@gmail.com", "Visitacity", "zornitsa.sertova@gmail.com", viewModel.Name, html.ToString());
+
             return this.RedirectToAction(nameof(this.Details), new { id });
         }
     }

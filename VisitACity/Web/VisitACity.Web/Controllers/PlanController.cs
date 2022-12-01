@@ -106,7 +106,8 @@
         {
             if (planId == 0)
             {
-                int cityToViewModelId = await this.attractionsService.GetAttractionCityIdAsync(attractionId);
+                var city = await this.attractionsService.GetAttractionCityAsync(attractionId);
+                var cityToViewModelId = city.Id;
                 this.TempData["Message"] = TempDataMessageConstants.Plan.NoPlansInTheCity;
                 return this.RedirectToAction("Create", new { cityId = cityToViewModelId });
             }
@@ -127,7 +128,8 @@
                 }
                 else
                 {
-                    int cityToViewModelId = await this.attractionsService.GetAttractionCityIdAsync(attractionId);
+                    var cityToViewModel = await this.attractionsService.GetAttractionCityAsync(attractionId);
+                    int cityToViewModelId = cityToViewModel.Id;
                     this.TempData["Message"] = TempDataMessageConstants.Plan.NoPlansInTheCity;
                     return this.RedirectToAction("Create", new { cityId = cityToViewModelId });
                 }
@@ -179,7 +181,8 @@
 
         public async Task<IActionResult> DeleteAttractionFromPlan(string id)
         {
-            string cityName = await this.attractionsService.GetAttractionCityNameAsync(id);
+            var city = await this.attractionsService.GetAttractionCityAsync(id);
+            var cityName = city.Name;
             var userId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
             try
             {

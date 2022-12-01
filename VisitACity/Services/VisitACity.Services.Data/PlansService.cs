@@ -279,11 +279,11 @@
             return plans;
         }
 
-        public async Task<PlanQueryModel> GetUserUpcomingPlansByCityAsync(string cityName, string userId)
+        public async Task<T> GetUserUpcomingPlansByCityAsync<T>(string cityName, string userId)
         {
             return await this.plansRepository.AllAsNoTracking()
                 .Where(x => x.UserId == userId && x.City.Name == cityName)
-                .To<PlanQueryModel>()
+                .To<T>()
                 .FirstOrDefaultAsync();
         }
     }

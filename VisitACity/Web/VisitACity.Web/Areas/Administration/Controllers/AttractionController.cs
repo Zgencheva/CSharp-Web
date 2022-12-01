@@ -45,12 +45,6 @@
             }
 
             string imageExtension = model.ImageToBlob.ContentType.Split('/')[1];
-            if (!this.IsExtensionValid(imageExtension))
-            {
-                model.Cities = await this.citiesService.GetAllAsync<CityViewModel>();
-                return this.View(model);
-            }
-
             try
             {
                 var imageId = await this.imageService.CreateAsync(imageExtension);
@@ -99,12 +93,6 @@
             else
             {
                 string imageExtension = model.ImageToBlob.ContentType.Split('/')[1];
-                if (!this.IsExtensionValid(imageExtension))
-                {
-                    model.Cities = await this.citiesService.GetAllAsync<CityViewModel>();
-                    return this.View(model);
-                }
-
                 try
                 {
                     var imageId = await this.imageService.CreateAsync(imageExtension);

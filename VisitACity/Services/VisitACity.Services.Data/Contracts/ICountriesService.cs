@@ -9,7 +9,7 @@
     {
         int GetCount();
 
-        Task<IEnumerable<Т>> GetAllAsync<Т>();
+        Task<IEnumerable<TТ>> GetAllAsync<TТ>();
 
         Task CreateAsync(CountryFormModel model);
 
