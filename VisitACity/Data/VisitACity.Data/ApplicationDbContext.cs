@@ -23,8 +23,6 @@
         {
         }
 
-        public DbSet<Setting> Settings { get; set; }
-
         public DbSet<Attraction> Attractions { get; set; }
 
         public DbSet<Image> Images { get; set; }
