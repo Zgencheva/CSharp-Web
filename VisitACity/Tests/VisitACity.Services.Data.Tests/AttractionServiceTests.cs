@@ -15,6 +15,7 @@
         public async Task GetAllAsyncReturnsAllAttractions()
         {
             await this.SeedTestingCountry();
+            Assert.True(true);
         }
 
         private async Task SeedTestingCountry()
