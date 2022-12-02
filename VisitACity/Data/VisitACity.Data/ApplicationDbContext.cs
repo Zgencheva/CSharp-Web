@@ -63,7 +63,7 @@
             builder.Entity<Attraction>()
                 .HasOne(x => x.Image)
                 .WithMany(x => x.Attractions)
-                .HasForeignKey(x=> x.ImageId);
+                .HasForeignKey(x => x.ImageId);
 
             // Needed for Identity models configuration
             base.OnModelCreating(builder);

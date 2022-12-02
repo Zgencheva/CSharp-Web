@@ -7,8 +7,6 @@
 
     public interface ICountriesService
     {
-        int GetCount();
-
         Task<IEnumerable<TТ>> GetAllAsync<TТ>();
 
         Task CreateAsync(CountryFormModel model);

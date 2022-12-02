@@ -66,11 +66,6 @@
             return await this.countriesRepository.AllAsNoTracking().AnyAsync(x => x.Name == countryName);
         }
 
-        public int GetCount()
-        {
-            return this.countriesRepository.AllAsNoTracking().ToArray().Length;
-        }
-
         public async Task DeleteAsync(string name)
         {
             var country = await this.countriesRepository.All().Where(x => x.Name == name).FirstOrDefaultAsync();
