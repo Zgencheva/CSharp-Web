@@ -9,7 +9,6 @@
     using VisitACity.Data.Models;
     using VisitACity.Services.Mapping;
     using VisitACity.Web.Attributes;
-    using VisitACity.Web.Infrastructure.ValidationAttributes;
     using VisitACity.Web.ViewModels.Cities;
 
     public class AttractionFormModel : IMapFrom<Attraction>

@@ -7,8 +7,6 @@
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
-    using SendGrid;
-    using SendGrid.Helpers.Mail;
     using VisitACity.Data.Models;
     using VisitACity.Services.Data.Contracts;
     using VisitACity.Services.Messaging;
