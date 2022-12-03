@@ -44,7 +44,7 @@
             var country = await this.countryRepository.All().FirstOrDefaultAsync(x => x.Id == model.CountryId);
             if (country == null)
             {
-                throw new ArgumentException(ExceptionMessages.Country.NotExists);
+                throw new NullReferenceException(ExceptionMessages.Country.NotExists);
             }
 
             var city = await this.cityRepository.AllWithDeleted().FirstOrDefaultAsync(x => x.Name == model.Name);
@@ -93,8 +93,13 @@
             var city = await this.cityRepository
                 .AllAsNoTracking()
                 .Where(x => x.Id == cityId)
-                .Include(x=> x.Country)
+                .Include(x => x.Country)
                 .FirstOrDefaultAsync();
+
+            if (city == null)
+            {
+                throw new NullReferenceException(ExceptionMessages.City.NotExists);
+            }
 
             return city.CountryId;
         }

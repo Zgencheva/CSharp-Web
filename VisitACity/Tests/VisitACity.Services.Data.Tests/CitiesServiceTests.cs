@@ -19,16 +19,14 @@
         private const string Sofia = "Sofia";
         private const string Plovdiv = "Plovdiv";
         private const string Varna = "Varna";
-        private const string Asenovgrad = "Asenovgrad";
         private const string Ruse = "Ruse";
         private const string InvalidCity = "Uganda";
         private const string CityRoCreate = "Stara Zagora";
         private const int TestCountryId = 100;
         private const string TestCountryName = "Bulgaria";
+        private const int InvalidCountryId = 11;
 
         private ICitiesService CitiesService => this.ServiceProvider.GetRequiredService<ICitiesService>();
-
-        private ICountriesService CountriesService => this.ServiceProvider.GetRequiredService<ICountriesService>();
 
         [Fact]
         public async Task GetCountShouldReturnsCitiesCount()
@@ -84,13 +82,12 @@
         [Fact]
         public async Task CreateAsyncShouldCreateCity()
         {
-            await this.SeedTestCountryAsync();
             await this.SeedTestCitiesAsync();
+
             var cityFormModel = new CityFormModel
             {
                 Name = CityRoCreate,
                 CountryId = TestCountryId,
-
             };
 
             await this.CitiesService.CreateAsync(cityFormModel);
@@ -104,7 +101,6 @@
         [Fact]
         public async Task CreateAsyncShouldThrowExceptionWhenCityExists()
         {
-            await this.SeedTestCountryAsync();
             await this.SeedTestCitiesAsync();
 
             var cityFormModel = new CityFormModel
@@ -120,9 +116,24 @@
         }
 
         [Fact]
+        public async Task CreateAsyncShouldThrowExceptionWhenInvalidCountryPassed()
+        {
+            await this.SeedTestCitiesAsync();
+
+            var cityFormModel = new CityFormModel
+            {
+                Name = Plovdiv,
+                CountryId = InvalidCountryId,
+            };
+
+            var exception = await Assert.ThrowsAsync<NullReferenceException>(() =>
+                 this.CitiesService.CreateAsync(cityFormModel));
+            Assert.Equal(string.Format(ExceptionMessages.Country.NotExists), exception.Message);
+        }
+
+        [Fact]
         public async Task CreateAsyncShouldUndeleteDeletedCityIfExists()
         {
-            await this.SeedTestCountryAsync();
             await this.SeedTestCitiesAsync();
 
             var deletedCountry = await this.DbContext.Cities.FirstOrDefaultAsync(x => x.Name == Sofia);
@@ -139,14 +150,90 @@
             Assert.False(deletedCountry.IsDeleted);
         }
 
-        private async Task SeedTestCountryAsync()
+        [Fact]
+        public async Task GetByIdAsyncShouldReturnCityViewModel()
         {
-            this.DbContext.Countries.Add(new Country { Id = TestCountryId, Name = TestCountryName});
-            await this.DbContext.SaveChangesAsync();
+            await this.SeedTestCitiesAsync();
+            var exptectedResult = new CityViewModel
+            {
+                Id = 1,
+                Name = Sofia,
+            };
+            var result = await this.CitiesService.GetByIdAsync<CityViewModel>(1);
+            Assert.Equal(exptectedResult.Name, result.Name);
+            Assert.Equal(exptectedResult.Id, result.Id);
+        }
+
+        [Fact]
+        public async Task GetByIdAsyncShouldThrowNullRefExceptionWhenCityIdNotValid()
+        {
+            await this.SeedTestCitiesAsync();
+            var exception = await Assert.ThrowsAsync<NullReferenceException>(async () => await this.CitiesService.GetByIdAsync<CityViewModel>(11));
+            Assert.Equal(string.Format(ExceptionMessages.City.NotExists), exception.Message);
+        }
+
+        [Fact]
+        public async Task GetCountryIdShouldReturnCountryId()
+        {
+            await this.SeedTestCitiesAsync();
+            var exptectedResult = TestCountryId;
+            var result = await this.CitiesService.GetCountryIdAsync(1);
+            Assert.Equal(exptectedResult, result);
+        }
+
+        [Fact]
+        public async Task GeCountryIdAsyncShouldThrowNullRefExceptionWhenCityIdNotValid()
+        {
+            await this.SeedTestCitiesAsync();
+            var exception = await Assert.ThrowsAsync<NullReferenceException>(async () => await this.CitiesService.GetCountryIdAsync(11));
+            Assert.Equal(string.Format(ExceptionMessages.City.NotExists), exception.Message);
+        }
+
+        [Fact]
+        public async Task DoesCityExistShouldReturnTrueIfCityExists()
+        {
+            await this.SeedTestCitiesAsync();
+            var cityName = Plovdiv;
+
+            var result = this.CitiesService.DoesCityExist(cityName);
+            Assert.True(result.Result);
+        }
+
+        [Fact]
+        public async Task DoesCountryExistShouldReturnFalseIfCountryExists()
+        {
+            await this.SeedTestCitiesAsync();
+            var cityName = InvalidCity;
+
+            var result = this.CitiesService.DoesCityExist(cityName);
+            Assert.False(result.Result);
+        }
+
+        [Fact]
+        public async Task DeleteAsyncShouldMarkCityAsDeleted()
+        {
+            await this.SeedTestCitiesAsync();
+
+            var cityToDelete = await this.DbContext.Cities.FirstOrDefaultAsync(x => x.Name == Plovdiv);
+
+            await this.CitiesService.DeleteAsync(Plovdiv);
+
+            Assert.True(cityToDelete.IsDeleted);
+        }
+
+        [Fact]
+        public async Task DeleteAsyncShouldThrowExceptionWhenInvalidNamePassed()
+        {
+            await this.SeedTestCitiesAsync();
+            var exception = await Assert.ThrowsAnyAsync<NullReferenceException>(async () => await this.CitiesService.DeleteAsync(InvalidCity));
+            Assert.Equal(ExceptionMessages.City.NotExists, exception.Message);
         }
 
         private async Task SeedTestCitiesAsync()
         {
+            this.DbContext.Countries.Add(new Country { Id = TestCountryId, Name = TestCountryName });
+            await this.DbContext.SaveChangesAsync();
+
             this.DbContext.Cities.Add(new City { Id = 1, Name = Sofia, CountryId = TestCountryId });
             this.DbContext.Cities.Add(new City { Id = 2, Name = Plovdiv, CountryId = TestCountryId });
             this.DbContext.Cities.Add(new City { Id = 3, Name = Varna, CountryId = TestCountryId });

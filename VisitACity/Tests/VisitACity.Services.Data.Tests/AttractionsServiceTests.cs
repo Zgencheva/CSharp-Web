@@ -7,7 +7,7 @@
     using VisitACity.Services.Data.Contracts;
     using Xunit;
 
-    public class AttractionServiceTests : ServiceTests
+    public class AttractionsServiceTests : ServiceTests
     {
         private IAttractionsService AttractionsServiceMoq => this.ServiceProvider.GetRequiredService<IAttractionsService>();
 
