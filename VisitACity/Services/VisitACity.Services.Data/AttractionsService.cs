@@ -56,6 +56,19 @@
 
         public async Task<IEnumerable<T>> GetByCityAsync<T>(string cityName, int page, int itemsPage)
         {
+            if (cityName == null)
+            {
+                throw new NullReferenceException(ExceptionMessages.City.NotExists);
+            }
+
+            var city = await this.cityRepository.AllAsNoTracking().FirstOrDefaultAsync(x => x.Name == cityName);
+
+            if (city == null)
+            {
+                throw new NullReferenceException(ExceptionMessages.City.NotExists);
+
+            }
+
             return await this.attractionRepository.AllAsNoTracking()
             .Where(x => x.City.Name == cityName)
             .OrderByDescending(x => x.Id)
@@ -238,6 +251,10 @@
                 .Where(x => x.Id == attractionId)
                 .To<AttractionViewModel>()
                 .FirstOrDefaultAsync();
+            if (attraction == null)
+            {
+                throw new NullReferenceException(ExceptionMessages.Attraction.InvalidAttraction);
+            }
             var city = new CityViewModel
             {
                 Name = attraction.CityName,

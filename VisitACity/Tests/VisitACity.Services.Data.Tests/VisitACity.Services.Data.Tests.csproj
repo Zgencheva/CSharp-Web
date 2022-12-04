@@ -24,6 +24,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Http" Version="2.1.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Http.Features" Version="6.0.0-preview.4.21253.5" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="6.0.9" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="7.0.0" />
     <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="7.0.0" />
@@ -42,6 +44,12 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Data\VisitACity.Data\VisitACity.Data.csproj" />
     <ProjectReference Include="..\..\Services\VisitACity.Services.Data\VisitACity.Services.Data.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="testImage.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>
