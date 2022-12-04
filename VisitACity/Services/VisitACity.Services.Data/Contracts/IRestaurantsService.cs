@@ -4,6 +4,7 @@
     using System.Threading.Tasks;
 
     using VisitACity.Web.ViewModels.Administration.Restaurants;
+    using VisitACity.Web.ViewModels.Cities;
     using VisitACity.Web.ViewModels.Restaurants;
 
     public interface IRestaurantsService
@@ -22,8 +23,7 @@
 
         Task DeleteByIdAsync(int id);
 
-        Task<int> GetRestaurantCityIdAsync(int restaurantId);
+        Task<CityViewModel> GetRestaurantCityAsync(int restaurantId);
 
-        Task<string> GetRestaurantCityNameAsync(int restaurantId);
     }
 }

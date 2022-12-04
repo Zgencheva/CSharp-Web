@@ -12,6 +12,7 @@
     using VisitACity.Services.Data.Contracts;
     using VisitACity.Services.Mapping;
     using VisitACity.Web.ViewModels.Administration.Restaurants;
+    using VisitACity.Web.ViewModels.Cities;
 
     public class RestaurantsService : IRestaurantsService
     {
@@ -60,10 +61,10 @@
             await this.restaurantRepository.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<T>> GetByCityAsync<T>(string restaurantName, int page, int itemsPage)
+        public async Task<IEnumerable<T>> GetByCityAsync<T>(string cityName, int page, int itemsPage)
         {
             return await this.restaurantRepository.AllAsNoTracking()
-            .Where(x => x.City.Name == restaurantName)
+            .Where(x => x.City.Name == cityName)
             .OrderByDescending(x => x.Id)
             .Skip((page - 1) * itemsPage).Take(itemsPage)
             .To<T>()
@@ -72,7 +73,7 @@
 
         public int GetCount()
         {
-            return this.restaurantRepository.AllAsNoTracking().ToArray().Count();
+            return this.restaurantRepository.AllAsNoTracking().ToArray().Length;
         }
 
         public int GetCountByCity(string cityName)
@@ -82,26 +83,24 @@
                 .ToArray().Length;
         }
 
-        public async Task<int> GetRestaurantCityIdAsync(int restaurantId)
+        public async Task<CityViewModel> GetRestaurantCityAsync(int restaurantId)
         {
             var restaurant = await this.restaurantRepository
                 .AllAsNoTracking()
                 .Include(x => x.City)
                 .Where(x => x.Id == restaurantId)
                 .FirstOrDefaultAsync();
+            if (restaurant == null)
+            {
+                throw new NullReferenceException(ExceptionMessages.Restaurant.InvalidRestaurant);
+            }
 
-            return restaurant.City.Id;
-        }
-
-        public async Task<string> GetRestaurantCityNameAsync(int restaurantId)
-        {
-            var restaurant = await this.restaurantRepository
-                .AllAsNoTracking()
-                .Include(x => x.City)
-                .Where(x => x.Id == restaurantId)
-                .FirstOrDefaultAsync();
-
-            return restaurant.City.Name;
+            var result = new CityViewModel
+            {
+                Id = restaurant.City.Id,
+                Name = restaurant.City.Name,
+            };
+            return result;
         }
 
         public async Task<T> GetViewModelByIdAsync<T>(int id)
@@ -124,7 +123,7 @@
             var restaurant = await this.restaurantRepository.All().FirstOrDefaultAsync(x => x.Id == id);
             if (restaurant == null)
             {
-                throw new NullReferenceException(ExceptionMessages.Attraction.InvalidAttraction);
+                throw new NullReferenceException(ExceptionMessages.Restaurant.InvalidRestaurant);
             }
 
             var city = await this.cityRepository.All().FirstOrDefaultAsync(x => x.Id == model.CityId);
@@ -138,6 +137,7 @@
             restaurant.Address = model.Address;
             restaurant.Url = model.Url;
             restaurant.ImageUrl = model.ImageUrl;
+            restaurant.PhoneNumber = model.PhoneNumber;
 
             this.restaurantRepository.Update(restaurant);
             await this.restaurantRepository.SaveChangesAsync();

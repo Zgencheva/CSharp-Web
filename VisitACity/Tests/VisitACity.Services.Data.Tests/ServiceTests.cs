@@ -2,9 +2,11 @@
 {
     using System;
     using System.Reflection;
-
+    using Azure.Storage.Blobs;
     using Microsoft.EntityFrameworkCore;
+    using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
+
     using VisitACity.Data;
     using VisitACity.Data.Common;
     using VisitACity.Data.Common.Repositories;
@@ -24,6 +26,14 @@
             this.DbContext = this.ServiceProvider.GetRequiredService<ApplicationDbContext>();
         }
 
+        public static IConfiguration InitConfiguration()
+        {
+            var config = new ConfigurationBuilder()
+               .AddJsonFile("appsettings.test.json")
+                .Build();
+            return config;
+        }
+
         protected IServiceProvider ServiceProvider { get; set; }
 
         protected ApplicationDbContext DbContext { get; set; }
@@ -31,6 +41,7 @@
         private ServiceCollection SetServices()
         {
             var services = new ServiceCollection();
+            var config = InitConfiguration();
 
             services.AddDbContext<ApplicationDbContext>(
                 opt => opt.UseInMemoryDatabase(Guid.NewGuid().ToString()));
@@ -51,6 +62,8 @@
             services.AddTransient<IRestaurantsService, RestaurantsService>();
             services.AddTransient<IReviewService, ReviewService>();
             services.AddTransient<IImageService, ImageService>();
+
+            services.AddSingleton(x => new BlobServiceClient(config.GetValue<string>("BlobConnectionString")));
 
             AutoMapperConfig.RegisterMappings(typeof(AttractionViewModel).GetTypeInfo().Assembly);
 
