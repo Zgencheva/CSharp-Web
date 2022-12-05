@@ -20,7 +20,6 @@
         private const string Egypt = "Egypt";
         private const string Spain = "Spain";
         private const string Uganda = "Uganda";
-        private const string Uk = "Uk";
         private const string Brazil = "Brazil";
 
         private ICountriesService CountriesService => this.ServiceProvider.GetRequiredService<ICountriesService>();
@@ -28,7 +27,7 @@
         [Fact]
         public async Task GetAllAsyncShouldReturnAllCountries()
         {
-            await this.SeedTestingCountriesAsync();
+            await this.SeedTestCountriesAsync();
 
             var expected = new List<CountryViewModel>()
             {
@@ -71,7 +70,7 @@
         [Fact]
         public async Task CreateAsyncShouldCreateCountry()
         {
-            await this.SeedTestingCountriesAsync();
+            await this.SeedTestCountriesAsync();
 
             var countryFormModel = new CountryFormModel
             {
@@ -91,7 +90,7 @@
         [Fact]
         public async Task CreateAsyncShouldThrowExceptionWhenCountryExists()
         {
-            await this.SeedTestingCountriesAsync();
+            await this.SeedTestCountriesAsync();
 
             var countryFormModel = new CountryFormModel
             {
@@ -107,7 +106,7 @@
         [Fact]
         public async Task CreateAsyncShouldUndeleteDeletedCountryIfExists()
         {
-            await this.SeedTestingCountriesAsync();
+            await this.SeedTestCountriesAsync();
 
             var deletedCountry = await this.DbContext.Countries.FirstOrDefaultAsync(x => x.Name == Bulgaria);
             deletedCountry.IsDeleted = true;
@@ -126,7 +125,7 @@
         [Fact]
         public async Task DoesCountryExistShouldReturnTrueIfCountryExists()
         {
-            await this.SeedTestingCountriesAsync();
+            await this.SeedTestCountriesAsync();
             var countryName = Bulgaria;
 
             var result = this.CountriesService.DoesCountryExist(countryName);
@@ -136,7 +135,7 @@
         [Fact]
         public async Task DoesCountryExistShouldReturnFalseIfCountryExists()
         {
-            await this.SeedTestingCountriesAsync();
+            await this.SeedTestCountriesAsync();
             var countryName = Uganda;
 
             var result = this.CountriesService.DoesCountryExist(countryName);
@@ -146,7 +145,7 @@
         [Fact]
         public async Task DeleteAsyncShouldMarkCountryAsDeleted()
         {
-            await this.SeedTestingCountriesAsync();
+            await this.SeedTestCountriesAsync();
 
             var countryToDelete = await this.DbContext.Countries.FirstOrDefaultAsync(x => x.Name == Bulgaria);
 
@@ -158,7 +157,7 @@
         [Fact]
         public async Task DeleteAsyncShouldThrowExceptionWhenInvalidNamePassed()
         {
-            await this.SeedTestingCountriesAsync();
+            await this.SeedTestCountriesAsync();
 
             var countryToDelete = await this.DbContext.Countries.FirstOrDefaultAsync(x => x.Name == Bulgaria);
             var exception = await Assert.ThrowsAnyAsync<NullReferenceException>(async () => await this.CountriesService.DeleteAsync(Uganda));
@@ -166,7 +165,7 @@
 
         }
 
-        private async Task SeedTestingCountriesAsync()
+        private async Task SeedTestCountriesAsync()
         {
             this.DbContext.Countries.Add(new Country { Id = 1, Name = Bulgaria });
             this.DbContext.Countries.Add(new Country { Id = 2, Name = Egypt });

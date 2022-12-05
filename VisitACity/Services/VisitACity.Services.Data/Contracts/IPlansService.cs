@@ -31,6 +31,6 @@
 
         Task<bool> DoesUserHavePlanInTheCity(string userId, string cityName);
 
-        Task<bool> DoesRestaurantExistInThePlan(int restaurantId, int planId);
+        Task<bool> DoesRestaurantExist(int restaurantId, int planId);
     }
 }

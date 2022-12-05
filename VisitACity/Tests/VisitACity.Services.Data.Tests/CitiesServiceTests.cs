@@ -231,14 +231,19 @@
 
         private async Task SeedTestCitiesAsync()
         {
-            this.DbContext.Countries.Add(new Country { Id = TestCountryId, Name = TestCountryName });
-            await this.DbContext.SaveChangesAsync();
+            await this.SeedTestCountriesAsync();
 
             this.DbContext.Cities.Add(new City { Id = 1, Name = Sofia, CountryId = TestCountryId });
             this.DbContext.Cities.Add(new City { Id = 2, Name = Plovdiv, CountryId = TestCountryId });
             this.DbContext.Cities.Add(new City { Id = 3, Name = Varna, CountryId = TestCountryId });
             this.DbContext.Cities.Add(new City { Id = 4, Name = Ruse , CountryId = TestCountryId });
 
+            await this.DbContext.SaveChangesAsync();
+        }
+
+        private async Task SeedTestCountriesAsync()
+        {
+            this.DbContext.Countries.Add(new Country { Id = TestCountryId, Name = TestCountryName });
             await this.DbContext.SaveChangesAsync();
         }
     }

@@ -6,20 +6,20 @@
     using System.Linq;
     using System.Threading.Tasks;
 
-    using Microsoft.Extensions.DependencyInjection;
     using Microsoft.AspNetCore.Http;
+    using Microsoft.AspNetCore.Http.Internal;
+    using Microsoft.AspNetCore.Identity;
+    using Microsoft.EntityFrameworkCore;
+    using Microsoft.Extensions.DependencyInjection;
     using VisitACity.Common;
     using VisitACity.Data.Models;
     using VisitACity.Data.Models.Enums;
     using VisitACity.Services.Data.Contracts;
     using VisitACity.Web.ViewModels.Administration.Attractions;
     using VisitACity.Web.ViewModels.Attractions;
+    using VisitACity.Web.ViewModels.Cities;
     using VisitACity.Web.ViewModels.Images;
     using Xunit;
-    using Microsoft.AspNetCore.Http.Internal;
-    using Microsoft.EntityFrameworkCore;
-    using VisitACity.Web.ViewModels.Cities;
-    using Microsoft.AspNetCore.Identity;
 
     public class AttractionsServiceTests : ServiceTests
     {
@@ -37,6 +37,10 @@
         private const string TestImagePath = "testImage.jpg";
         private const string TestImageContentType = "image/jpg";
         private const string TestUserId = "dasdasdasdas-dasdasdas-asdsadas";
+        private const string TestUserName = "admin @gmail.com";
+        private const string TestUserPassword = "a123456";
+        private const string TestUserFirstName = "Admin";
+        private const string TestUserLastName = "Admin";
 
 
         private IAttractionsService AttractionsService => this.ServiceProvider.GetRequiredService<IAttractionsService>();
@@ -498,34 +502,10 @@
 
         private async Task SeedTestAttractionsAsync()
         {
-            this.DbContext.Countries.Add(new Country { Id = TestCountryId, Name = TestCountryName });
-            await this.DbContext.SaveChangesAsync();
-
-            this.DbContext.Cities.Add(new City { Id = 1, Name = Sofia, CountryId = TestCountryId });
-            this.DbContext.Cities.Add(new City { Id = 2, Name = Plovdiv, CountryId = TestCountryId });
-            this.DbContext.Cities.Add(new City { Id = 3, Name = Varna, CountryId = TestCountryId });
-            this.DbContext.Cities.Add(new City { Id = 4, Name = Ruse, CountryId = TestCountryId });
-            await this.DbContext.SaveChangesAsync();
-
-            this.DbContext.Images.Add(new Image { Id = MuzeikoImageId, Extension = ImagesExtension });
-            this.DbContext.Images.Add(new Image { Id = HistoryMuseumImageId, Extension = ImagesExtension });
-            this.DbContext.Images.Add(new Image { Id = SaintSofiaImageId, Extension = ImagesExtension });
-            await this.DbContext.SaveChangesAsync();
-
-            var hasher = new PasswordHasher<ApplicationUser>();
-            var user = new ApplicationUser
-            {
-                Id = "dasdasdasdas-dasdasdas-asdsadas",
-                UserName = "admin@gmail.com",
-                NormalizedUserName = "ADMIN@GMAIL.COM",
-                Email = "admin@gmail.com",
-                NormalizedEmail = "ADMIN@GMAIL.COM",
-                FirstName = "Admin",
-                LastName = "Admin",
-                EmailConfirmed = true,
-            };
-            user.PasswordHash = hasher.HashPassword(user, "a123456");
-            this.DbContext.Users.Add(user);
+            await this.SeedTestCountriesAsync();
+            await this.SeedTestCitiesAsync();
+            await this.SeedTestImagesAsync();
+            await this.SeedTestUserAsync();
 
             this.DbContext.Attractions.Add(new Attraction
             {
@@ -564,6 +544,48 @@
                 Description = "The church was built on the site of several earlier churches from the 4th century, and places of worship dating back to the days when it was the necropolis of the Roman town of Serdica.",
             });
 
+            await this.DbContext.SaveChangesAsync();
+        }
+
+        private async Task SeedTestCountriesAsync()
+        {
+            this.DbContext.Countries.Add(new Country { Id = TestCountryId, Name = TestCountryName });
+            await this.DbContext.SaveChangesAsync();
+        }
+
+        private async Task SeedTestCitiesAsync()
+        {
+            this.DbContext.Cities.Add(new City { Id = 1, Name = Sofia, CountryId = TestCountryId });
+            this.DbContext.Cities.Add(new City { Id = 2, Name = Plovdiv, CountryId = TestCountryId });
+            this.DbContext.Cities.Add(new City { Id = 3, Name = Varna, CountryId = TestCountryId });
+            this.DbContext.Cities.Add(new City { Id = 4, Name = Ruse, CountryId = TestCountryId });
+            await this.DbContext.SaveChangesAsync();
+        }
+
+        private async Task SeedTestImagesAsync()
+        {
+            this.DbContext.Images.Add(new Image { Id = MuzeikoImageId, Extension = ImagesExtension });
+            this.DbContext.Images.Add(new Image { Id = HistoryMuseumImageId, Extension = ImagesExtension });
+            this.DbContext.Images.Add(new Image { Id = SaintSofiaImageId, Extension = ImagesExtension });
+            await this.DbContext.SaveChangesAsync();
+        }
+
+        private async Task SeedTestUserAsync()
+        {
+            var hasher = new PasswordHasher<ApplicationUser>();
+            var user = new ApplicationUser
+            {
+                Id = TestUserId,
+                UserName = TestUserName,
+                NormalizedUserName = TestUserName.ToUpper(),
+                Email = TestUserName,
+                NormalizedEmail = TestUserName.ToUpper(),
+                FirstName = TestUserFirstName,
+                LastName = TestUserLastName,
+                EmailConfirmed = true,
+            };
+            user.PasswordHash = hasher.HashPassword(user, TestUserPassword);
+            this.DbContext.Users.Add(user);
             await this.DbContext.SaveChangesAsync();
         }
 

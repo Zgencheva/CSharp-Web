@@ -325,14 +325,8 @@
 
         private async Task SeedTestRestaurantsAsync()
         {
-            this.DbContext.Countries.Add(new Country { Id = TestCountryId, Name = TestCountryName });
-            await this.DbContext.SaveChangesAsync();
-
-            this.DbContext.Cities.Add(new City { Id = 1, Name = Sofia, CountryId = TestCountryId });
-            this.DbContext.Cities.Add(new City { Id = 2, Name = Plovdiv, CountryId = TestCountryId });
-            this.DbContext.Cities.Add(new City { Id = 3, Name = Varna, CountryId = TestCountryId });
-            this.DbContext.Cities.Add(new City { Id = 4, Name = Ruse, CountryId = TestCountryId });
-            await this.DbContext.SaveChangesAsync();
+            await this.SeedTestCountriesAsync();
+            await this.SeedTestCitiesAsync();
 
             this.DbContext.Restaurants.Add(new Restaurant
             {
@@ -365,6 +359,21 @@
                 PhoneNumber = "+359886511459",
             });
 
+            await this.DbContext.SaveChangesAsync();
+        }
+
+        private async Task SeedTestCountriesAsync()
+        {
+            this.DbContext.Countries.Add(new Country { Id = TestCountryId, Name = TestCountryName });
+            await this.DbContext.SaveChangesAsync();
+        }
+
+        private async Task SeedTestCitiesAsync()
+        {
+            this.DbContext.Cities.Add(new City { Id = 1, Name = Sofia, CountryId = TestCountryId });
+            this.DbContext.Cities.Add(new City { Id = 2, Name = Plovdiv, CountryId = TestCountryId });
+            this.DbContext.Cities.Add(new City { Id = 3, Name = Varna, CountryId = TestCountryId });
+            this.DbContext.Cities.Add(new City { Id = 4, Name = Ruse, CountryId = TestCountryId });
             await this.DbContext.SaveChangesAsync();
         }
     }

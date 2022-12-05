@@ -151,7 +151,7 @@
             }
 
             int planId = await this.plansService.GetUserPlanIdAsync(city.Name, userId);
-            if (await this.plansService.DoesRestaurantExistInThePlan(restaurantId, planId))
+            if (await this.plansService.DoesRestaurantExist(restaurantId, planId))
             {
                 this.TempData["Message"] = TempDataMessageConstants.Restaurant.ExistingRestaurantToThePlan;
                 return this.RedirectToAction(nameof(this.MyPlans));

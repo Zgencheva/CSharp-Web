@@ -115,7 +115,7 @@
                 ToDate = input.ToDate,
             };
             await this.plansRepository.AddAsync(plan);
-            await this.cityRepository.SaveChangesAsync();
+            await this.plansRepository.SaveChangesAsync();
         }
 
         public async Task DeleteAsync(int planId)
@@ -177,16 +177,18 @@
 
         public async Task<bool> DoesAttractionExist(string attractionId, int planId)
         {
-            var plan = await this.plansRepository.AllAsNoTracking()
+            var plan = await this.plansRepository
+                .AllAsNoTracking()
                 .Where(x => x.Id == planId)
                 .Include(x => x.Attractions)
                 .FirstOrDefaultAsync();
             return plan.Attractions.Any(x => x.Id == attractionId);
         }
 
-        public async Task<bool> DoesRestaurantExistInThePlan(int restaurantId, int planId)
+        public async Task<bool> DoesRestaurantExist(int restaurantId, int planId)
         {
-            var plan = await this.plansRepository.AllAsNoTracking()
+            var plan = await this.plansRepository
+                .AllAsNoTracking()
                .Where(x => x.Id == planId)
                .Include(x => x.Restaurants)
                .FirstOrDefaultAsync();
@@ -211,6 +213,10 @@
                 .Where(x => x.UserId == userId)
                 .ToListAsync();
             var currentPlan = plans.Where(x => x.City.Name == cityName).FirstOrDefault();
+            if (currentPlan == null)
+            {
+                throw new NullReferenceException(ExceptionMessages.Plan.NotExists);
+            }
             return currentPlan.Id;
         }
 
