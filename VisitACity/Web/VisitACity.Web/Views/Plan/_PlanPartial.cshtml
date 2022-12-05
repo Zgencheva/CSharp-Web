@@ -4,8 +4,8 @@
     var id = "r" + Model.Id;
 }
 <tr data-bs-toggle="collapse" data-bs-target=@rnumTarget>
-    <th scope="row"> <i class="fa fa-angle-down"></i> @Model.City</th>
-    <td>@Model.Country</td>
+    <th scope="row"> <i class="fa fa-angle-down"></i> @Model.CityName</th>
+    <td>@Model.CityCountryName</td>
     <td>@Html.DisplayFor(x => x.FromDate)</td>
     <td>@Html.DisplayFor(x => x.ToDate)</td>
     <td>@Model.Days</td>
@@ -20,7 +20,7 @@
 <tr class="collapse accordion-collapse" id=@id data-bs-parent=".table">
     <td colspan="5">
         <h5 class="text-center">Attractions:</h5>
-        @if (!Model.MyAttractions.Any())
+        @if (!Model.Attractions.Any())
         {
             <div class="text-center">No attractions added to this plan yet.</div>
         }
@@ -29,7 +29,7 @@
             <ol class="list-group list-group-numbered">
 
 
-                @foreach (var attraction in @Model.MyAttractions)
+                @foreach (var attraction in @Model.Attractions)
                 {
                     <div>
                     <li class="list-group-item d-flex justify-content-between align-items-start">
@@ -50,7 +50,7 @@
         }
 
         <h5 class="text-center">Restaurants:</h5>
-        @if (!Model.MyRestaurants.Any())
+        @if (!Model.Restaurants.Any())
         {
             <div class="text-center">No restaurants added to this plan yet.</div>
         }
@@ -58,7 +58,7 @@
         {
             <ol class="list-group list-group-numbered">
 
-                @foreach (var restaurant in @Model.MyRestaurants)
+                @foreach (var restaurant in @Model.Restaurants)
                 {
                     <div>
                     <li class="list-group-item d-flex justify-content-between align-items-start">

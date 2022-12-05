@@ -1,6 +1,7 @@
 ﻿namespace VisitACity.Services.Data.Tests
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
 
@@ -10,7 +11,10 @@
     using VisitACity.Data.Models;
     using VisitACity.Data.Models.Enums;
     using VisitACity.Services.Data.Contracts;
+    using VisitACity.Web.ViewModels.Attractions;
+    using VisitACity.Web.ViewModels.Images;
     using VisitACity.Web.ViewModels.Plans;
+    using VisitACity.Web.ViewModels.Restaurants;
     using Xunit;
 
     public class PlansServiceTests : ServiceTests
@@ -345,7 +349,7 @@
              async () =>
              await this.PlansService.GetUserPlanIdAsync(Sofia, InvalidUserId));
             Assert.Equal(ExceptionMessages.Plan.NotExists, exception.Message);
-         }
+        }
 
         [Fact]
         public async Task GetUserPlanIdAsyncShouldThrowExceptionWhenInvalidCityIdPassed()
@@ -360,6 +364,204 @@
              async () =>
              await this.PlansService.GetUserPlanIdAsync("Uganda", TestUserId));
             Assert.Equal(ExceptionMessages.Plan.NotExists, exception.Message);
+        }
+
+        [Fact]
+        public async Task GetUpcomingUserPlansAsyncShouldReturnCollectionOfPlanViewModel()
+        {
+            await this.SeedDbAsync();
+            var user = await this.DbContext.Users.FindAsync(TestUserId);
+            var attraction = await this.DbContext.Attractions.FindAsync(AttractionId1);
+            var image = attraction.Image;
+            var restaurant = await this.DbContext.Restaurants.FindAsync(1);
+            var country = await this.DbContext.Countries.FindAsync(1);
+            var plan = await this.DbContext.Plans.FindAsync(PlanId);
+            plan.Attractions.Add(attraction);
+            plan.Restaurants.Add(restaurant);
+            await this.DbContext.SaveChangesAsync();
+            user.Plans.Add(plan);
+            await this.DbContext.SaveChangesAsync();
+
+            var expectedResult = new List<PlanViewModel>()
+            {
+                new PlanViewModel
+                {
+                    Id = PlanId,
+                    CityCountryName = country.Name,
+                    CityName = Sofia,
+                    CityId = 1,
+                    Days = 4,
+                    FromDate = plan.FromDate,
+                    ToDate = plan.ToDate,
+                    Attractions = new List<AttractionViewModel>
+                    {
+                        new AttractionViewModel
+                        {
+                            Id = AttractionId1,
+                            Name = attraction.Name,
+                            Type = attraction.Type.ToString(),
+                            Description = attraction.Description,
+                            Image = new ImageViewModel
+                            {
+                                Id = image.Id,
+                                Extension = image.Extension,
+                            },
+                        },
+                    },
+                    Restaurants = new List<RestaurantViewModel>
+                    {
+                        new RestaurantViewModel
+                        {
+                            Id = 1,
+                            Name = restaurant.Name,
+                            CityName = Sofia,
+                        },
+                    },
+                },
+            };
+
+            var actualResult = await this.PlansService.GetUpcomingUserPlansAsync(TestUserId);
+            Assert.Collection(
+               actualResult,
+               el1 =>
+               {
+                   Assert.Equal(expectedResult[0].Id, el1.Id);
+                   Assert.Equal(expectedResult[0].CityCountryName, el1.CityCountryName);
+                   Assert.Equal(expectedResult[0].CityId, el1.CityId);
+                   Assert.Equal(expectedResult[0].CityName, el1.CityName);
+                   Assert.Equal(expectedResult[0].Days, el1.Days);
+                   Assert.Equal(expectedResult[0].FromDate, el1.FromDate);
+                   Assert.Equal(expectedResult[0].ToDate, el1.ToDate);
+                   Assert.Equal(expectedResult[0].Attractions.First().Id, el1.Attractions.First().Id);
+                   Assert.Equal(expectedResult[0].Attractions.First().Name, el1.Attractions.First().Name);
+                   Assert.Equal(expectedResult[0].Attractions.First().Description, el1.Attractions.First().Description);
+                   Assert.Equal(expectedResult[0].Attractions.First().Type, el1.Attractions.First().Type);
+                   Assert.Equal(expectedResult[0].Attractions.First().Image.Id, el1.Attractions.First().Image.Id);
+                   Assert.Equal(expectedResult[0].Attractions.First().Image.Extension, el1.Attractions.First().Image.Extension);
+                   Assert.Equal(expectedResult[0].Attractions.Count(), el1.Attractions.Count());
+                   Assert.Single(el1.Attractions);
+                   Assert.Equal(expectedResult[0].Restaurants.First().Id, el1.Restaurants.First().Id);
+                   Assert.Equal(expectedResult[0].Restaurants.First().CityName, el1.Restaurants.First().CityName);
+                   Assert.Equal(expectedResult[0].Restaurants.First().Name, el1.Restaurants.First().Name);
+                   Assert.Equal(expectedResult[0].Restaurants.Count(), el1.Restaurants.Count());
+                   Assert.Single(el1.Restaurants);
+               });
+
+            Assert.Single(actualResult);
+
+            Assert.Equal(expectedResult.Count, actualResult.Count());
+        }
+
+        [Fact]
+        public async Task GetUserPlansAsyncShouldReturnCollectionOfPlanViewModel()
+        {
+            await this.SeedDbAsync();
+            var user = await this.DbContext.Users.FindAsync(TestUserId);
+            var attraction = await this.DbContext.Attractions.FindAsync(AttractionId1);
+            var image = attraction.Image;
+            var restaurant = await this.DbContext.Restaurants.FindAsync(1);
+            var country = await this.DbContext.Countries.FindAsync(1);
+            var plan = await this.DbContext.Plans.FindAsync(PlanId);
+            plan.Attractions.Add(attraction);
+            plan.Restaurants.Add(restaurant);
+            await this.DbContext.SaveChangesAsync();
+            user.Plans.Add(plan);
+            await this.DbContext.SaveChangesAsync();
+
+            var expectedResult = new List<PlanViewModel>()
+            {
+                new PlanViewModel
+                {
+                    Id = PlanId,
+                    CityCountryName = country.Name,
+                    CityName = "Sofia",
+                    CityId = 1,
+                    Days = 4,
+                    FromDate = plan.FromDate,
+                    ToDate = plan.ToDate,
+                    Attractions = new List<AttractionViewModel>
+                    {
+                        new AttractionViewModel
+                        {
+                            Id = AttractionId1,
+                            Name = attraction.Name,
+                            Type = attraction.Type.ToString(),
+                            Description = attraction.Description,
+                            Image = new ImageViewModel
+                            {
+                                Id = image.Id,
+                                Extension = image.Extension,
+                            },
+                        },
+                    },
+                    Restaurants = new List<RestaurantViewModel>
+                    {
+                        new RestaurantViewModel
+                        {
+                            Id = 1,
+                            Name = restaurant.Name,
+                            CityName = Sofia,
+                        },
+                    },
+                },
+            };
+
+            var actualResult = await this.PlansService.GetUserPlansAsync(TestUserId);
+            Assert.Collection(
+               actualResult,
+               el1 =>
+               {
+                   Assert.Equal(expectedResult[0].Id, el1.Id);
+                   Assert.Equal(expectedResult[0].CityCountryName, el1.CityCountryName);
+                   Assert.Equal(expectedResult[0].CityId, el1.CityId);
+                   Assert.Equal(expectedResult[0].CityName, el1.CityName);
+                   Assert.Equal(expectedResult[0].Days, el1.Days);
+                   Assert.Equal(expectedResult[0].FromDate, el1.FromDate);
+                   Assert.Equal(expectedResult[0].ToDate, el1.ToDate);
+                   Assert.Equal(expectedResult[0].Attractions.First().Id, el1.Attractions.First().Id);
+                   Assert.Equal(expectedResult[0].Attractions.First().Name, el1.Attractions.First().Name);
+                   Assert.Equal(expectedResult[0].Attractions.First().Description, el1.Attractions.First().Description);
+                   Assert.Equal(expectedResult[0].Attractions.First().Type, el1.Attractions.First().Type);
+                   Assert.Equal(expectedResult[0].Attractions.First().Image.Id, el1.Attractions.First().Image.Id);
+                   Assert.Equal(expectedResult[0].Attractions.First().Image.Extension, el1.Attractions.First().Image.Extension);
+                   Assert.Equal(expectedResult[0].Attractions.Count(), el1.Attractions.Count());
+                   Assert.Single(el1.Attractions);
+                   Assert.Equal(expectedResult[0].Restaurants.First().Id, el1.Restaurants.First().Id);
+                   Assert.Equal(expectedResult[0].Restaurants.First().CityName, el1.Restaurants.First().CityName);
+                   Assert.Equal(expectedResult[0].Restaurants.First().Name, el1.Restaurants.First().Name);
+                   Assert.Equal(expectedResult[0].Restaurants.Count(), el1.Restaurants.Count());
+                   Assert.Single(el1.Restaurants);
+               });
+
+            Assert.Single(actualResult);
+
+            Assert.Equal(expectedResult.Count, actualResult.Count);
+        }
+
+        [Fact]
+        public async Task GetUserUpcomingPlansByCityAsyncShouldReturnCollection()
+        {
+            await this.SeedDbAsync();
+            var user = await this.DbContext.Users.FindAsync(TestUserId);
+            var attraction = await this.DbContext.Attractions.FindAsync(AttractionId1);
+            var image = attraction.Image;
+            var restaurant = await this.DbContext.Restaurants.FindAsync(1);
+            var country = await this.DbContext.Countries.FindAsync(1);
+            var plan = await this.DbContext.Plans.FindAsync(PlanId);
+            plan.Attractions.Add(attraction);
+            plan.Restaurants.Add(restaurant);
+            await this.DbContext.SaveChangesAsync();
+            user.Plans.Add(plan);
+            await this.DbContext.SaveChangesAsync();
+
+            var expectedResult = new PlanQueryModel
+            {
+                Id = PlanId,
+            };
+
+            var actualResult = await this.PlansService.GetUserUpcomingPlansByCityAsync<PlanQueryModel>(Sofia, TestUserId);
+
+            Assert.Equal(expectedResult.Id, actualResult.Id);
         }
 
         private async Task SeedDbAsync()

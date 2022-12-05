@@ -222,31 +222,34 @@
 
         public async Task<ICollection<PlanViewModel>> GetUpcomingUserPlansAsync(string userId)
         {
-            var plans = await this.plansRepository.AllAsNoTracking().Where(x => x.UserId == userId && x.ToDate >= DateTime.UtcNow)
-               .Select(x => new PlanViewModel
-               {
-                   Id = x.Id,
-                   Country = x.City.Country.Name,
-                   City = x.City.Name,
-                   CityId = x.City.Id,
-                   Days = (x.ToDate.Date - x.FromDate.Date).Days,
-                   FromDate = x.FromDate,
-                   ToDate = x.ToDate,
-                   MyAttractions = x.Attractions.Select(a => new AttractionViewModel
-                   {
-                       Id = a.Id,
-                       Name = a.Name,
-                       Description = a.Description,
-                       Image = new ImageViewModel { Id = a.Image.Id, Extension = a.Image.Extension },
-                       Type = a.Type.ToString(),
-                   }).ToList(),
-                   MyRestaurants = x.Restaurants.Select(r => new RestaurantViewModel
-                   {
-                       Id = r.Id,
-                       CityName = r.City.Name,
-                       Name = r.Name,
-                   }).ToList(),
-               })
+            var plans = await this.plansRepository
+                .AllAsNoTracking()
+                .Where(x => x.UserId == userId && x.ToDate >= DateTime.UtcNow)
+                .To<PlanViewModel>()
+               //.Select(x => new PlanViewModel
+               //{
+               //    Id = x.Id,
+               //    Country = x.City.Country.Name,
+               //    City = x.City.Name,
+               //    CityId = x.City.Id,
+               //    Days = (x.ToDate.Date - x.FromDate.Date).Days,
+               //    FromDate = x.FromDate,
+               //    ToDate = x.ToDate,
+               //    MyAttractions = x.Attractions.Select(a => new AttractionViewModel
+               //    {
+               //        Id = a.Id,
+               //        Name = a.Name,
+               //        Description = a.Description,
+               //        Image = new ImageViewModel { Id = a.Image.Id, Extension = a.Image.Extension },
+               //        Type = a.Type.ToString(),
+               //    }).ToList(),
+               //    MyRestaurants = x.Restaurants.Select(r => new RestaurantViewModel
+               //    {
+               //        Id = r.Id,
+               //        CityName = r.City.Name,
+               //        Name = r.Name,
+               //    }).ToList(),
+               //})
                .OrderByDescending(x => x.FromDate)
                .ToListAsync();
             return plans;
@@ -255,32 +258,35 @@
         public async Task<ICollection<PlanViewModel>> GetUserPlansAsync(string userId)
         {
             // TODO: Make it with automapper
-            var plans = await this.plansRepository.AllAsNoTracking().Where(x => x.UserId == userId)
-                .Select(x => new PlanViewModel
-                {
-                    Id = x.Id,
-                    Country = x.City.Country.Name,
-                    City = x.City.Name,
-                    CityId = x.City.Id,
-                    Days = (x.ToDate.Date - x.FromDate.Date).Days,
-                    FromDate = x.FromDate,
-                    ToDate = x.ToDate,
-                    MyAttractions = x.Attractions.Select(a => new AttractionViewModel
-                        {
-                            Id = a.Id,
-                            Name = a.Name,
-                            Description = a.Description,
-                            Image = new ImageViewModel { Id = a.Image.Id, Extension = a.Image.Extension},
-                            Type = a.Type.ToString(),
-                        }).ToList(),
-                    MyRestaurants = x.Restaurants.Select(r => new RestaurantViewModel
-                        {
-                            Id = r.Id,
-                            CityName = r.City.Name,
-                            Name = r.Name,
-                        }).ToList(),
-                })
-                .OrderByDescending(x => x.FromDate)
+            var plans = await this.plansRepository
+                .AllAsNoTracking()
+                .Where(x => x.UserId == userId)
+                .To<PlanViewModel>()
+                //.Select(x => new PlanViewModel
+                //{
+                //    Id = x.Id,
+                //    Country = x.City.Country.Name,
+                //    City = x.City.Name,
+                //    CityId = x.City.Id,
+                //    Days = (x.ToDate.Date - x.FromDate.Date).Days,
+                //    FromDate = x.FromDate,
+                //    ToDate = x.ToDate,
+                //    MyAttractions = x.Attractions.Select(a => new AttractionViewModel
+                //        {
+                //            Id = a.Id,
+                //            Name = a.Name,
+                //            Description = a.Description,
+                //            Image = new ImageViewModel { Id = a.Image.Id, Extension = a.Image.Extension},
+                //            Type = a.Type.ToString(),
+                //        }).ToList(),
+                //    MyRestaurants = x.Restaurants.Select(r => new RestaurantViewModel
+                //        {
+                //            Id = r.Id,
+                //            CityName = r.City.Name,
+                //            Name = r.Name,
+                //        }).ToList(),
+                //})
+                //.OrderByDescending(x => x.FromDate)
                 .ToListAsync();
             return plans;
         }
