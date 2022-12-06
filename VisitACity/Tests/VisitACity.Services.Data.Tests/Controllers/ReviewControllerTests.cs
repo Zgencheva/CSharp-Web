@@ -2,11 +2,16 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Security.Claims;
+    using System.Threading;
     using System.Threading.Tasks;
-
+    using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Mvc.ViewFeatures;
     using Microsoft.Extensions.DependencyInjection;
+    using Moq;
+    using VisitACity.Common;
     using VisitACity.Data.Models;
     using VisitACity.Data.Models.Enums;
     using VisitACity.Services.Data.Contracts;
@@ -14,9 +19,10 @@
     using VisitACity.Web.ViewModels.Attractions;
     using VisitACity.Web.ViewModels.Home;
     using VisitACity.Web.ViewModels.Images;
+    using VisitACity.Web.ViewModels.Reviews;
     using Xunit;
 
-    public class HomeControllerTests : ServiceTests
+    public class ReviewControllerTests : ServiceTests
     {
         private const string Sofia = "Sofia";
         private const string AttractionId1 = "aaa";
@@ -37,109 +43,54 @@
         private const string MuzeikoImageId = "02c5467a-4c9f-4708-86c7-20ca782d8d92";
         private const string HistoryMuseumImageId = "0a4c0be2-e549-49e8-9d4e-d9881080009f";
         private const string SaintSofiaImageId = "0b38c0d5-5a00-4aff-80dc-cfbb692e9db1";
-        private const int DefaultPageNumber = 1;
-        private const int DefaultPageSize = 6;
-        private const string RestaurantsRadioOption = "Restaurants";
-        private const string AttractionsRadioOption = "Attractions";
+        private const string AuthenticationType = "Test";
 
-        private IAttractionsService AttractionsService => this.ServiceProvider.GetRequiredService<IAttractionsService>();
-
-        private ICitiesService CitiesService => this.ServiceProvider.GetRequiredService<ICitiesService>();
-
-        private IRestaurantsService RestaurantsService => this.ServiceProvider.GetRequiredService<IRestaurantsService>();
+        private IReviewsService ReviewsService => this.ServiceProvider.GetRequiredService<IReviewsService>();
 
         [Fact]
-        public async Task IndexActionShouldReturnIndexViewModel()
+        public async Task CreateActionShouldCreateReview()
         {
             await this.SeedDbAsync();
-            var controller = new HomeController(this.CitiesService, this.AttractionsService, this.RestaurantsService);
-            var searchQuery = new IndexSearchQueryModel
-            {
-                CityName = Sofia,
-                RadioOption = AttractionsRadioOption,
-            };
+            var controller = new ReviewController(this.ReviewsService);
 
-            var expectedView = new IndexViewModel
-            {
-                CitiesCount = 4,
-                AttractionsCount = 3,
-                RestaurantCount = 3,
-                PageNumber = 1,
-                ItemsPerPage = DefaultPageSize,
-                List = new List<AttractionViewModel>()
-                {
-                    new AttractionViewModel
-                    {
-                        Id = "aaa",
-                        Name = "Muzeiko",
-                        Type = "CulturalTours",
-                        Price = 10,
-                        Address = "3 Professor Boyan Kamenov, 1756 Studentski",
-                        CityId = 1,
-                        CityName = Sofia,
-                        Reviews = 0,
-                        Image = new ImageViewModel { Id = MuzeikoImageId, Extension = ImagesExtension },
-                        Description = "Children's museum featuring interactive science-related exhibits, a cafe & a gift shop.",
-                        UserPlan = null,
-                    },
-                    new AttractionViewModel
-                    {
-                        Id = "bbb",
-                        Name = "Nacional History Museum",
-                        Type = "CulturalTours",
-                        Price = 10,
-                        Address = "16 Vitoshko lale",
-                        CityId = 1,
-                        CityName = Sofia,
-                        Reviews = 0,
-                        UserPlan = null,
-                        Image = new ImageViewModel { Id = HistoryMuseumImageId, Extension = ImagesExtension },
-                        Description = "The National Historical Museum in Sofia is Bulgaria's largest museum. It was founded on 5 May 1973. A new representative exhibition was opened in the building of the Court of Justice on 2 March 1984, to commemorate the 13th centenary of the Bulgarian state",
-                    },
-                },
-                EventsCount = 2,
-                IsAttraction = true,
-                queryModel = searchQuery,
-            };
-
-            var result = await controller.Index(searchQuery, DefaultPageNumber);
+            var result = controller.Create();
 
             var viewResult = Assert.IsType<ViewResult>(result);
-            var model = Assert.IsAssignableFrom<IndexViewModel>(
-            viewResult.ViewData.Model);
-            Assert.Equal(expectedView.IsAttraction, model.IsAttraction);
-            Assert.Equal(expectedView.CitiesCount, model.CitiesCount);
-            Assert.Equal(expectedView.AttractionsCount, model.AttractionsCount);
-            Assert.Equal(expectedView.RestaurantCount, model.RestaurantCount);
-            Assert.Equal(expectedView.PageNumber, model.PageNumber);
-            Assert.Equal(expectedView.ItemsPerPage, model.ItemsPerPage);
-            Assert.Equal(expectedView.EventsCount, model.EventsCount);
-            Assert.Equal(expectedView.queryModel.CityName, model.queryModel.CityName);
-            Assert.Equal(expectedView.queryModel.RadioOption, model.queryModel.RadioOption);
-            Assert.False(model.HasNextPage);
-            Assert.False(model.HasPreviousPage);
-            Assert.Equal(1, model.PageNumber);
-            Assert.Equal(1, model.PagesCount);
-            Assert.Equal(2, model.NextPageNumber);
-            Assert.Equal(0, model.PreviousPageNumber);
-            Assert.Equal(DefaultPageSize, model.ItemsPerPage);
-            Assert.True(model.IsAttraction);
+            Assert.IsAssignableFrom<CreateReviewInputModel>(viewResult.ViewData.Model);
         }
 
         [Fact]
-        public async Task IndexActionShouldReturnNotFoundWhenPageNumberNegativeOrZero()
+        public async Task CreateActionShouldRedirectToRestaurantsControllerDetailsActionWhenSuccessfull()
         {
             await this.SeedDbAsync();
-            var controller = new HomeController(this.CitiesService, this.AttractionsService, this.RestaurantsService);
-            var searchQuery = new IndexSearchQueryModel
+            ITempDataProvider tempDataProvider = Mock.Of<ITempDataProvider>();
+            TempDataDictionaryFactory tempDataDictionaryFactory = new TempDataDictionaryFactory(tempDataProvider);
+            ITempDataDictionary tempData = tempDataDictionaryFactory.GetTempData(new DefaultHttpContext());
+            var controller = new ReviewController(this.ReviewsService)
             {
-                CityName = Sofia,
-                RadioOption = AttractionsRadioOption,
+                TempData = tempData,
             };
+            var user = new ClaimsPrincipal(new ClaimsIdentity(
+                new Claim[]
+                {
+                                        new Claim(ClaimTypes.Name, "username"),
+                                        new Claim(ClaimTypes.NameIdentifier, TestUserId),
+                                        new Claim("name", "John Doe"),
+                }, AuthenticationType));
+            controller.ControllerContext = new ControllerContext();
+            controller.ControllerContext.HttpContext = new DefaultHttpContext { User = user };
+            var model = new CreateReviewInputModel
+            {
+                Rating = 3,
+                Content = "best place to eat like ever",
+            };
+            var result = await controller.Create(model, 1);
 
-            var result = await controller.Index(searchQuery, 0);
-
-            var viewResult = Assert.IsType<NotFoundResult>(result);
+            var redirectToActionResult =
+         Assert.IsType<RedirectToActionResult>(result);
+            Assert.Equal("Restaurant", redirectToActionResult.ControllerName);
+            Assert.Equal("Details", redirectToActionResult.ActionName);
+            Assert.Equal(1, redirectToActionResult.RouteValues.Keys.Count);
         }
 
         private async Task SeedDbAsync()
