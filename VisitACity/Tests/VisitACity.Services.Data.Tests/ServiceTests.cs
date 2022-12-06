@@ -2,6 +2,7 @@
 {
     using System;
     using System.Reflection;
+
     using Azure.Storage.Blobs;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
@@ -60,8 +61,8 @@
             services.AddTransient<ICitiesService, CitiesService>();
             services.AddTransient<IAttractionsService, AttractionsService>();
             services.AddTransient<IRestaurantsService, RestaurantsService>();
-            services.AddTransient<IReviewService, ReviewService>();
-            services.AddTransient<IImageService, ImageService>();
+            services.AddTransient<IReviewsService, ReviewsService>();
+            services.AddTransient<IImagesService, ImagesService>();
 
             services.AddSingleton(x => new BlobServiceClient(config.GetValue<string>("BlobConnectionString")));
 
@@ -75,6 +76,5 @@
             this.DbContext.Database.EnsureDeleted();
             this.SetServices();
         }
-
     }
 }

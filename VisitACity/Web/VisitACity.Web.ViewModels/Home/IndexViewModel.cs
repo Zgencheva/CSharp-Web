@@ -1,5 +1,4 @@
-﻿
-namespace VisitACity.Web.ViewModels.Home
+﻿namespace VisitACity.Web.ViewModels.Home
 {
     using System.Collections;
 

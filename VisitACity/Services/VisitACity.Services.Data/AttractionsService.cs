@@ -66,7 +66,6 @@
             if (city == null)
             {
                 throw new NullReferenceException(ExceptionMessages.City.NotExists);
-
             }
 
             return await this.attractionRepository.AllAsNoTracking()
@@ -132,13 +131,6 @@
             await this.attractionRepository.SaveChangesAsync();
         }
 
-        private async Task UploadImateToBlob(IFormFile file, string imageId, string imageExtension)
-        {
-            var stream = file.OpenReadStream();
-            var container = this.blobService.GetBlobContainerClient("images");
-            await container.UploadBlobAsync(imageId + "." + imageExtension, stream);
-        }
-
         public async Task UpdateAsync(string id, AttractionFormUpdateModel model)
         {
             if (!Enum.TryParse(model.Type, true, out AttractionType activityTypeEnum))
@@ -195,7 +187,6 @@
             attraction.Image = image;
             this.attractionRepository.Update(attraction);
             await this.attractionRepository.SaveChangesAsync();
-
         }
 
         public async Task DeleteByIdAsync(string id)
@@ -263,5 +254,11 @@
             return city;
         }
 
+        private async Task UploadImateToBlob(IFormFile file, string imageId, string imageExtension)
+        {
+            var stream = file.OpenReadStream();
+            var container = this.blobService.GetBlobContainerClient("images");
+            await container.UploadBlobAsync(imageId + "." + imageExtension, stream);
+        }
     }
 }

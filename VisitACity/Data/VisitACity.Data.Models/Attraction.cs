@@ -55,6 +55,5 @@
         public virtual ICollection<ApplicationUser> UsersReviews { get; set; }
 
         public virtual ICollection<Plan> Plans { get; set; }
-
     }
 }

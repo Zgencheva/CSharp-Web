@@ -47,7 +47,6 @@
                     throw new ArgumentException(
                         string.Format(ModelConstants.Country.CountryExists, country.Name));
                 }
-
             }
 
             await this.countriesRepository.SaveChangesAsync();

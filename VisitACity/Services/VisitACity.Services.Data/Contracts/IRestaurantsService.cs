@@ -24,6 +24,5 @@
         Task DeleteByIdAsync(int id);
 
         Task<CityViewModel> GetRestaurantCityAsync(int restaurantId);
-
     }
 }

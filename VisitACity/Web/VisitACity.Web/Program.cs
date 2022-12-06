@@ -71,7 +71,6 @@
             services.AddSingleton(configuration);
             services.AddSingleton(x => new BlobServiceClient(configuration.GetValue<string>("BlobConnectionString")));
 
-
             // Data repositories
             services.AddScoped(typeof(IDeletableEntityRepository<>), typeof(EfDeletableEntityRepository<>));
             services.AddScoped(typeof(IRepository<>), typeof(EfRepository<>));
@@ -84,8 +83,8 @@
             services.AddTransient<ICitiesService, CitiesService>();
             services.AddTransient<IAttractionsService, AttractionsService>();
             services.AddTransient<IRestaurantsService, RestaurantsService>();
-            services.AddTransient<IReviewService, ReviewService>();
-            services.AddTransient<IImageService, ImageService>();
+            services.AddTransient<IReviewsService, ReviewsService>();
+            services.AddTransient<IImagesService, ImagesService>();
         }
 
         private static void Configure(WebApplication app)

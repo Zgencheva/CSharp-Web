@@ -92,9 +92,19 @@
 
             await this.CitiesService.CreateAsync(cityFormModel);
 
-            var lastAddedCity = this.DbContext.Cities.OrderByDescending(r => r.CreatedOn).First();
+            var lastAddedCity = this.DbContext.Cities
+                .Include(x => x.Attractions)
+                .Include(x => x.Plans)
+                .Include(x => x.Restaurants)
+                .OrderByDescending(r => r.CreatedOn).First();
 
             Assert.Equal(lastAddedCity.Name, cityFormModel.Name);
+            Assert.Equal(lastAddedCity.Country.Id, cityFormModel.CountryId);
+            Assert.Equal(lastAddedCity.CountryId, cityFormModel.CountryId);
+            Assert.Equal(lastAddedCity.Name, cityFormModel.Name);
+            Assert.Empty(lastAddedCity.Attractions);
+            Assert.Empty(lastAddedCity.Restaurants);
+            Assert.Empty(lastAddedCity.Plans);
             Assert.Equal(5, this.DbContext.Cities.Count());
         }
 
@@ -107,7 +117,6 @@
             {
                 Name = Plovdiv,
                 CountryId = TestCountryId,
-
             };
 
             var exception = await Assert.ThrowsAsync<ArgumentException>(() =>
@@ -236,7 +245,7 @@
             this.DbContext.Cities.Add(new City { Id = 1, Name = Sofia, CountryId = TestCountryId });
             this.DbContext.Cities.Add(new City { Id = 2, Name = Plovdiv, CountryId = TestCountryId });
             this.DbContext.Cities.Add(new City { Id = 3, Name = Varna, CountryId = TestCountryId });
-            this.DbContext.Cities.Add(new City { Id = 4, Name = Ruse , CountryId = TestCountryId });
+            this.DbContext.Cities.Add(new City { Id = 4, Name = Ruse, CountryId = TestCountryId });
 
             await this.DbContext.SaveChangesAsync();
         }

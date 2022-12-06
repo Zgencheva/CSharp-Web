@@ -18,7 +18,7 @@
         [Required]
         public string Content { get; set; }
 
-        public int? RestaurantId { get; set; }
+        public int RestaurantId { get; set; }
 
         public virtual Restaurant Restaurant { get; set; }
     }

@@ -11,19 +11,20 @@
     using VisitACity.Services.Data.Contracts;
     using VisitACity.Web.ViewModels.Reviews;
 
-    public class ReviewService : IReviewService
+    public class ReviewsService : IReviewsService
     {
         private readonly IDeletableEntityRepository<Review> reviewsRepository;
         private readonly IDeletableEntityRepository<Restaurant> restaurantRepository;
+        private readonly IDeletableEntityRepository<ApplicationUser> userRepository;
 
-        public ReviewService(
+        public ReviewsService(
             IDeletableEntityRepository<Review> reviewsRepository,
-            IDeletableEntityRepository<Attraction> attractionRespository,
             IDeletableEntityRepository<Restaurant> restaurantRepository,
             IDeletableEntityRepository<ApplicationUser> userRepository)
         {
             this.reviewsRepository = reviewsRepository;
             this.restaurantRepository = restaurantRepository;
+            this.userRepository = userRepository;
         }
 
         public async Task AddReviewToRestaurantAsync(CreateReviewInputModel input, string userId, int id)
@@ -31,7 +32,14 @@
             var restarant = await this.restaurantRepository.All().FirstOrDefaultAsync(x => x.Id == id);
             if (restarant == null)
             {
-                throw new Exception(ExceptionMessages.Restaurant.InvalidRestaurant);
+                throw new NullReferenceException(ExceptionMessages.Restaurant.InvalidRestaurant);
+            }
+
+            var user = await this.userRepository.All().FirstOrDefaultAsync(x => x.Id == userId);
+            if (user == null)
+            {
+                throw new NullReferenceException(ExceptionMessages.NotExistingUser);
+
             }
 
             var review = new Review

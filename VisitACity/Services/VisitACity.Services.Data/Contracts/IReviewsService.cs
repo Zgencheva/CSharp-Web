@@ -8,7 +8,7 @@
 
     using VisitACity.Web.ViewModels.Reviews;
 
-    public interface IReviewService
+    public interface IReviewsService
     {
         Task DeleteAsync(int id);
 

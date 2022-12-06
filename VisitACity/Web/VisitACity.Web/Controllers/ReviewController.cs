@@ -11,9 +11,9 @@
 
     public class ReviewController : BaseController
     {
-        private readonly IReviewService reviewService;
+        private readonly IReviewsService reviewService;
 
-        public ReviewController(IReviewService reviewService)
+        public ReviewController(IReviewsService reviewService)
         {
             this.reviewService = reviewService;
         }

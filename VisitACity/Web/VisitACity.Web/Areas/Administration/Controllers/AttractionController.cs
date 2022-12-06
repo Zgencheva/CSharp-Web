@@ -13,18 +13,18 @@
     {
         private readonly IAttractionsService attractionsService;
         private readonly ICitiesService citiesService;
-        private readonly IImageService imageService;
+        private readonly IImagesService imagesService;
         private readonly BlobServiceClient blobService;
 
         public AttractionController(
             IAttractionsService attractionsService,
             ICitiesService citiesService,
-            IImageService imageService,
+            IImagesService imagesService,
             BlobServiceClient blobService)
         {
             this.attractionsService = attractionsService;
             this.citiesService = citiesService;
-            this.imageService = imageService;
+            this.imagesService = imagesService;
             this.blobService = blobService;
         }
 
@@ -47,7 +47,7 @@
             string imageExtension = model.ImageToBlob.ContentType.Split('/')[1];
             try
             {
-                var imageId = await this.imageService.CreateAsync(imageExtension);
+                var imageId = await this.imagesService.CreateAsync(imageExtension);
                 await this.attractionsService.CreateAsync(model, imageId, imageExtension);
             }
             catch (Exception ex)
@@ -95,7 +95,7 @@
                 string imageExtension = model.ImageToBlob.ContentType.Split('/')[1];
                 try
                 {
-                    var imageId = await this.imageService.CreateAsync(imageExtension);
+                    var imageId = await this.imagesService.CreateAsync(imageExtension);
                     await this.attractionsService.UpdateAsync(id, model);
                     await this.attractionsService.UploadImageAsync(id, model, imageId, imageExtension);
                 }

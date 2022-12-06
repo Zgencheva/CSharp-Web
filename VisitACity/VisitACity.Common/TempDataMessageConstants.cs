@@ -2,7 +2,6 @@
 {
     public static class TempDataMessageConstants
     {
-
         public const string ThankForComment = "Thank you for your comment!";
         public const string CityAdded = "City {0} added successfully.";
         public const string CityDeleted = "City {0} deleted successfully.";
@@ -16,7 +15,6 @@
             public const string AttractionAdded = "Attraction added successfully";
             public const string AttractionDeleted = "Attraction deleted successfully";
             public const string AttractionUpdated = "Attraction updated successfully.";
-
         }
 
         public class Restaurant

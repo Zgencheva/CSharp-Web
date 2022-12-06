@@ -31,7 +31,6 @@
             await dbContext.Images.AddAsync(new Image { Id = "f4656919-2330-4488-9f8d-2b5f15665010", Extension = "jpg" });
 
             await dbContext.SaveChangesAsync();
-
         }
     }
 }

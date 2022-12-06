@@ -42,7 +42,6 @@
         private const string TestUserFirstName = "Admin";
         private const string TestUserLastName = "Admin";
 
-
         private IAttractionsService AttractionsService => this.ServiceProvider.GetRequiredService<IAttractionsService>();
 
         [Fact]
@@ -146,8 +145,7 @@
                     Assert.Equal(expectedResult[0].Type, el3.Type);
                     Assert.Equal(expectedResult[0].Reviews, el3.Reviews);
                     Assert.Equal(expectedResult[0].UserPlan, el3.UserPlan);
-                }
-               );
+                });
 
             Assert.Equal(3, actualResult.Count());
 
@@ -340,7 +338,8 @@
                     CityId = 1,
                     ImageToBlob = file,
                 };
-            };
+            }
+
             var exception = await Assert.ThrowsAnyAsync<ArgumentException>(
              async () =>
              await this.AttractionsService.CreateAsync(expectedResult, "random", "jpg"));
@@ -588,6 +587,5 @@
             this.DbContext.Users.Add(user);
             await this.DbContext.SaveChangesAsync();
         }
-
     }
 }

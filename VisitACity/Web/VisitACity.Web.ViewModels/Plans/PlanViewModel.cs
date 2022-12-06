@@ -1,9 +1,10 @@
 ﻿namespace VisitACity.Web.ViewModels.Plans
 {
-    using AutoMapper;
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
+
+    using AutoMapper;
     using VisitACity.Data.Models;
     using VisitACity.Services.Mapping;
     using VisitACity.Web.ViewModels.Attractions;

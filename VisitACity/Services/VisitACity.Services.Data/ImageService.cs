@@ -8,11 +8,11 @@
     using VisitACity.Services.Data.Contracts;
     using VisitACity.Web.ViewModels.Administration.Attractions;
 
-    public class ImageService : IImageService
+    public class ImagesService : IImagesService
     {
         private readonly IDeletableEntityRepository<Image> imageRepository;
 
-        public ImageService(
+        public ImagesService(
            IDeletableEntityRepository<Image> imageRepository)
         {
             this.imageRepository = imageRepository;
@@ -24,11 +24,6 @@
             await this.imageRepository.AddAsync(new Image { Id = imageId, Extension = extension });
             await this.imageRepository.SaveChangesAsync();
             return imageId;
-        }
-
-        public Task<string> UpdateAsync(string extension)
-        {
-            throw new NotImplementedException();
         }
     }
 }

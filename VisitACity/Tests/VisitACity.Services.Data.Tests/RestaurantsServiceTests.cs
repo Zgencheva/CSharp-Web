@@ -117,7 +117,6 @@
                 Rating = 0,
                 UserPlan = null,
                 Reviews = new List<ReviewRestaurantViewModel>(),
-
             },
                 new RestaurantViewModel
                 {
@@ -304,6 +303,7 @@
               await this.restaurantService.UpdateAsync(55, testRestaurant));
             Assert.Equal(ExceptionMessages.Restaurant.InvalidRestaurant, exception.Message);
         }
+
         [Fact]
         public async Task UpdateAsyncShouldThrowExceptionUponInvalidCityPassed()
         {

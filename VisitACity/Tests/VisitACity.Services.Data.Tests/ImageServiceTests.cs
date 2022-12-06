@@ -1,16 +1,17 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using System.Linq;
-using System.Threading.Tasks;
-using VisitACity.Services.Data.Contracts;
-using Xunit;
-
-namespace VisitACity.Services.Data.Tests
+﻿namespace VisitACity.Services.Data.Tests
 {
+    using System.Linq;
+    using System.Threading.Tasks;
+
+    using Microsoft.Extensions.DependencyInjection;
+    using VisitACity.Services.Data.Contracts;
+    using Xunit;
+
     public class ImageServiceTests : ServiceTests
     {
         private const string ExtensionJpg = "jpg";
 
-        private IImageService ImagesService => this.ServiceProvider.GetRequiredService<IImageService>();
+        private IImagesService ImagesService => this.ServiceProvider.GetRequiredService<IImagesService>();
 
         [Fact]
         public async Task CreateAsyncAddImageToCollection()

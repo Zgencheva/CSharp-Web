@@ -2,11 +2,8 @@
 {
     using System.Threading.Tasks;
 
-    public interface IImageService
+    public interface IImagesService
     {
         Task<string> CreateAsync(string extension);
-
-        //TODO:
-        Task<string> UpdateAsync(string extension);
     }
 }

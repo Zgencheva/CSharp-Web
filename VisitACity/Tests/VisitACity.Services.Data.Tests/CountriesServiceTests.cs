@@ -162,7 +162,6 @@
             var countryToDelete = await this.DbContext.Countries.FirstOrDefaultAsync(x => x.Name == Bulgaria);
             var exception = await Assert.ThrowsAnyAsync<NullReferenceException>(async () => await this.CountriesService.DeleteAsync(Uganda));
             Assert.Equal(ExceptionMessages.Country.NotExists, exception.Message);
-
         }
 
         private async Task SeedTestCountriesAsync()
