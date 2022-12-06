@@ -29,7 +29,7 @@
         }
 
         [AllowAnonymous]
-        public async Task<IActionResult> Index([FromQuery]IndexSearchQueryModel query, int id = ModelConstants.DefaultPageNumber)
+        public async Task<IActionResult> Index([FromQuery] IndexSearchQueryModel query, int id = ModelConstants.DefaultPageNumber)
         {
             if (id <= 0)
             {
@@ -61,6 +61,7 @@
                 }
                 else if (query.RadioOption == ModelConstants.AttractionsRadioOption)
                 {
+                    viewModel.IsAttraction = true;
                     viewModel.List = await this.attractionsService.GetByCityAsync<AttractionViewModel>(query.CityName, id, ItemsPerPage);
                     viewModel.EventsCount = this.attractionsService.GetCountByCity(query.CityName);
                     viewModel.queryModel = query;
@@ -68,13 +69,6 @@
             }
 
             return this.View(viewModel);
-        }
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return this.View(
-                new ErrorViewModel { RequestId = Activity.Current?.Id ?? this.HttpContext.TraceIdentifier });
         }
     }
 }

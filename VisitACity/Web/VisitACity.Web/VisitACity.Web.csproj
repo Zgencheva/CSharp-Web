@@ -66,7 +66,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Services\VisitACity.Services.Messaging\VisitACity.Services.Messaging.csproj" />
-    <ProjectReference Include="..\..\Tests\VisitACity.Services.Data.Tests\VisitACity.Services.Data.Tests.csproj" />
     <ProjectReference Include="..\..\VisitACity.Common\VisitACity.Common.csproj" />
     <ProjectReference Include="..\..\Data\VisitACity.Data.Models\VisitACity.Data.Models.csproj" />
     <ProjectReference Include="..\..\Data\VisitACity.Data\VisitACity.Data.csproj" />

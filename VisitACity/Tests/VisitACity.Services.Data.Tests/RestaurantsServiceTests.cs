@@ -4,7 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
-
+    using Microsoft.AspNetCore.Identity;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.DependencyInjection;
     using VisitACity.Common;
@@ -27,6 +27,11 @@
         private const string NewPhoneNum = "88587224224";
         private const int TestCountryId = 100;
         private const string TestCountryName = "Bulgaria";
+        private const string TestUserId = "dasdasdasdas-dasdasdas-asdsadas";
+        private const string TestUserName = "admin @gmail.com";
+        private const string TestUserPassword = "a123456";
+        private const string TestUserFirstName = "Admin";
+        private const string TestUserLastName = "Admin";
 
         private IRestaurantsService restaurantService => this.ServiceProvider.GetRequiredService<IRestaurantsService>();
 
@@ -230,11 +235,29 @@
                 CityName = Sofia,
                 ImageUrl = "https://zavedenia.com/zimages/varna/big/1831/1831lTCxEeMFBeksgU8XJbyhdYnWr22FvK7RDJp.jpg",
                 PhoneNumber = "+35979541589",
-                Rating = 0,
+                Rating = 5,
                 UserPlan = null,
-                Reviews = new List<ReviewRestaurantViewModel>(),
+                Reviews = new List<ReviewRestaurantViewModel>()
+                {
+                    new ReviewRestaurantViewModel
+                    {
+                        Id = 1,
+                        UserUserName = TestUserId,
+                        Rating = 5,
+                        Content = "test content review",
+                        RestaurantId = 1,
+                        CreatedOn = DateTime.UtcNow.Date,
+                    },
+                },
             };
-
+            var restaurant = await this.DbContext.Restaurants.FindAsync(1);
+            restaurant.Reviews.Add(new Review
+            {
+                UserId = TestUserId,
+                Content = "test content review",
+                Rating = 5,
+            });
+            await this.DbContext.SaveChangesAsync();
             var actualResult = await this.restaurantService.GetViewModelByIdAsync<RestaurantViewModel>(1);
 
             Assert.Equal(expectedResult.Id, actualResult.Id);
@@ -246,7 +269,15 @@
             Assert.Equal(expectedResult.PhoneNumber, actualResult.PhoneNumber);
             Assert.Equal(expectedResult.Rating, actualResult.Rating);
             Assert.Equal(expectedResult.UserPlan, actualResult.UserPlan);
-            Assert.Equal(expectedResult.Reviews, actualResult.Reviews);
+            Assert.Equal(expectedResult.Reviews.Count(), actualResult.Reviews.Count());
+            Assert.Equal(expectedResult.Reviews.FirstOrDefault().Content, actualResult.Reviews.FirstOrDefault().Content);
+            Assert.Equal(expectedResult.Reviews.FirstOrDefault().Rating, actualResult.Reviews.FirstOrDefault().Rating);
+            Assert.Equal(expectedResult.Reviews.FirstOrDefault().CreatedOn.Date, actualResult.Reviews.FirstOrDefault().CreatedOn.Date);
+            Assert.Equal(expectedResult.Reviews.FirstOrDefault().RestaurantId, actualResult.Reviews.FirstOrDefault().RestaurantId);
+            Assert.Equal(expectedResult.Reviews.FirstOrDefault().Id, actualResult.Reviews.FirstOrDefault().Id);
+
+
+            Assert.Equal(1, actualResult.Reviews.Count());
         }
 
         [Fact]
@@ -273,6 +304,7 @@
             Assert.Equal(expectedResult.CityId, restaurantToUpdate.CityId);
             Assert.Equal(expectedResult.ImageUrl, restaurantToUpdate.ImageUrl);
             Assert.Equal(expectedResult.PhoneNumber, restaurantToUpdate.PhoneNumber);
+            Assert.Equal(restaurantToUpdate.ModifiedOn.Value.Date,DateTime.UtcNow.Date);
         }
 
         [Fact]
@@ -327,6 +359,7 @@
         {
             await this.SeedTestCountriesAsync();
             await this.SeedTestCitiesAsync();
+            await this.SeedTestUserAsync();
 
             this.DbContext.Restaurants.Add(new Restaurant
             {
@@ -374,6 +407,25 @@
             this.DbContext.Cities.Add(new City { Id = 2, Name = Plovdiv, CountryId = TestCountryId });
             this.DbContext.Cities.Add(new City { Id = 3, Name = Varna, CountryId = TestCountryId });
             this.DbContext.Cities.Add(new City { Id = 4, Name = Ruse, CountryId = TestCountryId });
+            await this.DbContext.SaveChangesAsync();
+        }
+
+        private async Task SeedTestUserAsync()
+        {
+            var hasher = new PasswordHasher<ApplicationUser>();
+            var user = new ApplicationUser
+            {
+                Id = TestUserId,
+                UserName = TestUserName,
+                NormalizedUserName = TestUserName.ToUpper(),
+                Email = TestUserName,
+                NormalizedEmail = TestUserName.ToUpper(),
+                FirstName = TestUserFirstName,
+                LastName = TestUserLastName,
+                EmailConfirmed = true,
+            };
+            user.PasswordHash = hasher.HashPassword(user, TestUserPassword);
+            this.DbContext.Users.Add(user);
             await this.DbContext.SaveChangesAsync();
         }
     }

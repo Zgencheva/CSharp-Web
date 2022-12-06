@@ -228,6 +228,7 @@
             await this.CitiesService.DeleteAsync(Plovdiv);
 
             Assert.True(cityToDelete.IsDeleted);
+            Assert.Equal(cityToDelete.DeletedOn.Value.Date, DateTime.UtcNow.Date);
         }
 
         [Fact]

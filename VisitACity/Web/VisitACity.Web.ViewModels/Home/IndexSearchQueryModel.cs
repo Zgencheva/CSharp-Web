@@ -1,6 +1,7 @@
 ﻿namespace VisitACity.Web.ViewModels.Home
 {
     using System.ComponentModel.DataAnnotations;
+
     using VisitACity.Common;
 
     public class IndexSearchQueryModel
