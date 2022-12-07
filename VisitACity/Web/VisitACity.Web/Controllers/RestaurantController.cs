@@ -1,7 +1,6 @@
 ﻿namespace VisitACity.Web.Controllers
 {
     using System.Threading.Tasks;
-    using System.Web.Mvc;
 
     using Microsoft.AspNetCore.Mvc;
     using VisitACity.Services.Data.Contracts;

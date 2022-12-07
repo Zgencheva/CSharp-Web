@@ -4,6 +4,7 @@
     using System.Reflection;
 
     using Azure.Storage.Blobs;
+    using Microsoft.AspNetCore.Identity;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
@@ -16,6 +17,7 @@
     using VisitACity.Data.Seeding;
     using VisitACity.Services.Data.Contracts;
     using VisitACity.Services.Mapping;
+    using VisitACity.Services.Messaging;
     using VisitACity.Web.ViewModels.Attractions;
 
     public abstract class ServiceTests : IDisposable
@@ -38,6 +40,7 @@
 
         protected IServiceProvider ServiceProvider { get; set; }
 
+
         protected ApplicationDbContext DbContext { get; set; }
 
         private ServiceCollection SetServices()
@@ -49,7 +52,7 @@
                 opt => opt.UseInMemoryDatabase(Guid.NewGuid().ToString()));
 
             services.AddIdentityCore<ApplicationUser>(IdentityOptionsProvider.GetIdentityOptions)
-                           .AddRoles<ApplicationRole>().AddEntityFrameworkStores<ApplicationDbContext>();
+                          .AddRoles<ApplicationRole>().AddEntityFrameworkStores<ApplicationDbContext>();
 
             // Data repositories
             services.AddScoped(typeof(IDeletableEntityRepository<>), typeof(EfDeletableEntityRepository<>));
@@ -66,6 +69,7 @@
             services.AddTransient<IImagesService, ImagesService>();
 
             services.AddSingleton(x => new BlobServiceClient(config.GetValue<string>("BlobConnectionString")));
+            services.AddTransient<IEmailSender>(x => new SendGridEmailSender(config["SendGrid:ApiKey"]));
 
             AutoMapperConfig.RegisterMappings(typeof(AttractionViewModel).GetTypeInfo().Assembly);
 

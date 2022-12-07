@@ -1,23 +1,20 @@
 ﻿namespace VisitACity.Services.Data.Tests.Controllers
 {
     using System;
-    using System.Security.Claims;
     using System.Threading.Tasks;
 
-    using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
-    using Microsoft.AspNetCore.Mvc.ViewFeatures;
     using Microsoft.Extensions.DependencyInjection;
     using Moq;
     using VisitACity.Data.Models;
     using VisitACity.Data.Models.Enums;
     using VisitACity.Services.Data.Contracts;
     using VisitACity.Web.Controllers;
-    using VisitACity.Web.ViewModels.Reviews;
+    using VisitACity.Web.ViewModels.Restaurants;
     using Xunit;
 
-    public class ReviewControllerTests : ServiceTests
+    public class RestaurantControllerTests : ServiceTests
     {
         private const string Sofia = "Sofia";
         private const string AttractionId1 = "aaa";
@@ -28,6 +25,7 @@
         private const string Ruse = "Ruse";
         private const string ImagesExtension = "jpg";
         private const int TestCountryId = 1;
+        private const int TestRestaurantId = 1;
         private const int PlanId = 1;
         private const string TestCountryName = "Bulgaria";
         private const string TestUserId = "dasdasdasdas-dasdasdas-asdsadas";
@@ -38,87 +36,20 @@
         private const string MuzeikoImageId = "02c5467a-4c9f-4708-86c7-20ca782d8d92";
         private const string HistoryMuseumImageId = "0a4c0be2-e549-49e8-9d4e-d9881080009f";
         private const string SaintSofiaImageId = "0b38c0d5-5a00-4aff-80dc-cfbb692e9db1";
-        private const string AuthenticationType = "Test";
 
-        private IReviewsService ReviewsService => this.ServiceProvider.GetRequiredService<IReviewsService>();
+        private IRestaurantsService RestaurantService => this.ServiceProvider.GetRequiredService<IRestaurantsService>();
 
         [Fact]
-        public async Task CreateActionShouldCreateReview()
+        public async Task DetailsActionShouldReturnViewModel()
         {
             await this.SeedDbAsync();
-            var controller = new ReviewController(this.ReviewsService);
+            var controller = new RestaurantController(this.RestaurantService);
 
-            var result = controller.Create();
+            var result = await controller.Details(TestRestaurantId);
 
             var viewResult = Assert.IsType<ViewResult>(result);
-            Assert.IsAssignableFrom<CreateReviewInputModel>(viewResult.ViewData.Model);
+            Assert.IsAssignableFrom<RestaurantViewModel>(viewResult.ViewData.Model);
         }
-
-        [Fact]
-        public async Task CreateActionShouldRedirectToRestaurantsControllerDetailsActionWhenSuccessfull()
-        {
-            await this.SeedDbAsync();
-            ITempDataProvider tempDataProvider = Mock.Of<ITempDataProvider>();
-            TempDataDictionaryFactory tempDataDictionaryFactory = new TempDataDictionaryFactory(tempDataProvider);
-            ITempDataDictionary tempData = tempDataDictionaryFactory.GetTempData(new DefaultHttpContext());
-            var controller = new ReviewController(this.ReviewsService)
-            {
-                TempData = tempData,
-            };
-            var user = new ClaimsPrincipal(new ClaimsIdentity(
-                new Claim[]
-                {
-                                        new Claim(ClaimTypes.Name, "username"),
-                                        new Claim(ClaimTypes.NameIdentifier, TestUserId),
-                                        new Claim("name", "John Doe"),
-                }, AuthenticationType));
-            controller.ControllerContext = new ControllerContext();
-            controller.ControllerContext.HttpContext = new DefaultHttpContext { User = user };
-            var model = new CreateReviewInputModel
-            {
-                Rating = 3,
-                Content = "best place to eat like ever",
-            };
-            var result = await controller.Create(model, 1);
-
-            var redirectToActionResult =
-         Assert.IsType<RedirectToActionResult>(result);
-            Assert.Equal("Restaurant", redirectToActionResult.ControllerName);
-            Assert.Equal("Details", redirectToActionResult.ActionName);
-            Assert.Equal(1, redirectToActionResult.RouteValues.Keys.Count);
-        }
-
-        [Fact]
-        public async Task CreateActionShouldReturnSameViewWhenModelStateNotValid()
-        {
-            await this.SeedDbAsync();
-            ITempDataProvider tempDataProvider = Mock.Of<ITempDataProvider>();
-            TempDataDictionaryFactory tempDataDictionaryFactory = new TempDataDictionaryFactory(tempDataProvider);
-            ITempDataDictionary tempData = tempDataDictionaryFactory.GetTempData(new DefaultHttpContext());
-            var controller = new ReviewController(this.ReviewsService)
-            {
-                TempData = tempData,
-            };
-            var user = new ClaimsPrincipal(new ClaimsIdentity(
-                new Claim[]
-                {
-                                        new Claim(ClaimTypes.Name, "username"),
-                                        new Claim(ClaimTypes.NameIdentifier, TestUserId),
-                                        new Claim("name", "John Doe"),
-                }, AuthenticationType));
-            controller.ControllerContext = new ControllerContext();
-            controller.ControllerContext.HttpContext = new DefaultHttpContext { User = user };
-            var model = new CreateReviewInputModel
-            {
-                Rating = 10,
-                Content = "best place to eat like ever",
-            };
-            controller.ModelState.AddModelError("Test", "wrong test");
-            var result = await controller.Create(model, 1);
-            var viewResult = Assert.IsType<ViewResult>(result);
-            Assert.IsAssignableFrom<CreateReviewInputModel>(viewResult.ViewData.Model);
-        }
-
 
         private async Task SeedDbAsync()
         {

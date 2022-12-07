@@ -59,7 +59,7 @@
             html.AppendLine($"<div>{viewModel.Description}</div>");
             var user = await this.userManager.GetUserAsync(this.User);
             var userEmail = user.Email;
-            var result = this.emailSender.SendEmailAsync("zornitsa.r.gencheva@gmail.com", "Visitacity", "zornitsa.sertova@gmail.com", viewModel.Name, html.ToString());
+            var result = this.emailSender.SendEmailAsync("zornitsa.r.gencheva@gmail.com", "Visitacity", userEmail, viewModel.Name, html.ToString());
 
             return this.RedirectToAction(nameof(this.Details), new { id });
         }
