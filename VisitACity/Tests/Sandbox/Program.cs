@@ -16,9 +16,6 @@
     using VisitACity.Data.Models;
     using VisitACity.Data.Repositories;
     using VisitACity.Data.Seeding;
-    using VisitACity.Services.Data;
-    using VisitACity.Services.Data.Contracts;
-    using VisitACity.Services.Messaging;
 
     public static class Program
     {
@@ -74,9 +71,6 @@
             services.AddScoped(typeof(IDeletableEntityRepository<>), typeof(EfDeletableEntityRepository<>));
             services.AddScoped(typeof(IRepository<>), typeof(EfRepository<>));
             services.AddScoped<IDbQueryRunner, DbQueryRunner>();
-
-            // Application services
-            services.AddTransient<IEmailSender, NullMessageSender>();
         }
     }
 }

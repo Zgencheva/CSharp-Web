@@ -10,7 +10,7 @@
             string fromName,
             string to,
             string subject,
-            string htmlContent,
-            IEnumerable<EmailAttachment> attachments = null);
+            string htmlContent
+            );
     }
 }
