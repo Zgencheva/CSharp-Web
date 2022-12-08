@@ -39,7 +39,6 @@
             if (user == null)
             {
                 throw new NullReferenceException(ExceptionMessages.NotExistingUser);
-
             }
 
             var review = new Review

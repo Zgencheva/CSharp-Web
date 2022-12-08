@@ -31,7 +31,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VisitACity.Services.Mapping
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sandbox", "Tests\Sandbox\Sandbox.csproj", "{8AB6B92A-0837-4BDE-B950-10BE3FF2B6A8}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VisitACity.Services.Data.Tests", "Tests\VisitACity.Services.Data.Tests\VisitACity.Services.Data.Tests.csproj", "{901AB2DA-6E52-4FB2-91F0-58EB0115F2F7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VisitACity.Tests", "Tests\VisitACity.Services.Data.Tests\VisitACity.Tests.csproj", "{901AB2DA-6E52-4FB2-91F0-58EB0115F2F7}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VisitACity.Web.ViewModels", "Web\VisitACity.Web.ViewModels\VisitACity.Web.ViewModels.csproj", "{13B7AACB-9C85-4409-8D4B-95A67D0DFFF7}"
 EndProject

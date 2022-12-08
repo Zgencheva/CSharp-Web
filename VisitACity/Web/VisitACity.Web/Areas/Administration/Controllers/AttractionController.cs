@@ -44,11 +44,9 @@
                 return this.View(model);
             }
 
-            string imageExtension = model.ImageToBlob.ContentType.Split('/')[1];
             try
             {
-                var imageId = await this.imagesService.CreateAsync(imageExtension);
-                await this.attractionsService.CreateAsync(model, imageId, imageExtension);
+                await this.attractionsService.CreateAsync(model);
             }
             catch (Exception ex)
             {
@@ -77,34 +75,15 @@
                 return this.View(model);
             }
 
-            if (model.ImageToBlob is null)
+            try
             {
-                try
-                {
-                    await this.attractionsService.UpdateAsync(id, model);
-                }
-                catch (Exception ex)
-                {
-                    this.ModelState.AddModelError(string.Empty, ex.Message);
-                    model.Cities = await this.citiesService.GetAllAsync<CityViewModel>();
-                    return this.View(model);
-                }
+                await this.attractionsService.UpdateAsync(id, model);
             }
-            else
+            catch (Exception ex)
             {
-                string imageExtension = model.ImageToBlob.ContentType.Split('/')[1];
-                try
-                {
-                    var imageId = await this.imagesService.CreateAsync(imageExtension);
-                    await this.attractionsService.UpdateAsync(id, model);
-                    await this.attractionsService.UploadImageAsync(id, model, imageId, imageExtension);
-                }
-                catch (Exception ex)
-                {
                     this.ModelState.AddModelError(string.Empty, ex.Message);
                     model.Cities = await this.citiesService.GetAllAsync<CityViewModel>();
                     return this.View(model);
-                }
             }
 
             this.TempData["Message"] = TempDataMessageConstants.Attraction.AttractionUpdated;

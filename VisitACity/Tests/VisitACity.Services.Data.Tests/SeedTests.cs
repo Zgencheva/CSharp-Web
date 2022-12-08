@@ -1,4 +1,4 @@
-﻿namespace VisitACity.Services.Data.Tests
+﻿namespace VisitACity.Tests
 {
     using System;
     using System.Linq;
@@ -28,7 +28,7 @@
         private const int PlanId = 1;
         private const string TestCountryName = "Bulgaria";
         private const string TestUserId = "dasdasdasdas-dasdasdas-asdsadas";
-        private const string TestUserName = "admin @gmail.com";
+        private const string TestUserName = "admin@gmail.com";
         private const string TestUserPassword = "a123456";
         private const string TestUserFirstName = "Admin";
         private const string TestUserLastName = "Admin";
@@ -42,7 +42,7 @@
             var countriesSeeder = new CountriesSeeder();
 
             await countriesSeeder.SeedAsync(this.DbContext, this.ServiceProvider);
-            Assert.True(this.DbContext.Countries.Count() > 0);
+            Assert.NotEmpty(this.DbContext.Countries);
             Assert.NotNull(this.DbContext.Countries.FirstOrDefault(x => x.Name == "Bulgaria"));
             Assert.True(this.DbContext.Countries.Count() == 4);
         }
@@ -55,9 +55,79 @@
 
             await citiesSeeder.SeedAsync(this.DbContext, this.ServiceProvider);
 
-            Assert.True(this.DbContext.Cities.Count() > 0);
+            Assert.NotEmpty(this.DbContext.Cities);
             Assert.NotNull(this.DbContext.Cities.FirstOrDefault(x => x.Name == "Sofia"));
             Assert.True(this.DbContext.Cities.Count() == 10);
+        }
+
+        [Fact]
+        public async Task AttractionSeederShouldSeedAttractionsToDb()
+        {
+            await this.SeedTestCountriesAsync();
+            await this.SeedTestCitiesAsync();
+
+            var attractionsSeeder = new AttractionSeeder();
+            await attractionsSeeder.SeedAsync(this.DbContext, this.ServiceProvider);
+            await this.DbContext.SaveChangesAsync();
+            Assert.NotEmpty(this.DbContext.Attractions);
+            Assert.True(this.DbContext.Attractions.Any(x => x.Name == "Muzeiko"));
+            var muzeiko = this.DbContext.Attractions
+                .FirstOrDefault(x => x.Name == "Muzeiko");
+            Assert.Equal(Sofia, muzeiko.City.Name);
+        }
+
+        [Fact]
+        public async Task RolesSeederShouldSeedRoleToDb()
+        {
+            var rolesSeeder = new RolesSeeder();
+            await rolesSeeder.SeedAsync(this.DbContext, this.ServiceProvider);
+            await this.DbContext.SaveChangesAsync();
+            Assert.NotEmpty(this.DbContext.Roles);
+            var role = this.DbContext.Roles.First();
+            Assert.Equal("Administrator", role.Name);
+            Assert.Equal("Administrator", role.Name);
+            Assert.False(role.IsDeleted);
+        }
+
+        [Fact]
+        public async Task UserSeederShouldSeedUserToDb()
+        {
+            var rolesSeeder = new RolesSeeder();
+            await rolesSeeder.SeedAsync(this.DbContext, this.ServiceProvider);
+            await this.DbContext.SaveChangesAsync();
+            Assert.NotEmpty(this.DbContext.Roles);
+
+            var userSeeder = new UserSeeder();
+            await userSeeder.SeedAsync(this.DbContext, this.ServiceProvider);
+            await this.DbContext.SaveChangesAsync();
+            Assert.NotEmpty(this.DbContext.Users);
+            Assert.Equal(1, this.DbContext.Users.Count());
+            var user = this.DbContext.Users.First();
+            Assert.Equal(TestUserName, user.Email);
+            Assert.Equal("admin@gmail.com", user.Email);
+            Assert.Equal("ADMIN@GMAIL.COM", user.NormalizedEmail);
+            Assert.Equal("admin@gmail.com", user.UserName);
+            Assert.Equal("Admin", user.FirstName);
+            Assert.Equal("Admin", user.LastName);
+            Assert.True(user.EmailConfirmed);
+            Assert.Empty(user.AttractionsReviewed);
+            Assert.Empty(user.Claims);
+            Assert.Empty(user.Logins);
+            Assert.False(user.IsDeleted);
+        }
+
+        [Fact]
+        public async Task RestaurantsSeederShouldSeedRestaurantsToDb()
+        {
+            await this.SeedTestCountriesAsync();
+            await this.SeedTestCitiesAsync();
+
+            var restaurantSeeder = new RestaurantSeeder();
+            await restaurantSeeder.SeedAsync(this.DbContext, this.ServiceProvider);
+            await this.DbContext.SaveChangesAsync();
+            Assert.NotEmpty(this.DbContext.Restaurants);
+            Assert.True(this.DbContext.Restaurants.Any(x => x.Name == "Neighbors"));
+            Assert.Equal(13, this.DbContext.Restaurants.Count());
         }
 
         private async Task SeedDbAsync()
@@ -100,10 +170,11 @@
 
         private async Task SeedTestCitiesAsync()
         {
-            this.DbContext.Cities.Add(new City { Id = 1, Name = Sofia, CountryId = TestCountryId });
-            this.DbContext.Cities.Add(new City { Id = 2, Name = Plovdiv, CountryId = TestCountryId });
-            this.DbContext.Cities.Add(new City { Id = 3, Name = Varna, CountryId = TestCountryId });
+            this.DbContext.Cities.Add(new City { Id = 1, Name = "Sofia", CountryId = TestCountryId });
+            this.DbContext.Cities.Add(new City { Id = 2, Name = "Plovdiv", CountryId = TestCountryId });
+            this.DbContext.Cities.Add(new City { Id = 3, Name = "Varna", CountryId = TestCountryId });
             this.DbContext.Cities.Add(new City { Id = 4, Name = Ruse, CountryId = TestCountryId });
+            this.DbContext.Cities.Add(new City { Id = 5, Name = "Asenovgrad", CountryId = TestCountryId });
             await this.DbContext.SaveChangesAsync();
         }
 

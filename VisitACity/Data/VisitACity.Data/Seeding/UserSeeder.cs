@@ -7,7 +7,7 @@
     using Microsoft.AspNetCore.Identity;
     using VisitACity.Data.Models;
 
-    internal class UserSeeder : ISeeder
+    public class UserSeeder : ISeeder
     {
         public async Task SeedAsync(ApplicationDbContext dbContext, IServiceProvider serviceProvider)
         {

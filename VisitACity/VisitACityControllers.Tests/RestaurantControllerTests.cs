@@ -1,10 +1,8 @@
-﻿namespace VisitACity.Tests.Controllers
+﻿namespace VisitACityControllers.Tests
 {
     using System;
-    using System.Collections.Generic;
-    using System.Security.Claims;
     using System.Threading.Tasks;
-    using Microsoft.AspNetCore.Http;
+
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.DependencyInjection;
@@ -12,13 +10,11 @@
     using VisitACity.Data.Models;
     using VisitACity.Data.Models.Enums;
     using VisitACity.Services.Data.Contracts;
-    using VisitACity.Services.Messaging;
     using VisitACity.Web.Controllers;
-    using VisitACity.Web.ViewModels.Attractions;
     using VisitACity.Web.ViewModels.Restaurants;
     using Xunit;
 
-    public class AttractionControllerTests : ServiceTests
+    public class RestaurantControllerTests : ServiceTests
     {
         private const string Sofia = "Sofia";
         private const string AttractionId1 = "aaa";
@@ -30,7 +26,6 @@
         private const string ImagesExtension = "jpg";
         private const int TestCountryId = 1;
         private const int TestRestaurantId = 1;
-        private const string TestAttractionId = "aaa";
         private const int PlanId = 1;
         private const string TestCountryName = "Bulgaria";
         private const string TestUserId = "dasdasdasdas-dasdasdas-asdsadas";
@@ -42,65 +37,18 @@
         private const string HistoryMuseumImageId = "0a4c0be2-e549-49e8-9d4e-d9881080009f";
         private const string SaintSofiaImageId = "0b38c0d5-5a00-4aff-80dc-cfbb692e9db1";
 
-        private IAttractionsService AttractionsService => this.ServiceProvider.GetRequiredService<IAttractionsService>();
-
-        private IPlansService PlanService => this.ServiceProvider.GetRequiredService<IPlansService>();
-
-        private IEmailSender EmailsService => this.ServiceProvider.GetRequiredService<IEmailSender>();
-
-        private UserManager<ApplicationUser> userManager => this.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+        private IRestaurantsService RestaurantService => this.ServiceProvider.GetRequiredService<IRestaurantsService>();
 
         [Fact]
         public async Task DetailsActionShouldReturnViewModel()
         {
             await this.SeedDbAsync();
-            var controller = new AttractionController(
-                this.AttractionsService,
-                this.PlanService,
-                this.EmailsService,
-                this.userManager);
+            var controller = new RestaurantController(this.RestaurantService);
 
-            var user = new ClaimsPrincipal(new ClaimsIdentity(
-                new Claim[]
-                {
-                                        new Claim(ClaimTypes.Name, "username"),
-                                        new Claim(ClaimTypes.NameIdentifier, TestUserId),
-                                        new Claim("name", "John Doe"),
-                }, "Test"));
-            controller.ControllerContext = new ControllerContext();
-            controller.ControllerContext.HttpContext = new DefaultHttpContext { User = user };
-            var result = await controller.Details(TestAttractionId);
+            var result = await controller.Details(TestRestaurantId);
 
             var viewResult = Assert.IsType<ViewResult>(result);
-            Assert.IsAssignableFrom<AttractionViewModel>(viewResult.ViewData.Model);
-            var actualViewModel = (AttractionViewModel)viewResult.ViewData.Model;
-            Assert.Equal(TestAttractionId, actualViewModel.Id);
-        }
-
-        [Fact]
-        public async Task SendToEmailShouldRedirectToAction()
-        {
-            await this.SeedDbAsync();
-            var controller = new AttractionController(
-                this.AttractionsService,
-                this.PlanService,
-                this.EmailsService,
-                this.userManager);
-            var user = new ClaimsPrincipal(new ClaimsIdentity(
-                new Claim[]
-                {
-                                        new Claim(ClaimTypes.Name, "username"),
-                                        new Claim(ClaimTypes.NameIdentifier, TestUserId),
-                                        new Claim("name", "John Doe"),
-                }, "Test"));
-            controller.ControllerContext = new ControllerContext();
-            controller.ControllerContext.HttpContext = new DefaultHttpContext { User = user };
-            var result = await controller.SendToEmail(TestAttractionId);
-
-            var redirectToActionResult =
-       Assert.IsType<RedirectToActionResult>(result);
-            Assert.Equal("Details", redirectToActionResult.ActionName);
-            Assert.Equal(1, redirectToActionResult.RouteValues.Keys.Count);
+            Assert.IsAssignableFrom<RestaurantViewModel>(viewResult.ViewData.Model);
         }
 
         private async Task SeedDbAsync()

@@ -1,4 +1,4 @@
-﻿namespace VisitACity.Services.Data.Tests.Controllers
+﻿namespace VisitACity.Tests.Controllers
 {
     using System;
     using System.Collections.Generic;

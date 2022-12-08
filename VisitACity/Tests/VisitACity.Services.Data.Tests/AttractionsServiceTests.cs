@@ -1,4 +1,4 @@
-﻿namespace VisitACity.Services.Data.Tests
+﻿namespace VisitACity.Tests
 {
     using System;
     using System.Collections.Generic;
@@ -341,7 +341,7 @@
 
             var exception = await Assert.ThrowsAnyAsync<ArgumentException>(
              async () =>
-             await this.AttractionsService.CreateAsync(expectedResult, "random", "jpg"));
+             await this.AttractionsService.CreateAsync(expectedResult));
             Assert.Equal(ExceptionMessages.Attraction.InvalidAttractionType, exception.Message);
         }
 
@@ -373,7 +373,7 @@
 
             var exception = await Assert.ThrowsAnyAsync<NullReferenceException>(
              async () =>
-             await this.AttractionsService.CreateAsync(expectedResult, "random", "jpg"));
+             await this.AttractionsService.CreateAsync(expectedResult));
             Assert.Equal(ExceptionMessages.City.NotExists, exception.Message);
         }
 

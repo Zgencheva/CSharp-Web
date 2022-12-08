@@ -24,20 +24,21 @@
         private readonly IDeletableEntityRepository<City> cityRepository;
         private readonly IDeletableEntityRepository<ApplicationUser> userRepository;
         private readonly IDeletableEntityRepository<Image> imageRepository;
-        private readonly BlobServiceClient blobService;
+        private readonly IImagesService imagesService;
 
         public AttractionsService(
             IDeletableEntityRepository<Attraction> attractionRepository,
             IDeletableEntityRepository<City> cityRepository,
             IDeletableEntityRepository<ApplicationUser> userRepository,
             IDeletableEntityRepository<Image> imageRepository,
-            BlobServiceClient blobService)
+            IImagesService imagesService
+            )
         {
             this.attractionRepository = attractionRepository;
             this.cityRepository = cityRepository;
             this.userRepository = userRepository;
             this.imageRepository = imageRepository;
-            this.blobService = blobService;
+            this.imagesService = imagesService;
         }
 
         public int GetCount()
@@ -90,7 +91,7 @@
             return attraction;
         }
 
-        public async Task CreateAsync(AttractionFormModel model, string imageId, string imageExtension)
+        public async Task CreateAsync(AttractionFormModel model)
         {
             if (!Enum.TryParse(model.Type, true, out AttractionType activityTypeEnum))
             {
@@ -103,12 +104,8 @@
                 throw new NullReferenceException(ExceptionMessages.City.NotExists);
             }
 
-            await this.UploadImateToBlob(model.ImageToBlob, imageId, imageExtension);
+            var imageId = await this.imagesService.CreateAsync(model.ImageToBlob);
 
-            var container = this.blobService.GetBlobContainerClient("images");
-
-            var blob = container.GetBlobClient(imageId + "." + imageExtension);
-            var url = blob.Uri.AbsoluteUri;
             var image = await this.imageRepository.All().FirstOrDefaultAsync(x => x.Id == imageId);
             if (image == null)
             {
@@ -150,6 +147,12 @@
                 throw new NullReferenceException(ExceptionMessages.City.NotExists);
             }
 
+            if (model.ImageToBlob is not null)
+            {
+                string imageId = await this.GetImageIDasync(id);
+                await this.imagesService.UpdateAsync(model.ImageToBlob, imageId);
+            }
+
             attraction.Name = model.Name;
             attraction.City = city;
             attraction.Address = model.Address;
@@ -158,33 +161,6 @@
             attraction.Price = model.Price;
             attraction.Type = activityTypeEnum;
 
-            this.attractionRepository.Update(attraction);
-            await this.attractionRepository.SaveChangesAsync();
-        }
-
-        public async Task UploadImageAsync(string id, AttractionFormUpdateModel model, string imageId, string imageExtension)
-        {
-            var attraction = await this.attractionRepository
-                .All()
-                .FirstOrDefaultAsync(x => x.Id == id);
-            if (attraction == null)
-            {
-                throw new NullReferenceException(ExceptionMessages.Attraction.InvalidAttraction);
-            }
-
-            await this.UploadImateToBlob(model.ImageToBlob, imageId, imageExtension);
-
-            var container = this.blobService.GetBlobContainerClient("images");
-
-            var blob = container.GetBlobClient(imageId + "." + imageExtension);
-            var url = blob.Uri.AbsoluteUri;
-            var image = await this.imageRepository.All().FirstOrDefaultAsync(x => x.Id == imageId);
-            if (image == null)
-            {
-                throw new NullReferenceException(ExceptionMessages.Image.NotExists);
-            }
-
-            attraction.Image = image;
             this.attractionRepository.Update(attraction);
             await this.attractionRepository.SaveChangesAsync();
         }
@@ -246,6 +222,7 @@
             {
                 throw new NullReferenceException(ExceptionMessages.Attraction.InvalidAttraction);
             }
+
             var city = new CityViewModel
             {
                 Name = attraction.CityName,
@@ -254,11 +231,15 @@
             return city;
         }
 
-        private async Task UploadImateToBlob(IFormFile file, string imageId, string imageExtension)
+        public async Task<string> GetImageIDasync(string id)
         {
-            var stream = file.OpenReadStream();
-            var container = this.blobService.GetBlobContainerClient("images");
-            await container.UploadBlobAsync(imageId + "." + imageExtension, stream);
+            var attraction = await this.attractionRepository.All().FirstOrDefaultAsync(x => x.Id == id);
+            if (attraction == null)
+            {
+                throw new NullReferenceException(ExceptionMessages.Attraction.InvalidAttraction);
+            }
+
+            return attraction.ImageId;
         }
     }
 }

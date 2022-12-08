@@ -1,4 +1,4 @@
-﻿namespace VisitACity.Tests
+﻿namespace VisitACityControllers.Tests
 {
     using System;
     using System.Reflection;

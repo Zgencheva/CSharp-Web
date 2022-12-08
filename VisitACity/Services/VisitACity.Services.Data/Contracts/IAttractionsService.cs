@@ -18,7 +18,7 @@
 
         Task<T> GetViewModelByIdAsync<T>(string id);
 
-        Task CreateAsync(AttractionFormModel model, string imageId, string imageExtension);
+        Task CreateAsync(AttractionFormModel model);
 
         Task UpdateAsync(string id, AttractionFormUpdateModel model);
 
@@ -28,6 +28,6 @@
 
         Task<CityViewModel> GetAttractionCityAsync(string attractionId);
 
-        Task UploadImageAsync(string id, AttractionFormUpdateModel model, string imageId, string imageExtension);
+        Task<string> GetImageIDasync(string id);
     }
 }

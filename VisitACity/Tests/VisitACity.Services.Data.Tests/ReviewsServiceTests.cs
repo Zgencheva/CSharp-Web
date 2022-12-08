@@ -1,4 +1,4 @@
-﻿namespace VisitACity.Services.Data.Tests
+﻿namespace VisitACity.Tests
 {
     using System;
     using System.Linq;

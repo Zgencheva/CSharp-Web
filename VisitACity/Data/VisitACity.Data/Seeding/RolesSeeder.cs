@@ -9,7 +9,7 @@
     using VisitACity.Common;
     using VisitACity.Data.Models;
 
-    internal class RolesSeeder : ISeeder
+    public class RolesSeeder : ISeeder
     {
         public async Task SeedAsync(ApplicationDbContext dbContext, IServiceProvider serviceProvider)
         {

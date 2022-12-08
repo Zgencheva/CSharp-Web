@@ -28,13 +28,6 @@
         public decimal Price { get; set; }
 
         [Display(Name = "Image")]
-        [AllowedExtensions(
-            new string[]
-            {
-                GlobalConstants.JpegFormat,
-                GlobalConstants.JpgFormat,
-                GlobalConstants.PngFormat,
-            })]
         [MaxFileSize(5 * 1024 * 1024)]
         public IFormFile ImageToBlob { get; set; }
 
