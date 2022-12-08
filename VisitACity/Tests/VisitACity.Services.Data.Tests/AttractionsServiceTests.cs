@@ -447,6 +447,16 @@
         }
 
         [Fact]
+        public async Task GetImageIdAsyncShouldReturnImageId()
+        {
+            await this.SeedTestAttractionsAsync();
+            var expectedResult = MuzeikoImageId;
+
+            var actualResult = await this.AttractionsService.GetImageIDasync("aaa");
+            Assert.Equal(expectedResult, actualResult);
+        }
+
+        [Fact]
         public async Task GetAttractionCityAsyncShouldThrowExceptionWhenInvalidId()
         {
             await this.SeedTestAttractionsAsync();
