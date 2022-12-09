@@ -5,11 +5,9 @@
     using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.Identity;
-    using Microsoft.Extensions.DependencyInjection;
     using VisitACity.Data.Models;
     using VisitACity.Data.Models.Enums;
     using VisitACity.Data.Seeding;
-    using VisitACity.Services.Data.Contracts;
     using Xunit;
 
     public class SeedTests : ServiceTests
@@ -18,13 +16,9 @@
         private const string AttractionId1 = "aaa";
         private const string AttractionId2 = "bbb";
         private const string AttractionId3 = "ccc";
-        private const string Plovdiv = "Plovdiv";
-        private const string Varna = "Varna";
         private const string Ruse = "Ruse";
         private const string ImagesExtension = "jpg";
         private const int TestCountryId = 1;
-        private const int TestRestaurantId = 1;
-        private const string TestAttractionId = "aaa";
         private const int PlanId = 1;
         private const string TestCountryName = "Bulgaria";
         private const string TestUserId = "dasdasdasdas-dasdasdas-asdsadas";

@@ -16,7 +16,6 @@
     using VisitACity.Services.Data.Contracts;
     using VisitACity.Web.Controllers;
     using VisitACity.Web.ViewModels.Plans;
-    using VisitACity.Web.ViewModels.Reviews;
     using Xunit;
 
     public class PlanControllerTests : ServiceTests
@@ -42,6 +41,19 @@
         private const string SaintSofiaImageId = "0b38c0d5-5a00-4aff-80dc-cfbb692e9db1";
         private const string AuthenticationType = "Test";
 
+        private PlanController controller;
+
+        public PlanControllerTests()
+        {
+            this.controller = new PlanController(
+                this.PlanService,
+                this.CitiesService,
+                this.CountriesService,
+                this.AttractionsService,
+                this.RestaurantsService,
+                this.userManager);
+        }
+
         private IAttractionsService AttractionsService => this.ServiceProvider
             .GetRequiredService<IAttractionsService>();
 
@@ -63,23 +75,11 @@
         private UserManager<ApplicationUser> userManager => this.ServiceProvider
             .GetRequiredService<UserManager<ApplicationUser>>();
 
-        private PlanController controller;
-
-        public PlanControllerTests()
-        {
-            this.controller = new PlanController(
-                this.PlanService,
-                this.CitiesService,
-                this.CountriesService,
-                this.AttractionsService,
-                this.RestaurantsService,
-                this.userManager);
-        }
-
         [Fact]
         public async Task MyPlansShouldGenerateCorrectViewModel()
         {
-            await this.SeedDbAsync(); 
+            await this.SeedDbAsync();
+
             var user = new ClaimsPrincipal(new ClaimsIdentity(
                 new Claim[]
                 {
@@ -87,8 +87,10 @@
                                         new Claim(ClaimTypes.NameIdentifier, TestUserId),
                                         new Claim("name", "John Doe"),
                 }, AuthenticationType));
-            this.controller.ControllerContext = new ControllerContext();
-            this.controller.ControllerContext.HttpContext = new DefaultHttpContext { User = user };
+            this.controller.ControllerContext = new ControllerContext
+            {
+                HttpContext = new DefaultHttpContext { User = user },
+            };
             var result = await this.controller.MyPlans();
 
             var viewResult = Assert.IsType<ViewResult>(result);
@@ -178,8 +180,10 @@
                                         new Claim(ClaimTypes.NameIdentifier, TestUserId),
                                         new Claim("name", "John Doe"),
                 }, AuthenticationType));
-            this.controller.ControllerContext = new ControllerContext();
-            this.controller.ControllerContext.HttpContext = new DefaultHttpContext { User = user };
+            this.controller.ControllerContext = new ControllerContext
+            {
+                HttpContext = new DefaultHttpContext { User = user }
+            };
             var model = new CreatePlanInputModel
             {
                 FromDate = DateTime.UtcNow.AddDays(2),
@@ -198,7 +202,7 @@
         {
             await this.SeedDbAsync();
             ITempDataProvider tempDataProvider = Mock.Of<ITempDataProvider>();
-            TempDataDictionaryFactory tempDataDictionaryFactory = new TempDataDictionaryFactory(tempDataProvider);
+            var tempDataDictionaryFactory = new TempDataDictionaryFactory(tempDataProvider);
             ITempDataDictionary tempData = tempDataDictionaryFactory.GetTempData(new DefaultHttpContext());
             this.controller = new PlanController(
                 this.PlanService,
@@ -222,7 +226,7 @@
         {
             await this.SeedDbAsync();
             ITempDataProvider tempDataProvider = Mock.Of<ITempDataProvider>();
-            TempDataDictionaryFactory tempDataDictionaryFactory = new TempDataDictionaryFactory(tempDataProvider);
+            TempDataDictionaryFactory tempDataDictionaryFactory = new(tempDataProvider);
             ITempDataDictionary tempData = tempDataDictionaryFactory.GetTempData(new DefaultHttpContext());
             this.controller = new PlanController(
                 this.PlanService,
@@ -246,7 +250,7 @@
         {
             await this.SeedDbAsync();
             ITempDataProvider tempDataProvider = Mock.Of<ITempDataProvider>();
-            TempDataDictionaryFactory tempDataDictionaryFactory = new TempDataDictionaryFactory(tempDataProvider);
+            var tempDataDictionaryFactory = new TempDataDictionaryFactory(tempDataProvider);
             ITempDataDictionary tempData = tempDataDictionaryFactory.GetTempData(new DefaultHttpContext());
             this.controller = new PlanController(
                 this.PlanService,
@@ -265,8 +269,10 @@
                                         new Claim(ClaimTypes.NameIdentifier, TestUserId),
                                         new Claim("name", "John Doe"),
                 }, AuthenticationType));
-            this.controller.ControllerContext = new ControllerContext();
-            this.controller.ControllerContext.HttpContext = new DefaultHttpContext { User = user };
+            this.controller.ControllerContext = new ControllerContext
+            {
+                HttpContext = new DefaultHttpContext { User = user },
+            };
 
             var result = await this.controller.AddRestaurantToPlan(2);
             Assert.Equal(this.controller.TempData["Message"], TempDataMessageConstants.Plan.NoPlansInTheCity);
@@ -280,7 +286,7 @@
         {
             await this.SeedDbAsync();
             ITempDataProvider tempDataProvider = Mock.Of<ITempDataProvider>();
-            TempDataDictionaryFactory tempDataDictionaryFactory = new TempDataDictionaryFactory(tempDataProvider);
+            var tempDataDictionaryFactory = new TempDataDictionaryFactory(tempDataProvider);
             ITempDataDictionary tempData = tempDataDictionaryFactory.GetTempData(new DefaultHttpContext());
             this.controller = new PlanController(
                 this.PlanService,
@@ -316,7 +322,7 @@
         {
             await this.SeedDbAsync();
             ITempDataProvider tempDataProvider = Mock.Of<ITempDataProvider>();
-            TempDataDictionaryFactory tempDataDictionaryFactory = new TempDataDictionaryFactory(tempDataProvider);
+            var tempDataDictionaryFactory = new TempDataDictionaryFactory(tempDataProvider);
             ITempDataDictionary tempData = tempDataDictionaryFactory.GetTempData(new DefaultHttpContext());
             this.controller = new PlanController(
                 this.PlanService,
@@ -353,7 +359,7 @@
         {
             await this.SeedDbAsync();
             ITempDataProvider tempDataProvider = Mock.Of<ITempDataProvider>();
-            TempDataDictionaryFactory tempDataDictionaryFactory = new TempDataDictionaryFactory(tempDataProvider);
+            var tempDataDictionaryFactory = new TempDataDictionaryFactory(tempDataProvider);
             ITempDataDictionary tempData = tempDataDictionaryFactory.GetTempData(new DefaultHttpContext());
             this.controller = new PlanController(
                 this.PlanService,
@@ -391,7 +397,7 @@
         {
             await this.SeedDbAsync();
             ITempDataProvider tempDataProvider = Mock.Of<ITempDataProvider>();
-            TempDataDictionaryFactory tempDataDictionaryFactory = new TempDataDictionaryFactory(tempDataProvider);
+            var tempDataDictionaryFactory = new TempDataDictionaryFactory(tempDataProvider);
             ITempDataDictionary tempData = tempDataDictionaryFactory.GetTempData(new DefaultHttpContext());
             this.controller = new PlanController(
                 this.PlanService,
@@ -556,6 +562,5 @@
 
             await this.DbContext.SaveChangesAsync();
         }
-
     }
 }

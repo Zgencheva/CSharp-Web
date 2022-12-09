@@ -11,5 +11,7 @@
         public const string PngFormat = ".png";
 
         public const string JpegFormat = ".jpeg";
+
+        public const string BlobContainerName = "images";
     }
 }

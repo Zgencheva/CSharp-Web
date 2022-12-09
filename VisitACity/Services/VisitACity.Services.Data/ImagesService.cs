@@ -1,11 +1,13 @@
 ﻿namespace VisitACity.Services.Data
 {
     using System;
+    using System.IO;
     using System.Threading.Tasks;
 
     using Azure.Storage.Blobs;
     using Microsoft.AspNetCore.Http;
     using Microsoft.EntityFrameworkCore;
+    using VisitACity.Common;
     using VisitACity.Data.Common.Repositories;
     using VisitACity.Data.Models;
     using VisitACity.Services.Data.Contracts;
@@ -26,7 +28,7 @@
         public async Task<string> CreateAsync(IFormFile imageModel)
         {
             var imageId = Guid.NewGuid().ToString();
-            string imageExtension = imageModel.ContentType.Split('/')[1];
+            string imageExtension = Path.GetExtension(imageModel.FileName);
             await this.UploadImageToBlob(imageModel, imageId, imageExtension);
 
             await this.imageRepository.AddAsync(new Image { Id = imageId, Extension = imageExtension });
@@ -38,8 +40,8 @@
         {
             var image = await this.imageRepository.All().FirstOrDefaultAsync(x => x.Id == imageId);
             var oldImageExtension = image.Extension;
-            string newImageExtension = imageModel.ContentType.Split('/')[1];
-            await this.DeleteImageFromBlob(imageId, oldImageExtension);
+            string newImageExtension = Path.GetExtension(imageModel.FileName);
+            await this.DeleteImageFromBlob(imageId);
             await this.UploadImageToBlob(imageModel, imageId, newImageExtension);
             if (oldImageExtension != newImageExtension)
             {
@@ -54,18 +56,20 @@
         private async Task UploadImageToBlob(IFormFile file, string imageId, string imageExtension)
         {
             var stream = file.OpenReadStream();
-            var container = this.blobService.GetBlobContainerClient("images");
+            var container = this.blobService.GetBlobContainerClient(GlobalConstants.BlobContainerName);
             await container.UploadBlobAsync(imageId + "." + imageExtension, stream);
         }
 
-        private async Task DeleteImageFromBlob(string imageId, string imageExtension)
+        private async Task DeleteImageFromBlob(string imageId)
         {
-            var container = this.blobService.GetBlobContainerClient("images");
+            var container = this.blobService.GetBlobContainerClient(GlobalConstants.BlobContainerName);
 
-            var blob = container.GetBlobClient(imageId + "." + "jpg");
-            var blob2 = container.GetBlobClient(imageId + "." + "jpeg");
+            var blob = container.GetBlobClient(imageId + GlobalConstants.JpgFormat);
+            var blob2 = container.GetBlobClient(imageId + GlobalConstants.JpgFormat);
+            var blob3 = container.GetBlobClient(imageId + GlobalConstants.PngFormat);
             await blob.DeleteIfExistsAsync();
             await blob2.DeleteIfExistsAsync();
+            await blob3.DeleteIfExistsAsync();
         }
     }
 }
