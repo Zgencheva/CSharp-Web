@@ -311,6 +311,109 @@
             Assert.Equal("MyPlans", redirectToActionResult.ActionName);
         }
 
+        [Fact]
+        public async Task DeleteAttractionFromPlanShouldRedirectToMyPlansUponSuccess()
+        {
+            await this.SeedDbAsync();
+            ITempDataProvider tempDataProvider = Mock.Of<ITempDataProvider>();
+            TempDataDictionaryFactory tempDataDictionaryFactory = new TempDataDictionaryFactory(tempDataProvider);
+            ITempDataDictionary tempData = tempDataDictionaryFactory.GetTempData(new DefaultHttpContext());
+            this.controller = new PlanController(
+                this.PlanService,
+                this.CitiesService,
+                this.CountriesService,
+                this.AttractionsService,
+                this.RestaurantsService,
+                this.userManager)
+            {
+                TempData = tempData,
+            };
+            var user = new ClaimsPrincipal(new ClaimsIdentity(
+               new Claim[]
+               {
+                                        new Claim(ClaimTypes.Name, "username"),
+                                        new Claim(ClaimTypes.NameIdentifier, TestUserId),
+                                        new Claim("name", "John Doe"),
+               }, AuthenticationType));
+            this.controller.ControllerContext = new ControllerContext();
+            this.controller.ControllerContext.HttpContext = new DefaultHttpContext { User = user };
+
+            await this.PlanService.AddAttractionToPlanAsync(AttractionId1, PlanId);
+            var result = await this.controller.DeleteAttractionFromPlan(AttractionId1);
+            Assert.Equal(
+                TempDataMessageConstants.Attraction.AttractionDeleted,
+                this.controller.TempData["Message"]);
+            var redirectToActionResult =
+                 Assert.IsType<RedirectToActionResult>(result);
+            Assert.Equal("MyPlans", redirectToActionResult.ActionName);
+        }
+
+        [Fact]
+        public async Task DeleteRestaurantFromPlanShouldRedirectToMyPlansUponSuccess()
+        {
+            await this.SeedDbAsync();
+            ITempDataProvider tempDataProvider = Mock.Of<ITempDataProvider>();
+            TempDataDictionaryFactory tempDataDictionaryFactory = new TempDataDictionaryFactory(tempDataProvider);
+            ITempDataDictionary tempData = tempDataDictionaryFactory.GetTempData(new DefaultHttpContext());
+            this.controller = new PlanController(
+                this.PlanService,
+                this.CitiesService,
+                this.CountriesService,
+                this.AttractionsService,
+                this.RestaurantsService,
+                this.userManager)
+            {
+                TempData = tempData,
+            };
+            var user = new ClaimsPrincipal(new ClaimsIdentity(
+               new Claim[]
+               {
+                                        new Claim(ClaimTypes.Name, "username"),
+                                        new Claim(ClaimTypes.NameIdentifier, TestUserId),
+                                        new Claim("name", "John Doe"),
+               }, AuthenticationType));
+            this.controller.ControllerContext = new ControllerContext();
+            this.controller.ControllerContext.HttpContext = new DefaultHttpContext { User = user };
+
+            await this.PlanService.AddRestaurantToPlanAsync(1, PlanId);
+            var result = await this.controller.DeleteRestaurantFromPlan(1);
+
+            Assert.Equal(
+                TempDataMessageConstants.Restaurant.RestaurantDeleted,
+                this.controller.TempData["Message"]);
+            var redirectToActionResult =
+                 Assert.IsType<RedirectToActionResult>(result);
+            Assert.Equal("MyPlans", redirectToActionResult.ActionName);
+        }
+
+        [Fact]
+        public async Task DeleteShouldRedirectToMyPlansUponSuccess()
+        {
+            await this.SeedDbAsync();
+            ITempDataProvider tempDataProvider = Mock.Of<ITempDataProvider>();
+            TempDataDictionaryFactory tempDataDictionaryFactory = new TempDataDictionaryFactory(tempDataProvider);
+            ITempDataDictionary tempData = tempDataDictionaryFactory.GetTempData(new DefaultHttpContext());
+            this.controller = new PlanController(
+                this.PlanService,
+                this.CitiesService,
+                this.CountriesService,
+                this.AttractionsService,
+                this.RestaurantsService,
+                this.userManager)
+            {
+                TempData = tempData,
+            };
+
+            var result = await this.controller.Delete(PlanId);
+
+            Assert.Equal(
+                TempDataMessageConstants.Plan.PlanDeleted,
+                this.controller.TempData["Message"]);
+            var redirectToActionResult =
+                 Assert.IsType<RedirectToActionResult>(result);
+            Assert.Equal("MyPlans", redirectToActionResult.ActionName);
+        }
+
         private async Task SeedDbAsync()
         {
             await this.SeedTestCountriesAsync();
