@@ -1,9 +1,9 @@
 ﻿namespace VisitACity.Tests.Controllers
 {
     using System;
-    using System.Collections.Generic;
     using System.Security.Claims;
     using System.Threading.Tasks;
+
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
@@ -15,7 +15,6 @@
     using VisitACity.Services.Messaging;
     using VisitACity.Web.Controllers;
     using VisitACity.Web.ViewModels.Attractions;
-    using VisitACity.Web.ViewModels.Restaurants;
     using Xunit;
 
     public class AttractionControllerTests : ServiceTests
@@ -66,6 +65,7 @@
                                         new Claim(ClaimTypes.Name, "username"),
                                         new Claim(ClaimTypes.NameIdentifier, TestUserId),
                                         new Claim("name", "John Doe"),
+                                        //new Claim("FirstName", "John"),
                 }, "Test"));
             controller.ControllerContext = new ControllerContext();
             controller.ControllerContext.HttpContext = new DefaultHttpContext { User = user };
@@ -92,6 +92,7 @@
                                         new Claim(ClaimTypes.Name, "username"),
                                         new Claim(ClaimTypes.NameIdentifier, TestUserId),
                                         new Claim("name", "John Doe"),
+                                        new Claim("urn:softuni:webproject:firstName", "John"),
                 }, "Test"));
             controller.ControllerContext = new ControllerContext();
             controller.ControllerContext.HttpContext = new DefaultHttpContext { User = user };
@@ -101,6 +102,7 @@
        Assert.IsType<RedirectToActionResult>(result);
             Assert.Equal("Details", redirectToActionResult.ActionName);
             Assert.Equal(1, redirectToActionResult.RouteValues.Keys.Count);
+            Assert.Equal("John", controller.UserFirstName);
         }
 
         private async Task SeedDbAsync()

@@ -8,7 +8,7 @@
     using VisitACity.Common;
 
     [Authorize]
-    public class BaseController : Controller
+    public abstract class BaseController : Controller
     {
         public string UserFirstName
         {
