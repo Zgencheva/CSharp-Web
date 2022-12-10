@@ -4,7 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
-
+    using Microsoft.AspNetCore.Mvc.Rendering;
     using Microsoft.EntityFrameworkCore;
     using VisitACity.Common;
     using VisitACity.Data.Common.Repositories;
@@ -12,6 +12,7 @@
     using VisitACity.Services.Data.Contracts;
     using VisitACity.Services.Mapping;
     using VisitACity.Web.ViewModels.Administration.Cities;
+    using VisitACity.Web.ViewModels.Cities;
 
     public class CitiesService : ICitiesService
     {
@@ -121,6 +122,18 @@
             this.cityRepository.Delete(city);
             this.cityRepository.Update(city);
             await this.cityRepository.SaveChangesAsync();
+        }
+
+        public List<SelectListItem> GetAllByCountryId(int id)
+        {
+            return this.cityRepository.AllAsNoTracking().
+                 Where(x => x.CountryId == id)
+                 .Select(x => new SelectListItem
+                 {
+                     Value = x.Id.ToString(),
+                     Text = x.Name,
+                 })
+                 .ToList();
         }
     }
 }

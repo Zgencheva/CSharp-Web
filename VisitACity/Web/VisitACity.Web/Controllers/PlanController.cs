@@ -1,12 +1,14 @@
 ﻿namespace VisitACity.Web.Controllers
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Security.Claims;
     using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Mvc.Rendering;
     using VisitACity.Common;
     using VisitACity.Data.Models;
     using VisitACity.Services.Data.Contracts;
@@ -50,18 +52,12 @@
             return this.View(viewModel);
         }
 
-        public async Task<IActionResult> Create(int cityId)
+        public async Task<IActionResult> Create()
         {
             var viewModel = new CreatePlanInputModel();
             viewModel.FromDate = DateTime.UtcNow;
             viewModel.ToDate = DateTime.UtcNow;
-            viewModel.Cities = await this.citiesService.GetAllAsync<CityViewModel>();
-            viewModel.Countries = await this.countriesService.GetAllAsync<CountryViewModel>();
-            if (cityId != 0)
-            {
-                viewModel.CityId = cityId;
-                viewModel.CountryId = await this.citiesService.GetCountryIdAsync(cityId);
-            }
+            viewModel.Countries = await this.countriesService.GetAllToSelectList();
 
             return this.View(viewModel);
         }
@@ -71,8 +67,8 @@
         {
             if (!this.ModelState.IsValid)
             {
-                input.Cities = await this.citiesService.GetAllAsync<CityViewModel>();
-                input.Countries = await this.countriesService.GetAllAsync<CountryViewModel>();
+                input.Countries = await this.countriesService.GetAllToSelectList();
+                input.Cities = this.citiesService.GetAllByCountryId(input.CountryId);
                 return this.View(input);
             }
 
@@ -81,8 +77,8 @@
             if (userPlans.Any(x => x.CityId == input.CityId))
             {
                 this.ModelState.AddModelError(string.Empty, TempDataMessageConstants.Plan.ExistingUpcomingPlanToTheCity);
-                input.Cities = await this.citiesService.GetAllAsync<CityViewModel>();
-                input.Countries = await this.countriesService.GetAllAsync<CountryViewModel>();
+                input.Countries = await this.countriesService.GetAllToSelectList();
+                input.Cities = this.citiesService.GetAllByCountryId(input.CountryId);
                 return this.View(input);
             }
 
@@ -93,8 +89,8 @@
             catch (Exception ex)
             {
                 this.ModelState.AddModelError(string.Empty, ex.Message);
-                input.Cities = await this.citiesService.GetAllAsync<CityViewModel>();
-                input.Countries = await this.countriesService.GetAllAsync<CountryViewModel>();
+                input.Countries = await this.countriesService.GetAllToSelectList();
+                input.Cities = this.citiesService.GetAllByCountryId(input.CountryId);
                 return this.View(input);
             }
 
@@ -214,9 +210,18 @@
 
         public async Task<IActionResult> Delete(int id)
         {
-             await this.plansService.DeleteAsync(id);
-             this.TempData["Message"] = TempDataMessageConstants.Plan.PlanDeleted;
-             return this.RedirectToAction(nameof(this.MyPlans));
+            await this.plansService.DeleteAsync(id);
+            this.TempData["Message"] = TempDataMessageConstants.Plan.PlanDeleted;
+            return this.RedirectToAction(nameof(this.MyPlans));
+        }
+
+        [HttpPost]
+        public JsonResult LoadCities(int id)
+        {
+            CreatePlanInputModel inputModel = new CreatePlanInputModel();
+            inputModel.Cities = this.citiesService.GetAllByCountryId(id);
+
+            return Json(inputModel);
         }
     }
 }

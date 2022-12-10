@@ -13,22 +13,16 @@
     <div asp-validation-summary="All" class="text-danger"></div>
     <div class="form-group">
        <label asp-for="CountryId" class="form-label">Country</label>
-                <select asp-for="CountryId" class="form-control">
-                    @foreach (var country in Model.Countries)
-                    {
-                        <option value="@country.Id">@country.Name</option>
-                    }
-                </select>
-                <span asp-validation-for="CountryId" class="text-danger"></span>
+          <select id="CountryList" name="CountryId" asp-for="CountryId" asp-items="Model.Countries" class="form-control">
+                    <option value="">Select country</option>
+          </select>
+          <span asp-validation-for="CountryId" class="text-danger"></span>
     </div>
     <div class="form-group">
-        <label asp-for="CityId" class="form-label">Category</label>
-                <select asp-for="CityId" class="form-control">
-                    @foreach (var city in Model.Cities)
-                    {
-                        <option value="@city.Id">@city.Name</option>
-                    }
-                </select>
+        <label asp-for="CityId" class="form-label">City</label>
+          <select id="CityList" name="CityId" asp-for="CityId" asp-items="Model.Cities" class="form-control">
+            <option value="">Select city</option>
+        </select>
                 <span asp-validation-for="CityId" class="text-danger"></span>
     </div>
     <div class="form-group">
@@ -44,6 +38,39 @@
     <p></p>
     <button type="submit" class="btn btn-primary">Create your plan</button>
 </form>
-@*@section Scripts{
-    <partial name="_ValidationScriptsPartial" />
-}*@
+    <form method="post" id="antiForgeryForm" type="hidden">
+
+    </form>
+@section Scripts{
+    <script type="text/javascript">
+$(document).ready(function() {
+    $("#CountryList").change(function() {
+        var antiForgeryToken = $('#antiForgeryForm input[name=__RequestVerificationToken]').val();
+        $("#CityList").empty();
+        $.ajax({
+            type: 'POST',
+            url: '/Plan/LoadCities?id=1',
+            dataType: 'json',
+            data: { id: $("#CountryList").val() },
+            headers: {
+                "X-CRSF-TOKEN" : antiForgeryToken
+            },
+
+            success: function(response) {
+                $("#CityList").append($("<option></option>").val(0).html("Select city"));
+                $.each(response.cities, function(i, city) {
+                    $("#CityList").append($("<option></option>").val(city.value).html(city.text));
+                });
+                    
+            },
+            failure: function(response) {
+                alert(response.responseText);
+
+            }
+        });
+
+        return false;
+    });
+});
+        </script>
+}

@@ -106,39 +106,37 @@
                 FromDate = DateTime.UtcNow,
                 ToDate = DateTime.UtcNow,
             };
-            var result = await this.controller.Create(0);
+            var result = await this.controller.Create();
 
             var viewResult = Assert.IsType<ViewResult>(result);
             Assert.IsAssignableFrom<CreatePlanInputModel>(viewResult.ViewData.Model);
             var actualResult = (CreatePlanInputModel)viewResult.ViewData.Model;
             Assert.Equal(expectedResult.FromDate.Date, actualResult.FromDate.Date);
             Assert.Equal(expectedResult.ToDate.Date, actualResult.ToDate.Date);
-            Assert.NotEmpty(actualResult.Cities);
-            Assert.NotEmpty(actualResult.Countries);
         }
 
-        [Fact]
-        public async Task CreateActionShouldGenerateCorrectViewModelWhenCityIdNotEmpty()
-        {
-            await this.SeedDbAsync();
+        //[Fact]
+        //public async Task CreateActionShouldGenerateCorrectViewModelWhenCityIdNotEmpty()
+        //{
+        //    await this.SeedDbAsync();
 
-            var expectedResult = new CreatePlanInputModel
-            {
-                FromDate = DateTime.UtcNow,
-                ToDate = DateTime.UtcNow,
-                CityId = 1,
-            };
-            var result = await this.controller.Create(1);
+        //    var expectedResult = new CreatePlanInputModel
+        //    {
+        //        FromDate = DateTime.UtcNow,
+        //        ToDate = DateTime.UtcNow,
+        //        CityId = 1,
+        //    };
+        //    var result = await this.controller.Create();
 
-            var viewResult = Assert.IsType<ViewResult>(result);
-            Assert.IsAssignableFrom<CreatePlanInputModel>(viewResult.ViewData.Model);
-            var actualResult = (CreatePlanInputModel)viewResult.ViewData.Model;
-            Assert.Equal(expectedResult.FromDate.Date, actualResult.FromDate.Date);
-            Assert.Equal(expectedResult.ToDate.Date, actualResult.ToDate.Date);
-            Assert.Equal(expectedResult.CityId, actualResult.CityId);
-            Assert.NotEmpty(actualResult.Cities);
-            Assert.NotEmpty(actualResult.Countries);
-        }
+        //    var viewResult = Assert.IsType<ViewResult>(result);
+        //    Assert.IsAssignableFrom<CreatePlanInputModel>(viewResult.ViewData.Model);
+        //    var actualResult = (CreatePlanInputModel)viewResult.ViewData.Model;
+        //    Assert.Equal(expectedResult.FromDate.Date, actualResult.FromDate.Date);
+        //    Assert.Equal(expectedResult.ToDate.Date, actualResult.ToDate.Date);
+        //    Assert.Equal(expectedResult.CityId, actualResult.CityId);
+        //    Assert.NotEmpty(actualResult.Cities);
+        //    Assert.NotEmpty(actualResult.Countries);
+        //}
 
         [Fact]
         public async Task CreateActionShouldCreateUserPlan()

@@ -119,7 +119,6 @@
             Assert.IsAssignableFrom<CreateReviewInputModel>(viewResult.ViewData.Model);
         }
 
-
         private async Task SeedDbAsync()
         {
             await this.SeedTestCountriesAsync();

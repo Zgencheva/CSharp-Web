@@ -3,20 +3,18 @@
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
-
+    using Microsoft.AspNetCore.Mvc.Rendering;
     using VisitACity.Common;
     using VisitACity.Web.Infrastructure.ValidationAttributes;
-    using VisitACity.Web.ViewModels.Cities;
-    using VisitACity.Web.ViewModels.Countries;
 
     public class CreatePlanInputModel : IValidatableObject
     {
-        [Display(Name=ModelConstants.FromDateDisplay)]
+        [Display(Name = ModelConstants.FromDateDisplay)]
         [DataType(DataType.Date)]
         [DateMinValueAttribute]
         public DateTime FromDate { get; set; }
 
-        [Display(Name =ModelConstants.ToDateDisplay)]
+        [Display(Name = ModelConstants.ToDateDisplay)]
         [DataType(DataType.Date)]
         [DateMinValueAttribute]
         public DateTime ToDate { get; set; }
@@ -25,13 +23,13 @@
         [Display(Name = ModelConstants.City.CityDisplay)]
         public int CityId { get; set; }
 
-        public IEnumerable<CityViewModel> Cities { get; set; }
+        public List<SelectListItem> Cities { get; set; }
 
         [Required]
         [Display(Name = ModelConstants.Country.CountryDisplay)]
         public int CountryId { get; set; }
 
-        public IEnumerable<CountryViewModel> Countries { get; set; }
+        public List<SelectListItem> Countries { get; set; }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {

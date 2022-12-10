@@ -31,8 +31,7 @@
             IDeletableEntityRepository<City> cityRepository,
             IDeletableEntityRepository<ApplicationUser> userRepository,
             IDeletableEntityRepository<Image> imageRepository,
-            IImagesService imagesService
-            )
+            IImagesService imagesService)
         {
             this.attractionRepository = attractionRepository;
             this.cityRepository = cityRepository;

@@ -10,6 +10,7 @@
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
+    using VisitACity.Common;
     using VisitACity.Data;
     using VisitACity.Data.Common;
     using VisitACity.Data.Common.Repositories;
@@ -64,7 +65,10 @@
                     // Same site token is added in the filter and it does not allow another site to make an request to ours.
                     options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
                 }).AddRazorRuntimeCompilation();
-
+            services.AddAntiforgery(options =>
+            {
+                options.HeaderName = GlobalConstants.AntiForgeryTokenHeaderName;
+            });
             services.AddRazorPages();
             services.AddDatabaseDeveloperPageExceptionFilter();
 

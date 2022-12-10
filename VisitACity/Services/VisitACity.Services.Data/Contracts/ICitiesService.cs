@@ -2,8 +2,10 @@
 {
     using System.Collections.Generic;
     using System.Threading.Tasks;
-
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Mvc.Rendering;
     using VisitACity.Web.ViewModels.Administration.Cities;
+    using VisitACity.Web.ViewModels.Cities;
 
     public interface ICitiesService
     {
@@ -20,5 +22,7 @@
         Task<bool> DoesCityExist(string cityName);
 
         Task DeleteAsync(string name);
+
+        List<SelectListItem> GetAllByCountryId(int id);
     }
 }

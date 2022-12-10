@@ -13,5 +13,8 @@
         public const string JpegFormat = ".jpeg";
 
         public const string BlobContainerName = "images";
+
+        public const string AntiForgeryTokenHeaderName = "X-CRSF-TOKEN";
+
     }
 }

@@ -4,7 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
-
+    using Microsoft.AspNetCore.Mvc.Rendering;
     using Microsoft.EntityFrameworkCore;
     using VisitACity.Common;
     using VisitACity.Data.Common.Repositories;
@@ -77,6 +77,18 @@
             this.countriesRepository.Delete(country);
             this.countriesRepository.Update(country);
             await this.countriesRepository.SaveChangesAsync();
+        }
+
+        public async Task<List<SelectListItem>> GetAllToSelectList()
+        {
+            return await this.countriesRepository
+                .All()
+                .Select(x => new SelectListItem
+                {
+                    Value = x.Id.ToString(),
+                    Text = x.Name,
+                })
+                .ToListAsync();
         }
     }
 }
