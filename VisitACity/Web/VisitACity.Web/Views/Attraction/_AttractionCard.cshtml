@@ -1,7 +1,7 @@
 ﻿@using VisitACity.Web.ViewModels.Attractions
 @model AttractionViewModel
 @{
-    var url = $"https://visitacity.blob.core.windows.net/images/{Model.Image.Id}.{Model.Image.Extension}";
+    var url = $"https://visitacity.blob.core.windows.net/images/{Model.Image.Id}{Model.Image.Extension}";
 }
 <div class="media col-md-4">
     <a asp-controller="Attraction" asp-action="Details" asp-route-id="@Model.Id">

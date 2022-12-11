@@ -57,7 +57,7 @@
         {
             var stream = file.OpenReadStream();
             var container = this.blobService.GetBlobContainerClient(GlobalConstants.BlobContainerName);
-            await container.UploadBlobAsync(imageId + "." + imageExtension, stream);
+            await container.UploadBlobAsync(imageId + imageExtension, stream);
         }
 
         private async Task DeleteImageFromBlob(string imageId)
