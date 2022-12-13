@@ -5,6 +5,7 @@
 
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.Extensions.Logging;
     using VisitACity.Common;
     using VisitACity.Services.Data.Contracts;
     using VisitACity.Web.ViewModels;
@@ -21,7 +22,8 @@
         public HomeController(
             ICitiesService cityService,
             IAttractionsService attractionsService,
-            IRestaurantsService restaurantsService)
+            IRestaurantsService restaurantsService
+            )
         {
             this.cityService = cityService;
             this.attractionsService = attractionsService;
@@ -69,6 +71,13 @@
             }
 
             return this.View(viewModel);
+        }
+
+        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        public IActionResult Error()
+        {
+            return this.View(
+                new ErrorViewModel { RequestId = Activity.Current?.Id ?? this.HttpContext.TraceIdentifier });
         }
     }
 }

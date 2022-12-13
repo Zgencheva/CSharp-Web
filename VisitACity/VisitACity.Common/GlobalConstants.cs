@@ -15,6 +15,5 @@
         public const string BlobContainerName = "images";
 
         public const string AntiForgeryTokenHeaderName = "X-CRSF-TOKEN";
-
     }
 }
