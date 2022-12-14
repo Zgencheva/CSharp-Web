@@ -6,6 +6,8 @@
 
         public const string AdministratorRoleName = "Administrator";
 
+        public const string AdministrationName = "Administration";
+
         public const string JpgFormat = ".jpg";
 
         public const string PngFormat = ".png";

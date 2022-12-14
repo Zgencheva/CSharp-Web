@@ -6,7 +6,7 @@
     using VisitACity.Web.Controllers;
 
     [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
-    [Area("Administration")]
+    [Area(GlobalConstants.AdministrationName)]
     public class AdministrationController : BaseController
     {
     }
