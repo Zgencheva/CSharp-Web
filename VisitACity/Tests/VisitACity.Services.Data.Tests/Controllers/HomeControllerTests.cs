@@ -7,6 +7,8 @@
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.Extensions.Logging;
+    using Moq;
     using VisitACity.Data.Models;
     using VisitACity.Data.Models.Enums;
     using VisitACity.Services.Data.Contracts;
@@ -51,8 +53,14 @@
         [Fact]
         public async Task IndexActionShouldReturnIndexViewModel()
         {
+            var loggerMock = new Mock<ILogger<HomeController>>();
+            var logger = loggerMock.Object;
             await this.SeedDbAsync();
-            var controller = new HomeController(this.CitiesService, this.AttractionsService, this.RestaurantsService);
+            var controller = new HomeController(
+                this.CitiesService,
+                this.AttractionsService,
+                this.RestaurantsService,
+                logger);
             var searchQuery = new IndexSearchQueryModel
             {
                 CityName = Sofia,
@@ -130,7 +138,13 @@
         public async Task IndexActionShouldReturnNotFoundWhenPageNumberNegativeOrZero()
         {
             await this.SeedDbAsync();
-            var controller = new HomeController(this.CitiesService, this.AttractionsService, this.RestaurantsService);
+            var loggerMock = new Mock<ILogger<HomeController>>();
+            var logger = loggerMock.Object;
+            var controller = new HomeController(
+                this.CitiesService,
+                this.AttractionsService,
+                this.RestaurantsService,
+                logger);
             var searchQuery = new IndexSearchQueryModel
             {
                 CityName = Sofia,
@@ -284,6 +298,5 @@
 
             await this.DbContext.SaveChangesAsync();
         }
-
     }
 }

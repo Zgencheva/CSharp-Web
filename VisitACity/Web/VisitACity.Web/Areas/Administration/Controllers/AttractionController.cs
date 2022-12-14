@@ -2,6 +2,7 @@
 {
     using System;
     using System.Threading.Tasks;
+
     using Azure.Storage.Blobs;
     using Microsoft.AspNetCore.Mvc;
     using VisitACity.Common;

@@ -5,6 +5,7 @@
         public const string NotExistingUser = "User does not exist";
         public const string InvalidComment = "Comment does not exist";
         public const string InvalidSubjectAndMessage = "Subject and message should be provided.";
+        public const string DbException = "We were not able to apply changes.";
 
         public class Attraction
         {

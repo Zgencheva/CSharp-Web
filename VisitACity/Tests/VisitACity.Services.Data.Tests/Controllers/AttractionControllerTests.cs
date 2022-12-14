@@ -65,8 +65,8 @@
                                         new Claim(ClaimTypes.Name, "username"),
                                         new Claim(ClaimTypes.NameIdentifier, TestUserId),
                                         new Claim("name", "John Doe"),
-                                        //new Claim("FirstName", "John"),
-                }, "Test"));
+                },
+                "Test"));
             controller.ControllerContext = new ControllerContext();
             controller.ControllerContext.HttpContext = new DefaultHttpContext { User = user };
             var result = await controller.Details(TestAttractionId);
@@ -93,7 +93,8 @@
                                         new Claim(ClaimTypes.NameIdentifier, TestUserId),
                                         new Claim("name", "John Doe"),
                                         new Claim("urn:softuni:webproject:firstName", "John"),
-                }, "Test"));
+                },
+                "Test"));
             controller.ControllerContext = new ControllerContext();
             controller.ControllerContext.HttpContext = new DefaultHttpContext { User = user };
             var result = await controller.SendToEmail(TestAttractionId);

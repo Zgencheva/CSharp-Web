@@ -50,10 +50,10 @@
                 .FirstOrDefault();
             Assert.Equal(inputModel.Rating, review.Rating);
             Assert.Equal(inputModel.Content, review.Content);
-            Assert.Equal(review.RestaurantId, TestRestaurantId);
-            Assert.Equal(review.Restaurant.Id, TestRestaurantId);
-            Assert.Equal(review.UserId, TestUserId);
-            Assert.Equal(review.User.Id, TestUserId);
+            Assert.Equal(TestRestaurantId, review.RestaurantId);
+            Assert.Equal(TestRestaurantId, review.Restaurant.Id);
+            Assert.Equal(TestUserId, review.UserId);
+            Assert.Equal(TestUserId, review.User.Id);
         }
 
         [Fact]

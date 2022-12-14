@@ -10,7 +10,6 @@
             string fromName,
             string to,
             string subject,
-            string htmlContent
-            );
+            string htmlContent);
     }
 }

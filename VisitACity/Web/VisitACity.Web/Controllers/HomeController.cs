@@ -4,6 +4,7 @@
     using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Diagnostics;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Logging;
     using VisitACity.Common;
@@ -18,16 +19,18 @@
         private readonly ICitiesService cityService;
         private readonly IAttractionsService attractionsService;
         private readonly IRestaurantsService restaurantsService;
+        private readonly ILogger<HomeController> logger;
 
         public HomeController(
             ICitiesService cityService,
             IAttractionsService attractionsService,
-            IRestaurantsService restaurantsService
-            )
+            IRestaurantsService restaurantsService,
+            ILogger<HomeController> logger)
         {
             this.cityService = cityService;
             this.attractionsService = attractionsService;
             this.restaurantsService = restaurantsService;
+            this.logger = logger;
         }
 
         [AllowAnonymous]
@@ -76,8 +79,11 @@
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
-            return this.View(
-                new ErrorViewModel { RequestId = Activity.Current?.Id ?? this.HttpContext.TraceIdentifier });
+            var feature = this.HttpContext.Features.Get<IExceptionHandlerFeature>();
+
+            this.logger.LogError(feature.Error, "TraceIdentifier: {0}", Activity.Current?.Id ?? this.HttpContext.TraceIdentifier);
+
+            return this.View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? this.HttpContext.TraceIdentifier });
         }
     }
 }

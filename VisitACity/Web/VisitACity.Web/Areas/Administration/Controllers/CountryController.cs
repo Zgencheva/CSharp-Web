@@ -46,7 +46,7 @@
         }
 
         [HttpGet]
-        public async Task<IActionResult> Delete()
+        public IActionResult Delete()
         {
             var model = new CountryFormModel();
             return this.View(model);

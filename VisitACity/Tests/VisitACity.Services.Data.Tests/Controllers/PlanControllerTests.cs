@@ -148,7 +148,8 @@
                                         new Claim(ClaimTypes.Name, "username"),
                                         new Claim(ClaimTypes.NameIdentifier, TestUserId),
                                         new Claim("name", "John Doe"),
-                }, AuthenticationType));
+                },
+                AuthenticationType));
             this.controller.ControllerContext = new ControllerContext();
             this.controller.ControllerContext.HttpContext = new DefaultHttpContext { User = user };
             var model = new CreatePlanInputModel
@@ -180,7 +181,7 @@
                 }, AuthenticationType));
             this.controller.ControllerContext = new ControllerContext
             {
-                HttpContext = new DefaultHttpContext { User = user }
+                HttpContext = new DefaultHttpContext { User = user },
             };
             var model = new CreatePlanInputModel
             {

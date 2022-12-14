@@ -86,9 +86,9 @@
             {
                 await this.plansService.CreateAsync(input, userId);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                this.ModelState.AddModelError(string.Empty, ex.Message);
+                this.ModelState.AddModelError(string.Empty, ExceptionMessages.DbException);
                 input.Countries = await this.countriesService.GetAllToSelectList();
                 input.Cities = this.citiesService.GetAllByCountryId(input.CountryId);
                 return this.View(input);

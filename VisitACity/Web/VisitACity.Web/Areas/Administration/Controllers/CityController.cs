@@ -55,7 +55,7 @@
         }
 
         [HttpGet]
-        public async Task<IActionResult> Delete()
+        public IActionResult Delete()
         {
             var model = new CityFormModel();
             return this.View(model);

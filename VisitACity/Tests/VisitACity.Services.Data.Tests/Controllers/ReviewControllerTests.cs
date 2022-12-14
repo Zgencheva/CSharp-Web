@@ -105,7 +105,8 @@
                                         new Claim(ClaimTypes.Name, "username"),
                                         new Claim(ClaimTypes.NameIdentifier, TestUserId),
                                         new Claim("name", "John Doe"),
-                }, AuthenticationType));
+                },
+                "test"));
             controller.ControllerContext = new ControllerContext();
             controller.ControllerContext.HttpContext = new DefaultHttpContext { User = user };
             var model = new CreateReviewInputModel

@@ -406,7 +406,7 @@
         public async Task DeleteByIdAsyncShouldMarkAttractionAsDeleted()
         {
             await this.SeedTestAttractionsAsync();
-            var attractionToDelete = await this.DbContext.Attractions.FirstOrDefaultAsync(x=> x.Id == "aaa");
+            var attractionToDelete = await this.DbContext.Attractions.FirstOrDefaultAsync(x => x.Id == "aaa");
             await this.AttractionsService.DeleteByIdAsync("aaa");
 
             Assert.True(attractionToDelete.IsDeleted);

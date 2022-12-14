@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
+
     using Microsoft.AspNetCore.Identity;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.DependencyInjection;
@@ -276,8 +277,7 @@
             Assert.Equal(expectedResult.Reviews.FirstOrDefault().RestaurantId, actualResult.Reviews.FirstOrDefault().RestaurantId);
             Assert.Equal(expectedResult.Reviews.FirstOrDefault().Id, actualResult.Reviews.FirstOrDefault().Id);
 
-
-            Assert.Equal(1, actualResult.Reviews.Count());
+            Assert.Single(actualResult.Reviews);
         }
 
         [Fact]
@@ -304,7 +304,7 @@
             Assert.Equal(expectedResult.CityId, restaurantToUpdate.CityId);
             Assert.Equal(expectedResult.ImageUrl, restaurantToUpdate.ImageUrl);
             Assert.Equal(expectedResult.PhoneNumber, restaurantToUpdate.PhoneNumber);
-            Assert.Equal(restaurantToUpdate.ModifiedOn.Value.Date,DateTime.UtcNow.Date);
+            Assert.Equal(restaurantToUpdate.ModifiedOn.Value.Date, DateTime.UtcNow.Date);
         }
 
         [Fact]
