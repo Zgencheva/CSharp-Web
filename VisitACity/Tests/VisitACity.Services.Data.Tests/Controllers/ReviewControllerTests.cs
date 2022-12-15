@@ -9,6 +9,7 @@
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.ViewFeatures;
     using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.Extensions.Logging;
     using Moq;
     using VisitACity.Data.Models;
     using VisitACity.Data.Models.Enums;
@@ -42,11 +43,15 @@
 
         private IReviewsService ReviewsService => this.ServiceProvider.GetRequiredService<IReviewsService>();
 
+        private ILogger<ReviewController> logger => new Mock<ILogger<ReviewController>>().Object;
+
         [Fact]
         public async Task CreateActionShouldCreateReview()
         {
             await this.SeedDbAsync();
-            var controller = new ReviewController(this.ReviewsService);
+            var controller = new ReviewController(
+                this.ReviewsService,
+                this.logger);
 
             var result = controller.Create();
 
@@ -61,7 +66,9 @@
             ITempDataProvider tempDataProvider = Mock.Of<ITempDataProvider>();
             TempDataDictionaryFactory tempDataDictionaryFactory = new TempDataDictionaryFactory(tempDataProvider);
             ITempDataDictionary tempData = tempDataDictionaryFactory.GetTempData(new DefaultHttpContext());
-            var controller = new ReviewController(this.ReviewsService)
+            var controller = new ReviewController(
+                this.ReviewsService,
+                this.logger)
             {
                 TempData = tempData,
             };
@@ -71,7 +78,8 @@
                                         new Claim(ClaimTypes.Name, "username"),
                                         new Claim(ClaimTypes.NameIdentifier, TestUserId),
                                         new Claim("name", "John Doe"),
-                }, AuthenticationType));
+                },
+                AuthenticationType));
             controller.ControllerContext = new ControllerContext();
             controller.ControllerContext.HttpContext = new DefaultHttpContext { User = user };
             var model = new CreateReviewInputModel
@@ -95,7 +103,9 @@
             ITempDataProvider tempDataProvider = Mock.Of<ITempDataProvider>();
             TempDataDictionaryFactory tempDataDictionaryFactory = new TempDataDictionaryFactory(tempDataProvider);
             ITempDataDictionary tempData = tempDataDictionaryFactory.GetTempData(new DefaultHttpContext());
-            var controller = new ReviewController(this.ReviewsService)
+            var controller = new ReviewController(
+                this.ReviewsService,
+                this.logger)
             {
                 TempData = tempData,
             };

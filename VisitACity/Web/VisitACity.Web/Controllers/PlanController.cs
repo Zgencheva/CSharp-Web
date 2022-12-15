@@ -2,18 +2,18 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.Linq;
     using System.Security.Claims;
     using System.Threading.Tasks;
-
+    using Microsoft.AspNetCore.Diagnostics;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.Rendering;
+    using Microsoft.Extensions.Logging;
     using VisitACity.Common;
     using VisitACity.Data.Models;
     using VisitACity.Services.Data.Contracts;
-    using VisitACity.Web.ViewModels.Cities;
-    using VisitACity.Web.ViewModels.Countries;
     using VisitACity.Web.ViewModels.Plans;
 
     public class PlanController : BaseController
@@ -24,6 +24,7 @@
         private readonly IAttractionsService attractionsService;
         private readonly IRestaurantsService restaurantsService;
         private readonly UserManager<ApplicationUser> userManager;
+        private readonly ILogger<PlanController> logger;
 
         public PlanController(
             IPlansService plansService,
@@ -31,7 +32,8 @@
             ICountriesService countriesService,
             IAttractionsService attractionsService,
             IRestaurantsService restaurantsService,
-            UserManager<ApplicationUser> userManager)
+            UserManager<ApplicationUser> userManager,
+            ILogger<PlanController> logger)
         {
             this.plansService = plansService;
             this.citiesService = citiesService;
@@ -39,6 +41,7 @@
             this.attractionsService = attractionsService;
             this.restaurantsService = restaurantsService;
             this.userManager = userManager;
+            this.logger = logger;
         }
 
         public async Task<IActionResult> MyPlans()
@@ -88,6 +91,7 @@
             }
             catch (Exception)
             {
+                this.logger.LogInformation(string.Format(ExceptionMessages.DbFailedUponCreatePlan, userId));
                 this.ModelState.AddModelError(string.Empty, ExceptionMessages.DbException);
                 input.Countries = await this.countriesService.GetAllToSelectList();
                 input.Cities = this.citiesService.GetAllByCountryId(input.CountryId);
@@ -132,7 +136,10 @@
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                var feature = this.HttpContext.Features.Get<IExceptionHandlerFeature>();
+
+                this.logger.LogError(feature.Error, "TraceIdentifier: {0}", Activity.Current?.Id ?? this.HttpContext.TraceIdentifier);
+                throw new ApplicationException(ExceptionMessages.DbException, ex);
             }
         }
 
@@ -169,7 +176,10 @@
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                var feature = this.HttpContext.Features.Get<IExceptionHandlerFeature>();
+
+                this.logger.LogError(feature.Error, "TraceIdentifier: {0}", Activity.Current?.Id ?? this.HttpContext.TraceIdentifier);
+                throw new ApplicationException(ExceptionMessages.DbException, ex);
             }
         }
 
@@ -187,7 +197,10 @@
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                var feature = this.HttpContext.Features.Get<IExceptionHandlerFeature>();
+
+                this.logger.LogError(feature.Error, "TraceIdentifier: {0}", Activity.Current?.Id ?? this.HttpContext.TraceIdentifier);
+                throw new ApplicationException(ExceptionMessages.DbException, ex);
             }
         }
 
@@ -204,7 +217,10 @@
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                var feature = this.HttpContext.Features.Get<IExceptionHandlerFeature>();
+
+                this.logger.LogError(feature.Error, "TraceIdentifier: {0}", Activity.Current?.Id ?? this.HttpContext.TraceIdentifier);
+                throw new ApplicationException(ExceptionMessages.DbException, ex);
             }
         }
 
@@ -221,7 +237,7 @@
             CreatePlanInputModel inputModel = new CreatePlanInputModel();
             inputModel.Cities = this.citiesService.GetAllByCountryId(id);
 
-            return Json(inputModel);
+            return this.Json(inputModel);
         }
     }
 }

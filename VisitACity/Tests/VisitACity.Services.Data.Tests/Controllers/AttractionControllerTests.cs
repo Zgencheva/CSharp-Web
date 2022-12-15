@@ -8,6 +8,7 @@
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.Extensions.Logging;
     using Moq;
     using VisitACity.Data.Models;
     using VisitACity.Data.Models.Enums;
@@ -47,7 +48,11 @@
 
         private IEmailSender EmailsService => this.ServiceProvider.GetRequiredService<IEmailSender>();
 
-        private UserManager<ApplicationUser> userManager => this.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+        private UserManager<ApplicationUser> userManager =>
+            this.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+
+        private ILogger<AttractionController> logger =>
+            new Mock<ILogger<AttractionController>>().Object;
 
         [Fact]
         public async Task DetailsActionShouldReturnViewModel()
@@ -57,7 +62,8 @@
                 this.AttractionsService,
                 this.PlanService,
                 this.EmailsService,
-                this.userManager);
+                this.userManager,
+                this.logger);
 
             var user = new ClaimsPrincipal(new ClaimsIdentity(
                 new Claim[]
@@ -85,7 +91,8 @@
                 this.AttractionsService,
                 this.PlanService,
                 this.EmailsService,
-                this.userManager);
+                this.userManager,
+                this.logger);
             var user = new ClaimsPrincipal(new ClaimsIdentity(
                 new Claim[]
                 {

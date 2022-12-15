@@ -6,6 +6,8 @@
         public const string InvalidComment = "Comment does not exist";
         public const string InvalidSubjectAndMessage = "Subject and message should be provided.";
         public const string DbException = "We were not able to apply changes.";
+        public const string DbFailedUponCreatePlan = "User {0} cound not create his plan due to DB error";
+        public const string DbFailedUponAddingReview = "User {0} cound not create his plan due to DB error";
 
         public class Attraction
         {

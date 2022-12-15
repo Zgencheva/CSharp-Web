@@ -11,6 +11,10 @@
 }
 <div class="bg">
     <div class="text-center page-header">
+         @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+    {
+       <h2>You are in Administration area!</h2>
+    }
     <h1 class="display-4">Welcome to Visit<span class="feature-icon"><i class="fa fa-mountain"></i></span>City</h1>
     <h2>
         Create Your Personal Travel Guide

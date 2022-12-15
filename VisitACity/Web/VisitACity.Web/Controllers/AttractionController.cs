@@ -1,5 +1,6 @@
 ﻿namespace VisitACity.Web.Controllers
 {
+    using System;
     using System.Security.Claims;
     using System.Text;
     using System.Threading.Tasks;
@@ -7,6 +8,8 @@
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.Extensions.Logging;
+    using VisitACity.Common;
     using VisitACity.Data.Models;
     using VisitACity.Services.Data.Contracts;
     using VisitACity.Services.Messaging;
@@ -19,17 +22,20 @@
         private readonly IPlansService plansService;
         private readonly IEmailSender emailSender;
         private readonly UserManager<ApplicationUser> userManager;
+        private readonly ILogger<AttractionController> logger;
 
         public AttractionController(
             IAttractionsService attractionsService,
             IPlansService plansService,
             IEmailSender emailSender,
-            UserManager<ApplicationUser> userManager)
+            UserManager<ApplicationUser> userManager,
+            ILogger<AttractionController> logger)
         {
             this.attractionsService = attractionsService;
             this.plansService = plansService;
             this.emailSender = emailSender;
             this.userManager = userManager;
+            this.logger = logger;
         }
 
         [AllowAnonymous]
@@ -37,12 +43,19 @@
         {
             var user = this.User.FindFirst(ClaimTypes.NameIdentifier);
             var viewModel = await this.attractionsService.GetViewModelByIdAsync<AttractionViewModel>(id);
-
-            if (user != null)
+            try
             {
-                var userId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
-                await this.attractionsService.AddReviewToUserAsync(userId, id);
-                viewModel.UserPlan = await this.plansService.GetUserUpcomingPlansByCityAsync<PlanQueryModel>(viewModel.CityName, userId);
+                if (user != null)
+                {
+                    var userId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+                    await this.attractionsService.AddReviewToUserAsync(userId, id);
+                    viewModel.UserPlan = await this.plansService.GetUserUpcomingPlansByCityAsync<PlanQueryModel>(viewModel.CityName, userId);
+                }
+            }
+            catch (Exception ex)
+            {
+                this.logger.LogInformation(ExceptionMessages.DbFailedUponAddingReview, ex);
+                throw new ApplicationException(ExceptionMessages.DbException, ex);
             }
 
             return this.View(viewModel);

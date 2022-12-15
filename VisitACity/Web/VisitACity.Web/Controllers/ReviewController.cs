@@ -5,6 +5,7 @@
     using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.Extensions.Logging;
     using VisitACity.Common;
     using VisitACity.Services.Data.Contracts;
     using VisitACity.Web.ViewModels.Reviews;
@@ -12,10 +13,14 @@
     public class ReviewController : BaseController
     {
         private readonly IReviewsService reviewService;
+        private readonly ILogger<ReviewController> logger;
 
-        public ReviewController(IReviewsService reviewService)
+        public ReviewController(
+            IReviewsService reviewService,
+            ILogger<ReviewController> logger)
         {
             this.reviewService = reviewService;
+            this.logger = logger;
         }
 
         public IActionResult Create()
@@ -40,7 +45,8 @@
             }
             catch (Exception ex)
             {
-                this.ModelState.AddModelError(string.Empty, ex.Message);
+                this.logger.LogInformation(ExceptionMessages.DbFailedUponAddingReview, ex);
+                this.ModelState.AddModelError(string.Empty, ExceptionMessages.DbException);
                 return this.View(input);
             }
 

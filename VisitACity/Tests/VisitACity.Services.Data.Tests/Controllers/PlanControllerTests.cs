@@ -9,6 +9,7 @@
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.ViewFeatures;
     using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.Extensions.Logging;
     using Moq;
     using VisitACity.Common;
     using VisitACity.Data.Models;
@@ -43,16 +44,7 @@
 
         private PlanController controller;
 
-        public PlanControllerTests()
-        {
-            this.controller = new PlanController(
-                this.PlanService,
-                this.CitiesService,
-                this.CountriesService,
-                this.AttractionsService,
-                this.RestaurantsService,
-                this.userManager);
-        }
+        private ILogger<PlanController> logger => new Mock<ILogger<PlanController>>().Object;
 
         private IAttractionsService AttractionsService => this.ServiceProvider
             .GetRequiredService<IAttractionsService>();
@@ -75,6 +67,18 @@
         private UserManager<ApplicationUser> userManager => this.ServiceProvider
             .GetRequiredService<UserManager<ApplicationUser>>();
 
+        public PlanControllerTests()
+        {
+            this.controller = new PlanController(
+                this.PlanService,
+                this.CitiesService,
+                this.CountriesService,
+                this.AttractionsService,
+                this.RestaurantsService,
+                this.userManager,
+                this.logger);
+        }
+
         [Fact]
         public async Task MyPlansShouldGenerateCorrectViewModel()
         {
@@ -86,7 +90,8 @@
                                         new Claim(ClaimTypes.Name, "username"),
                                         new Claim(ClaimTypes.NameIdentifier, TestUserId),
                                         new Claim("name", "John Doe"),
-                }, AuthenticationType));
+                },
+                AuthenticationType));
             this.controller.ControllerContext = new ControllerContext
             {
                 HttpContext = new DefaultHttpContext { User = user },
@@ -114,29 +119,6 @@
             Assert.Equal(expectedResult.FromDate.Date, actualResult.FromDate.Date);
             Assert.Equal(expectedResult.ToDate.Date, actualResult.ToDate.Date);
         }
-
-        //[Fact]
-        //public async Task CreateActionShouldGenerateCorrectViewModelWhenCityIdNotEmpty()
-        //{
-        //    await this.SeedDbAsync();
-
-        //    var expectedResult = new CreatePlanInputModel
-        //    {
-        //        FromDate = DateTime.UtcNow,
-        //        ToDate = DateTime.UtcNow,
-        //        CityId = 1,
-        //    };
-        //    var result = await this.controller.Create();
-
-        //    var viewResult = Assert.IsType<ViewResult>(result);
-        //    Assert.IsAssignableFrom<CreatePlanInputModel>(viewResult.ViewData.Model);
-        //    var actualResult = (CreatePlanInputModel)viewResult.ViewData.Model;
-        //    Assert.Equal(expectedResult.FromDate.Date, actualResult.FromDate.Date);
-        //    Assert.Equal(expectedResult.ToDate.Date, actualResult.ToDate.Date);
-        //    Assert.Equal(expectedResult.CityId, actualResult.CityId);
-        //    Assert.NotEmpty(actualResult.Cities);
-        //    Assert.NotEmpty(actualResult.Countries);
-        //}
 
         [Fact]
         public async Task CreateActionShouldCreateUserPlan()
@@ -178,7 +160,8 @@
                                         new Claim(ClaimTypes.Name, "username"),
                                         new Claim(ClaimTypes.NameIdentifier, TestUserId),
                                         new Claim("name", "John Doe"),
-                }, AuthenticationType));
+                },
+                AuthenticationType));
             this.controller.ControllerContext = new ControllerContext
             {
                 HttpContext = new DefaultHttpContext { User = user },
@@ -209,7 +192,8 @@
                 this.CountriesService,
                 this.AttractionsService,
                 this.RestaurantsService,
-                this.userManager)
+                this.userManager,
+                this.logger)
             {
                 TempData = tempData,
             };
@@ -233,7 +217,8 @@
                 this.CountriesService,
                 this.AttractionsService,
                 this.RestaurantsService,
-                this.userManager)
+                this.userManager,
+                this.logger)
             {
                 TempData = tempData,
             };
@@ -257,7 +242,8 @@
                 this.CountriesService,
                 this.AttractionsService,
                 this.RestaurantsService,
-                this.userManager)
+                this.userManager,
+                this.logger)
             {
                 TempData = tempData,
             };
@@ -267,7 +253,8 @@
                                         new Claim(ClaimTypes.Name, "username"),
                                         new Claim(ClaimTypes.NameIdentifier, TestUserId),
                                         new Claim("name", "John Doe"),
-                }, AuthenticationType));
+                },
+                AuthenticationType));
             this.controller.ControllerContext = new ControllerContext
             {
                 HttpContext = new DefaultHttpContext { User = user },
@@ -293,7 +280,8 @@
                 this.CountriesService,
                 this.AttractionsService,
                 this.RestaurantsService,
-                this.userManager)
+                this.userManager,
+                this.logger)
             {
                 TempData = tempData,
             };
@@ -303,7 +291,8 @@
                                         new Claim(ClaimTypes.Name, "username"),
                                         new Claim(ClaimTypes.NameIdentifier, TestUserId),
                                         new Claim("name", "John Doe"),
-               }, AuthenticationType));
+               },
+               AuthenticationType));
             this.controller.ControllerContext = new ControllerContext();
             this.controller.ControllerContext.HttpContext = new DefaultHttpContext { User = user };
 
@@ -329,7 +318,8 @@
                 this.CountriesService,
                 this.AttractionsService,
                 this.RestaurantsService,
-                this.userManager)
+                this.userManager,
+                this.logger)
             {
                 TempData = tempData,
             };
@@ -339,7 +329,8 @@
                                         new Claim(ClaimTypes.Name, "username"),
                                         new Claim(ClaimTypes.NameIdentifier, TestUserId),
                                         new Claim("name", "John Doe"),
-               }, AuthenticationType));
+               },
+               AuthenticationType));
             this.controller.ControllerContext = new ControllerContext();
             this.controller.ControllerContext.HttpContext = new DefaultHttpContext { User = user };
 
@@ -366,7 +357,8 @@
                 this.CountriesService,
                 this.AttractionsService,
                 this.RestaurantsService,
-                this.userManager)
+                this.userManager,
+                this.logger)
             {
                 TempData = tempData,
             };
@@ -376,7 +368,8 @@
                                         new Claim(ClaimTypes.Name, "username"),
                                         new Claim(ClaimTypes.NameIdentifier, TestUserId),
                                         new Claim("name", "John Doe"),
-               }, AuthenticationType));
+               },
+               AuthenticationType));
             this.controller.ControllerContext = new ControllerContext();
             this.controller.ControllerContext.HttpContext = new DefaultHttpContext { User = user };
 
@@ -404,7 +397,8 @@
                 this.CountriesService,
                 this.AttractionsService,
                 this.RestaurantsService,
-                this.userManager)
+                this.userManager,
+                this.logger)
             {
                 TempData = tempData,
             };
