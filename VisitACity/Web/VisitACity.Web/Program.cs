@@ -3,6 +3,7 @@
     using System.Reflection;
 
     using Azure.Storage.Blobs;
+    using CloudinaryDotNet;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
@@ -74,6 +75,14 @@
 
             services.AddSingleton(configuration);
             services.AddSingleton(x => new BlobServiceClient(configuration.GetValue<string>("BlobConnectionString")));
+
+            //Cloudinary setup:
+            var cloudinaryAccount = new CloudinaryDotNet.Account(
+               configuration["Cloudinary:CloudName"],
+               configuration["Cloudinary:ApiKey"],
+               configuration["Cloudinary:ApiSecrets"]);
+            var cloudinary = new Cloudinary(cloudinaryAccount);
+            services.AddSingleton(cloudinary);
 
             // Data repositories
             services.AddScoped(typeof(IDeletableEntityRepository<>), typeof(EfDeletableEntityRepository<>));

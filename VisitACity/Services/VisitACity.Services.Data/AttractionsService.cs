@@ -6,6 +6,7 @@
     using System.Threading.Tasks;
 
     using Azure.Storage.Blobs;
+    using CloudinaryDotNet;
     using Microsoft.AspNetCore.Http;
     using Microsoft.EntityFrameworkCore;
     using VisitACity.Common;
@@ -25,6 +26,7 @@
         private readonly IDeletableEntityRepository<ApplicationUser> userRepository;
         private readonly IDeletableEntityRepository<Image> imageRepository;
         private readonly IImagesService imagesService;
+
 
         public AttractionsService(
             IDeletableEntityRepository<Attraction> attractionRepository,

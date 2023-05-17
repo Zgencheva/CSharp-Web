@@ -1,7 +1,10 @@
-﻿@using VisitACity.Web.ViewModels.Attractions
+﻿@using VisitACity.Common
+@using VisitACity.Web.ViewModels.Attractions
 @model AttractionViewModel
 @{
-     var url = $"https://visitacity.blob.core.windows.net/images/{Model.Image.Id}{Model.Image.Extension}";
+     var cloudinaryUrl= $"https://res.cloudinary.com/dllgr6ope/image/upload/v1684350354/{Model.Image.Id}.jpg";
+
+     //var url = $"https://visitacity.blob.core.windows.net/images/{Model.Image.Id}{Model.Image.Extension}";
     this.ViewData["Title"] = "Details ";
 }
 @if (this.TempData.ContainsKey("Message"))
@@ -12,7 +15,7 @@
     <div class="container px-5">
         <div class="row gx-5 align-items-center">
             <div class="col-lg-6 order-lg-2">
-                <div class="p-5"><img class="img-fluid rounded-circle" src=@url alt="..."></div>
+                <div class="p-5"><img class="img-fluid rounded-circle" src=@cloudinaryUrl alt="..."></div>
             </div>
             @if (User.Identity.IsAuthenticated)
             {

@@ -1,10 +1,13 @@
 ﻿namespace VisitACity.Services.Data
 {
     using System;
+    using System.Collections.Generic;
     using System.IO;
     using System.Threading.Tasks;
 
     using Azure.Storage.Blobs;
+    using CloudinaryDotNet;
+    using CloudinaryDotNet.Actions;
     using Microsoft.AspNetCore.Http;
     using Microsoft.EntityFrameworkCore;
     using VisitACity.Common;
@@ -15,21 +18,21 @@
     public class ImagesService : IImagesService
     {
         private readonly IDeletableEntityRepository<Image> imageRepository;
-        private readonly BlobServiceClient blobService;
+        private readonly Cloudinary cloudinary;
 
         public ImagesService(
            IDeletableEntityRepository<Image> imageRepository,
-           BlobServiceClient blobService)
+           Cloudinary cloudinary)
         {
             this.imageRepository = imageRepository;
-            this.blobService = blobService;
+            this.cloudinary = cloudinary;
         }
 
         public async Task<string> CreateAsync(IFormFile imageModel)
         {
             var imageId = Guid.NewGuid().ToString();
             string imageExtension = Path.GetExtension(imageModel.FileName);
-            await this.UploadImageToBlob(imageModel, imageId, imageExtension);
+            await this.UploadImageToCloudinary(imageModel, imageId, imageExtension);
 
             await this.imageRepository.AddAsync(new Image { Id = imageId, Extension = imageExtension });
             await this.imageRepository.SaveChangesAsync();
@@ -41,8 +44,8 @@
             var image = await this.imageRepository.All().FirstOrDefaultAsync(x => x.Id == imageId);
             var oldImageExtension = image.Extension;
             string newImageExtension = Path.GetExtension(imageModel.FileName);
-            await this.DeleteImageFromBlob(imageId);
-            await this.UploadImageToBlob(imageModel, imageId, newImageExtension);
+            await this.DeleteImageFromCloudinary(imageId);
+            await this.UploadImageToCloudinary(imageModel, imageId, newImageExtension);
             if (oldImageExtension != newImageExtension)
             {
                 image.Extension = newImageExtension;
@@ -53,23 +56,57 @@
             return imageId;
         }
 
-        private async Task UploadImageToBlob(IFormFile file, string imageId, string imageExtension)
+        //private async Task UploadImageToBlob(IFormFile file, string imageId, string imageExtension)
+        //{
+        //    var stream = file.OpenReadStream();
+        //    var container = this.blobService.GetBlobContainerClient(GlobalConstants.BlobContainerName);
+        //    await container.UploadBlobAsync(imageId + imageExtension, stream);
+        //}
+
+        private async Task UploadImageToCloudinary(IFormFile file, string imageId, string imageExtension)
         {
-            var stream = file.OpenReadStream();
-            var container = this.blobService.GetBlobContainerClient(GlobalConstants.BlobContainerName);
-            await container.UploadBlobAsync(imageId + imageExtension, stream);
+            byte[] destinationImage;
+            using (var memoryStream = new MemoryStream())
+            {
+                await file.CopyToAsync(memoryStream);
+                destinationImage = memoryStream.ToArray();
+            }
+
+            using (var ms = new MemoryStream(destinationImage))
+            {
+
+                var uploadParams = new ImageUploadParams()
+                {
+                    File = new FileDescription(imageId, ms),
+                    PublicId = imageId,
+                };
+
+                var uploadResult = cloudinary.Upload(uploadParams);
+                //var url = uploadResult.SecureUri.AbsoluteUri;
+            }
         }
 
-        private async Task DeleteImageFromBlob(string imageId)
+        private async Task DeleteImageFromCloudinary(string imageId)
         {
-            var container = this.blobService.GetBlobContainerClient(GlobalConstants.BlobContainerName);
+            var delParams = new DelResParams()
+            {
+                PublicIds = new List<string>() { imageId },
+                Invalidate = true,
+            };
 
-            var blob = container.GetBlobClient(imageId + GlobalConstants.JpgFormat);
-            var blob2 = container.GetBlobClient(imageId + GlobalConstants.JpgFormat);
-            var blob3 = container.GetBlobClient(imageId + GlobalConstants.PngFormat);
-            await blob.DeleteIfExistsAsync();
-            await blob2.DeleteIfExistsAsync();
-            await blob3.DeleteIfExistsAsync();
+            cloudinary.DeleteResources(delParams);
         }
+
+        //private async Task DeleteImageFromBlob(string imageId)
+        //{
+        //    var container = this.blobService.GetBlobContainerClient(GlobalConstants.BlobContainerName);
+
+        //    var blob = container.GetBlobClient(imageId + GlobalConstants.JpgFormat);
+        //    var blob2 = container.GetBlobClient(imageId + GlobalConstants.JpgFormat);
+        //    var blob3 = container.GetBlobClient(imageId + GlobalConstants.PngFormat);
+        //    await blob.DeleteIfExistsAsync();
+        //    await blob2.DeleteIfExistsAsync();
+        //    await blob3.DeleteIfExistsAsync();
+        //}
     }
 }

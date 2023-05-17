@@ -1,11 +1,12 @@
 ﻿@using VisitACity.Web.ViewModels.Attractions
 @model AttractionViewModel
 @{
-    var url = $"https://visitacity.blob.core.windows.net/images/{Model.Image.Id}{Model.Image.Extension}";
+    var cloudinaryUrl= $"https://res.cloudinary.com/dllgr6ope/image/upload/v1684350354/{Model.Image.Id}.jpg";
+    //var url = $"https://visitacity.blob.core.windows.net/images/{Model.Image.Id}{Model.Image.Extension}";
 }
 <div class="media col-md-4">
     <a asp-controller="Attraction" asp-action="Details" asp-route-id="@Model.Id">
-        <img class="mr-3 img-responsive" width="400" height="300" src=@url alt="Card image cap" />
+        <img class="mr-3 img-responsive" width="400" height="300" src=@cloudinaryUrl alt="Card image cap" />
     </a>
     <div class="card-body">
         <h4 class="card-title text-center">@Model.Name</h4>
