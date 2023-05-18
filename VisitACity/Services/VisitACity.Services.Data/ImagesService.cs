@@ -94,7 +94,7 @@
                 Invalidate = true,
             };
 
-            cloudinary.DeleteResources(delParams);
+            this.cloudinary.DeleteResources(delParams);
         }
 
         //private async Task DeleteImageFromBlob(string imageId)
