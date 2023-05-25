@@ -25,14 +25,14 @@
             }
         }
 
-        public override void OnActionExecuted(ActionExecutedContext context)
-        {
-            if (this.User.Identity.IsAuthenticated)
-            {
-                this.ViewBag.UserFirstName = this.UserFirstName;
-            }
+        //public override void OnActionExecuted(ActionExecutedContext context)
+        //{
+        //    if (this.User.Identity.IsAuthenticated)
+        //    {
+        //        this.ViewBag.UserFirstName = this.UserFirstName;
+        //    }
 
-            base.OnActionExecuted(context);
-        }
+        //    base.OnActionExecuted(context);
+        //}
     }
 }

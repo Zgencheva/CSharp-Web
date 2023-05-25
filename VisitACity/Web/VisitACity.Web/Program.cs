@@ -74,7 +74,7 @@
             services.AddDatabaseDeveloperPageExceptionFilter();
 
             services.AddSingleton(configuration);
-            services.AddSingleton(x => new BlobServiceClient(configuration.GetValue<string>("BlobConnectionString")));
+            //services.AddSingleton(x => new BlobServiceClient(configuration.GetValue<string>("BlobConnectionString")));
 
             //Cloudinary setup:
             var cloudinaryAccount = new CloudinaryDotNet.Account(

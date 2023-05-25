@@ -4,7 +4,6 @@ using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 using Watchlist.Data;
 using Watchlist.Data.Models;
-using Watchlist.Models;
 using Watchlist.Models.Genres;
 using Watchlist.Models.Movies;
 

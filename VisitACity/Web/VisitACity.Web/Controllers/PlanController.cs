@@ -1,15 +1,14 @@
 ﻿namespace VisitACity.Web.Controllers
 {
     using System;
-    using System.Collections.Generic;
     using System.Diagnostics;
     using System.Linq;
     using System.Security.Claims;
     using System.Threading.Tasks;
+
     using Microsoft.AspNetCore.Diagnostics;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
-    using Microsoft.AspNetCore.Mvc.Rendering;
     using Microsoft.Extensions.Logging;
     using VisitACity.Common;
     using VisitACity.Data.Models;
