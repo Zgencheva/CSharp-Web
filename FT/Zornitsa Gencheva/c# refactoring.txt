@@ -1,0 +1,191 @@
+// This code is part of a transaction cancellation delivery process to an external Interface company
+// The Cancelation delivery process consists of the following steps:
+// 1. Prepare transactions that are suitable for cancellation upon receiving a rabbitmq event
+// 2. Track progress of preparation and cancellation process
+// 3. Push cancellation to external Interface company 
+// 4. Based on the cancellation response from the third party company continue with the cancellation process with the internal business objects
+// 5. Provide logging in the appropriate places
+// 6. Handle exceptions
+
+public async Task<string> CancelationDelivery(bool logging, string ignoreList = null, HeaderEvent rabbitEvent = null)
+{
+    StringBuilder processingLog = new StringBuilder();
+    AddProcessLog(processingLog, "CancelationDelivery started!");
+    DateTime _startTime = DateTime.Now;
+
+    List<IfaceInterface> interfaces = IfaceInterfaceManager.Instance.LoadIfaceInterfacesByType(_db.IfaceDatabase(), DbConstants.IFACE_TYPE_API_ID);
+    IgnoreCheckInterfaces(interfaces, ignoreList);
+
+    foreach (IfaceInterface iface in interfaces)
+    {
+        int totalProcessed = 0;
+        int totalErrors = 0;
+
+        if (iface.IfaceInterfaceOptions.OTARemoteSystem == null)
+        {
+            AddProcessLog(processingLog, string.Format("Invalid/Missing  options for {0}", iface.Name));
+            continue;
+        }
+
+        string domain = iface.IfaceInterfaceOptions.OTARemoteSystem.RemoteUrl;
+
+        var lstData = IfaceInterfaceManager.Instance.LoadObjectsByCompany(_db.IfaceDatabase(), iface.CompanyId);
+
+        foreach (var obj in lstData)
+        {
+            try
+            {
+                if (obj.objMap == null) continue;
+                string dbCode = obj.dbCode;
+                var spRemoteId = obj.objMap.RemoteId;
+                Guid spId = obj.Id;
+
+                if (rabbitEvent != null && rabbitEvent.DatabaseCode != dbCode) continue; //rabbit message: skip, not my db
+
+                List<ExpCancelationDelivery> cancelInfo = Manager.Instance.GetCencelationInformation(_db.GetLocaDB(dbCode), spId, (rabbitEvent != null) ? (Guid?)rabbitEvent.ParentId : null);
+
+                if (cancelInfo == null || cancelInfo.Count == 0) continue;
+
+                totalProcessed++;
+                List<ExpCancelationDelivery> details = new List<ExpCancelationDelivery>();
+                try
+                {
+                    //start processing       
+                    details = new List<ExpCancelationDelivery>();
+                    foreach (var d in cancelInfo)
+                    {
+                        if (d.CurrentStatus == TransactionExternalStatus.ReadyToProcessCancel)
+                        {
+                            if (TransactionManager.Instance.ChangeTransactionExternalsStatus(_db.GetLocaDB(dbCode), d.TransactionExternalId, TransactionExternalStatus.ProcessingCancel, null, LOGIN_ID))
+                            {
+                                details.Add(d);
+                            }
+                        }
+                        else if (d.CurrentStatus == TransactionExternalStatus.Ok)
+                        {
+                            if (TransactionManager.Instance.ChangeTransactionExternalsStatus(_db.GetLocaDB(dbCode), d.PreviousTransactionExternalId, TransactionExternalStatus.ProcessingCancel, null, LOGIN_ID))
+                            {
+                                details.Add(d);
+                            }
+                        }
+                    }
+                    if (details.Count == 0) continue;
+
+
+                    foreach (var detail in details)
+                    {
+                        try
+                        {
+                            HttpClient httpClient = new HttpClient();
+                            httpClient.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+                            httpClient.BaseAddress = new Uri(string.Format("{0}", domain));
+                            string requestUrl = string.Format("{0}companies/{1}/bookings/{2}/", domain, spRemoteId, detail.ExternalId);
+                            HttpResponseMessage response = await httpClient.DeleteAsync(requestUrl);
+                            string responseJson = string.Empty;
+
+                            bool success = false;
+                            if (response.StatusCode == System.Net.HttpStatusCode.OK)
+                            {
+                                responseJson = response.Content.ReadAsStringAsync().Result;
+                                BookAnswer cancelAnswer = JsonConvert.DeserializeObject<BookAnswer>(responseJson, new JsonSerializerSettings()
+                                {
+                                    NullValueHandling = NullValueHandling.Ignore
+                                });
+
+                                if (cancelAnswer.booking != null && cancelAnswer.booking.status == "cancelled")
+                                {
+                                    success = true;
+                                }
+                            }
+                            else
+                            {
+                                responseJson = response.Content.ReadAsStringAsync().Result;
+                            }
+
+                            if (success)
+                            {
+                                if (detail.CurrentStatus == TransactionExternalStatus.ReadyToProcessCancel)
+                                {
+                                    TransactionManager.Instance.UpdateTransactionExternalInformation(_db.GetLocaDB(dbCode), detail.TransactionExternalId, TransactionExternalStatus.OkCancel, LOGIN_ID, detail.ExternalId, responseJson);
+                                }
+                                else if (detail.CurrentStatus == TransactionExternalStatus.Ok)
+                                {
+                                    TransactionManager.Instance.UpdateTransactionExternalInformation(_db.GetLocaDB(dbCode), detail.PreviousTransactionExternalId, TransactionExternalStatus.OkCancel, LOGIN_ID, detail.ExternalId, responseJson);
+                                }
+                            }
+                            else
+                            {
+                                string combinedLog = string.Format("REQUEST:{0} RESPONSE:{1}", requestUrl, responseJson);
+
+                                if (detail.CurrentStatus == TransactionExternalStatus.ReadyToProcessCancel)
+                                {
+                                    TransactionManager.Instance.UpdateTransactionExternalInformation(_db.GetLocaDB(dbCode), detail.TransactionExternalId, TransactionExternalStatus.ErrorCancel, LOGIN_ID, detail.ExternalId, responseJson);
+                                }
+                                else if (detail.CurrentStatus == TransactionExternalStatus.Ok)
+                                {
+                                    TransactionManager.Instance.UpdateTransactionExternalInformation(_db.GetLocaDB(dbCode), detail.PreviousTransactionExternalId, TransactionExternalStatus.ErrorCancel, LOGIN_ID, detail.ExternalId, responseJson);
+                                }
+                                totalErrors++;
+                            }
+
+                        }
+                        catch (Exception ex)
+                        {
+                            if (details != null && details.Count > 0)
+                            {
+                                foreach (var d in details)
+                                {
+                                    if (d.CurrentStatus == TransactionExternalStatus.ReadyToProcessCancel)
+                                    {
+                                        TransactionManager.Instance.ChangeTransactionExternalsStatus(_db.GetLocaDB(dbCode), d.TransactionExternalId, TransactionExternalStatus.ErrorCancel, null, LOGIN_ID);
+                                    }
+                                    else if (d.CurrentStatus == TransactionExternalStatus.Ok)
+                                    {
+                                        TransactionManager.Instance.ChangeTransactionExternalsStatus(_db.GetLocaDB(dbCode), d.PreviousTransactionExternalId, TransactionExternalStatus.ErrorCancel, null, LOGIN_ID);
+                                    }
+                                }
+                            }
+                            AddProcessLog(processingLog, string.Format("Exception cancellation delivery TransactionExternalId->{0}", details[0].TransactionExternalId));
+                            await _logging.StoreExceptionLog(ex);
+                            totalErrors++;
+                        }
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                    if (details != null && details.Count > 0)
+                    {
+                        foreach (var d in details)
+                        {
+                            if (d.CurrentStatus == TransactionExternalStatus.ReadyToProcessCancel)
+                            {
+                                TransactionManager.Instance.ChangeTransactionExternalsStatus(_db.GetLocaDB(dbCode), d.TransactionExternalId, TransactionExternalStatus.ErrorCancel, null, LOGIN_ID);
+                            }
+                            else if (d.CurrentStatus == TransactionExternalStatus.Ok)
+                            {
+                                TransactionManager.Instance.ChangeTransactionExternalsStatus(_db.GetLocaDB(dbCode), d.PreviousTransactionExternalId, TransactionExternalStatus.ErrorCancel, null, LOGIN_ID);
+                            }
+                        }
+                    }
+                    await _logging.StoreExceptionLog(ex);
+                    totalErrors++;
+                }
+
+            }
+            catch (Exception e)
+            {
+                await _logging.StoreExceptionLog(e);
+                totalErrors++;
+            }
+        }
+
+        //update execution time if no critical errors
+        AddProcessLog(processingLog, string.Format("Iface:{0} -> Processed: {1}, Errors: {2}", iface.Name, totalProcessed, totalErrors));
+    }
+
+    AddProcessLog(processingLog, string.Format("Duration in ms: {0}", (int)(DateTime.Now - _startTime).TotalMilliseconds));
+    string strResult = processingLog.ToString();
+    if (logging) await _logging.StoreSystemLog(Microsoft.Extensions.Logging.LogLevel.Information, string.Empty, strResult);
+    return strResult;
+}

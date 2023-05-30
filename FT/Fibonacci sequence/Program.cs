@@ -6,20 +6,19 @@
         {
 
             Console.WriteLine("Please select a number:");
-            int numbr = int.Parse(Console.ReadLine());
-            FibonacciSequence(numbr);
+            int length = int.Parse(Console.ReadLine());
+            FibonacciSequence(length);
         }
 
-        public static void FibonacciSequence(int number)
+        public static void FibonacciSequence(int length)
         {
-            if (number < 0)
+            if (length <= 0)
             {
                 throw new ArgumentException("Please select positive number.");
             }
-            else if (number == 0)
+            else if (length == 1)
             {
-                Console.Write(0);
-                return;
+                Console.WriteLine(0);
             }
             else
             {
@@ -27,7 +26,7 @@
                 int b = 1;
                 int c = 0;
                 Console.Write($"{a} {b}");
-                for (int i = 2; i < number; i++)
+                for (int i = 2; i < length; i++)
                 {
                     c = a + b;
                     Console.Write($" {c}");
