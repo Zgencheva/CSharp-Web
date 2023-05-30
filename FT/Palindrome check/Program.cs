@@ -8,7 +8,7 @@
             Console.WriteLine(IsPalindrome(input));
         }
 
-        private static bool IsPalindrome(string? input)
+        private static bool IsPalindrome(string input)
         {
             char[] inputAsArray = input.ToCharArray();
             Array.Reverse(inputAsArray);
