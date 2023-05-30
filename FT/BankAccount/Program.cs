@@ -7,7 +7,7 @@
             BankAccount account = new BankAccount("Ivan", "Ivanov");
             account.Deposit(234);
             Console.WriteLine(account.Balance);
-           
+            Console.WriteLine(account.Id);
             try
             {
                 account.Withdrawal(33.33m);
