@@ -14,3 +14,4 @@ Short explanation:
 12. details[0] is not correct, because it`s in the foreach.
 13. StoreExceptionLogAsync - name it Async in order to be clear that there is asynchronous operations going on.
 14. totalErrors++; occur in every try-catch.
+15. String interpolation - I prefer using "$", not string.Format.

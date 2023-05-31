@@ -4,10 +4,6 @@ namespace CSharpRefactoring
 {
     internal class Program
     {
-        static void Main(string[] args)
-        {
-            Console.WriteLine("Hello, World!");
-        }
         public async Task<string> CancelationDelivery(bool hasLogging,
                                                 string ignoreList = null,
                                                 HeaderEvent rabbitEvent = null,
@@ -28,7 +24,7 @@ namespace CSharpRefactoring
 
                 if (iface.IfaceInterfaceOptions.OTARemoteSystem == null)
                 {
-                    AddProcessLog(processingLog, string.Format("Invalid/Missing  options for {0}", iface.Name));
+                    AddProcessLog(processingLog, $"Invalid/Missing  options for {iface.Name}");
                     continue;
                 }
 
@@ -77,7 +73,7 @@ namespace CSharpRefactoring
                                 HttpClient httpClient = new HttpClient();
                                 httpClient.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
                                 httpClient.BaseAddress = new Uri(domain);
-                                string requestUrl = string.Format("{0}companies/{1}/bookings/{2}/", domain, spRemoteId, detail.ExternalId);
+                                string requestUrl = $"{domain}companies/{spRemoteId}/bookings/{detail.ExternalId}/";
                                 HttpResponseMessage response = await httpClient.DeleteAsync(requestUrl);
                                 string responseJson = string.Empty;
 
@@ -127,7 +123,7 @@ namespace CSharpRefactoring
                             }
                             catch (Exception ex)
                             {
-                                AddProcessLog(processingLog, string.Format("Exception cancellation delivery TransactionExternalId->{0}", detail.TransactionExternalId));
+                                AddProcessLog(processingLog, $"Exception cancellation delivery TransactionExternalId->{detail.TransactionExternalId}");
                                 await this._logging.StoreExceptionLogAsync(ex);
                             }
                         }
@@ -140,10 +136,10 @@ namespace CSharpRefactoring
                 }
 
                 //update execution time if no critical errors
-                AddProcessLog(processingLog, string.Format("Iface:{0} -> Processed: {1}, Errors: {2}", iface.Name, totalProcessed, totalErrors));
+                AddProcessLog(processingLog, $"Iface:{iface.Name} -> Processed: {totalProcessed}, Errors: {totalErrors}");
             }
-
-            AddProcessLog(processingLog, string.Format("Duration in ms: {0}", (int)(DateTime.UtcNow - startTime).TotalMilliseconds));
+            var duration = (int)(DateTime.UtcNow - startTime).TotalMilliseconds;
+            AddProcessLog(processingLog, $"Duration in ms: {duration}";
             string strResult = processingLog.ToString();
             if (hasLogging)
             {
