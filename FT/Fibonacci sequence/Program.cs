@@ -14,7 +14,7 @@
         {
             if (length <= 0)
             {
-                throw new ArgumentException("Please select positive number.");
+                throw new ArgumentException("Please select a positive number.");
             }
             else if (length == 1)
             {
@@ -24,14 +24,14 @@
             {
                 int a = 0;
                 int b = 1;
-                int c = 0;
-                Console.Write($"{a} {b}");
+                int currentOne = a + b;
+               Console.Write($"{a} {b}");
                 for (int i = 2; i < length; i++)
                 {
-                    c = a + b;
-                    Console.Write($" {c}");
+                    currentOne = a + b;
+                    Console.Write($" {currentOne}");
                     a = b;
-                    b = c;
+                    b = currentOne;
                 }
             }
            
